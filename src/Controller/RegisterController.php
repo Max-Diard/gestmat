@@ -16,6 +16,10 @@ class RegisterController extends AbstractController
     #[Route('/register', name: 'register')]
     public function index(Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHash): Response
     {
+        if($this->getUser()){
+            return $this->redirectToRoute('home');
+        }
+
         $agence = new Agence();
 
         $form = $this->createForm(AgenceType::class, $agence);
@@ -28,6 +32,8 @@ class RegisterController extends AbstractController
             $agence->setPassword($passwordHash->hashPassword($agence, $agence->getPassword()));
             $entityManager->persist($agence);
             $entityManager->flush();
+
+            return $this->redirectToRoute('login');
         }
 
         return $this->render('register/index.html.twig', [

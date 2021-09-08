@@ -2,10 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\Adherent;
-use App\Entity\AdherentOption;
-use App\Form\AdherentType;
-use App\Form\OptionType;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -16,8 +12,8 @@ use Symfony\Component\Routing\Annotation\Route;
 class HomeController extends AbstractController
 {
     #[
-        Route('/', name: 'home'),
-        IsGranted('ROLE_ADMIN')
+        Route('/home', name: 'home'),
+        IsGranted('ROLE_USER')
     ]
     public function index(Request $request, EntityManagerInterface $entityManagerInterface): Response
     {
@@ -36,27 +32,6 @@ class HomeController extends AbstractController
 
         return $this->render('home/index.html.twig', [
             // 'form' => $form->createView()
-        ]);
-    }
-
-    #[Route('/option', name: 'option')]
-    public function addOption(Request $request, EntityManagerInterface $entityManagerInterface): Response
-    {
-        $option = new AdherentOption();
-
-        $form = $this->createForm(OptionType::class, $option);
-
-        $form->handleRequest($request);
-        
-        if($form->isSubmitted() && $form->isValid()){
-            $option = $form->getData();
-
-            $entityManagerInterface->persist($option);
-            $entityManagerInterface->flush();
-        }
-
-        return $this->render('home/option.html.twig', [
-            'form' => $form->createView()
         ]);
     }
 }
