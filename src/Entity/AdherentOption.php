@@ -29,6 +29,11 @@ class AdherentOption
      */
     private $type;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Adherent::class, mappedBy="status_matrimoniale")
+     */
+    private $adherents;
+
     public function __construct()
     {
         $this->adherents = new ArrayCollection();
@@ -74,6 +79,28 @@ class AdherentOption
     public function getAdherents(): Collection
     {
         return $this->adherents;
+    }
+
+    public function addAdherent(Adherent $adherent): self
+    {
+        if (!$this->adherents->contains($adherent)) {
+            $this->adherents[] = $adherent;
+            $adherent->setStatusMatrimoniale($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAdherent(Adherent $adherent): self
+    {
+        if ($this->adherents->removeElement($adherent)) {
+            // set the owning side to null (unless already changed)
+            if ($adherent->getStatusMatrimoniale() === $this) {
+                $adherent->setStatusMatrimoniale(null);
+            }
+        }
+
+        return $this;
     }
 
 }

@@ -242,6 +242,11 @@ class Adherent
      */
     private $search_number_accept_children;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=AdherentOption::class, inversedBy="adherents")
+     */
+    private $status_matrimoniale;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -783,6 +788,18 @@ class Adherent
     public function setSearchNumberAcceptChildren(int $search_number_accept_children): self
     {
         $this->search_number_accept_children = $search_number_accept_children;
+
+        return $this;
+    }
+
+    public function getStatusMatrimoniale(): ?AdherentOption
+    {
+        return $this->status_matrimoniale;
+    }
+
+    public function setStatusMatrimoniale(?AdherentOption $status_matrimoniale): self
+    {
+        $this->status_matrimoniale = $status_matrimoniale;
 
         return $this;
     }

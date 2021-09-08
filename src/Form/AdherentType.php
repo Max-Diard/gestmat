@@ -3,10 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Adherent;
-use App\Entity\AdherentOption;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -60,13 +57,7 @@ class AdherentType extends AbstractType
             ->add('search_more')
             ->add('search_accept_children')
             ->add('search_number_accept_children')
-            ->add('adherent_option', EntityType::class, [
-                'class' => AdherentOption::class,
-                'choice_label' => function ($name, $type){
-                    return $name;
-                }
-            ])
-            ->add('submit', SubmitType::class)
+            ->add('status_matrimoniale')
         ;
     }
 

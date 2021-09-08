@@ -1,0 +1,27 @@
+body {
+    min-height: 100vh;
+}
+
+/* Pour le login */
+
+.section-register{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.form-register{
+    display: flex;
+    flex-direction: column;
+}
+
+.title-register{
+    margin-bottom: 1.5rem;
+    font-weight: bold;
+    text-align: center;
+}
+
+.form-control{
+    margin-bottom: 1rem;
+}
