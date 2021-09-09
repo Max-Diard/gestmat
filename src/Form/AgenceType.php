@@ -55,11 +55,12 @@ class AgenceType extends AbstractType
             ->add('link_picture', TextType::class, [
                 'label' => 'Lien de votre image'
             ])
-            ->add('address_street', TextareaType::class, [
+            ->add('address_street', TextType::class, [
                 'label' => 'Adresse'
             ])
-            ->add('address_street2', TextareaType::class, [
-                'label' => 'Suite addresse'
+            ->add('address_street2', TextType::class, [
+                'label' => 'Suite addresse',
+                'required' => false
             ])
             ->add('address_zip_postal', NumberType::class, [
                 'label' => 'Code Postal'

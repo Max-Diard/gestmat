@@ -3,7 +3,19 @@
 namespace App\Form;
 
 use App\Entity\Adherent;
+use App\Entity\AdherentOption;
+use Doctrine\ORM\EntityRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TelType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -12,52 +24,295 @@ class AdherentType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('firstname')
-            ->add('lastname')
-            ->add('birthdate')
-            ->add('comments1')
-            ->add('comments2')
-            ->add('comments3')
-            ->add('phone_mobile')
-            ->add('phone_home')
-            ->add('phone_work')
-            ->add('phone_comments')
-            ->add('profession')
-            ->add('size')
-            ->add('weight')
-            ->add('permis')
-            ->add('car')
-            ->add('announcement_publish')
-            ->add('announcement_presentation')
-            ->add('announcement_free')
-            ->add('announcement_date_free')
-            ->add('announcement_newspaper')
-            ->add('announcement_date_newspaper')
-            ->add('owner')
-            ->add('email')
-            ->add('link_picture')
-            ->add('link_contrat')
-            ->add('link_information')
-            ->add('link_picture_announcement')
-            ->add('address_street')
-            ->add('address_street2')
-            ->add('address_zip_postal')
-            ->add('address_town')
-            ->add('child_girl')
-            ->add('child_boy')
-            ->add('child_dependent_girl')
-            ->add('child_dependent_boy')
-            ->add('search_age_min')
-            ->add('search_age_max')
-            ->add('search_single')
-            ->add('search_divorced')
-            ->add('search_windower')
-            ->add('search_profession')
-            ->add('search_region')
-            ->add('search_more')
-            ->add('search_accept_children')
-            ->add('search_number_accept_children')
-            ->add('status_matrimoniale')
+            ->add('firstname', TextType::class, [
+                'label' => 'Prénom'
+            ])
+            ->add('lastname', TextType::class, [
+                'label' => 'Nom'
+            ])
+            ->add('birthdate', DateType::class, [
+                'label' => 'Date de naissance',
+                'years'=> range(date('Y'), date('Y') - 100)
+            ])
+            ->add('comments1', TextareaType::class, [
+                'label' => 'Commentaires',
+                'required' => false
+            ])
+            ->add('comments2', TextareaType::class, [
+                'label' => 'Commentaires',
+                'required' => false
+            ])
+            ->add('comments3', TextareaType::class, [
+                'label' => 'Commentaires',
+                'required' => false
+            ])
+            ->add('phone_mobile', TelType::class, [
+                'label' => 'Numéro de téléphone portable'
+            ])
+            ->add('phone_home', TelType::class, [
+                'label' => 'Numéro de téléphone fixe',
+                'required' => false
+            ])
+            ->add('phone_work', TelType::class, [
+                'label' => 'Numéro de téléphone travail',
+                'required' => false
+            ])
+            ->add('phone_comments', TextType::class, [
+                'label' => 'Commentaire téléphone',
+                'required' => false
+            ])
+            ->add('profession', TextType::class, [
+                'label' => 'Profession'
+            ])
+            ->add('size', NumberType::class, [
+                'label' => 'Taille'
+            ])
+            ->add('weight', NumberType::class, [
+                'label' => 'Poids'
+            ])
+            ->add('permis', ChoiceType::class, [
+                'label' => 'Permis', 
+                'choices' => [
+                    'Oui' => true,
+                    'Non' => false
+                ]
+            ])
+            ->add('car', ChoiceType::class, [
+                'label' => 'Voiture', 
+                'choices' => [
+                    'Oui' => true,
+                    'Non' => false
+                ]
+            ])
+            ->add('announcement_publish', ChoiceType::class, [
+                'label' => 'Annonce publié', 
+                'choices' => [
+                    'Oui' => true,
+                    'Non' => false
+                ]
+            ])
+            ->add('announcement_presentation', TextareaType::class, [
+                'label' => 'Annonce Présentation',
+                'required' => false
+            ])
+            ->add('announcement_free', TextareaType::class, [
+                'label' => 'Annonce Présentation Gratuite',
+                'required' => false
+            ])
+            ->add('announcement_date_free', DateType::class, [
+                'label' => 'Date d\'annonce gratuite',
+                'required' => false
+            ])
+            ->add('announcement_newspaper', TextareaType::class, [
+                'label' => 'Annonce Présentation Journal',
+                'required' => false
+            ])
+            ->add('announcement_date_newspaper', DateType::class, [
+                'label' => 'Date d\'annonce journal',
+                'required' => false
+            ])
+            ->add('owner', ChoiceType::class, [
+                'label' => 'Propriétaire', 
+                'choices' => [
+                    'Oui' => true,
+                    'Non' => false
+                ]
+            ])
+            ->add('email', EmailType::class, [
+                'label' => 'Email'
+            ])
+            ->add('link_picture', UrlType::class, [
+                'label' => 'Lien de photo de l\'adhérent',
+                'required' => false
+            ])
+            ->add('link_contrat', UrlType::class, [
+                'label' => 'Lien du contrat de l\'adhérent',
+                'required' => false
+            ])
+            ->add('link_information', UrlType::class, [
+                'label' => 'Lien information de l\'adhérent',
+                'required' => false
+            ])
+            ->add('link_picture_announcement', UrlType::class, [
+                'label' => 'Lien photo annonce de l\'adhérent',
+                'required' => false
+            ])
+            ->add('address_street', TextType::class, [
+                'label' => 'Adresse'
+            ])
+            ->add('address_street2', TextType::class, [
+                'label' => 'Adresse 2',
+                'required' => false
+            ])
+            ->add('address_zip_postal', NumberType::class ,[
+                'label' => 'Code postal'
+            ])
+            ->add('address_town', TextType::class, [
+                'label' => 'Ville'
+            ])
+            ->add('child_girl', NumberType::class, [
+                'label' => 'Fille'
+            ])
+            ->add('child_boy', NumberType::class, [
+                'label' => 'Garçon'
+            ])
+            ->add('child_dependent_girl', NumberType::class, [
+                'label' => 'Fille à charge'
+            ])
+            ->add('child_dependent_boy', NumberType::class, [
+                'label' => 'Garçon à charge'
+            ])
+            ->add('search_age_min', NumberType::class, [
+                'label' => 'Age Minimum'
+            ])
+            ->add('search_age_max', NumberType::class, [
+                'label' => 'Age Maximum'
+            ])
+            ->add('search_single', ChoiceType::class, [
+                'label' => 'Recherche Célibataire', 
+                'choices' => [
+                    'Oui' => true,
+                    'Non' => false
+                ]
+            ])
+            ->add('search_divorced', ChoiceType::class, [
+                'label' => 'Recherche divorcée', 
+                'choices' => [
+                    'Oui' => true,
+                    'Non' => false
+                ]
+            ])
+            ->add('search_windower', ChoiceType::class, [
+                'label' => 'Recherche Veuf(ve)', 
+                'choices' => [
+                    'Oui' => true,
+                    'Non' => false
+                ]
+            ])
+            ->add('search_instruction', EntityType::class, [
+                'class' => AdherentOption::class,
+                'label' => 'Diplôme',
+                'query_builder' => function (EntityRepository $repository){
+                    return $repository->createQueryBuilder('s')
+                        ->andWhere('s.type = :val')
+                        ->setParameter('val', 'instruction');
+                },
+            ])
+            ->add('search_profession', TextType::class, [
+                'label' => 'Profession',
+                'required' => false
+            ])
+            ->add('search_region', TextType::class, [
+                'label' => 'Région',
+                'required' => false
+            ])
+            ->add('search_more', TextAreaType::class, [
+                'label' => 'Autre',
+                'required' => false
+            ])
+            ->add('search_accept_children', ChoiceType::class, [
+                'label' => 'Accepte les enfants', 
+                'choices' => [
+                    'Oui' => true,
+                    'Non' => false
+                ]
+            ])
+            ->add('search_number_accept_children', NumberType::class, [
+                'label' => 'Nombre d\'enfant accepté'
+            ])
+            ->add('status_matrimoniale', EntityType::class, [
+                'class' => AdherentOption::class,
+                'label' => 'Status Matrimoniale',
+                'query_builder' => function (EntityRepository $repository){
+                    return $repository->createQueryBuilder('s')
+                        ->andWhere('s.type = :val')
+                        ->setParameter('val', 'status_matrimoniale');
+                },
+            ])
+            ->add('status_meet', EntityType::class, [
+                'class' => AdherentOption::class,
+                'label' => 'Status Relation',
+                'query_builder' => function (EntityRepository $repository){
+                    return $repository->createQueryBuilder('s')
+                        ->andWhere('s.type = :val')
+                        ->setParameter('val', 'status_meet');
+                },
+            ])
+            ->add('instruction', EntityType::class, [
+                'class' => AdherentOption::class,
+                'label' => 'Diplôme',
+                'query_builder' => function (EntityRepository $repository){
+                    return $repository->createQueryBuilder('s')
+                        ->andWhere('s.type = :val')
+                        ->setParameter('val', 'instruction');
+                },
+            ])
+            ->add('lodging', EntityType::class, [
+                'class' => AdherentOption::class,
+                'label' => 'Habitat',
+                'query_builder' => function (EntityRepository $repository){
+                    return $repository->createQueryBuilder('s')
+                        ->andWhere('s.type = :val')
+                        ->setParameter('val', 'lodging');
+                },
+            ])
+            ->add('smoking', EntityType::class, [
+                'class' => AdherentOption::class,
+                'label' => 'Type de fumeur',
+                'query_builder' => function (EntityRepository $repository){
+                    return $repository->createQueryBuilder('s')
+                        ->andWhere('s.type = :val')
+                        ->setParameter('val', 'smoking');
+                },
+            ])
+            ->add('hair', EntityType::class, [
+                'class' => AdherentOption::class,
+                'label' => 'Cheveux',
+                'query_builder' => function (EntityRepository $repository){
+                    return $repository->createQueryBuilder('s')
+                        ->andWhere('s.type = :val')
+                        ->setParameter('val', 'hair');
+                },
+            ])
+            ->add('zodiaque', EntityType::class, [
+                'class' => AdherentOption::class,
+                'label' => 'Signe Astrologique',
+                'query_builder' => function (EntityRepository $repository){
+                    return $repository->createQueryBuilder('s')
+                        ->andWhere('s.type = :val')
+                        ->setParameter('val', 'zodiaque');
+                },
+            ])
+            ->add('eyes', EntityType::class, [
+                'class' => AdherentOption::class,
+                'label' => 'Couleur des yeux',
+                'query_builder' => function (EntityRepository $repository){
+                    return $repository->createQueryBuilder('s')
+                        ->andWhere('s.type = :val')
+                        ->setParameter('val', 'eyes');
+                },
+            ])
+            ->add('genre', EntityType::class, [
+                'class' => AdherentOption::class,
+                'label' => 'Sexe',
+                'query_builder' => function (EntityRepository $repository){
+                    return $repository->createQueryBuilder('s')
+                        ->andWhere('s.type = :val')
+                        ->setParameter('val', 'genre');
+                },
+            ])
+            ->add('preference_contact', EntityType::class, [
+                'class' => AdherentOption::class,
+                'label' => 'Préférence de contact',
+                'query_builder' => function (EntityRepository $repository){
+                    return $repository->createQueryBuilder('s')
+                        ->andWhere('s.type = :val')
+                        ->setParameter('val', 'preference_contact');
+                },
+            ])
+            ->add('submit', SubmitType::class, [
+                'label' => 'Envoyer'
+            ])
         ;
     }
 

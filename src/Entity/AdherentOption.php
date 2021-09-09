@@ -34,14 +34,74 @@ class AdherentOption
      */
     private $adherents;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Adherent::class, mappedBy="status_meet")
+     */
+    private $adhrents_status_meet;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Adherent::class, mappedBy="instruction")
+     */
+    private $instruction;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Adherent::class, mappedBy="lodging")
+     */
+    private $lodging;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Adherent::class, mappedBy="smoking")
+     */
+    private $smoking;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Adherent::class, mappedBy="hair")
+     */
+    private $hair;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Adherent::class, mappedBy="zodiaque")
+     */
+    private $zodiaque;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Adherent::class, mappedBy="eyes")
+     */
+    private $eyes;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Adherent::class, mappedBy="genre")
+     */
+    private $genre;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Adherent::class, mappedBy="preference_contact")
+     */
+    private $preference_contact;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Adherent::class, mappedBy="search_instruction")
+     */
+    private $search_instruction;
+
     public function __construct()
     {
         $this->adherents = new ArrayCollection();
+        $this->adhrents_status_meet = new ArrayCollection();
+        $this->instruction = new ArrayCollection();
+        $this->lodging = new ArrayCollection();
+        $this->smoking = new ArrayCollection();
+        $this->hair = new ArrayCollection();
+        $this->zodiaque = new ArrayCollection();
+        $this->eyes = new ArrayCollection();
+        $this->genre = new ArrayCollection();
+        $this->preference_contact = new ArrayCollection();
+        $this->search_instruction = new ArrayCollection();
     }
 
     public function __toString()
     {
-        return $this->getName() . ' - ' . $this->getType();
+        return $this->getName();
     }
 
     public function getId(): ?int
@@ -76,27 +136,327 @@ class AdherentOption
     /**
      * @return Collection|Adherent[]
      */
-    public function getAdherents(): Collection
+    public function getAdherentsStatusMatrimoniale(): Collection
     {
-        return $this->adherents;
+        return $this->adherents_status_matrimoniale;
     }
 
-    public function addAdherent(Adherent $adherent): self
+    public function addAdherentStatusMatrimoniale(Adherent $adherentStatusMatriomoniale): self
     {
-        if (!$this->adherents->contains($adherent)) {
-            $this->adherents[] = $adherent;
-            $adherent->setStatusMatrimoniale($this);
+        if (!$this->adherents_status_matrimoniale->contains($adherentStatusMatriomoniale)) {
+            $this->adherents_status_matrimoniale[] = $adherentStatusMatriomoniale;
+            $adherentStatusMatriomoniale->setStatusMatrimoniale($this);
         }
 
         return $this;
     }
 
-    public function removeAdherent(Adherent $adherent): self
+    public function removeAdherentStatusMatrimoniale(Adherent $adherentStatusMatriomoniale): self
     {
-        if ($this->adherents->removeElement($adherent)) {
+        if ($this->adherents_status_matrimoniale->removeElement($adherentStatusMatriomoniale)) {
             // set the owning side to null (unless already changed)
-            if ($adherent->getStatusMatrimoniale() === $this) {
-                $adherent->setStatusMatrimoniale(null);
+            if ($adherentStatusMatriomoniale->getStatusMatrimoniale() === $this) {
+                $adherentStatusMatriomoniale->setStatusMatrimoniale(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Adherent[]
+     */
+    public function getAdhrentsStatusMeet(): Collection
+    {
+        return $this->adhrents_status_meet;
+    }
+
+    public function addAdhrentsStatusMeet(Adherent $adhrentsStatusMeet): self
+    {
+        if (!$this->adhrents_status_meet->contains($adhrentsStatusMeet)) {
+            $this->adhrents_status_meet[] = $adhrentsStatusMeet;
+            $adhrentsStatusMeet->setStatusMeet($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAdhrentsStatusMeet(Adherent $adhrentsStatusMeet): self
+    {
+        if ($this->adhrents_status_meet->removeElement($adhrentsStatusMeet)) {
+            // set the owning side to null (unless already changed)
+            if ($adhrentsStatusMeet->getStatusMeet() === $this) {
+                $adhrentsStatusMeet->setStatusMeet(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Adherent[]
+     */
+    public function getInstruction(): Collection
+    {
+        return $this->instruction;
+    }
+
+    public function addInstruction(Adherent $instruction): self
+    {
+        if (!$this->instruction->contains($instruction)) {
+            $this->instruction[] = $instruction;
+            $instruction->setInstruction($this);
+        }
+
+        return $this;
+    }
+
+    public function removeInstruction(Adherent $instruction): self
+    {
+        if ($this->instruction->removeElement($instruction)) {
+            // set the owning side to null (unless already changed)
+            if ($instruction->getInstruction() === $this) {
+                $instruction->setInstruction(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Adherent[]
+     */
+    public function getLodging(): Collection
+    {
+        return $this->lodging;
+    }
+
+    public function addLodging(Adherent $lodging): self
+    {
+        if (!$this->lodging->contains($lodging)) {
+            $this->lodging[] = $lodging;
+            $lodging->setLodging($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLodging(Adherent $lodging): self
+    {
+        if ($this->lodging->removeElement($lodging)) {
+            // set the owning side to null (unless already changed)
+            if ($lodging->getLodging() === $this) {
+                $lodging->setLodging(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Adherent[]
+     */
+    public function getSmoking(): Collection
+    {
+        return $this->smoking;
+    }
+
+    public function addSmoking(Adherent $smoking): self
+    {
+        if (!$this->smoking->contains($smoking)) {
+            $this->smoking[] = $smoking;
+            $smoking->setSmoking($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSmoking(Adherent $smoking): self
+    {
+        if ($this->smoking->removeElement($smoking)) {
+            // set the owning side to null (unless already changed)
+            if ($smoking->getSmoking() === $this) {
+                $smoking->setSmoking(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Adherent[]
+     */
+    public function getHair(): Collection
+    {
+        return $this->hair;
+    }
+
+    public function addHair(Adherent $hair): self
+    {
+        if (!$this->hair->contains($hair)) {
+            $this->hair[] = $hair;
+            $hair->setHair($this);
+        }
+
+        return $this;
+    }
+
+    public function removeHair(Adherent $hair): self
+    {
+        if ($this->hair->removeElement($hair)) {
+            // set the owning side to null (unless already changed)
+            if ($hair->getHair() === $this) {
+                $hair->setHair(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Adherent[]
+     */
+    public function getZodiaque(): Collection
+    {
+        return $this->zodiaque;
+    }
+
+    public function addZodiaque(Adherent $zodiaque): self
+    {
+        if (!$this->zodiaque->contains($zodiaque)) {
+            $this->zodiaque[] = $zodiaque;
+            $zodiaque->setZodiaque($this);
+        }
+
+        return $this;
+    }
+
+    public function removeZodiaque(Adherent $zodiaque): self
+    {
+        if ($this->zodiaque->removeElement($zodiaque)) {
+            // set the owning side to null (unless already changed)
+            if ($zodiaque->getZodiaque() === $this) {
+                $zodiaque->setZodiaque(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Adherent[]
+     */
+    public function getEyes(): Collection
+    {
+        return $this->eyes;
+    }
+
+    public function addEye(Adherent $eye): self
+    {
+        if (!$this->eyes->contains($eye)) {
+            $this->eyes[] = $eye;
+            $eye->setEyes($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEye(Adherent $eye): self
+    {
+        if ($this->eyes->removeElement($eye)) {
+            // set the owning side to null (unless already changed)
+            if ($eye->getEyes() === $this) {
+                $eye->setEyes(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Adherent[]
+     */
+    public function getGenre(): Collection
+    {
+        return $this->genre;
+    }
+
+    public function addGenre(Adherent $genre): self
+    {
+        if (!$this->genre->contains($genre)) {
+            $this->genre[] = $genre;
+            $genre->setGenre($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGenre(Adherent $genre): self
+    {
+        if ($this->genre->removeElement($genre)) {
+            // set the owning side to null (unless already changed)
+            if ($genre->getGenre() === $this) {
+                $genre->setGenre(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Adherent[]
+     */
+    public function getPreferenceContact(): Collection
+    {
+        return $this->preference_contact;
+    }
+
+    public function addPreferenceContact(Adherent $preferenceContact): self
+    {
+        if (!$this->preference_contact->contains($preferenceContact)) {
+            $this->preference_contact[] = $preferenceContact;
+            $preferenceContact->setPreferenceContact($this);
+        }
+
+        return $this;
+    }
+
+    public function removePreferenceContact(Adherent $preferenceContact): self
+    {
+        if ($this->preference_contact->removeElement($preferenceContact)) {
+            // set the owning side to null (unless already changed)
+            if ($preferenceContact->getPreferenceContact() === $this) {
+                $preferenceContact->setPreferenceContact(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Adherent[]
+     */
+    public function getSearchInstruction(): Collection
+    {
+        return $this->search_instruction;
+    }
+
+    public function addSearchInstruction(Adherent $searchInstruction): self
+    {
+        if (!$this->search_instruction->contains($searchInstruction)) {
+            $this->search_instruction[] = $searchInstruction;
+            $searchInstruction->setSearchInstruction($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSearchInstruction(Adherent $searchInstruction): self
+    {
+        if ($this->search_instruction->removeElement($searchInstruction)) {
+            // set the owning side to null (unless already changed)
+            if ($searchInstruction->getSearchInstruction() === $this) {
+                $searchInstruction->setSearchInstruction(null);
             }
         }
 

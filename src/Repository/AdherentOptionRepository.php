@@ -22,19 +22,17 @@ class AdherentOptionRepository extends ServiceEntityRepository
     // /**
     //  * @return AdherentOption[] Returns an array of AdherentOption objects
     //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('a')
-            ->andWhere('a.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('a.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+    // public function findByType($value)
+    // {
+    //     return $this->createQueryBuilder('a')
+    //         ->andWhere('a.type= :val')
+    //         ->setParameter('val', $value)
+    //         ->orderBy('a.id', 'ASC')
+    //         ->getQuery()
+    //         ->getResult()
+    //     ;
+    // }
+    
 
     /*
     public function findOneBySomeField($value): ?AdherentOption

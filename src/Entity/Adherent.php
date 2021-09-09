@@ -18,12 +18,12 @@ class Adherent
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=100)
      */
     private $firstname;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=100)
      */
     private $lastname;
 
@@ -68,17 +68,17 @@ class Adherent
     private $phone_comments;
 
     /**
-     * @ORM\Column(type="text")
+     * @ORM\Column(type="string", length=255)
      */
     private $profession;
 
     /**
-     * @ORM\Column(type="float")
+     * @ORM\Column(type="decimal", precision=3, scale=2)
      */
     private $size;
 
     /**
-     * @ORM\Column(type="float")
+     * @ORM\Column(type="decimal", precision=3, scale=0)
      */
     private $weight;
 
@@ -153,12 +153,12 @@ class Adherent
     private $link_picture_announcement;
 
     /**
-     * @ORM\Column(type="text")
+     * @ORM\Column(type="string", length=255)
      */
     private $address_street;
 
     /**
-     * @ORM\Column(type="text", nullable=true)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $address_street2;
 
@@ -218,7 +218,7 @@ class Adherent
     private $search_windower;
 
     /**
-     * @ORM\Column(type="text", nullable=true)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $search_profession;
 
@@ -246,6 +246,61 @@ class Adherent
      * @ORM\ManyToOne(targetEntity=AdherentOption::class, inversedBy="adherents")
      */
     private $status_matrimoniale;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=AdherentOption::class, inversedBy="adhrents_status_meet")
+     */
+    private $status_meet;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=AdherentOption::class, inversedBy="instruction")
+     */
+    private $instruction;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=AdherentOption::class, inversedBy="lodging")
+     */
+    private $lodging;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=AdherentOption::class, inversedBy="smoking")
+     */
+    private $smoking;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=AdherentOption::class, inversedBy="hair")
+     */
+    private $hair;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=AdherentOption::class, inversedBy="zodiaque")
+     */
+    private $zodiaque;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=AdherentOption::class, inversedBy="eyes")
+     */
+    private $eyes;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=AdherentOption::class, inversedBy="genre")
+     */
+    private $genre;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=AdherentOption::class, inversedBy="preference_contact")
+     */
+    private $preference_contact;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Agence::class, inversedBy="adherents")
+     */
+    private $agence;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=AdherentOption::class, inversedBy="search_instruction")
+     */
+    private $search_instruction;
 
     public function getId(): ?int
     {
@@ -384,24 +439,24 @@ class Adherent
         return $this;
     }
 
-    public function getSize(): ?float
+    public function getSize(): ?string
     {
         return $this->size;
     }
 
-    public function setSize(float $size): self
+    public function setSize(string $size): self
     {
         $this->size = $size;
 
         return $this;
     }
 
-    public function getWeight(): ?float
+    public function getWeight(): ?string
     {
         return $this->weight;
     }
 
-    public function setWeight(float $weight): self
+    public function setWeight(string $weight): self
     {
         $this->weight = $weight;
 
@@ -437,9 +492,9 @@ class Adherent
         return $this->announcement_publish;
     }
 
-    public function setAnnouncementPublish(bool $annoucement_publish): self
+    public function setAnnouncementPublish(bool $announcement_publish): self
     {
-        $this->annoucement_publish = $annoucement_publish;
+        $this->announcement_publish = $announcement_publish;
 
         return $this;
     }
@@ -800,6 +855,138 @@ class Adherent
     public function setStatusMatrimoniale(?AdherentOption $status_matrimoniale): self
     {
         $this->status_matrimoniale = $status_matrimoniale;
+
+        return $this;
+    }
+
+    public function getStatusMeet(): ?AdherentOption
+    {
+        return $this->status_meet;
+    }
+
+    public function setStatusMeet(?AdherentOption $status_meet): self
+    {
+        $this->status_meet = $status_meet;
+
+        return $this;
+    }
+
+    public function getInstruction(): ?AdherentOption
+    {
+        return $this->instruction;
+    }
+
+    public function setInstruction(?AdherentOption $instruction): self
+    {
+        $this->instruction = $instruction;
+
+        return $this;
+    }
+
+    public function getLodging(): ?AdherentOption
+    {
+        return $this->lodging;
+    }
+
+    public function setLodging(?AdherentOption $lodging): self
+    {
+        $this->lodging = $lodging;
+
+        return $this;
+    }
+
+    public function getSmoking(): ?AdherentOption
+    {
+        return $this->smoking;
+    }
+
+    public function setSmoking(?AdherentOption $smoking): self
+    {
+        $this->smoking = $smoking;
+
+        return $this;
+    }
+
+    public function getHair(): ?AdherentOption
+    {
+        return $this->hair;
+    }
+
+    public function setHair(?AdherentOption $hair): self
+    {
+        $this->hair = $hair;
+
+        return $this;
+    }
+
+    public function getZodiaque(): ?AdherentOption
+    {
+        return $this->zodiaque;
+    }
+
+    public function setZodiaque(?AdherentOption $zodiaque): self
+    {
+        $this->zodiaque = $zodiaque;
+
+        return $this;
+    }
+
+    public function getEyes(): ?AdherentOption
+    {
+        return $this->eyes;
+    }
+
+    public function setEyes(?AdherentOption $eyes): self
+    {
+        $this->eyes = $eyes;
+
+        return $this;
+    }
+
+    public function getGenre(): ?AdherentOption
+    {
+        return $this->genre;
+    }
+
+    public function setGenre(?AdherentOption $genre): self
+    {
+        $this->genre = $genre;
+
+        return $this;
+    }
+
+    public function getPreferenceContact(): ?AdherentOption
+    {
+        return $this->preference_contact;
+    }
+
+    public function setPreferenceContact(?AdherentOption $preference_contact): self
+    {
+        $this->preference_contact = $preference_contact;
+
+        return $this;
+    }
+
+    public function getAgence(): ?Agence
+    {
+        return $this->agence;
+    }
+
+    public function setAgence(?Agence $agence): self
+    {
+        $this->agence = $agence;
+
+        return $this;
+    }
+
+    public function getSearchInstruction(): ?AdherentOption
+    {
+        return $this->search_instruction;
+    }
+
+    public function setSearchInstruction(?AdherentOption $search_instruction): self
+    {
+        $this->search_instruction = $search_instruction;
 
         return $this;
     }

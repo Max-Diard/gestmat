@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\AgenceRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -61,12 +63,12 @@ class Agence implements UserInterface, PasswordAuthenticatedUserInterface
     private $link_picture;
 
     /**
-     * @ORM\Column(type="text")
+     * @ORM\Column(type="string", length=255)
      */
     private $address_street;
 
     /**
-     * @ORM\Column(type="text", nullable=true)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $address_street2;
 
@@ -79,6 +81,21 @@ class Agence implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Column(type="string", length=255)
      */
     private $address_town;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Adherent::class, mappedBy="agence")
+     */
+    private $adherents;
+
+    public function __construct()
+    {
+        $this->adherents = new ArrayCollection();
+    }
+
+    public function __toString()
+    {
+        return $this->getName();
+    }
 
     public function getId(): ?int
     {
@@ -273,6 +290,36 @@ class Agence implements UserInterface, PasswordAuthenticatedUserInterface
     public function setAddressTown(string $address_town): self
     {
         $this->address_town = $address_town;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Adherent[]
+     */
+    public function getAdherents(): Collection
+    {
+        return $this->adherents;
+    }
+
+    public function addAdherent(Adherent $adherent): self
+    {
+        if (!$this->adherents->contains($adherent)) {
+            $this->adherents[] = $adherent;
+            $adherent->setAgence($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAdherent(Adherent $adherent): self
+    {
+        if ($this->adherents->removeElement($adherent)) {
+            // set the owning side to null (unless already changed)
+            if ($adherent->getAgence() === $this) {
+                $adherent->setAgence(null);
+            }
+        }
 
         return $this;
     }

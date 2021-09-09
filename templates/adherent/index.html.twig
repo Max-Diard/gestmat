@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+<p>Liste des adhérents à faire</p>
+<a href='{{ path('adherent_add') }}'>Ajouter un nouvel adhérent</a>
+
+<table>
+    <thead>
+        <tr>
+            <td>Nom</td>
+            <td>Prénom</td>
+            <td>Age</td>
+            <td>Contrat</td>
+            <td>Agence</td>
+            <td>Action</td>
+        </tr>
+    </thead>
+    <tbody>
+        {% for adherent in allAdherent %}
+        {% if adherent.genre == 'Masculin' %}
+            <tr class='masculin'>
+            {% else %}
+            <tr class='feminin'>
+            {% endif %}
+                <td>{{adherent.lastname}}</td>
+                <td>{{adherent.firstname}}</td>
+                <td>{{adherent.birthdate|date('d/m/Y')}}</td>
+                <td>Date à récupérer</td>
+                <td>{{ adherent.agence.addressTown }}</td>
+                <td><a href='{{ path('adherent_single', {id: adherent.id}) }}'>Profil</a></td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+
+{% endblock %}
