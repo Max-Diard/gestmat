@@ -89,6 +89,8 @@ label{
     display: none;
 }
 
+/* All Adherent */
+
 table{
     border-collapse: collapse;
 }
@@ -103,4 +105,12 @@ td{
 
 .feminin {
     border: 5px solid purple;
+}
+
+
+/* Single Adherent */
+
+.image-adherent{
+    max-width: 100%;
+    width: 10%;
 }

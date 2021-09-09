@@ -1,11 +1,6 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-{% for message in app.flashes('successNewAdherent') %}
-    <div class="alert alert-success">
-        {{ message }}
-    </div>
-{% endfor %}
 <a href="{{ path('adherent_all') }}">Voir la liste de tous les adhérents</a>
 
 {{ form_start(formAdherent) }}
@@ -61,7 +56,7 @@
                 </div>
             </div>
         </div>
-        <img class='img-adherent' src='https://images.unsplash.com/photo-1527628173875-3c7bfd28ad78?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8bG92ZXxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'/>
+        <img class="image-adherent" src='{{ asset('uploads/picture/profil.svg') }}' alt="Image de l'adhérent"/>
     </section>
     <section class='body-adherent'>
         <div class='container-comments'>

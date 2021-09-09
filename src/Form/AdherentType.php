@@ -10,6 +10,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TelType;
@@ -111,31 +112,37 @@ class AdherentType extends AbstractType
                 'label' => 'Date d\'annonce journal',
                 'required' => false
             ])
-            ->add('owner', ChoiceType::class, [
-                'label' => 'Propriétaire', 
-                'choices' => [
-                    'Oui' => true,
-                    'Non' => false
-                ]
+            ->add('owner', EntityType::class, [
+                'class' => AdherentOption::class,
+                'label' => 'Propriétaire',
+                'query_builder' => function (EntityRepository $repository){
+                    return $repository->createQueryBuilder('s')
+                        ->andWhere('s.type = :val')
+                        ->setParameter('val', 'owner');
+                },
             ])
             ->add('email', EmailType::class, [
                 'label' => 'Email'
             ])
-            ->add('link_picture', UrlType::class, [
+            ->add('link_picture', FileType::class, [
                 'label' => 'Lien de photo de l\'adhérent',
-                'required' => false
+                'required' => false,
+                'data_class' => null
             ])
-            ->add('link_contrat', UrlType::class, [
+            ->add('link_contrat', FileType::class, [
                 'label' => 'Lien du contrat de l\'adhérent',
-                'required' => false
+                'required' => false,
+                'data_class' => null
             ])
-            ->add('link_information', UrlType::class, [
+            ->add('link_information', FileType::class, [
                 'label' => 'Lien information de l\'adhérent',
-                'required' => false
+                'required' => false,
+                'data_class' => null
             ])
-            ->add('link_picture_announcement', UrlType::class, [
+            ->add('link_picture_announcement', FileType::class, [
                 'label' => 'Lien photo annonce de l\'adhérent',
-                'required' => false
+                'required' => false,
+                'data_class' => null
             ])
             ->add('address_street', TextType::class, [
                 'label' => 'Adresse'

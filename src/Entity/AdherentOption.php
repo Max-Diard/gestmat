@@ -84,6 +84,11 @@ class AdherentOption
      */
     private $search_instruction;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Adherent::class, mappedBy="owner")
+     */
+    private $owner;
+
     public function __construct()
     {
         $this->adherents = new ArrayCollection();
@@ -97,6 +102,7 @@ class AdherentOption
         $this->genre = new ArrayCollection();
         $this->preference_contact = new ArrayCollection();
         $this->search_instruction = new ArrayCollection();
+        $this->owner = new ArrayCollection();
     }
 
     public function __toString()
@@ -457,6 +463,36 @@ class AdherentOption
             // set the owning side to null (unless already changed)
             if ($searchInstruction->getSearchInstruction() === $this) {
                 $searchInstruction->setSearchInstruction(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Adherent[]
+     */
+    public function getOwner(): Collection
+    {
+        return $this->owner;
+    }
+
+    public function addOwner(Adherent $owner): self
+    {
+        if (!$this->owner->contains($owner)) {
+            $this->owner[] = $owner;
+            $owner->setOwner($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOwner(Adherent $owner): self
+    {
+        if ($this->owner->removeElement($owner)) {
+            // set the owning side to null (unless already changed)
+            if ($owner->getOwner() === $this) {
+                $owner->setOwner(null);
             }
         }
 

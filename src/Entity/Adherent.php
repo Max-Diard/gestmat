@@ -123,17 +123,12 @@ class Adherent
     private $announcement_date_newspaper;
 
     /**
-     * @ORM\Column(type="boolean")
-     */
-    private $owner;
-
-    /**
      * @ORM\Column(type="string", length=255)
      */
     private $email;
 
     /**
-     * @ORM\Column(type="text", nullable=true)
+     * @ORM\Column(type="string", nullable=true)
      */
     private $link_picture;
 
@@ -301,6 +296,11 @@ class Adherent
      * @ORM\ManyToOne(targetEntity=AdherentOption::class, inversedBy="search_instruction")
      */
     private $search_instruction;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=AdherentOption::class, inversedBy="owner")
+     */
+    private $owner;
 
     public function getId(): ?int
     {
@@ -559,18 +559,6 @@ class Adherent
         return $this;
     }
 
-    public function getOwner(): ?bool
-    {
-        return $this->owner;
-    }
-
-    public function setOwner(bool $owner): self
-    {
-        $this->owner = $owner;
-
-        return $this;
-    }
-
     public function getEmail(): ?string
     {
         return $this->email;
@@ -583,12 +571,12 @@ class Adherent
         return $this;
     }
 
-    public function getLinkPicture(): ?string
+    public function getLinkPicture()
     {
         return $this->link_picture;
     }
 
-    public function setLinkPicture(?string $link_picture): self
+    public function setLinkPicture($link_picture): self
     {
         $this->link_picture = $link_picture;
 
@@ -987,6 +975,18 @@ class Adherent
     public function setSearchInstruction(?AdherentOption $search_instruction): self
     {
         $this->search_instruction = $search_instruction;
+
+        return $this;
+    }
+
+    public function getOwner(): ?AdherentOption
+    {
+        return $this->owner;
+    }
+
+    public function setOwner(?AdherentOption $owner): self
+    {
+        $this->owner = $owner;
 
         return $this;
     }

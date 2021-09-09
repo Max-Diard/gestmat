@@ -15,7 +15,7 @@
             <div class="row-first">
                 <div class="col col-adherent-number">
                     <label for="">Numéro Adhérent</label>
-                    <div class='id-adhérent'>(A récupérer)</div>
+                    <div class='id-adhérent'>{{ adherentProfile.id }}</div>
                 </div>
                 <div class="col col-adherent-firstname">
                     {{ form_label(formAdherent.firstname) }}
@@ -59,7 +59,11 @@
                 </div>
             </div>
         </div>
-        <img class='img-adherent' src='https://images.unsplash.com/photo-1527628173875-3c7bfd28ad78?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8bG92ZXxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'/>
+            {% if adherentProfile.linkPicture != '' %}
+                <img class="image-adherent" src='{{ asset('uploads/picture/'~ adherentProfile.linkPicture) }}' alt="Image de l'adhérent"/>
+            {% else %}
+                <img class="image-adherent" src='{{ asset('uploads/picture/profil.svg') }}' alt="Image de l'adhérent"/>
+            {% endif %}
     </section>
     <section class='body-adherent'>
         <div class='container-comments'>
@@ -287,18 +291,38 @@
                     <div class="col col-adherent-link_information">
                         {{ form_label(formAdherent.link_information) }}
                         {{ form_widget(formAdherent.link_information) }}
+                        <div class="">
+                        {% if adherentProfile.linkInformation != '' %}
+                            <embed src='{{ asset('uploads/information/'~ adherentProfile.linkInformation) }}' width='10%' height='10%'/>
+                        {% endif %}
+                        </div>
                     </div>
                     <div class="col col-adherent-link_contrat">
                         {{ form_label(formAdherent.link_contrat) }}
                         {{ form_widget(formAdherent.link_contrat) }}
+                        <div class="">
+                        {% if adherentProfile.linkContrat != '' %}
+                            <embed src='{{ asset('uploads/document/'~ adherentProfile.linkContrat) }}' width='10%' height='10%'/>
+                        {% endif %}
+                        </div>
                     </div>
                     <div class="col col-adherent-link_picture">
                         {{ form_label(formAdherent.link_picture) }}
                         {{ form_widget(formAdherent.link_picture) }}
+                        <div class="">
+                        {% if adherentProfile.linkPicture != '' %}
+                            <embed src='{{ asset('uploads/picture/'~ adherentProfile.linkPicture) }}' width='10%' height='10%'/>
+                        {% endif %}
+                        </div>
                     </div>
                     <div class="col col-adherent-link_picture_announcement">
                         {{ form_label(formAdherent.link_picture_announcement) }}
                         {{ form_widget(formAdherent.link_picture_announcement) }}
+                        <div class="">
+                        {% if adherentProfile.linkPictureAnnouncement != '' %}
+                            <embed src='{{ asset('uploads/announcement/'~ adherentProfile.linkPictureAnnouncement) }}' width='10%' height='10%'/>
+                        {% endif %}
+                        </div>
                     </div>
                 </div>
             </div>
