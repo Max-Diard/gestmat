@@ -8,9 +8,12 @@
 {% endfor %}
 
 <p>Le profil de la personne sélectionner</p>
-
-<a href='{{path('adherent_add')}}'>Ajouter un adhérent</a>
-
+<div class="">
+    <ul>
+        <li><a href='{{path('adherent_all')}}'>Liste des adhérents</a></li>
+        <li><a href='{{path('adherent_add')}}'>Ajouter un adhérent</a></li>
+    </ul>
+</div>
 {{ form_start(formAdherent) }}
     <div class="my-custom-class-for-errors">
         {{ form_errors(formAdherent) }}

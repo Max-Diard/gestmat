@@ -89,6 +89,11 @@ class AdherentOption
      */
     private $owner;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Contract::class, mappedBy="type_payment")
+     */
+    private $type_payment;
+
     public function __construct()
     {
         $this->adherents = new ArrayCollection();
@@ -103,6 +108,7 @@ class AdherentOption
         $this->preference_contact = new ArrayCollection();
         $this->search_instruction = new ArrayCollection();
         $this->owner = new ArrayCollection();
+        $this->type_payment = new ArrayCollection();
     }
 
     public function __toString()
@@ -493,6 +499,36 @@ class AdherentOption
             // set the owning side to null (unless already changed)
             if ($owner->getOwner() === $this) {
                 $owner->setOwner(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Contract[]
+     */
+    public function getTypePayment(): Collection
+    {
+        return $this->type_payment;
+    }
+
+    public function addTypePayment(Contract $typePayment): self
+    {
+        if (!$this->type_payment->contains($typePayment)) {
+            $this->type_payment[] = $typePayment;
+            $typePayment->setTypePayment($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTypePayment(Contract $typePayment): self
+    {
+        if ($this->type_payment->removeElement($typePayment)) {
+            // set the owning side to null (unless already changed)
+            if ($typePayment->getTypePayment() === $this) {
+                $typePayment->setTypePayment(null);
             }
         }
 
