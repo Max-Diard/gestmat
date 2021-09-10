@@ -341,7 +341,7 @@ class Adherent
 
     /**
      * @ORM\ManyToOne(targetEntity=AdherentOption::class, inversedBy="type_payment")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $type_payment;
 
