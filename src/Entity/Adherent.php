@@ -137,7 +137,7 @@ class Adherent
     /**
      * @ORM\Column(type="text", nullable=true)
      */
-    private $link_contrat;
+    private $link_contract;
 
     /**
      * @ORM\Column(type="text", nullable=true)
@@ -313,6 +313,37 @@ class Adherent
      * @ORM\OneToMany(targetEntity=Meet::class, mappedBy="adherent_man")
      */
     private $adherent_man;
+
+    /**
+     * @ORM\Column(type="date")
+     */
+    private $contract_date;
+
+    /**
+     * @ORM\Column(type="date")
+     */
+    private $contract_startedAt;
+
+    /**
+     * @ORM\Column(type="date")
+     */
+    private $contract_endingAt;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $contract_ammount;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $contract_comments;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=AdherentOption::class, inversedBy="type_payment")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $type_payment;
 
     public function __construct()
     {
@@ -601,14 +632,14 @@ class Adherent
         return $this;
     }
 
-    public function getLinkContrat(): ?string
+    public function getLinkContract(): ?string
     {
-        return $this->link_contrat;
+        return $this->link_contract;
     }
 
-    public function setLinkContrat(?string $link_contrat): self
+    public function setLinkContract(?string $link_contract): self
     {
-        $this->link_contrat = $link_contrat;
+        $this->link_contract = $link_contract;
 
         return $this;
     }
@@ -1065,6 +1096,78 @@ class Adherent
                 $adherentMan->setAdherentMan(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getContractDate(): ?\DateTimeInterface
+    {
+        return $this->contract_date;
+    }
+
+    public function setContractDate(\DateTimeInterface $contract_date): self
+    {
+        $this->contract_date = $contract_date;
+
+        return $this;
+    }
+
+    public function getContractStartedAt(): ?\DateTimeInterface
+    {
+        return $this->contract_startedAt;
+    }
+
+    public function setContractStartedAt(\DateTimeInterface $contract_startedAt): self
+    {
+        $this->contract_startedAt = $contract_startedAt;
+
+        return $this;
+    }
+
+    public function getContractEndingAt(): ?\DateTimeInterface
+    {
+        return $this->contract_endingAt;
+    }
+
+    public function setContractEndingAt(\DateTimeInterface $contract_endingAt): self
+    {
+        $this->contract_endingAt = $contract_endingAt;
+
+        return $this;
+    }
+
+    public function getContractAmmount(): ?int
+    {
+        return $this->contract_ammount;
+    }
+
+    public function setContractAmmount(int $contract_ammount): self
+    {
+        $this->contract_ammount = $contract_ammount;
+
+        return $this;
+    }
+
+    public function getContractComments(): ?string
+    {
+        return $this->contract_comments;
+    }
+
+    public function setContractComments(?string $contract_comments): self
+    {
+        $this->contract_comments = $contract_comments;
+
+        return $this;
+    }
+
+    public function getTypePayment(): ?AdherentOption
+    {
+        return $this->type_payment;
+    }
+
+    public function setTypePayment(?AdherentOption $type_payment): self
+    {
+        $this->type_payment = $type_payment;
 
         return $this;
     }

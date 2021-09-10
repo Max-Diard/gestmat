@@ -3,22 +3,21 @@
 namespace App\Form;
 
 use App\Entity\Adherent;
-use App\Entity\AdherentOption;
 use Doctrine\ORM\EntityRepository;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use App\Entity\AdherentOption;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
-use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TelType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\UrlType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class AdherentType extends AbstractType
 {
@@ -129,7 +128,7 @@ class AdherentType extends AbstractType
                 'required' => false,
                 'data_class' => null
             ])
-            ->add('link_contrat', FileType::class, [
+            ->add('link_contract', FileType::class, [
                 'label' => 'Lien du contrat de l\'adhérent',
                 'required' => false,
                 'data_class' => null
@@ -315,6 +314,33 @@ class AdherentType extends AbstractType
                     return $repository->createQueryBuilder('s')
                         ->andWhere('s.type = :val')
                         ->setParameter('val', 'preference_contact');
+                },
+            ])
+            ->add('contract_date', DateType::class, [
+                'label' => 'Date contrat',
+                'years'=> range(date('Y'), date('Y') + 100)
+            ])
+            ->add('contract_startedAt', DateType::class, [
+                'label' => 'Date début de contrat',
+                'years'=> range(date('Y'), date('Y') + 100)
+            ])
+            ->add('contract_endingAt', DateType::class, [
+                'label' => 'Date fin de contrat',
+                'years'=> range(date('Y'), date('Y') + 100)
+            ])
+            ->add('contract_ammount', NumberType::class, [
+                'label' => 'Montant TTC'
+            ])
+            ->add('contract_comments', TextareaType::class, [
+                'label' => 'Commentaires'
+            ])
+            ->add('type_payment', EntityType::class, [
+                'class' => AdherentOption::class,
+                'label' => 'Type de réglement',
+                'query_builder' => function (EntityRepository $repository){
+                    return $repository->createQueryBuilder('s')
+                        ->andWhere('s.type = :val')
+                        ->setParameter('val', 'type_payment');
                 },
             ])
             ->add('submit', SubmitType::class, [

@@ -23,6 +23,19 @@ class AdherentRepository extends ServiceEntityRepository
     /**
      * @return Adherent[] Returns an array of Adherent objects
      */
+    public function findByLastId()
+    {
+        return $this->createQueryBuilder('a')
+            ->orderBy('a.id', 'DESC')
+            ->setMaxResults(5)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    /**
+     * @return Adherent[] Returns an array of Adherent objects
+     */
     public function findByGenre($value)
     {
         return $this->createQueryBuilder('a')

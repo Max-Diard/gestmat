@@ -36,7 +36,7 @@ class AdherentController extends AbstractController
         ]);
     }
 
-    //Information de l'adhérents sélectionné
+    //Information de l'adhérent sélectionné
     #[
         Route('/adherent/profil/{id}', name: 'adherent_single')
     ]
@@ -46,9 +46,18 @@ class AdherentController extends AbstractController
 
         // On récupére le nom des fichiers déjà existant
         $linkInfo = $adherent->getLinkInformation();
-        $linkContract = $adherent->getLinkContrat();
+        $linkContract = $adherent->getLinkContract();
         $linkPic = $adherent->getLinkPicture();
         $linkAnnouncement = $adherent->getLinkPictureAnnouncement();
+
+        //Gestion de l'age 
+        $birthdate = $adherent->getBirthdate();
+        
+        if($birthdate != ''){
+            $birthdateStr = date_format($birthdate, 'Y-m-d');
+            $today = date("Y-m-d");
+            $age = date_diff(date_create($birthdateStr), date_create($today));
+        };
 
         $form->handleRequest($request);
 
@@ -74,7 +83,7 @@ class AdherentController extends AbstractController
                 $adherent->setLinkInformation($linkInfo);
             } 
 
-            $fileContract = $form->get('link_contrat')->getData();
+            $fileContract = $form->get('link_contract')->getData();
 
             // Si une image est envoyé alors on ajoute l'information en BDD
             if($fileContract){
@@ -85,11 +94,11 @@ class AdherentController extends AbstractController
                 $fileContractExt = $fileContract->guessExtension();
                 $fileContractName = md5(uniqid()) . '.' . $fileContractExt;
                 $fileContract->move($this->getParameter('project_directory') . 'adherent' . $adherent->getId() . '/contract/', $fileContractName);
-                $adherent->setLinkContrat($fileContractName);
+                $adherent->setLinkContract($fileContractName);
             }
             // On récupére le nom de l'image déjà existant et on lui renvoi 
             else {
-                $adherent->setLinkContrat($linkContract);
+                $adherent->setLinkContract($linkContract);
             }
 
             $fileAnnouncement = $form->get('link_picture_announcement')->getData();
@@ -139,7 +148,8 @@ class AdherentController extends AbstractController
 
         return $this->render('adherent/singleAdherent.html.twig', [
             'adherentProfile' => $adherent,
-            'formAdherent' => $form->createView()
+            'formAdherent' => $form->createView(),
+            'ageAdherent' => $age->format('%y')
         ]);
     }
 
@@ -150,6 +160,15 @@ class AdherentController extends AbstractController
     ]
     public function addAdherent(Request $request): Response
     {
+
+        $lastAdherent = $this->entityManager->getRepository(Adherent::class)->findByLastId();
+        $lastAdherent = $lastAdherent[0]->getId();
+
+        if ($lastAdherent != ''){
+            $lastAdherent++;
+        } else{
+            $lastAdherent = 1;
+        }
 
         $adherent = new Adherent();
 
@@ -169,17 +188,17 @@ class AdherentController extends AbstractController
             if($fileInfo){
                 $fileInfoExt = $fileInfo->guessExtension();
                 $fileInfoName = md5(uniqid()) . '.' . $fileInfoExt;
-                $fileInfo->move($this->getParameter('information_directory'), $fileInfoName);
+                $fileInfo->move($this->getParameter('project_directory') . 'adherent' . $lastAdherent . '/information/', $fileInfoName);
                 $adherent->setLinkInformation($fileInfoName);
             }
 
-            $fileContrat = $form->get('link_contrat')->getData();
+            $fileContract = $form->get('link_contract')->getData();
             // Si une image est envoyé alors on ajoute l'information en BDD
-            if($fileContrat){
-                $fileContratExt = $fileContrat->guessExtension();
-                $fileContratName = md5(uniqid()) . '.' . $fileContratExt;
-                $fileContrat->move($this->getParameter('document_directory'), $fileContratName);
-                $adherent->setLinkContrat($fileContratName);
+            if($fileContract){
+                $fileContractExt = $fileContract->guessExtension();
+                $fileContractName = md5(uniqid()) . '.' . $fileContractExt;
+                $fileContract->move($this->getParameter('project_directory') . 'adherent' . $lastAdherent . '/contract/', $fileContractName);
+                $adherent->setLinkContract($fileContractName);
             }
 
             $fileAnnouncement = $form->get('link_picture_announcement')->getData();
@@ -187,7 +206,7 @@ class AdherentController extends AbstractController
             if($fileAnnouncement){
                 $fileAnnouncementExt = $fileAnnouncement->guessExtension();
                 $fileAnnouncementName = md5(uniqid()) . '.' . $fileAnnouncementExt;
-                $fileAnnouncement->move($this->getParameter('announcement_directory'), $fileAnnouncementName);
+                $fileAnnouncement->move($this->getParameter('project_directory') . 'adherent' . $lastAdherent . '/announcement/', $fileAnnouncementName);
                 $adherent->setLinkPictureAnnouncement($fileAnnouncementName);
             }
 
@@ -196,7 +215,7 @@ class AdherentController extends AbstractController
             if($filePic){
                 $filePicExt = $filePic->guessExtension();
                 $filePicName = md5(uniqid()).'.'.$filePicExt;
-                $filePic->move($this->getParameter('picture_directory'), $filePicName);
+                $filePic->move($this->getParameter('project_directory') . 'adherent' . $lastAdherent . '/picture/', $filePicName);
                 $adherent->setLinkPicture($filePicName);
             }
             

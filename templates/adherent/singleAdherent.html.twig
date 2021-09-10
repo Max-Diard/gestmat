@@ -55,7 +55,7 @@
                 </div>
                 <div class="col col-adherent-age">
                     <label for="">Age</label>
-                    <div class="age">(à calculer)</div>
+                    <div class="age">{{ ageAdherent }}</div>
                 </div>
                 <div class="col col-adherent-last-meet">
                     <label for="">Dernière Rencontre</label>
@@ -291,7 +291,36 @@
             </div>
             <div class="tab-contrat no-tab tab">
                 <div class="row-contrat-first">
-                    {# TODO: Gérer les contrats avec la table #}
+                <div class="row-contrat-first">
+                    <div class="col col-adherent-contract_date">
+                        {{ form_label(formAdherent.contract_date) }}
+                        {{ form_widget(formAdherent.contract_date) }}
+                    </div>
+                    <div class="col col-adherent-contract_startedAt">
+                        {{ form_label(formAdherent.contract_startedAt) }}
+                        {{ form_widget(formAdherent.contract_startedAt) }}
+                    </div>
+                    <div class="col col-adherent-contract_endingAt">
+                        {{ form_label(formAdherent.contract_endingAt) }}
+                        {{ form_widget(formAdherent.contract_endingAt) }}
+                    </div>
+                    <div class="row-contrat-second">
+                        <div class="col col-adherent-contract_ammount">
+                            {{ form_label(formAdherent.contract_ammount) }}
+                            {{ form_widget(formAdherent.contract_ammount) }}
+                        </div>
+                        <div class="col col-adherent-type_payment">
+                            {{ form_label(formAdherent.type_payment) }}
+                            {{ form_widget(formAdherent.type_payment) }}
+                        </div>
+                    </div>
+                    <div class="row-contrat-third">
+                        <div class="col col-adherent-contract_comments">
+                            {{ form_label(formAdherent.contract_comments) }}
+                            {{ form_widget(formAdherent.contract_comments) }}
+                        </div>
+                    </div>
+                </div>
                 </div>
             </div>
             <div class="tab-documents no-tab tab">
@@ -305,12 +334,12 @@
                         {% endif %}
                         </div>
                     </div>
-                    <div class="col col-adherent-link_contrat">
-                        {{ form_label(formAdherent.link_contrat) }}
-                        {{ form_widget(formAdherent.link_contrat) }}
+                    <div class="col col-adherent-link_contract">
+                        {{ form_label(formAdherent.link_contract) }}
+                        {{ form_widget(formAdherent.link_contract) }}
                         <div class="">
-                        {% if adherentProfile.linkContrat != '' %}
-                            <embed src='{{ asset('uploads/adherent'~ adherentProfile.id ~'/contract/'~ adherentProfile.linkContrat) }}' width='10%' height='10%'/>
+                        {% if adherentProfile.linkContract != '' %}
+                            <embed src='{{ asset('uploads/adherent'~ adherentProfile.id ~'/contract/'~ adherentProfile.linkContract) }}' width='10%' height='10%'/>
                         {% endif %}
                         </div>
                     </div>
