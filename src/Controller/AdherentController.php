@@ -44,8 +44,7 @@ class AdherentController extends AbstractController
     {
         $form = $this->createForm(AdherentType::class, $adherent);
 
-        // dd($adherent->getLinkInformation());
-
+        // On récupére le nom des fichiers déjà existant
         $linkInfo = $adherent->getLinkInformation();
         $linkContrat = $adherent->getLinkContrat();
         $linkPic = $adherent->getLinkPicture();
@@ -58,52 +57,83 @@ class AdherentController extends AbstractController
 
             $fileInfo = $form->get('link_information')->getData();
 
+            // Gestion des fichiers
+            // Si une image est envoyé alors on ajoute l'information en BDD
             if($fileInfo){
+                // Si l'adhérent à déjà une image on supprime cette dernière du dossier 'public'
+                if ($linkInfo){
+                    unlink($this->getParameter('information_directory') . $linkInfo);
+                }
                 $fileInfoExt = $fileInfo->guessExtension();
                 $fileInfoName = md5(uniqid()) . '.' . $fileInfoExt;
                 $fileInfo->move($this->getParameter('information_directory'), $fileInfoName);
                 $adherent->setLinkInformation($fileInfoName);
-            } else {
+            } 
+            // On récupére le nom de l'image déjà existant et on lui renvoi
+            else {
                 $adherent->setLinkInformation($linkInfo);
             } 
 
             $fileContrat = $form->get('link_contrat')->getData();
 
+            // Si une image est envoyé alors on ajoute l'information en BDD
             if($fileContrat){
+                // Si l'adhérent à déjà une image on supprime cette dernière du dossier 'public'
+                if ($linkContrat){
+                    unlink($this->getParameter('document_directory') . $linkContrat);
+                }
                 $fileContratExt = $fileContrat->guessExtension();
                 $fileContratName = md5(uniqid()) . '.' . $fileContratExt;
                 $fileContrat->move($this->getParameter('document_directory'), $fileContratName);
                 $adherent->setLinkContrat($fileContratName);
-            } else {
+            }
+            // On récupére le nom de l'image déjà existant et on lui renvoi 
+            else {
                 $adherent->setLinkContrat($linkContrat);
             }
 
             $fileAnnouncement = $form->get('link_picture_announcement')->getData();
 
-            // dd($fileAnnouncement);
-
+            // Si une image est envoyé alors on ajoute l'information en BDD
             if ($fileAnnouncement){
+                // Si l'adhérent à déjà une image on supprime cette dernière du dossier 'public'
+                if ($linkAnnouncement){
+                    unlink($this->getParameter('announcement_directory') . $linkAnnouncement);
+                }
                 $fileAnnouncementExt = $fileAnnouncement->guessExtension();
                 $fileAnnouncementName = md5(uniqid()) . '.' . $fileAnnouncementExt;
                 $fileAnnouncement->move($this->getParameter('announcement_directory'), $fileAnnouncementName);
                 $adherent->setLinkPictureAnnouncement($fileAnnouncementName);
-            } else {
+            }
+            // On récupére le nom de l'image déjà existant et on lui renvoi
+             else {
                 $adherent->setLinkPictureAnnouncement($linkAnnouncement);
             }
 
             $filePic = $form->get('link_picture')->getData();
 
+            // Si une image est envoyé alors on ajoute l'information en BDD
             if ($filePic){
+                // Si l'adhérent à déjà une image on supprime cette dernière du dossier 'public'
+                if ($linkPic){
+                    unlink($this->getParameter('picture_directory') . $linkPic);
+                }
                 $filePicExt = $filePic->guessExtension();
                 $filePicName = md5(uniqid()).'.'.$filePicExt;
                 $filePic->move($this->getParameter('picture_directory'), $filePicName);
                 $adherent->setLinkPicture($filePicName);
-            } else {
+            } 
+            // On récupére le nom de l'image déjà existant et on lui renvoi
+            else {
                 $adherent->setLinkPicture($linkPic);
             }
 
             $this->entityManager->persist($adherent);
             $this->entityManager->flush();
+
+            $this->addFlash('succesModifyAdherent', 'L\'adhérent à bien était modifier !');
+
+            $this->redirectToRoute('adherent_single', ['id' => $adherent->getId()]);
         }
 
         return $this->render('adherent/singleAdherent.html.twig', [
@@ -134,6 +164,7 @@ class AdherentController extends AbstractController
             $adherent->setAgence($agence);
 
             $fileInfo = $form->get('link_information')->getData();
+            // Si une image est envoyé alors on ajoute l'information en BDD
             if($fileInfo){
                 $fileInfoExt = $fileInfo->guessExtension();
                 $fileInfoName = md5(uniqid()) . '.' . $fileInfoExt;
@@ -142,6 +173,7 @@ class AdherentController extends AbstractController
             }
 
             $fileContrat = $form->get('link_contrat')->getData();
+            // Si une image est envoyé alors on ajoute l'information en BDD
             if($fileContrat){
                 $fileContratExt = $fileContrat->guessExtension();
                 $fileContratName = md5(uniqid()) . '.' . $fileContratExt;
@@ -150,6 +182,7 @@ class AdherentController extends AbstractController
             }
 
             $fileAnnouncement = $form->get('link_picture_announcement')->getData();
+            // Si une image est envoyé alors on ajoute l'information en BDD
             if($fileAnnouncement){
                 $fileAnnouncementExt = $fileAnnouncement->guessExtension();
                 $fileAnnouncementName = md5(uniqid()) . '.' . $fileAnnouncementExt;
@@ -158,6 +191,7 @@ class AdherentController extends AbstractController
             }
 
             $filePic = $form->get('link_picture')->getData();
+            // Si une image est envoyé alors on ajoute l'information en BDD
             if($filePic){
                 $filePicExt = $filePic->guessExtension();
                 $filePicName = md5(uniqid()).'.'.$filePicExt;
