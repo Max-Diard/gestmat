@@ -68,9 +68,9 @@
             </div>
         </div>
             {% if adherentProfile.linkPicture != '' %}
-                <img class="image-adherent" src='{{ asset('uploads/picture/'~ adherentProfile.linkPicture) }}' alt="Image de l'adhérent"/>
+                <img class="image-adherent" src='{{ asset('uploads/adherent'~ adherentProfile.id ~'/picture/'~ adherentProfile.linkPicture) }}' alt="Image de l'adhérent"/>
             {% else %}
-                <img class="image-adherent" src='{{ asset('uploads/picture/profil.svg') }}' alt="Image de l'adhérent"/>
+                <img class="image-adherent" src='{{ asset('profil.svg') }}' alt="Image de l'adhérent"/>
             {% endif %}
     </section>
     <section class='body-adherent'>
@@ -301,7 +301,7 @@
                         {{ form_widget(formAdherent.link_information) }}
                         <div class="">
                         {% if adherentProfile.linkInformation != '' %}
-                            <embed src='{{ asset('uploads/information/'~ adherentProfile.linkInformation) }}' width='10%' height='10%'/>
+                            <embed src='{{ asset('uploads/adherent'~ adherentProfile.id ~'/information/'~ adherentProfile.linkInformation) }}' width='10%' height='10%'/>
                         {% endif %}
                         </div>
                     </div>
@@ -310,7 +310,7 @@
                         {{ form_widget(formAdherent.link_contrat) }}
                         <div class="">
                         {% if adherentProfile.linkContrat != '' %}
-                            <embed src='{{ asset('uploads/document/'~ adherentProfile.linkContrat) }}' width='10%' height='10%'/>
+                            <embed src='{{ asset('uploads/adherent'~ adherentProfile.id ~'/contract/'~ adherentProfile.linkContrat) }}' width='10%' height='10%'/>
                         {% endif %}
                         </div>
                     </div>
@@ -319,7 +319,7 @@
                         {{ form_widget(formAdherent.link_picture) }}
                         <div class="">
                         {% if adherentProfile.linkPicture != '' %}
-                            <embed src='{{ asset('uploads/picture/'~ adherentProfile.linkPicture) }}' width='10%' height='10%'/>
+                            <embed src='{{ asset('uploads/adherent'~ adherentProfile.id ~'/picture/'~ adherentProfile.linkPicture) }}' width='10%' height='10%'/>
                         {% endif %}
                         </div>
                     </div>
@@ -328,7 +328,7 @@
                         {{ form_widget(formAdherent.link_picture_announcement) }}
                         <div class="">
                         {% if adherentProfile.linkPictureAnnouncement != '' %}
-                            <embed src='{{ asset('uploads/announcement/'~ adherentProfile.linkPictureAnnouncement) }}' width='10%' height='10%'/>
+                            <embed src='{{ asset('uploads/adherent'~ adherentProfile.id ~'/announcement/'~ adherentProfile.linkPictureAnnouncement) }}' width='10%' height='10%'/>
                         {% endif %}
                         </div>
                     </div>

@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\AdherentRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -301,6 +303,22 @@ class Adherent
      * @ORM\ManyToOne(targetEntity=AdherentOption::class, inversedBy="owner")
      */
     private $owner;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Meet::class, mappedBy="adherent_woman")
+     */
+    private $adherent_woman;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Meet::class, mappedBy="adherent_man")
+     */
+    private $adherent_man;
+
+    public function __construct()
+    {
+        $this->adherent_woman = new ArrayCollection();
+        $this->adherent_man = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -987,6 +1005,66 @@ class Adherent
     public function setOwner(?AdherentOption $owner): self
     {
         $this->owner = $owner;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Meet[]
+     */
+    public function getAdherentWoman(): Collection
+    {
+        return $this->adherent_woman;
+    }
+
+    public function addAdherentWoman(Meet $adherentWoman): self
+    {
+        if (!$this->adherent_woman->contains($adherentWoman)) {
+            $this->adherent_woman[] = $adherentWoman;
+            $adherentWoman->setAdherentWoman($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAdherentWoman(Meet $adherentWoman): self
+    {
+        if ($this->adherent_woman->removeElement($adherentWoman)) {
+            // set the owning side to null (unless already changed)
+            if ($adherentWoman->getAdherentWoman() === $this) {
+                $adherentWoman->setAdherentWoman(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Meet[]
+     */
+    public function getAdherentMan(): Collection
+    {
+        return $this->adherent_man;
+    }
+
+    public function addAdherentMan(Meet $adherentMan): self
+    {
+        if (!$this->adherent_man->contains($adherentMan)) {
+            $this->adherent_man[] = $adherentMan;
+            $adherentMan->setAdherentMan($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAdherentMan(Meet $adherentMan): self
+    {
+        if ($this->adherent_man->removeElement($adherentMan)) {
+            // set the owning side to null (unless already changed)
+            if ($adherentMan->getAdherentMan() === $this) {
+                $adherentMan->setAdherentMan(null);
+            }
+        }
 
         return $this;
     }

@@ -1,4 +1,5 @@
 window.addEventListener("DOMContentLoaded", (event) => {
+    //Pour les onglets dans Single Adherent
     const buttonTab = document.querySelectorAll('.open-tab');
 
     if (buttonTab){
@@ -14,4 +15,14 @@ window.addEventListener("DOMContentLoaded", (event) => {
         })
     }
 
+    // Pour les checkbox dans la liste des adherents
+
+    const checkWoman = document.querySelectorAll('#adherent-woman');
+
+    if(checkWoman){
+
+        [].forEach.call(checkWoman, function(elem){
+            
+        })
+    }
 });

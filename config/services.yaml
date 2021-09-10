@@ -8,6 +8,7 @@ parameters:
     document_directory: '%kernel.project_dir%/public/uploads/document/'
     information_directory: '%kernel.project_dir%/public/uploads/information/'
     announcement_directory: '%kernel.project_dir%/public/uploads/announcement/'
+    project_directory: '%kernel.project_dir%/public/uploads/'
 
 services:
     # default configuration for services in *this* file

@@ -94,6 +94,16 @@ class AdherentOption
      */
     private $type_payment;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Meet::class, mappedBy="status_meet_woman")
+     */
+    private $status_meet_woman;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Meet::class, mappedBy="status_meet_man")
+     */
+    private $status_meet_man;
+
     public function __construct()
     {
         $this->adherents = new ArrayCollection();
@@ -109,6 +119,8 @@ class AdherentOption
         $this->search_instruction = new ArrayCollection();
         $this->owner = new ArrayCollection();
         $this->type_payment = new ArrayCollection();
+        $this->status_meet_woman = new ArrayCollection();
+        $this->status_meet_man = new ArrayCollection();
     }
 
     public function __toString()
@@ -529,6 +541,66 @@ class AdherentOption
             // set the owning side to null (unless already changed)
             if ($typePayment->getTypePayment() === $this) {
                 $typePayment->setTypePayment(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Meet[]
+     */
+    public function getStatusMeetWoman(): Collection
+    {
+        return $this->status_meet_woman;
+    }
+
+    public function addStatusMeetWoman(Meet $statusMeetWoman): self
+    {
+        if (!$this->status_meet_woman->contains($statusMeetWoman)) {
+            $this->status_meet_woman[] = $statusMeetWoman;
+            $statusMeetWoman->setStatusMeetWoman($this);
+        }
+
+        return $this;
+    }
+
+    public function removeStatusMeetWoman(Meet $statusMeetWoman): self
+    {
+        if ($this->status_meet_woman->removeElement($statusMeetWoman)) {
+            // set the owning side to null (unless already changed)
+            if ($statusMeetWoman->getStatusMeetWoman() === $this) {
+                $statusMeetWoman->setStatusMeetWoman(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Meet[]
+     */
+    public function getStatusMeetMan(): Collection
+    {
+        return $this->status_meet_man;
+    }
+
+    public function addStatusMeetMan(Meet $statusMeetMan): self
+    {
+        if (!$this->status_meet_man->contains($statusMeetMan)) {
+            $this->status_meet_man[] = $statusMeetMan;
+            $statusMeetMan->setStatusMeetMan($this);
+        }
+
+        return $this;
+    }
+
+    public function removeStatusMeetMan(Meet $statusMeetMan): self
+    {
+        if ($this->status_meet_man->removeElement($statusMeetMan)) {
+            // set the owning side to null (unless already changed)
+            if ($statusMeetMan->getStatusMeetMan() === $this) {
+                $statusMeetMan->setStatusMeetMan(null);
             }
         }
 
