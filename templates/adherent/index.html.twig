@@ -13,7 +13,6 @@
 <table>
     <thead>
         <tr>
-            <td>Action</td>
             <td>Nom</td>
             <td>Prénom</td>
             <td>Age</td>
@@ -25,31 +24,23 @@
     <tbody>
         {% for adherent in womanAdherent %}
             <tr class='feminin'>
-                <td>
-                    <input type="checkbox" id="adherent-woman" name="adherent-woman">
-                    <label for="adherent-woman" values="{{ adherent.id }}"></label>
-                </td>
-                <td>{{adherent.lastname}}</td>
-                <td>{{adherent.firstname}}</td>
-                <td>{{adherent.birthdate|date('d/m/Y')}}</td>
-                <td>Date à récupérer</td>
-                <td>{{ adherent.agence.addressTown }}</td>
-                <td><a href='{{ path('adherent_single', {id: adherent.id}) }}'>Profil</a></td>
+                <td>{{ adherent.lastname }}</td>
+                <td>{{ adherent.firstname }}</td>
+                <td>{{ adherent.birthdate|date('d/m/Y') }}</td>
+                <td>{{ adherent.contractDate|date('d/m/Y') }}</td>
+                <td>{{ adherent.agence.addressTown }} - {{ adherent.agence.name }}</td>
+                <td><a href='{{ path('adherent_single', {id : adherent.id}) }}'>Profil</a></td>
             </tr>
         {% endfor %}
     </tbody>
     <tbody>
         {% for adherent in manAdherent %}
             <tr class='masculin'>
-                <td>
-                    <input type="checkbox" id="adherent-man" name="adherent-man">
-                    <label for="adherent-man" values="{{ adherent.id }}"></label>
-                </td>
-                <td>{{adherent.lastname}}</td>
-                <td>{{adherent.firstname}}</td>
-                <td>{{adherent.birthdate|date('d/m/Y')}}</td>
-                <td>Date à récupérer</td>
-                <td>{{ adherent.agence.addressTown }}</td>
+                <td>{{ adherent.lastname }}</td>
+                <td>{{ adherent.firstname }}</td>
+                <td>{{ adherent.birthdate|date('d/m/Y') }}</td>
+                <td>{{ adherent.contractDate|date('d/m/Y') }}</td>
+                <td>{{ adherent.agence.addressTown }} - {{ adherent.agence.name }}</td>
                 <td><a href='{{ path('adherent_single', {id: adherent.id}) }}'>Profil</a></td>
             </tr>
         {% endfor %}

@@ -332,7 +332,8 @@ class AdherentType extends AbstractType
                 'label' => 'Montant TTC'
             ])
             ->add('contract_comments', TextareaType::class, [
-                'label' => 'Commentaires'
+                'label' => 'Commentaires',
+                'required' => false
             ])
             ->add('type_payment', EntityType::class, [
                 'class' => AdherentOption::class,

@@ -41,7 +41,13 @@
                 </div>
                 <div class="col col-adherent-status-contrat">
                     <label for="">Etat Contrat</label>
-                    <div class="status-contrat">(à calculer)</div>
+                    <div class="status-contrat">
+                    {% if adherentProfile.contractDate > date('now') %}
+                        En Cours
+                    {% else %}
+                        Fini
+                    {% endif %}
+                    </div>
                 </div>
                 <div class="col col-adherent-agence">
                     <label for="">Agence</label>
