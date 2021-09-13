@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<h1 class="">Vos informations :</h1>
+<div>
+    <div class="">
+        <div class="">
+            <p>Nom/Prénom : {{ userProfile.lastname }} {{ userProfile.firstname }}</p>
+        </div>
+    </div>
+    <div class="">
+        <div class="">
+            <p>Email : {{ userProfile.email }}</p>
+        </div>
+    </div>
+    <div class="">
+        <div class="">
+            <p>Agence :</p>
+        </div>
+        <div class="">
+        {% if userProfile.agence|length > 0 %}
+            {% for agence in userProfile.agence %}
+                <p>{{ agence.name }} - {{ agence.addressTown }}</p>
+            {% endfor %}
+        {% else %}
+            <p>Merci de patienter, l'administrateur vous attribuera une agence</p>
+        {% endif %}
+        </div>
+    </div>
+    <div class="d-flex justify-content-center m-5">
+        <a class="btn btn-secondary btn-sm mx-2" href="{{ path('user_profile') }}">Modifier le profil</a>
+        <a class="btn btn-secondary btn-sm mx-2" href="{{ path('user_password') }}">Modifier votre mot de passe</a>
+    </div>
+</div>
+{% endblock %}

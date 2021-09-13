@@ -6,8 +6,16 @@
         {{ message }}
     </div>
 {% endfor %}
-<p>Liste des adhérents à faire</p>
-<a href='{{ path('adherent_add') }}'>Ajouter un nouvel adhérent</a>
+<p>Liste des adhérents</p>
+<div class="">
+    <a href='{{ path('adherent_add') }}'>Ajouter un nouvel adhérent</a>
+</div>
+<div class="">
+    <a href='{{ path('profile') }}'>Votre profil</a>
+</div>
+{% if app.user.roles[0] == "ROLE_ADMIN" %}
+    <div class=""><a href="{{ path('admin') }}">ADMIN</a></div>
+{% endif %}
 {# <a href='{{ path('meet_new', {'woman': 'adherent-woman', 'man' : 'adherent-man'}) }}'>Nouvel Rencontre</a> #}
 
 <table>

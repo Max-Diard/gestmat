@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+<div class="">
+    <a href="{{ path('admin') }}">Retour sur admin</a>
+</div>
+<div class="">
+    <a href="{{ path('agence_add') }}">Ajouter une agence</a>
+</div>
+<table>
+    <thead>
+        <tr>
+            <td>Nom</td>
+            <td>Email</td>
+            <td>Téléphone</td>
+            <td>Début du contract</td>
+            <td>Fin de contract</td>
+            <td>Action</td>
+        </tr>
+    </thead>
+    <tbody>
+        {% for agence in allAgence %}
+            <tr class=''>
+                <td>{{ agence.name }}</td>
+                <td>{{ agence.email }}</td>
+                <td>{{ agence.phoneNumber }}</td>
+                <td>{{ agence.startedAt|date('d/m/Y') }}</td>
+                <td>{{ agence.endingAt|date('d/m/Y') }}</td>
+                <td><a href="{{ path('agence_single', { id: agence.id }) }}">Voir plus</a></td>
+            </tr>
+        {% endfor %}
+    </tbody>
+
+{% endblock %}

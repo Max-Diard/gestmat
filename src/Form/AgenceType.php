@@ -6,6 +6,7 @@ use App\Entity\Agence;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
@@ -24,18 +25,6 @@ class AgenceType extends AbstractType
             ->add('email', EmailType::class, [
                 'label' => 'Email'
             ])
-            ->add('password', RepeatedType::class, [
-                'type' => PasswordType::class,
-                'invalid_message' => 'Le mot de passe et la confirmation doit être identique',
-                'first_name' => 'firstPassword',
-                'first_options' => [
-                    'label' => 'Mot de passe'
-                ],
-                'second_name' => 'secondPassword',
-                'second_options' =>[
-                    'label' => 'Confirmer le mot de passe'
-                ],
-            ])
             ->add('name', TextType::class, [
                 'label' => 'Nom de l\'agence'
             ])
@@ -52,7 +41,7 @@ class AgenceType extends AbstractType
                 'years'=> range(date('Y'), date('Y')+100),
                 'format' => 'dd-MM-yyyy',
             ])
-            ->add('link_picture', TextType::class, [
+            ->add('link_picture', FileType::class, [
                 'label' => 'Lien de votre image'
             ])
             ->add('address_street', TextType::class, [

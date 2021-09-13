@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="">
+    <a href="{{ path('agence') }}">Retour</a>
+</div>
+<img class="img-agence" src='{{ asset('uploads/agence/agence'~ agence.id ~'/picture/'~ agence.linkPicture) }}' alt="Image de l'agence" />
+
+<p>Nom : {{ agence.name }}</p>
+<p>Email : {{ agence.email }}</p>
+<p>Téléphone : {{ agence.phoneNumber }}</p>
+<p>Date début de contract : {{ agence.startedAt|date('d/m/Y') }}</p>
+<p>Date fin de contract : {{ agence.endingAt|date('d/m/Y') }}</p>
+<p>Adresse : {{ agence.addressStreet }}
+{% if agence.addressStreet2 != '' %}
+    - {{ agence.addressStreet2 }} <br/>
+{% else %}
+    <br/>
+{% endif %}
+{{ agence.addressZipPostal }} - {{ agence.addressTown }} </p>
+
+{% endblock %}

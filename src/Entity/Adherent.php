@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+
 use App\Repository\AdherentRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -290,11 +291,6 @@ class Adherent
     private $preference_contact;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Agence::class, inversedBy="adherents")
-     */
-    private $agence;
-
-    /**
      * @ORM\ManyToOne(targetEntity=AdherentOption::class, inversedBy="search_instruction")
      */
     private $search_instruction;
@@ -344,6 +340,11 @@ class Adherent
      * @ORM\JoinColumn(nullable=true)
      */
     private $type_payment;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Agence::class, inversedBy="adherents")
+     */
+    private $agence;
 
     public function __construct()
     {
@@ -621,7 +622,7 @@ class Adherent
     }
 
     public function getLinkPicture()
-    {
+    { 
         return $this->link_picture;
     }
 
@@ -1004,18 +1005,6 @@ class Adherent
         return $this;
     }
 
-    public function getAgence(): ?Agence
-    {
-        return $this->agence;
-    }
-
-    public function setAgence(?Agence $agence): self
-    {
-        $this->agence = $agence;
-
-        return $this;
-    }
-
     public function getSearchInstruction(): ?AdherentOption
     {
         return $this->search_instruction;
@@ -1168,6 +1157,18 @@ class Adherent
     public function setTypePayment(?AdherentOption $type_payment): self
     {
         $this->type_payment = $type_payment;
+
+        return $this;
+    }
+
+    public function getAgence(): ?Agence
+    {
+        return $this->agence;
+    }
+
+    public function setAgence(?Agence $agence): self
+    {
+        $this->agence = $agence;
 
         return $this;
     }

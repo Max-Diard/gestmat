@@ -61,7 +61,8 @@ label{
     margin: 1rem 0rem;
 }
 
-.img-adherent {
+.img-adherent,
+.img-agence {
     max-width: 100%;
     width: 10%
 } 

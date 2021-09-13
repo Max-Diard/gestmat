@@ -2,8 +2,8 @@
 
 namespace App\Controller;
 
-use App\Entity\Agence;
-use App\Form\AgenceType;
+use App\Entity\User;
+use App\Form\UserType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,31 +13,47 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class RegisterController extends AbstractController
 {
-    #[Route('/register', name: 'register')]
-    public function index(Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHash): Response
-    {
-        if($this->getUser()){
-            return $this->redirectToRoute('adherent_all');
-        }
+    // #[Route('/register', name: 'register')]
+    // public function index(Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHash): Response
+    // {
+    //     if($this->getUser()){
+    //         return $this->redirectToRoute('adherent_all');
+    //     }
 
-        $agence = new Agence();
+    //     $user = new User();
 
-        $form = $this->createForm(AgenceType::class, $agence);
+    //     $form = $this->createForm(UserType::class, $user);
 
-        $form->handleRequest($request);
+    //     $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()){
-            $agence = $form->getData();
+    //     if($form->isSubmitted() && $form->isValid()){
+    //         $user = $form->getData();
 
-            $agence->setPassword($passwordHash->hashPassword($agence, $agence->getPassword()));
-            $entityManager->persist($agence);
-            $entityManager->flush();
+    //         $user->setPassword($passwordHash->hashPassword($user, $user->getPassword()));
+    //         $entityManager->persist($user);
+    //         $entityManager->flush();
 
-            return $this->redirectToRoute('app_login');
-        }
+    //         return $this->redirectToRoute('app_login');
+    //     }
 
-        return $this->render('register/index.html.twig', [
-            'form' => $form->createView()
-        ]);
-    }
+    //     // $agence = new Agence();
+
+    //     // $form = $this->createForm(AgenceType::class, $agence);
+
+    //     // $form->handleRequest($request);
+
+    //     // if($form->isSubmitted() && $form->isValid()){
+    //     //     $agence = $form->getData();
+
+    //     //     $agence->setPassword($passwordHash->hashPassword($agence, $agence->getPassword()));
+    //     //     $entityManager->persist($agence);
+    //     //     $entityManager->flush();
+
+    //     //     return $this->redirectToRoute('app_login');
+    //     // }
+
+    //     return $this->render('register/index.html.twig', [
+    //         'form' => $form->createView()
+    //     ]);
+    // }
 }

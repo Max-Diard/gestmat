@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="">
+    <a href="{{ path('admin') }}">Retour sur admin</a>
+</div>
+
+<div class="">
+    <a href="{{ path('admin_user_new') }}">Ajouter un utilisateur</a>
+</div>
+
+<table>
+    <thead>
+        <tr>
+            <td>Nom</td>
+            <td>Prénom</td>
+            <td>Email</td>
+            <td>Agence</td>
+            <td>Action</td>
+        </tr>
+    </thead>
+    <tbody>
+        {% for user in allUser %}
+            <tr class=''>
+                <td>{{ user.lastname }}</td>
+                <td>{{ user.firstname }}</td>
+                <td>{{ user.email }}</td>
+                <td>
+                    {% if user.agence|length > 0 %}
+                        {% for agence in user.agence %}
+                            {{ agence.name }} |
+                        {% endfor %}
+                    {% else %}
+                        <strong>Pas d'agence</strong>
+                    {% endif %}
+                </td>
+                <td><a href="{{ path('user_add_agence', {id: user.id}) }}">Ajouter une agence</a></td>
+                {# <td><a href="{{ path('agence_single', { id: agence.id }) }}">Voir plus</a></td> #}
+            </tr>
+        {% endfor %}
+    </tbody>
+
+{% endblock %}

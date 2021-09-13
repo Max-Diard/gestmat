@@ -71,11 +71,11 @@ class AdherentController extends AbstractController
             if($fileInfo){
                 // Si l'adhérent à déjà une image on supprime cette dernière du dossier 'public'
                 if ($linkInfo){
-                    unlink($this->getParameter('project_directory') . 'adherent' . $adherent->getId() . '/information/' . $linkInfo);
+                    unlink($this->getParameter('adherent_directory') . 'adherent' . $adherent->getId() . '/information/' . $linkInfo);
                 }
                 $fileInfoExt = $fileInfo->guessExtension();
                 $fileInfoName = md5(uniqid()) . '.' . $fileInfoExt;
-                $fileInfo->move($this->getParameter('project_directory') . 'adherent' . $adherent->getId() . '/information/', $fileInfoName);
+                $fileInfo->move($this->getParameter('adherent_directory') . 'adherent' . $adherent->getId() . '/information/', $fileInfoName);
                 $adherent->setLinkInformation($fileInfoName);
             } 
             // On récupére le nom de l'image déjà existant et on lui renvoi
@@ -89,11 +89,11 @@ class AdherentController extends AbstractController
             if($fileContract){
                 // Si l'adhérent à déjà une image on supprime cette dernière du dossier 'public'
                 if ($linkContract){
-                    unlink($this->getParameter('project_directory') . 'adherent' . $adherent->getId() . '/contract/' . $linkContract);
+                    unlink($this->getParameter('adherent_directory') . 'adherent' . $adherent->getId() . '/contract/' . $linkContract);
                 }
                 $fileContractExt = $fileContract->guessExtension();
                 $fileContractName = md5(uniqid()) . '.' . $fileContractExt;
-                $fileContract->move($this->getParameter('project_directory') . 'adherent' . $adherent->getId() . '/contract/', $fileContractName);
+                $fileContract->move($this->getParameter('adherent_directory') . 'adherent' . $adherent->getId() . '/contract/', $fileContractName);
                 $adherent->setLinkContract($fileContractName);
             }
             // On récupére le nom de l'image déjà existant et on lui renvoi 
@@ -107,11 +107,11 @@ class AdherentController extends AbstractController
             if ($fileAnnouncement){
                 // Si l'adhérent à déjà une image on supprime cette dernière du dossier 'public'
                 if ($linkAnnouncement){
-                    unlink($this->getParameter('project_directory') . 'adherent' . $adherent->getId() . '/announcement/' . $linkAnnouncement);
+                    unlink($this->getParameter('adherent_directory') . 'adherent' . $adherent->getId() . '/announcement/' . $linkAnnouncement);
                 }
                 $fileAnnouncementExt = $fileAnnouncement->guessExtension();
                 $fileAnnouncementName = md5(uniqid()) . '.' . $fileAnnouncementExt;
-                $fileAnnouncement->move($this->getParameter('project_directory') . 'adherent' . $adherent->getId() . '/announcement/', $fileAnnouncementName);
+                $fileAnnouncement->move($this->getParameter('adherent_directory') . 'adherent' . $adherent->getId() . '/announcement/', $fileAnnouncementName);
                 $adherent->setLinkPictureAnnouncement($fileAnnouncementName);
             }
             // On récupére le nom de l'image déjà existant et on lui renvoi
@@ -125,11 +125,11 @@ class AdherentController extends AbstractController
             if ($filePic){
                 // Si l'adhérent à déjà une image on supprime cette dernière du dossier 'public'
                 if ($linkPic){
-                    unlink($this->getParameter('project_directory') . 'adherent' . $adherent->getId() . '/picture/' . $linkPic);
+                    unlink($this->getParameter('adherent_directory') . 'adherent' . $adherent->getId() . '/picture/' . $linkPic);
                 }
                 $filePicExt = $filePic->guessExtension();
                 $filePicName = md5(uniqid()).'.'.$filePicExt;
-                $filePic->move($this->getParameter('project_directory') . 'adherent' . $adherent->getId() . '/picture/', $filePicName);
+                $filePic->move($this->getParameter('adherent_directory') . 'adherent' . $adherent->getId() . '/picture/', $filePicName);
                 // $filePic->move($this->getParameter('picture_directory'), $filePicName);
                 $adherent->setLinkPicture($filePicName);
             } 
@@ -188,7 +188,7 @@ class AdherentController extends AbstractController
             if($fileInfo){
                 $fileInfoExt = $fileInfo->guessExtension();
                 $fileInfoName = md5(uniqid()) . '.' . $fileInfoExt;
-                $fileInfo->move($this->getParameter('project_directory') . 'adherent' . $lastAdherent . '/information/', $fileInfoName);
+                $fileInfo->move($this->getParameter('adherent_directory') . 'adherent' . $lastAdherent . '/information/', $fileInfoName);
                 $adherent->setLinkInformation($fileInfoName);
             }
 
@@ -197,7 +197,7 @@ class AdherentController extends AbstractController
             if($fileContract){
                 $fileContractExt = $fileContract->guessExtension();
                 $fileContractName = md5(uniqid()) . '.' . $fileContractExt;
-                $fileContract->move($this->getParameter('project_directory') . 'adherent' . $lastAdherent . '/contract/', $fileContractName);
+                $fileContract->move($this->getParameter('adherent_directory') . 'adherent' . $lastAdherent . '/contract/', $fileContractName);
                 $adherent->setLinkContract($fileContractName);
             }
 
@@ -206,7 +206,7 @@ class AdherentController extends AbstractController
             if($fileAnnouncement){
                 $fileAnnouncementExt = $fileAnnouncement->guessExtension();
                 $fileAnnouncementName = md5(uniqid()) . '.' . $fileAnnouncementExt;
-                $fileAnnouncement->move($this->getParameter('project_directory') . 'adherent' . $lastAdherent . '/announcement/', $fileAnnouncementName);
+                $fileAnnouncement->move($this->getParameter('adherent_directory') . 'adherent' . $lastAdherent . '/announcement/', $fileAnnouncementName);
                 $adherent->setLinkPictureAnnouncement($fileAnnouncementName);
             }
 
@@ -215,7 +215,7 @@ class AdherentController extends AbstractController
             if($filePic){
                 $filePicExt = $filePic->guessExtension();
                 $filePicName = md5(uniqid()).'.'.$filePicExt;
-                $filePic->move($this->getParameter('project_directory') . 'adherent' . $lastAdherent . '/picture/', $filePicName);
+                $filePic->move($this->getParameter('adherent_directory') . 'adherent' . $lastAdherent . '/picture/', $filePicName);
                 $adherent->setLinkPicture($filePicName);
             }
             
