@@ -6,6 +6,7 @@ use App\Entity\Agence;
 use App\Entity\User;
 use App\Form\AgenceType;
 use App\Form\ChangeAgenceType;
+use App\Repository\AgenceRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -26,6 +27,10 @@ class AgenceController extends AbstractController
     public function index(Agence $agence): Response
     {
         // Gérer le fait que si l'agence n'est pas lier à l'utilisateur il ne peux pas y accéder
+
+        $user = $this->getUser();
+        $sql = $this->entityManager->getRepository(Agence::class)->AgencyAccessUser($user);
+        dd($sql);
 
         return $this->render('agence/singleAgence.html.twig', [
             'agence' => $agence

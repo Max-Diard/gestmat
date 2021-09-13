@@ -1,5 +1,6 @@
 body {
     min-height: 100vh;
+    position: relative;
 }
 
 /* Pour le login */
@@ -100,14 +101,41 @@ td{
     padding: 0.5rem
 }
 
-.masculin {
+.all-table{
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.thead-adherent{
+    text-align: center;
+}
+
+.men {
     border: 5px solid cyan;
 }
 
-.feminin {
+.women {
     border: 5px solid purple;
 }
 
+.status-disponibility{
+    color: red;
+}
+
+/* Bas de la liste des adhérents */
+
+.card-selected{
+    display: flex;
+    justify-content: space-evenly;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+}
+
+.card-selected-woman, 
+.card-selected-man{
+    border: 10px solid black;
+}
 
 /* Single Adherent */
 

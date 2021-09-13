@@ -32,6 +32,19 @@ class AgenceRepository extends ServiceEntityRepository
         ;
     }
     
+    /**
+     * @return Bool Returns a bool if user can access to agency
+     */
+    // public function AgencyAccessUser($user)
+    // {
+    //     $agence = Agence::class;
+
+
+
+    //     return $this->createNativeQuery('SELECT * FROM agence_has_user WHERE agence_id=:$agence AND user_id=:$user ')->countBy()
+    //     ;
+    // }
+    
 
     /*
     public function findOneBySomeField($value): ?Agence

@@ -27,12 +27,12 @@ class AdherentController extends AbstractController
     public function index(Request $request): Response
     {
 
-        $womanAdherent = $this->entityManager->getRepository(Adherent::class)->findByGenre('Féminin');
-        $manAdherent = $this->entityManager->getRepository(Adherent::class)->findByGenre('Masculin');
+        $womenAdherent = $this->entityManager->getRepository(Adherent::class)->findByGenre('Féminin');
+        $menAdherent = $this->entityManager->getRepository(Adherent::class)->findByGenre('Masculin');
 
         return $this->render('adherent/index.html.twig', [
-            'womanAdherent' => $womanAdherent,
-            'manAdherent' => $manAdherent
+            'womenAdherent' => $womenAdherent,
+            'menAdherent' => $menAdherent
         ]);
     }
 
@@ -49,15 +49,6 @@ class AdherentController extends AbstractController
         $linkContract = $adherent->getLinkContract();
         $linkPic = $adherent->getLinkPicture();
         $linkAnnouncement = $adherent->getLinkPictureAnnouncement();
-
-        //Gestion de l'age 
-        $birthdate = $adherent->getBirthdate();
-        
-        if($birthdate != ''){
-            $birthdateStr = date_format($birthdate, 'Y-m-d');
-            $today = date("Y-m-d");
-            $age = date_diff(date_create($birthdateStr), date_create($today));
-        };
 
         $form->handleRequest($request);
 
@@ -148,8 +139,7 @@ class AdherentController extends AbstractController
 
         return $this->render('adherent/singleAdherent.html.twig', [
             'adherentProfile' => $adherent,
-            'formAdherent' => $form->createView(),
-            'ageAdherent' => $age->format('%y')
+            'formAdherent' => $form->createView()
         ]);
     }
 

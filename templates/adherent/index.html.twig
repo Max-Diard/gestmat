@@ -17,43 +17,164 @@
     <div class=""><a href="{{ path('admin') }}">ADMIN</a></div>
 {% endif %}
 {# <a href='{{ path('meet_new', {'woman': 'adherent-woman', 'man' : 'adherent-man'}) }}'>Nouvel Rencontre</a> #}
-
-<table>
-    <thead>
-        <tr>
-            <td>Nom</td>
-            <td>Prénom</td>
-            <td>Age</td>
-            <td>Contrat</td>
-            <td>Agence</td>
-            <td>Action</td>
-        </tr>
-    </thead>
-    <tbody>
-        {% for adherent in womanAdherent %}
-            <tr class='feminin'>
-                <td>{{ adherent.lastname }}</td>
-                <td>{{ adherent.firstname }}</td>
-                <td>{{ adherent.birthdate|date('d/m/Y') }}</td>
-                <td>{{ adherent.contractDate|date('d/m/Y') }}</td>
-                <td>{{ adherent.agence.addressTown }} - {{ adherent.agence.name }}</td>
-                <td><a href='{{ path('adherent_single', {id : adherent.id}) }}'>Profil</a></td>
+<div class="all-table">
+    <table class='table-women'>
+        <thead class='thead-adherent'>
+            <tr>
+                <td>Nom</td>
+                <td>Prénom</td>
+                <td>Age</td>
+                <td>État</td>
+                <td>Fin contrat</td>
+                <td>Agence</td>
+                <td>Action</td>
             </tr>
-        {% endfor %}
-    </tbody>
-    <tbody>
-        {% for adherent in manAdherent %}
-            <tr class='masculin'>
-                <td>{{ adherent.lastname }}</td>
-                <td>{{ adherent.firstname }}</td>
-                <td>{{ adherent.birthdate|date('d/m/Y') }}</td>
-                <td>{{ adherent.contractDate|date('d/m/Y') }}</td>
-                <td>{{ adherent.agence.addressTown }} - {{ adherent.agence.name }}</td>
-                <td><a href='{{ path('adherent_single', {id: adherent.id}) }}'>Profil</a></td>
-            </tr>
-        {% endfor %}
+        </thead>
+        <tbody>
+            {% for adherent in womenAdherent %}
+                <tr class='women'>
+                    <td>{{ adherent.lastname }}</td>
+                    {% if adherent.statusMeet == 'Disponible' %}
+                        <td class='status-disponibility'>{{ adherent.firstname }}</td>
+                    {% else %}
+                        <td>{{ adherent.firstname }}</td>
+                    {% endif %}
+                    <td>{{ adherent.getAge() }}</td>
+                    <td >{{ adherent.statusMeet }}</td>
+                    <td>{{ adherent.contractDate|date('d/m/Y') }}</td>
+                    <td>{{ adherent.agence.addressTown }} - {{ adherent.agence.name }}</td>
+                    <td><a href='{{ path('adherent_single', {id : adherent.id}) }}'>Profil</a></td>
+                </tr>
+            {% endfor %}
         </tbody>
-</table>
+        <tbody>
+    </table>
+    <table class='table-men'>
+        <thead class='thead-adherent'>
+            <tr>
+                <td>Nom</td>
+                <td>Prénom</td>
+                <td>Age</td>
+                <td>État</td>
+                <td>Fin contrat</td>
+                <td>Agence</td>
+                <td>Action</td>
+            </tr>
+        </thead>
+        <tbody>
+            {% for adherent in menAdherent %}
+                <tr class='men'>
+                    <td>{{ adherent.lastname }}</td>
+                    {% if adherent.statusMeet == 'Disponible' %}
+                        <td class='status-disponibility'>{{ adherent.firstname }}</td>
+                    {% else %}
+                        <td>{{ adherent.firstname }}</td>
+                    {% endif %}
+                    <td>{{ adherent.getAge() }}</td>
+                    <td >{{ adherent.statusMeet }}</td>
+                    <td>{{ adherent.contractDate|date('d/m/Y') }}</td>
+                    <td>{{ adherent.agence.addressTown }} - {{ adherent.agence.name }}</td>
+                    <td><a href='{{ path('adherent_single', {id: adherent.id}) }}'>Profil</a></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+    </table>
+</div>
 
+
+<div class="card-selected">
+    <div class="card-selected-woman">
+        <table class='table-card-woman'>
+            <thead class='thead-adherent'>
+                <tr>
+                {% for adherent in menAdherent %}
+                    <td>{{ adherent.lastname }}</td>
+                    <td>{{ adherent.firstname }}</td>
+                    <td>{{ adherent.getAge() }}</td>
+                    <td>Rencontre : (à récupérer)</td>
+                    <td>{{ adherent.agence.addressTown }} - {{ adherent.agence.name }}</td>
+                {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                <tr class='women'>
+                    <td colspan="5">
+                        <table class='table-card-woman-meet'>
+                            <thead class='thead-adherent'>
+                                <tr>
+                                {# Gérer les meets ici !! #}
+                                    <td>Id</td>
+                                    <td>Date de retour</td>
+                                    <td>Nom</td>
+                                    <td>Prénom</td>
+                                    <td>Agence</td>
+                                    <td>Date de rencontre</td>
+                                    <td>Action</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class='woman-meeting'>
+                                    <td>5432</td>
+                                    <td>23/01/22</td>
+                                    <td>Truc</td>
+                                    <td>Muche</td>
+                                    <td>Larçay - L'agence de machin</td>
+                                    <td>22/01/22</td>
+                                    <td>Bouton</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="card-selected-man">
+        <table class='table-card-man'>
+            <thead class='thead-adherent'>
+                <tr>
+                {% for adherent in menAdherent %}
+                    <td>{{ adherent.lastname }}</td>
+                    <td>{{ adherent.firstname }}</td>
+                    <td>{{ adherent.getAge() }}</td>
+                    <td>Rencontre : (à récupérer)</td>
+                    <td>{{ adherent.agence.addressTown }} - {{ adherent.agence.name }}</td>
+                {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                <tr class='men'>
+                    <td colspan="5">
+                        <table class='table-card-man-meet'>
+                            <thead class='thead-adherent'>
+                                <tr>
+                                {# Gérer les meets ici !! #}
+                                    <td>Id</td>
+                                    <td>Date de retour</td>
+                                    <td>Nom</td>
+                                    <td>Prénom</td>
+                                    <td>Agence</td>
+                                    <td>Date de rencontre</td>
+                                    <td>Action</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class='man-meeting'>
+                                    <td>5432</td>
+                                    <td>23/01/22</td>
+                                    <td>Truc</td>
+                                    <td>Muche</td>
+                                    <td>Larçay - L'agence de machin</td>
+                                    <td>22/01/22</td>
+                                    <td>Bouton</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
 
 {% endblock %}

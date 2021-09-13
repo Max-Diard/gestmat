@@ -15,14 +15,4 @@ window.addEventListener("DOMContentLoaded", (event) => {
         })
     }
 
-    // Pour les checkbox dans la liste des adherents
-
-    const checkWoman = document.querySelectorAll('#adherent-woman');
-
-    if(checkWoman){
-
-        [].forEach.call(checkWoman, function(elem){
-            
-        })
-    }
 });
