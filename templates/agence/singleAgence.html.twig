@@ -2,7 +2,7 @@
 
 {% block body %}
 <div class="">
-    <a href="{{ path('admin_agence') }}">Retour</a>
+    <a href="{{ path('profile') }}">Retour</a>
 </div>
 <img class="img-agence" src='{{ asset('uploads/agence/agence'~ agence.id ~'/picture/'~ agence.linkPicture) }}' alt="Image de l'agence" />
 
@@ -18,5 +18,7 @@
     <br/>
 {% endif %}
 {{ agence.addressZipPostal }} - {{ agence.addressTown }} </p>
+
+<a href="{{ path('agence_modify', {id: agence.id}) }}">Modifier l'agence</a>
 
 {% endblock %}

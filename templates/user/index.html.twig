@@ -1,6 +1,9 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+<div class="">
+    <a href="{{ path('adherent_all') }}">Retour</a>
+</div>
 <h1 class="">Vos informations :</h1>
 <div>
     <div class="">
@@ -15,12 +18,13 @@
     </div>
     <div class="">
         <div class="">
-            <p>Agence :</p>
+            <p>Mes agences :</p>
         </div>
         <div class="">
         {% if userProfile.agence|length > 0 %}
             {% for agence in userProfile.agence %}
                 <p>{{ agence.name }} - {{ agence.addressTown }}</p>
+                <a href="{{ path('agence_single', {id: agence.id}) }}">Voir plus</a>
             {% endfor %}
         {% else %}
             <p>Merci de patienter, l'administrateur vous attribuera une agence</p>

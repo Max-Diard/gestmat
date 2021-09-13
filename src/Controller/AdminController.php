@@ -36,7 +36,7 @@ class AdminController extends AbstractController
 
     //Voir toute les agences
     #[
-        Route('/admin/agence', name: 'agence'),
+        Route('/admin/agence', name: 'admin_agence'),
         IsGranted("ROLE_ADMIN")
     ]
     public function allAgence(): Response
@@ -50,7 +50,7 @@ class AdminController extends AbstractController
 
     // Créer une nouvelle agence
     #[
-        Route('/admin/agence/add', name: 'agence_add'),
+        Route('/admin/agence/add', name: 'admin_agence_add'),
         IsGranted("ROLE_ADMIN")
     ]
     public function newAgence(Request $request): Response
@@ -84,7 +84,7 @@ class AdminController extends AbstractController
             $this->entityManager->persist($agence);
             $this->entityManager->flush();
 
-            return $this->redirectToRoute('agence');
+            return $this->redirectToRoute('admin_agence');
         }
 
         return $this->render('admin/agence/add.html.twig', [
@@ -94,7 +94,7 @@ class AdminController extends AbstractController
 
     //Voir l'agence sélectionné
     #[
-        Route('/admin/agence/{id}', name: 'agence_single'),
+        Route('/admin/agence/{id}', name: 'admin_agence_single'),
         IsGranted("ROLE_ADMIN")
     ]
     public function singleAgence(Agence $agence, Request $request): Response
@@ -106,7 +106,7 @@ class AdminController extends AbstractController
 
     //Voir tous les utilisateurs
     #[
-        Route('admin/user', name: 'user_all'),
+        Route('admin/user', name: 'admin_user_all'),
         IsGranted("ROLE_ADMIN")
     ]
     public function allUser(): Response
@@ -120,7 +120,7 @@ class AdminController extends AbstractController
 
     //Ajouter une agence à un utilisateur
     #[
-        Route('admin/user/{id}/add_agence', name: 'user_add_agence'),
+        Route('admin/user/{id}/add_agence', name: 'admin_user_add_agence'),
         IsGranted("ROLE_ADMIN")
     ]
     public function addAgence(User $user, Request $request): Response
@@ -135,7 +135,7 @@ class AdminController extends AbstractController
             $this->entityManager->persist($user);
             $this->entityManager->flush();
 
-            return $this->redirectToRoute('user_all');
+            return $this->redirectToRoute('admin_user_all');
         }
 
         return $this->render('admin/user/addAgence.html.twig', [

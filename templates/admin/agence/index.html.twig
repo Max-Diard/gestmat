@@ -6,7 +6,7 @@
     <a href="{{ path('admin') }}">Retour sur admin</a>
 </div>
 <div class="">
-    <a href="{{ path('agence_add') }}">Ajouter une agence</a>
+    <a href="{{ path('admin_agence_add') }}">Ajouter une agence</a>
 </div>
 <table>
     <thead>
@@ -27,7 +27,7 @@
                 <td>{{ agence.phoneNumber }}</td>
                 <td>{{ agence.startedAt|date('d/m/Y') }}</td>
                 <td>{{ agence.endingAt|date('d/m/Y') }}</td>
-                <td><a href="{{ path('agence_single', { id: agence.id }) }}">Voir plus</a></td>
+                <td><a href="{{ path('admin_agence_single', { id: agence.id }) }}">Voir plus</a></td>
             </tr>
         {% endfor %}
     </tbody>

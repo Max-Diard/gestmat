@@ -173,9 +173,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @return Collection|Agence[]
      */
-    public function getAgences(): Collection
+    public function getAgence(): Collection
     {
-        return $this->agences;
+        return $this->agence;
     }
 
     public function addAgence(Agence $agence): self
@@ -195,14 +195,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         }
 
         return $this;
-    }
-
-    /**
-     * @return Collection|Agence[]
-     */
-    public function getAgence(): Collection
-    {
-        return $this->agence;
     }
 
 }

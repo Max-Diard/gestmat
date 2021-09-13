@@ -34,7 +34,7 @@
                         <strong>Pas d'agence</strong>
                     {% endif %}
                 </td>
-                <td><a href="{{ path('user_add_agence', {id: user.id}) }}">Ajouter une agence</a></td>
+                <td><a href="{{ path('admin_user_add_agence', {id: user.id}) }}">Ajouter une agence</a></td>
                 {# <td><a href="{{ path('agence_single', { id: agence.id }) }}">Voir plus</a></td> #}
             </tr>
         {% endfor %}
