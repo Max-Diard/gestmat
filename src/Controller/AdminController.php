@@ -6,6 +6,7 @@ use App\Entity\AdherentOption;
 use App\Entity\Agence;
 use App\Entity\User;
 use App\Form\AgenceType;
+use App\Form\ChangeAgenceType;
 use App\Form\OptionType;
 use App\Form\UserAgenceType;
 use App\Form\UserType;
@@ -30,10 +31,10 @@ class AdminController extends AbstractController
     ]
     public function index(): Response
     {
-        return $this->render('admin/index.html.twig', [
-        ]);
+        return $this->render('admin/index.html.twig', []);
     }
 
+    //----------------------------- Affichage Agence ---------------------------------//
     //Voir toute les agences
     #[
         Route('/admin/agence', name: 'admin_agence'),
@@ -104,6 +105,51 @@ class AdminController extends AbstractController
         ]);
     }
 
+    //Modifier l'agence sélectionné
+    #[
+        Route('/admin/agence/{id}/modify', name: 'admin_agence_modify'),
+        IsGranted("ROLE_ADMIN")
+    ]
+    public function modifyAgence(Agence $agence, Request $request): Response
+    {
+        $linkPic = $agence->getLinkPicture();
+
+        $form = $this->createForm(ChangeAgenceType::class, $agence);
+
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+            $agence = $form->getData();
+
+            $picture = $form->get('link_picture')->getData();
+            // Si une image est envoyé alors on ajoute l'information en BDD
+            if($picture){
+                if ($linkPic){
+                    unlink($this->getParameter('agence_directory') . 'agence' . $agence->getId() . '/picture/' . $linkPic);
+                }
+                $pictureExt = $picture->guessExtension();
+                $pictureName = md5(uniqid()) . '.' . $pictureExt;
+                $picture->move($this->getParameter('agence_directory') . 'agence' . $agence->getId() . '/picture/', $pictureName);
+                $agence->setLinkPicture($pictureName);
+            } 
+            // On récupére le nom de l'image déjà existant et on lui renvoi
+            else {
+                $agence->setLinkPicture($linkPic);
+            } 
+
+            $this->entityManager->persist($agence);
+            $this->entityManager->flush();
+
+            return $this->redirectToRoute('agence_single', ['id' => $agence->getId()]);
+        }
+
+        return $this->render('admin/agence/agenceModify.html.twig', [
+            'form' => $form->createView(),
+            'agence' => $agence
+        ]);
+    }
+
+    //----------------------------- Affichage Utilisateurs ---------------------------------//
     //Voir tous les utilisateurs
     #[
         Route('admin/user', name: 'admin_user_all'),
@@ -115,6 +161,31 @@ class AdminController extends AbstractController
 
         return $this->render('admin/user/allUser.html.twig', [
             'allUser' => $allUser
+        ]);
+    }
+
+    //Créer un utilisateur
+    #[Route('/admin/user/new', name: 'admin_user_new')]
+    public function newUser(Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHash): Response
+    {
+        $user = new User();
+
+        $form = $this->createForm(UserType::class, $user);
+
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+            $user = $form->getData();
+
+            $user->setPassword($passwordHash->hashPassword($user, $user->getPassword()));
+            $entityManager->persist($user);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('user_all');
+        }
+
+        return $this->render('admin/user/newUser.html.twig', [
+            'form' => $form->createView()
         ]);
     }
 
@@ -140,31 +211,6 @@ class AdminController extends AbstractController
 
         return $this->render('admin/user/addAgence.html.twig', [
             'formAgence' => $form->createView()
-        ]);
-    }
-
-    //Ajouter un utilisateur
-    #[Route('/admin/user/new', name: 'admin_user_new')]
-    public function newUser(Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHash): Response
-    {
-        $user = new User();
-
-        $form = $this->createForm(UserType::class, $user);
-
-        $form->handleRequest($request);
-
-        if($form->isSubmitted() && $form->isValid()){
-            $user = $form->getData();
-
-            $user->setPassword($passwordHash->hashPassword($user, $user->getPassword()));
-            $entityManager->persist($user);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('user_all');
-        }
-
-        return $this->render('admin/user/newUser.html.twig', [
-            'form' => $form->createView()
         ]);
     }
 }

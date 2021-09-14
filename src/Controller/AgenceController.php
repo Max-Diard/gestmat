@@ -37,17 +37,10 @@ class AgenceController extends AbstractController
             if($user == $agence->getUsers()[$i]){
                 return $this->render('agence/singleAgence.html.twig', [
                     'agence' => $agence,
-                    // 'user' => $user
                 ]);
             }
         }
-        // dd('marche pas ');
-        // dd($user, $agence);
-        // dd($user->getAgence());
-        // $sql = $this->entityManager->getRepository(User::class)->AgencyAccessUser($user, $agence);
-        // dd($sql);
-        // $agence = $agence->getUser();
-        // dd($agence->getUsers());
+        
         $this->denyAccessUnlessGranted('agence_edit', $agence);
 
         return $this->render('agence/singleAgence.html.twig', [

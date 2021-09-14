@@ -2,8 +2,6 @@
 
 {% block body %}
 
-<a href="{{ path('profile') }}">Retour</a>
-
 <img class="img-agence" src='{{ asset('uploads/agence/agence'~ agence.id ~'/picture/'~ agence.linkPicture) }}' alt="Image de l'agence" />
 {{form(form)}}
 

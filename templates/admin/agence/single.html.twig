@@ -19,4 +19,6 @@
 {% endif %}
 {{ agence.addressZipPostal }} - {{ agence.addressTown }} </p>
 
+<a href="{{ path('admin_agence_modify', {id: agence.id}) }}">Modifier l'agence</a>
+
 {% endblock %}
