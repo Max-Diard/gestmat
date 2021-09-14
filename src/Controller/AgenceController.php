@@ -88,7 +88,8 @@ class AgenceController extends AbstractController
         }
 
         return $this->render('agence/agenceModify.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'agence' => $agence
         ]);
     }
 }

@@ -12,7 +12,7 @@
             <div class="row-first">
                 <div class="col col-adherent-number">
                     <label for="">Numéro Adhérent</label>
-                    <div class='id-adhérent'>(A récupérer)</div>
+                    <div class='id-adhérent'>(Automatique)</div>
                 </div>
                 <div class="col col-adherent-firstname">
                     {{ form_label(formAdherent.firstname) }}
@@ -30,11 +30,13 @@
                 </div>
                 <div class="col col-adherent-status-contrat">
                     <label for="">Etat Contrat</label>
-                    <div class="status-contrat">(à calculer)</div>
+                    <div class="status-contrat">(Automatique)</div>
                 </div>
                 <div class="col col-adherent-agence">
                     <label for="">Agence</label>
-                    <div class='agence-name'>{{ app.user.name }}</div>
+                    {% for agence in agences %}
+                    <div class='agence-name'>{{ agence.name }}</div>
+                    {% endfor %}
                 </div>
             </div>
             <div class="row-third">
@@ -44,11 +46,11 @@
                 </div>
                 <div class="col col-adherent-age">
                     <label for="">Age</label>
-                    <div class="age">(à calculer)</div>
+                    <div class="age">(Automatique)</div>
                 </div>
                 <div class="col col-adherent-last-meet">
                     <label for="">Dernière Rencontre</label>
-                    <div class="last-meet">(à calculer)</div>
+                    <div class="last-meet">(Automatique)</div>
                 </div>
                 <div class="col col-adherent-status-meet">
                     {{ form_label(formAdherent.status_meet) }}
@@ -289,9 +291,9 @@
                         {{ form_widget(formAdherent.contract_endingAt) }}
                     </div>
                     <div class="row-contrat-second">
-                        <div class="col col-adherent-contract_ammount">
-                            {{ form_label(formAdherent.contract_ammount) }}
-                            {{ form_widget(formAdherent.contract_ammount) }}
+                        <div class="col col-adherent-contract_amount">
+                            {{ form_label(formAdherent.contract_amount) }}
+                            {{ form_widget(formAdherent.contract_amount) }}
                         </div>
                         <div class="col col-adherent-type_payment">
                             {{ form_label(formAdherent.type_payment) }}

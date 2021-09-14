@@ -328,7 +328,7 @@ class Adherent
     /**
      * @ORM\Column(type="integer")
      */
-    private $contract_ammount;
+    private $contract_amount;
 
     /**
      * @ORM\Column(type="text", nullable=true)
@@ -1125,14 +1125,14 @@ class Adherent
         return $this;
     }
 
-    public function getContractAmmount(): ?int
+    public function getContractAmount(): ?int
     {
-        return $this->contract_ammount;
+        return $this->contract_amount;
     }
 
-    public function setContractAmmount(int $contract_ammount): self
+    public function setContractAmount(int $contract_amount): self
     {
-        $this->contract_ammount = $contract_ammount;
+        $this->contract_amount = $contract_amount;
 
         return $this;
     }

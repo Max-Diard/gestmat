@@ -10,6 +10,8 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\PasswordHasher\PasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 class UserController extends AbstractController
@@ -30,7 +32,7 @@ class UserController extends AbstractController
     }
 
     #[Route('/profile/change_password', name: 'user_password')]
-    public function changePassword(Request $request): Response
+    public function changePassword(Request $request, UserPasswordHasherInterface $passwordHash): Response
     {
         $user = $this->getUser();
 
@@ -40,6 +42,8 @@ class UserController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid()){
             $user = $form->getData();
+
+            $user->setPassword($passwordHash->hashPassword($user, $user->getPassword()));
 
             $this->entityManager->persist($user);
             $this->entityManager->flush();

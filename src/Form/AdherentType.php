@@ -328,7 +328,7 @@ class AdherentType extends AbstractType
                 'label' => 'Date fin de contrat',
                 'years'=> range(date('Y'), date('Y') + 100)
             ])
-            ->add('contract_ammount', NumberType::class, [
+            ->add('contract_amount', NumberType::class, [
                 'label' => 'Montant TTC'
             ])
             ->add('contract_comments', TextareaType::class, [

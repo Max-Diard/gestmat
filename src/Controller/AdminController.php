@@ -140,7 +140,7 @@ class AdminController extends AbstractController
             $this->entityManager->persist($agence);
             $this->entityManager->flush();
 
-            return $this->redirectToRoute('agence_single', ['id' => $agence->getId()]);
+            return $this->redirectToRoute('admin_agence_single', ['id' => $agence->getId()]);
         }
 
         return $this->render('admin/agence/agenceModify.html.twig', [
@@ -181,7 +181,7 @@ class AdminController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
-            return $this->redirectToRoute('user_all');
+            return $this->redirectToRoute('admin_user_all');
         }
 
         return $this->render('admin/user/newUser.html.twig', [

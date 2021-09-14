@@ -24,7 +24,7 @@ class AdherentController extends AbstractController
         Route('/adherent', name: 'adherent_all'),
         IsGranted('ROLE_USER')
     ]
-    public function index(Request $request): Response
+    public function index(): Response
     {
 
         $womenAdherent = $this->entityManager->getRepository(Adherent::class)->findByGenre('Féminin');
@@ -150,6 +150,8 @@ class AdherentController extends AbstractController
     ]
     public function addAdherent(Request $request): Response
     {
+        $user = $this->getUser();
+        $agence = $user->getAgence();
 
         $lastAdherent = $this->entityManager->getRepository(Adherent::class)->findByLastId();
         $lastAdherent = $lastAdherent[0]->getId();
@@ -171,7 +173,9 @@ class AdherentController extends AbstractController
 
             $agence = $this->getUser();
 
-            $adherent->setAgence($agence);
+            // TODO: Gérer si plusieurs agences
+
+            $adherent->setAgence($user->getAgence()[0]);
 
             $fileInfo = $form->get('link_information')->getData();
             // Si une image est envoyé alors on ajoute l'information en BDD
@@ -220,7 +224,8 @@ class AdherentController extends AbstractController
         }
 
         return $this->render('adherent/addAdherent.html.twig', [
-            'formAdherent' => $form->createView()
+            'formAdherent' => $form->createView(),
+            'agences' => $agence
         ]);
     }
 }
