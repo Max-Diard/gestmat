@@ -70,23 +70,17 @@ class Agence
     private $address_town;
 
     /**
-     * @ORM\ManyToMany(targetEntity=User::class, inversedBy="agences")
-     */
-    private $user;
-
-    /**
      * @ORM\OneToMany(targetEntity=Adherent::class, mappedBy="agence")
      */
     private $adherents;
 
     /**
-     * @ORM\ManyToMany(targetEntity=User::class, mappedBy="agence")
+     * @ORM\ManyToMany(targetEntity=User::class, mappedBy="agence", fetch="EAGER")
      */
     private $users;
 
     public function __construct()
     {
-        $this->user = new ArrayCollection();
         $this->adherents = new ArrayCollection();
         $this->users = new ArrayCollection();
     }
@@ -217,30 +211,6 @@ class Agence
     }
 
     /**
-     * @return Collection|User[]
-     */
-    public function getUser(): Collection
-    {
-        return $this->user;
-    }
-
-    public function addUser(User $user): self
-    {
-        if (!$this->user->contains($user)) {
-            $this->user[] = $user;
-        }
-
-        return $this;
-    }
-
-    public function removeUser(User $user): self
-    {
-        $this->user->removeElement($user);
-
-        return $this;
-    }
-
-    /**
      * @return Collection|Adherent[]
      */
     public function getAdherents(): Collection
@@ -276,5 +246,24 @@ class Agence
     public function getUsers(): Collection
     {
         return $this->users;
+    }
+
+    public function addUser(User $user): self
+    {
+        if (!$this->users->contains($user)) {
+            $this->users[] = $user;
+            $user->addAgence($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUser(User $user): self
+    {
+        if ($this->users->removeElement($user)) {
+            $user->removeAgence($this);
+        }
+
+        return $this;
     }
 }

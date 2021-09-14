@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Agence;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -34,6 +35,22 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $user->setPassword($newHashedPassword);
         $this->_em->persist($user);
         $this->_em->flush();
+    }
+
+     /**
+     * @return User[] Returns an array of User objects
+     */
+    public function AgencyAccessUser(User $user,  Agence $agence)
+    {
+        return $this->createQueryBuilder('a')
+        // ->join(User::class, $user)
+        ->where('a.id = :u')
+        ->andWhere('a.id = :a')
+        ->setParameter('u', $user)
+        ->setParameter('a', $agence)
+        ->getQuery()
+        ->getResult()
+        ;
     }
 
     // /**

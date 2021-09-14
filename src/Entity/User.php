@@ -48,7 +48,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $lastname;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Agence::class, inversedBy="users")
+     * @ORM\ManyToMany(targetEntity=Agence::class, inversedBy="users", fetch="EAGER")
      */
     private $agence;
 
@@ -180,9 +180,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function addAgence(Agence $agence): self
     {
-        if (!$this->agences->contains($agence)) {
-            $this->agences[] = $agence;
-            $agence->addUser($this);
+        if (!$this->agence->contains($agence)) {
+            $this->agence[] = $agence;
         }
 
         return $this;
@@ -190,9 +189,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function removeAgence(Agence $agence): self
     {
-        if ($this->agences->removeElement($agence)) {
-            $agence->removeUser($this);
-        }
+        $this->agence->removeElement($agence);
 
         return $this;
     }
