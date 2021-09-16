@@ -26,6 +26,7 @@ class UserController extends AbstractController
         $this->entityManager = $entityManager;
     }
 
+    //Page pour voir son profil
     #[
         Route('/profile', name: 'profile'),
         IsGranted('ROLE_USER')

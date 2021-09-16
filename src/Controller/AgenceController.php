@@ -23,43 +23,22 @@ class AgenceController extends AbstractController
         $this->entityManager = $entityManager;
     }
 
+    //Page pour voir une seule agence
     #[
         Route('/agence/{id}', name: 'agence_single'),
         IsGranted('ROLE_USER'),
     ]
     public function index(Agence $agence, Request $request): Response
     {
-        // Gérer le fait que si l'agence n'est pas lier à l'utilisateur il ne peux pas y accéder
 
         $user = $this->getUser();
         $allAgence = $this->entityManager->getRepository(Agence::class)->findAll();
-        $droitAgence = $agence->getDroitAgence();
 
-        // dd($userAgence);
-
-        // A changer de place et voir si cela fonctionne pas quand l'user n'est pas lier à l'agence
         if(count($allAgence) > 1){
             $agenceId = $agence->getId();
             for($i = 0; $i < count($allAgence); $i++){
                 $otherAgence = $this->entityManager->getRepository(Agence::class)->findOtherAgence($agenceId);
-            //     // dd($otherAgence);
             }
-            // if(count($droitAgence) > 0){
-            //     for ($i = 0; $i < count($allAgence); $i++){
-            //         for ($j = 0; $j < count($droitAgence); $j++){
-            //             if($allAgence[$i]->getName() == $droitAgence[$j]){
-            //                 unset($allAgence[$i]);
-            //             }
-            //         }
-            //         // dd($allAgence[0], $allAgence[1], $droitAgence[0]);
-            //     //     for ($j = 0; $j < count($allAgence); $j++){
-            //     //         if($allAgence[$j]->getName() == $droitAgence[$i]){
-            //     //             unset($allAgence[$i]);
-            //     //         }
-            //     //     }
-            //     }
-            // }
-            // dd($otherAgence);
             $form = $this->createForm(DelegationAgenceType::class, $agence, [
                 'agences' => $otherAgence
             ]);
@@ -68,12 +47,10 @@ class AgenceController extends AbstractController
             
             if($form->isSubmitted() && $form->isValid()){
                 $delegation = $form->get('droit_agence')->getData();
-
-                // dd($delegation);
+                
                 foreach($delegation as $deleg){
                     $agence->addDroitAgence($deleg);
                 }
-                
 
                 $this->entityManager->persist($agence);
                 $this->entityManager->flush();
@@ -90,6 +67,7 @@ class AgenceController extends AbstractController
                 }
             }
         }
+
         $this->denyAccessUnlessGranted('agence_edit', $agence);
 
         return $this->render('agence/singleAgence.html.twig', [
@@ -98,6 +76,7 @@ class AgenceController extends AbstractController
         ]);
     }
 
+    //Page pour modifier l'agence sélectionner
     #[
         Route('/agence/{id}/modify', name: 'agence_modify'),
         IsGranted('ROLE_USER')

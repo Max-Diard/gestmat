@@ -11,6 +11,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class MeetController extends AbstractController
 {
+    //Page pour voir tous les rencontres
     #[Route('/meet', name: 'meet')]
     public function index(): Response
     {
@@ -19,6 +20,7 @@ class MeetController extends AbstractController
         ]);
     }
 
+    //Page pour créer une rencontre
     #[
         Route('/meet/new/{woman}-{man}', name: 'meet_new'),
         Entity('adherent', expr:'repository.find(adherent.woman'),

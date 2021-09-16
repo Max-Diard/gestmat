@@ -25,6 +25,7 @@ class AdminController extends AbstractController
         $this->entityManager = $entityManager;
     }
 
+    //Page principal pour les admins
     #[
         Route('/admin', name: 'admin'),
         IsGranted("ROLE_ADMIN")

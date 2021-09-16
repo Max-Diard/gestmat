@@ -23,14 +23,6 @@ class DelegationAgenceType extends AbstractType
                 'label' => 'Délégation des droits :',
                 'choices' => $agences, 
             ])
-            // ->add('droit_agence', ChoiceType::class, [
-            //     'label' => 'Délégation des droits :',
-            //     'choice_label' => 'name',
-            //     'choices' => $agences, 
-            //     'attr' => [
-            //         'value' => 'id'
-            //     ]
-            // ])
             ->add('submit', SubmitType::class, [
                 'label' => 'Envoyer'
             ])
