@@ -1,0 +1,161 @@
+
+App\Entity\AdherentOption:
+  _adherentOption_0:
+    name: 'Célibataire'
+    type: 'status_matrimoniale'
+  _adherentOption_1:
+    name: 'Veuf(ve)'
+    type: 'status_matrimoniale'
+  _adherentOption_2:
+    name: 'Séparée'
+    type: 'status_matrimoniale'
+  _adherentOption_3:
+    name: 'Marié(e)'
+    type: 'status_matrimoniale'
+  _adherentOption_4:
+    name: 'Disponible'
+    type: 'status_meet'
+  _adherentOption_5:
+    name: 'En rencontre'
+    type: 'status_meet'
+  _adherentOption_6:
+    name: 'En attente'
+    type: 'status_meet'
+  _adherentOption_7:
+    name: 'Maison'
+    type: 'lodging'
+  _adherentOption_8:
+    name: 'Appartement'
+    type: 'lodging'
+  _adherentOption_9:
+    name: 'Autre'
+    type: 'lodging'
+  _adherentOption_10:
+    name: 'Propriétaire'
+    type: 'owner'
+  _adherentOption_11:
+    name: 'Locataire'
+    type: 'owner'
+  _adherentOption_12:
+    name: 'Chez les parents'
+    type: 'owner'
+  _adherentOption_13:
+    name: 'Pas du tout'
+    type: 'smoking'
+  _adherentOption_14:
+    name: 'Un peu'
+    type: 'smoking'
+  _adherentOption_15:
+    name: 'Occasionnellement'
+    type: 'smoking'
+  _adherentOption_16:
+    name: 'Beaucoup'
+    type: 'smoking'
+  _adherentOption_17:
+    name: 'Bruns'
+    type: 'hair'
+  _adherentOption_18:
+    name: 'Blonds'
+    type: 'hair'
+  _adherentOption_19:
+    name: 'Châtains'
+    type: 'hair'
+  _adherentOption_20:
+    name: 'Auburns'
+    type: 'hair'
+  _adherentOption_21:
+    name: 'Gris'
+    type: 'hair'
+  _adherentOption_22:
+    name: 'Grisonnants'
+    type: 'hair'
+  _adherentOption_23:
+    name: 'Blancs'
+    type: 'hair'
+  _adherentOption_24:
+    name: 'Chauve'
+    type: 'hair'
+  _adherentOption_25:
+    name: 'Roux'
+    type: 'hair'
+  _adherentOption_26:
+    name: 'Bleus'
+    type: 'eyes'
+  _adherentOption_27:
+    name: 'Marron'
+    type: 'eyes'
+  _adherentOption_28:
+    name: 'Verts'
+    type: 'eyes'
+  _adherentOption_29:
+    name: 'Bleus-Verts'
+    type: 'eyes'
+  _adherentOption_30:
+    name: 'Gris-Bleus'
+    type: 'eyes'
+  _adherentOption_31:
+    name: 'Marron-Verts'
+    type: 'eyes'
+  _adherentOption_32:
+    name: 'Gris-Verts'
+    type: 'eyes'
+  _adherentOption_33:
+    name: 'Bac'
+    type: 'instruction'
+  _adherentOption_34:
+    name: 'Bac+2'
+    type: 'instruction'
+  _adherentOption_35:
+    name: 'Masculin'
+    type: 'genre'
+  _adherentOption_36:
+    name: 'Féminin'
+    type: 'genre'
+  _adherentOption_37:
+    name: 'Chèque'
+    type: 'type_payment'
+  _adherentOption_38:
+    name: 'Virement'
+    type: 'type_payment'
+  _adherentOption_39:
+    name: 'Email'
+    type: 'preference_contact'
+  _adherentOption_40:
+    name: 'Courrier'
+    type: 'preference_contact'
+  _adherentOption_41:
+    name: 'Bélier'
+    type: 'zodiaque'
+  _adherentOption_42:
+    name: 'Taureau'
+    type: 'zodiaque'
+  _adherentOption_43:
+    name: 'Gémeaux'
+    type: 'zodiaque'
+  _adherentOption_44:
+    name: 'Cancer'
+    type: 'zodiaque'
+  _adherentOption_45:
+    name: 'Lion'
+    type: 'zodiaque'
+  _adherentOption_46:
+    name: 'Vierge'
+    type: 'zodiaque'
+  _adherentOption_47:
+    name: 'Balance'
+    type: 'zodiaque'
+  _adherentOption_48:
+    name: 'Scorpion'
+    type: 'zodiaque'
+  _adherentOption_49:
+    name: 'Sagittaire'
+    type: 'zodiaque'
+  _adherentOption_50:
+    name: 'Capricorne'
+    type: 'zodiaque'
+  _adherentOption_51:
+    name: 'Verseau'
+    type: 'zodiaque'
+  _adherentOption_52:
+    name: 'Poissons'
+    type: 'zodiaque'

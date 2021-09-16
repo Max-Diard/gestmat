@@ -33,6 +33,20 @@ class AgenceRepository extends ServiceEntityRepository
         ;
     }
     
+     /**
+     * @return Agence[] Returns an array of Agence objects
+     */
+    public function findByUser($value)
+    {
+        return $this->createQueryBuilder('a')
+            ->join(User::class, 'u')
+            ->andWhere('u.id = :val')
+            ->setParameter('val', $value)
+            ->orderBy('a.name','ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 
     /*
     public function findOneBySomeField($value): ?Agence

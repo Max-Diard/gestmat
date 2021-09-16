@@ -165,7 +165,10 @@ class AdminController extends AbstractController
     }
 
     //Créer un utilisateur
-    #[Route('/admin/user/new', name: 'admin_user_new')]
+    #[
+        Route('/admin/user/new', name: 'admin_user_new'),
+        IsGranted('ROLE_ADMIN')    
+    ]
     public function newUser(Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHash): Response
     {
         $user = new User();

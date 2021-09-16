@@ -33,10 +33,8 @@
                     <div class="status-contrat">(Automatique)</div>
                 </div>
                 <div class="col col-adherent-agence">
-                    <label for="">Agence</label>
-                    {% for agence in agences %}
-                    <div class='agence-name'>{{ agence.name }}</div>
-                    {% endfor %}
+                    {{ form_label(formAdherent.agence) }}
+                    {{ form_widget(formAdherent.agence) }}
                 </div>
             </div>
             <div class="row-third">

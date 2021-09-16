@@ -25,14 +25,13 @@ class AgenceController extends AbstractController
     #[
         Route('/agence/{id}', name: 'agence_single'),
         IsGranted('ROLE_USER'),
-        // Security('agence.getUsers() == user.getAgence()')
     ]
     public function index(Agence $agence): Response
     {
         // Gérer le fait que si l'agence n'est pas lier à l'utilisateur il ne peux pas y accéder
 
         $user = $this->getUser();
-        // $user = $user->getAgence();
+
         for ($i = 0; $i < count($agence->getUsers()); $i++){
             if($user == $agence->getUsers()[$i]){
                 return $this->render('agence/singleAgence.html.twig', [
@@ -52,7 +51,8 @@ class AgenceController extends AbstractController
     }
 
     #[
-        Route('/agence/{id}/modify', name: 'agence_modify')
+        Route('/agence/{id}/modify', name: 'agence_modify'),
+        IsGranted('ROLE_USER')
     ]
     public function modifyAgence(Agence $agence, Request $request): Response
     {

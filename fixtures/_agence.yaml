@@ -1,0 +1,11 @@
+App\Entity\Agence:
+  agence_{0..2}:
+    name: <name()>
+    email: 'agence_<current()>\@example.org'
+    started_at: <(new \DateTime('2014-02-02'))>
+    ending_at: <(new \DateTime('2023-02-02'))>
+    link_picture: 'a changer'
+    address_street: '45 rue de la rencontre'
+    address_zip_postal: '37000'
+    address_town: 'Tours'
+    phone_number: '0247273645'

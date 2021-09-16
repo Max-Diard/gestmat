@@ -42,7 +42,7 @@
                 <div class="col col-adherent-status-contrat">
                     <label for="">Etat Contrat</label>
                     <div class="status-contrat">
-                    {% if adherentProfile.contractStartedAt > date('now') %}
+                    {% if adherentProfile.contractStartedAt < date('now') and adherentProfile.contractEndingAt > date('now') %}
                         En Cours
                     {% else %}
                         Fini
@@ -50,8 +50,8 @@
                     </div>
                 </div>
                 <div class="col col-adherent-agence">
-                    <label for="">Agence</label>
-                    <div class='agence-name'>{{ adherentProfile.agence.name }}</div>
+                    {{ form_label(formAdherent.agence) }}
+                    {{ form_widget(formAdherent.agence) }}
                 </div>
             </div>
             <div class="row-third">

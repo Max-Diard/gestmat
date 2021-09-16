@@ -1,0 +1,46 @@
+App\Entity\Adherent:
+  _adherent{0..30}:
+    firstname: <firstname()>
+    lastname: <lastname()>
+    birthdate: <(new \DateTime('2014-02-02'))>
+    phone_mobile: '0987676543'
+    profession: 'Chômeur'
+    size: 1.70
+    weight: 70
+    permis: 1
+    car: 1
+    announcement_publish: 1
+    announcement_presentation: 'Bonjour'
+    email: 'user_<current()>\@example.org'
+    address_street: 'Rue de la liberté'
+    address_zip_postal: '37000'
+    address_town: 'Tours'
+    child_girl: 0
+    child_boy: 0
+    child_dependent_girl: 0
+    child_dependent_boy: 0
+    search_age_min: 25
+    search_age_max: 30
+    search_single: 1
+    search_divorced: 1
+    search_windower: 1
+    search_accept_children: 0
+    search_number_accept_children: 0
+
+    # status_matrimoniale: '@adherentOption->status_matrimoniale'
+    # status_meet: '@adherentOption->status_meet'
+    # instruction: '@adherentOption->instruction'
+    # logding: '@adherentOption->lodging'
+    # smoking: '@adherentOption->smooking'
+    # hair: '@adherentOption->hair'
+    # zodiaque: '@adherentOption->zodiaque'
+    # eyes: '@adherentOption->eyes'
+    # genre: '@adherentOption->genre'
+    # preference_contact: '@adherentOption->preference_contact'
+    # owner: '@adherentOption->owner'
+    contract_date:  <(new \DateTime('2014-02-02'))>
+    contract_started_at:  <(new \DateTime('2014-02-02'))>
+    contract_ending_at:  <(new \DateTime('2014-02-02'))>
+    # type_payment: '@adherentOption->type_payment'
+    contract_amount: '234342'
+    # agence: <numberBetween(1, 5)>

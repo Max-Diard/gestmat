@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Adherent;
 use App\Entity\AdherentOption;
+use App\Entity\Agence;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -43,6 +44,24 @@ class AdherentRepository extends ServiceEntityRepository
             ->andWhere('a.genre = o.id')
             ->andWhere('o.name = :val')
             ->setParameter('val', $value)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    /**
+     * @return Adherent[] Returns an array of Adherent objects
+     */
+    public function findByGenreAgences($value, $agences)
+    {
+        return $this->createQueryBuilder('ad')
+            ->join(AdherentOption::class, 'o')
+            ->join(Agence::class, 'ag')
+            ->andWhere('ad.genre = o.id')
+            ->andWhere('o.name = :val')
+            ->andWhere('ad.agence = :val2')
+            ->setParameter('val', $value)
+            ->setParameter('val2', $agences)
             ->getQuery()
             ->getResult()
         ;

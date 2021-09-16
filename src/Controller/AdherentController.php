@@ -3,10 +3,14 @@
 namespace App\Controller;
 
 use App\Entity\Adherent;
+use App\Entity\Agence;
+use App\Entity\Search;
 use App\Form\AdherentType;
+use App\Form\SearchType;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -26,19 +30,33 @@ class AdherentController extends AbstractController
     ]
     public function index(): Response
     {
+        $agences = $this->getUser()->getAgence();
 
-        $womenAdherent = $this->entityManager->getRepository(Adherent::class)->findByGenre('Féminin');
-        $menAdherent = $this->entityManager->getRepository(Adherent::class)->findByGenre('Masculin');
+        //Si l'utilisateur connecté à plus d'une agence, on itére dessus
+        if (count($agences) > 0){
+            
+            for($i = 0; $i < count($agences); $i++){
+                $agence = $agences[$i]->getId();
+
+                $womenAdherent[] = $this->entityManager->getRepository(Adherent::class)->findByGenreAgences('Féminin', $agence);
+                $menAdherent[] = $this->entityManager->getRepository(Adherent::class)->findByGenreAgences('Masculin', $agence);
+            }
+
+        } else {
+            $womenAdherent = '';
+            $menAdherent = '';
+        }
 
         return $this->render('adherent/index.html.twig', [
             'womenAdherent' => $womenAdherent,
-            'menAdherent' => $menAdherent
+            'menAdherent' => $menAdherent,
         ]);
     }
 
     //Information de l'adhérent sélectionné
     #[
-        Route('/adherent/profil/{id}', name: 'adherent_single')
+        Route('/adherent/profil/{id}', name: 'adherent_single'),
+        IsGranted('ROLE_USER')
     ]
     public function allAdherent(Adherent $adherent, Request $request): Response
     {
@@ -151,7 +169,6 @@ class AdherentController extends AbstractController
     public function addAdherent(Request $request): Response
     {
         $user = $this->getUser();
-        $agence = $user->getAgence();
 
         $lastAdherent = $this->entityManager->getRepository(Adherent::class)->findByLastId();
         $lastAdherent = $lastAdherent[0]->getId();
@@ -163,8 +180,11 @@ class AdherentController extends AbstractController
         }
 
         $adherent = new Adherent();
+        $agences = $user->getAgence();
 
-        $form = $this->createForm(AdherentType::class, $adherent);
+        $form = $this->createForm(AdherentType::class, $adherent, [
+            'agences' => $agences
+        ]);
 
         $form->handleRequest($request);
 
@@ -172,10 +192,6 @@ class AdherentController extends AbstractController
             $adherent = $form->getData();
 
             $agence = $this->getUser();
-
-            // TODO: Gérer si plusieurs agences
-
-            $adherent->setAgence($user->getAgence()[0]);
 
             $fileInfo = $form->get('link_information')->getData();
             // Si une image est envoyé alors on ajoute l'information en BDD
@@ -225,7 +241,6 @@ class AdherentController extends AbstractController
 
         return $this->render('adherent/addAdherent.html.twig', [
             'formAdherent' => $form->createView(),
-            'agences' => $agence
         ]);
     }
 }

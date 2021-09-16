@@ -10,6 +10,9 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use App\Entity\AdherentOption;
+use App\Entity\Agence;
+use App\Entity\User;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -18,11 +21,14 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 class AdherentType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $agences = $options['agences'];
         $builder
             ->add('firstname', TextType::class, [
                 'label' => 'Prénom'
@@ -114,7 +120,7 @@ class AdherentType extends AbstractType
             ->add('owner', EntityType::class, [
                 'class' => AdherentOption::class,
                 'label' => 'Propriétaire',
-                'query_builder' => function (EntityRepository $repository){
+                'query_builder' => function (EntityRepository $repository) use($options){
                     return $repository->createQueryBuilder('s')
                         ->andWhere('s.type = :val')
                         ->setParameter('val', 'owner');
@@ -344,6 +350,11 @@ class AdherentType extends AbstractType
                         ->setParameter('val', 'type_payment');
                 },
             ])
+            ->add('agence', EntityType::class, [
+                'class' => Agence::class,
+                'label' => 'Agence',
+                'choices' => $agences
+            ])
             ->add('submit', SubmitType::class, [
                 'label' => 'Envoyer'
             ])
@@ -354,6 +365,7 @@ class AdherentType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Adherent::class,
+            'agences' => null
         ]);
     }
 }

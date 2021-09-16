@@ -1,0 +1,12 @@
+App\Entity\User:
+    user_0:
+      firstname: 'Admin'
+      lastname: 'TropFort'
+      email: 'admin@tropfort.com'
+      password: '\$2y\$13\$mZRwgS/v4joj.4rL7Vy9GOZ62v.DIQaw2..M8ce1enZd0YwILAgKK'
+      roles: ['ROLE_ADMIN']
+    user_{1..3}:
+      firstname: <firstname()>
+      lastname: <lastname()>
+      email: 'user_<current()>\@example.org'
+      password: '\$2y\$13\$mZRwgS/v4joj.4rL7Vy9GOZ62v.DIQaw2..M8ce1enZd0YwILAgKK'
