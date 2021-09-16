@@ -79,10 +79,16 @@ class Agence
      */
     private $users;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Agence::class, inversedBy="droit_agence", fetch="EAGER")
+     */
+    private $droit_agence;
+
     public function __construct()
     {
         $this->adherents = new ArrayCollection();
         $this->users = new ArrayCollection();
+        $this->droit_agence = new ArrayCollection();
     }
 
     public function __toString()
@@ -268,6 +274,30 @@ class Agence
         if ($this->users->removeElement($user)) {
             $user->removeAgence($this);
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|self[]
+     */
+    public function getDroitAgence(): Collection
+    {
+        return $this->droit_agence;
+    }
+
+    public function addDroitAgence(self $droitAgence): self
+    {
+        if (!$this->droit_agence->contains($droitAgence)) {
+            $this->droit_agence[] = $droitAgence;
+        }
+
+        return $this;
+    }
+
+    public function removeDroitAgence(self $droitAgence): self
+    {
+        $this->droit_agence->removeElement($droitAgence);
 
         return $this;
     }

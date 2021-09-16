@@ -37,7 +37,7 @@ class AgenceVoter extends Voter
             return false;
         }
 
-        // //On vérifie si l'utilisateur est admin 
+        // // //On vérifie si l'utilisateur est admin 
         if ($this->security->isGranted('ROLE_ADMIN')){
             return true;
         }

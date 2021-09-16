@@ -39,6 +39,7 @@ class UserController extends AbstractController
         ]);
     }
 
+    //Page pour changer de mot de passe
     #[
         Route('/profile/change_password', name: 'user_password'),
         IsGranted('ROLE_USER')   
@@ -68,6 +69,7 @@ class UserController extends AbstractController
         ]);
     }
 
+    //Page pour changer son profil
     #[
         Route('/profile/change_profile', name: 'user_profile'),
         IsGranted('ROLE_USER')
