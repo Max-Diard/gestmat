@@ -82,15 +82,16 @@ class AdherentController extends AbstractController
     ]
     public function allAdherent(Adherent $adherent, Request $request): Response
     {
-        $agence = $adherent->getAgence();
+        $agenceAdherent = $adherent->getAgence();
         
         $user = $this->getUser()->getAgence();
-        $agenceId = [];
-        for ($i=0; $i < count($user); $i++){
-            $agenceId[] = $user[$i]->getId();
+        $userAgenceId = [];
+        
+        for ($i=0; $i < count($userAgenceId); $i++){
+            $agenceId[] = $userAgenceId[$i]->getId();
         }
         
-        if(in_array($agence->getId(), $agenceId) ){
+        if(in_array($agenceAdherent->getId(), $agenceId) ){
             $trueAgence = true;
         } else{
             $trueAgence = false;
