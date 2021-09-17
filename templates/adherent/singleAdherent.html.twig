@@ -6,7 +6,6 @@
         {{ message }}
     </div>
 {% endfor %}
-
 <p>Le profil de la personne sélectionner</p>
 <div class="">
     <ul>
@@ -39,9 +38,9 @@
                     {{ form_label(formAdherent.genre) }}
                     {{ form_widget(formAdherent.genre) }}
                 </div>
-                <div class="col col-adherent-status-contrat">
+                <div class="col col-adherent-status-contract">
                     <label for="">Etat Contrat</label>
-                    <div class="status-contrat">
+                    <div class="status-contract">
                     {% if adherentProfile.contractStartedAt < date('now') and adherentProfile.contractEndingAt > date('now') %}
                         En Cours
                     {% else %}
@@ -98,7 +97,7 @@
             <button class='open-tab' data-tab='tab-general' type='button'>Général</button>
             <button class='open-tab' data-tab='tab-research' type='button'>Recherche</button>
             <button class='open-tab' data-tab='tab-announcement' type='button'>Annonces</button>
-            <button class='open-tab' data-tab='tab-contrat' type='button'>Contrat</button>
+            <button class='open-tab' data-tab='tab-contract' type='button'>Contrat</button>
             <button class='open-tab' data-tab='tab-documents' type='button'>Documents</button>
             <button class='open-tab' data-tab='tab-meet' type='button'>Rencontres</button>
             <div class="tab-general tab">
@@ -295,9 +294,9 @@
                     </div>
                 </div>
             </div>
-            <div class="tab-contrat no-tab tab">
-                <div class="row-contrat-first">
-                <div class="row-contrat-first">
+            <div class="tab-contract no-tab tab">
+                <div class="row-contract-first">
+                <div class="row-contract-first">
                     <div class="col col-adherent-contract_date">
                         {{ form_label(formAdherent.contract_date) }}
                         {{ form_widget(formAdherent.contract_date) }}
@@ -310,17 +309,22 @@
                         {{ form_label(formAdherent.contract_endingAt) }}
                         {{ form_widget(formAdherent.contract_endingAt) }}
                     </div>
-                    <div class="row-contrat-second">
-                        <div class="col col-adherent-contract_amount">
-                            {{ form_label(formAdherent.contract_amount) }}
-                            {{ form_widget(formAdherent.contract_amount) }}
+                    {% if trueAgence == true %}
+                        <div class="row-contract-second">
+                            <div class="col col-adherent-contract_amount">
+                                {{ form_label(formAdherent.contract_amount) }}
+                                {{ form_widget(formAdherent.contract_amount) }}
+                            </div>
+                            <div class="col col-adherent-type_payment">
+                                {{ form_label(formAdherent.type_payment) }}
+                                {{ form_widget(formAdherent.type_payment) }}
+                            </div>
                         </div>
-                        <div class="col col-adherent-type_payment">
-                            {{ form_label(formAdherent.type_payment) }}
-                            {{ form_widget(formAdherent.type_payment) }}
-                        </div>
-                    </div>
-                    <div class="row-contrat-third">
+                    {% else %}
+                        <p>Vous n'avez accès à cette donnée.</p>
+                    {% endif %}
+                        
+                    <div class="row-contract-third">
                         <div class="col col-adherent-contract_comments">
                             {{ form_label(formAdherent.contract_comments) }}
                             {{ form_widget(formAdherent.contract_comments) }}
@@ -374,7 +378,10 @@
                     {# TODO: lier avec la table meet #}
                 </div>
             </div>
+            {% if trueAgence == true %}
+                {{ form_row(formAdherent.submit) }}
+            {% endif %}
         </div>
     </section>
-{{ form_end(formAdherent) }}
+{{ form_end(formAdherent, {render_rest: false}) }}
 {% endblock %}

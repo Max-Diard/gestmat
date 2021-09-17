@@ -19,12 +19,23 @@
 {% endif %}
 {{ agence.addressZipPostal }} - {{ agence.addressTown }} </p>
 
+{% if agence.droitAgence|length > 0 %}
     <p>J'ai donné les droits à ces agences :
     {% for droit in agence.droitAgence %}
         {{droit.name}} 
-    {% endfor %}</p>
+    {% endfor %}
+    </p>
+{% endif %}
 
 {{form(form)}}
+
+{% if agenceGiveDroit|length > 0 %}
+    <p>Ces agences m'ont donné les droits :
+    {% for agence in agenceGiveDroit %}
+        {{agence.name}}
+    {% endfor %}
+    </p>
+{% endif %}
 
 <a href="{{ path('agence_modify', {id: agence.id}) }}">Modifier l'agence</a>
 

@@ -33,6 +33,7 @@ class AgenceRepository extends ServiceEntityRepository
         ;
     }
     
+    //Je crois que ça ne sert nul part à revoir
      /**
      * @return Agence[] Returns an array of Agence objects
      */
@@ -48,6 +49,7 @@ class AgenceRepository extends ServiceEntityRepository
         ;
     }
 
+    //Pour trouver les autres agences
     /**
      * @return Agence[] Returns an array of Agence objects
      */

@@ -11,6 +11,15 @@
         {% endblock %}
 
     </head>
+    <header>
+        {% if app.user  %}
+            <div class=""><a href="{{ path('app_logout') }}">Déconnexion</a></div>
+        {% endif %}
+        {% if app.user and app.user.roles[0] == "ROLE_ADMIN" %}
+            <div class=""><a href="{{ path('admin') }}">ADMIN</a></div>
+        {% endif %}
+
+    </header>
     <body>
         {% block body %}{% endblock %}
 

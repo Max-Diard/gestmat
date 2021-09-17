@@ -23,7 +23,7 @@ class AgenceController extends AbstractController
         $this->entityManager = $entityManager;
     }
 
-    //Page pour voir une seule agence
+    //Page pour voir l'agence sélectionné
     #[
         Route('/agence/{id}', name: 'agence_single'),
         IsGranted('ROLE_USER'),
@@ -36,11 +36,23 @@ class AgenceController extends AbstractController
 
         if(count($allAgence) > 1){
             $agenceId = $agence->getId();
+
             for($i = 0; $i < count($allAgence); $i++){
-                $otherAgence = $this->entityManager->getRepository(Agence::class)->findOtherAgence($agenceId);
+                $otherAgences = $this->entityManager->getRepository(Agence::class)->findOtherAgence($agenceId);
             }
+
+            $agenceGiveDroit = [];
+            
+            foreach($otherAgences as $otherAgence){
+                for($j = 0; $j < count($allAgence); $j++){
+                    if($otherAgence->getDroitAgence()[$j] === $agence){
+                        $agenceGiveDroit[] = $otherAgence;
+                    }
+                }
+            }
+
             $form = $this->createForm(DelegationAgenceType::class, $agence, [
-                'agences' => $otherAgence
+                'agences' => $otherAgences
             ]);
 
             $form->handleRequest($request);
@@ -62,7 +74,8 @@ class AgenceController extends AbstractController
                 if($user == $agence->getUsers()[$i]){
                     return $this->render('agence/singleAgence.html.twig', [
                         'agence' => $agence,
-                        'form' => $form->createView()
+                        'form' => $form->createView(),
+                        'agenceGiveDroit' => $agenceGiveDroit
                     ]);
                 }
             }

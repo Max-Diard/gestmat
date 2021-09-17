@@ -37,19 +37,41 @@ class AdherentController extends AbstractController
             
             for($i = 0; $i < count($agences); $i++){
                 $agence = $agences[$i]->getId();
-
+                
                 $womenAdherent[] = $this->entityManager->getRepository(Adherent::class)->findByGenreAgences('Féminin', $agence);
                 $menAdherent[] = $this->entityManager->getRepository(Adherent::class)->findByGenreAgences('Masculin', $agence);
-            }
 
+                $otherAgences = $this->entityManager->getRepository(Agence::class)->findOtherAgence($agences[$i]);
+
+                
+                $womenAdherentDroit = [];
+                $menAdherentDroit = [];
+
+                foreach($otherAgences as $otherAgence){
+                    
+                    $allAgence = $otherAgence->getDroitAgence();
+
+                    if(count($allAgence) > 0){
+                        for($j = 0; $j < count($allAgence); $j++){
+                            if($allAgence[$j] === $agences[$i]){
+                                $womenAdherentDroit[] = $this->entityManager->getRepository(Adherent::class)->findByGenreAgences('Féminin', $otherAgence);
+                                $menAdherentDroit[] = $this->entityManager->getRepository(Adherent::class)->findByGenreAgences('Masculin', $otherAgence);
+                            }
+                        }
+                    } 
+                    
+                }
+            }
         } else {
             $womenAdherent = '';
             $menAdherent = '';
         }
 
         return $this->render('adherent/index.html.twig', [
-            'womenAdherent' => $womenAdherent,
-            'menAdherent' => $menAdherent,
+            'womenAdherent'         => $womenAdherent,
+            'menAdherent'           => $menAdherent,
+            'womenAdherentDroit'    => $womenAdherentDroit,
+            'menAdherentDroit'      => $menAdherentDroit
         ]);
     }
 
@@ -60,6 +82,21 @@ class AdherentController extends AbstractController
     ]
     public function allAdherent(Adherent $adherent, Request $request): Response
     {
+        $agence = $adherent->getAgence();
+        
+        $user = $this->getUser()->getAgence();
+        $agenceId = [];
+        for ($i=0; $i < count($user); $i++){
+            $agenceId[] = $user[$i]->getId();
+        }
+        
+        if(in_array($agence->getId(), $agenceId) ){
+            $trueAgence = true;
+        } else{
+            $trueAgence = false;
+        }
+        
+
         $form = $this->createForm(AdherentType::class, $adherent);
 
         // On récupére le nom des fichiers déjà existant
@@ -156,8 +193,9 @@ class AdherentController extends AbstractController
         }
 
         return $this->render('adherent/singleAdherent.html.twig', [
-            'adherentProfile' => $adherent,
-            'formAdherent' => $form->createView()
+            'adherentProfile'   => $adherent,
+            'formAdherent'      => $form->createView(),
+            'trueAgence'        => $trueAgence
         ]);
     }
 

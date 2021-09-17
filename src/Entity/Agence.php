@@ -70,7 +70,7 @@ class Agence
     private $address_town;
 
     /**
-     * @ORM\OneToMany(targetEntity=Adherent::class, mappedBy="agence")
+     * @ORM\OneToMany(targetEntity=Adherent::class, mappedBy="agence", fetch="EAGER")
      */
     private $adherents;
 
