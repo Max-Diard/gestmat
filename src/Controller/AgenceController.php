@@ -30,8 +30,9 @@ class AgenceController extends AbstractController
     ]
     public function index(Agence $agence, Request $request): Response
     {
-
         $user = $this->getUser();
+
+
         $allAgence = $this->entityManager->getRepository(Agence::class)->findAll();
 
         if(count($allAgence) > 1){
@@ -83,10 +84,7 @@ class AgenceController extends AbstractController
 
         $this->denyAccessUnlessGranted('agence_edit', $agence);
 
-        return $this->render('agence/singleAgence.html.twig', [
-            'agence' => $agence,
-            'form' => $form->createView()
-        ]);
+        return $this->redirectToRoute('acces_denied');
     }
 
     //Page pour modifier l'agence sélectionner

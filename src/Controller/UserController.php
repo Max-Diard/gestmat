@@ -40,6 +40,16 @@ class UserController extends AbstractController
         ]);
     }
 
+    //Page interdire l'accès à une page
+    #[
+        Route('/access_denied', name: 'access_denied'),
+        IsGranted('ROLE_USER')
+    ]
+    public function accessDenied(): Response
+    {
+        return $this->render('accessDenied.html.twig');
+    }
+
     //Page pour changer de mot de passe
     #[
         Route('/profile/change_password', name: 'user_password'),
@@ -97,3 +107,4 @@ class UserController extends AbstractController
         ]);
     }
 }
+

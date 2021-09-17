@@ -7,6 +7,7 @@ use App\Entity\Agence;
 use App\Entity\User;
 use App\Form\AgenceType;
 use App\Form\ChangeAgenceType;
+use App\Form\DelegationAgenceType;
 use App\Form\OptionType;
 use App\Form\UserAgenceType;
 use App\Form\UserType;
@@ -101,8 +102,45 @@ class AdminController extends AbstractController
     ]
     public function singleAgence(Agence $agence, Request $request): Response
     {
+        $allAgence = $this->entityManager->getRepository(Agence::class)->findAll();
+        $agenceId = $agence->getId();
+        for($i = 0; $i < count($allAgence); $i++){
+            $otherAgences = $this->entityManager->getRepository(Agence::class)->findOtherAgence($agenceId);
+        }
+
+        $agenceGiveDroit = [];
+        
+        foreach($otherAgences as $otherAgence){
+            for($j = 0; $j < count($allAgence); $j++){
+                if($otherAgence->getDroitAgence()[$j] === $agence){
+                    $agenceGiveDroit[] = $otherAgence;
+                }
+            }
+        }
+
+        $form = $this->createForm(DelegationAgenceType::class, $agence, [
+            'agences' => $otherAgences
+        ]);
+
+        $form->handleRequest($request);
+        
+        if($form->isSubmitted() && $form->isValid()){
+            $delegation = $form->get('droit_agence')->getData();
+            
+            foreach($delegation as $deleg){
+                $agence->addDroitAgence($deleg);
+            }
+
+            $this->entityManager->persist($agence);
+            $this->entityManager->flush();
+
+            return $this->redirectToRoute('admin_agence_single', ['id' => $agence->getId()]);
+        }
+
         return $this->render('admin/agence/single.html.twig', [
-            'agence' => $agence
+            'agence' => $agence,
+            'form' => $form->createView(),
+            'agenceGiveDroit' => $agenceGiveDroit
         ]);
     }
 
