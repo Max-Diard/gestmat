@@ -34,7 +34,6 @@ class AdherentController extends AbstractController
 
         //Si l'utilisateur connecté à plus d'une agence, on itére dessus
         if (count($agences) > 0){
-            
             for($i = 0; $i < count($agences); $i++){
                 $agence = $agences[$i]->getId();
                 
@@ -43,28 +42,30 @@ class AdherentController extends AbstractController
 
                 $otherAgences = $this->entityManager->getRepository(Agence::class)->findOtherAgence($agences[$i]);
 
-                
                 $womenAdherentDroit = [];
                 $menAdherentDroit = [];
 
-                foreach($otherAgences as $otherAgence){
-                    
-                    $allAgence = $otherAgence->getDroitAgence();
+                // On regarde si il y a plus d'agences dans la BDD que l'user à moins d'agences de lier
+                if(count($otherAgences) > count($agences)){
+                    foreach($otherAgences as $otherAgence){
+                        $allAgence = $otherAgence->getDroitAgence();
 
-                    if(count($allAgence) > 0){
-                        for($j = 0; $j < count($allAgence); $j++){
-                            if($allAgence[$j] === $agences[$i]){
-                                $womenAdherentDroit[] = $this->entityManager->getRepository(Adherent::class)->findByGenreAgences('Féminin', $otherAgence);
-                                $menAdherentDroit[] = $this->entityManager->getRepository(Adherent::class)->findByGenreAgences('Masculin', $otherAgence);
+                        if(count($allAgence) > 0){
+                            for($j = 0; $j < count($allAgence); $j++){
+                                if($allAgence[$j] === $agences[$i]){
+                                    $womenAdherentDroit[] = $this->entityManager->getRepository(Adherent::class)->findByGenreAgences('Féminin', $otherAgence);
+                                    $menAdherentDroit[] = $this->entityManager->getRepository(Adherent::class)->findByGenreAgences('Masculin', $otherAgence);
+                                }
                             }
-                        }
-                    } 
-                    
+                        } 
+                    }
                 }
             }
         } else {
             $womenAdherent = '';
             $menAdherent = '';
+            $womenAdherentDroit = [];
+            $menAdherentDroit = [];
         }
 
         return $this->render('adherent/index.html.twig', [
@@ -82,11 +83,12 @@ class AdherentController extends AbstractController
     ]
     public function allAdherent(Adherent $adherent, Request $request): Response
     {
+        // On regarde si l'user fait bien parti de l'agence de l'adhérent
         $agenceAdherent = $adherent->getAgence();
         
-        $user = $this->getUser()->getAgence();
-        $userAgenceId = [];
-        
+        $userAgenceId = $this->entityManager->getRepository(Agence::class)->findAll();
+        $agenceId = [];
+
         for ($i=0; $i < count($userAgenceId); $i++){
             $agenceId[] = $userAgenceId[$i]->getId();
         }
@@ -97,7 +99,7 @@ class AdherentController extends AbstractController
             $trueAgence = false;
         }
         
-
+        
         $form = $this->createForm(AdherentType::class, $adherent);
 
         // On récupére le nom des fichiers déjà existant

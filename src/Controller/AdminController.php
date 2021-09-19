@@ -58,14 +58,6 @@ class AdminController extends AbstractController
     ]
     public function newAgence(Request $request): Response
     {
-        $lastAgence = $this->entityManager->getRepository(Agence::class)->findByLastId();
-        $lastAgence = $lastAgence[0]->getId();
-
-        if ($lastAgence != ''){
-            $lastAgence++;
-        } else{
-            $lastAgence = 1;
-        }
         $agence = new Agence();
 
         $form = $this->createForm(AgenceType::class, $agence);
@@ -75,17 +67,17 @@ class AdminController extends AbstractController
         if($form->isSubmitted() && $form->isValid()){
             $agence = $form->getData();
 
+            $this->entityManager->persist($agence);
+            $this->entityManager->flush();
+
             $picture = $form->get('link_picture')->getData();
             // Si une image est envoyé alors on ajoute l'information en BDD
             if($picture){
                 $pictureExt = $picture->guessExtension();
                 $pictureName = md5(uniqid()) . '.' . $pictureExt;
-                $picture->move($this->getParameter('agence_directory') . 'agence' . $lastAgence . '/picture/', $pictureName);
+                $picture->move($this->getParameter('agence_directory') . 'agence' . $agence->getId() . '/picture/', $pictureName);
                 $agence->setLinkPicture($pictureName);
             }
-
-            $this->entityManager->persist($agence);
-            $this->entityManager->flush();
 
             return $this->redirectToRoute('admin_agence');
         }
@@ -186,6 +178,39 @@ class AdminController extends AbstractController
             'form' => $form->createView(),
             'agence' => $agence
         ]);
+    }
+
+    //Page pour demander si l'on est sûr que l'on veux supprimer l'agence
+    #[
+        Route('/admin/agence/{id}/ask_remove', name: 'admin_agence_ask_remove'),
+        IsGranted("ROLE_ADMIN")
+    ]
+    public function askRemoveAgence(Agence $agence): Response
+    {
+        return $this->render('admin/agence/askRemove.html.twig', [
+            'agence' => $agence
+        ]);
+    }
+
+    //Route pour supprimer l'agence sélectionner
+    #[
+        Route('/admin/agence/{id}/remove', name: 'admin_agence_remove'),
+        IsGranted("ROLE_ADMIN")
+    ]
+    public function removeAgence(Agence $agence): Response
+    {
+        // $adherents = $agence->getAdherents();
+        // $agence->removeAdherent($adherents[0]);
+        // dd($adherents[0]);
+
+        $this->entityManager->remove($agence);
+        $this->entityManager->flush();
+
+        // unlink($this->getParameter('agence_directory') . 'agence' . $agence->getId() . '/picture/' . $agence->getLinkPicture());
+        // rmdir($this->getParameter('agence_directory') . 'agence' . $agence->getId() . '/picture/');
+        // rmdir($this->getParameter('agence_directory') . 'agence' . $agence->getId() );
+
+        return $this->redirectToRoute('admin_agence');
     }
 
     //----------------------------- Affichage Utilisateurs ---------------------------------//

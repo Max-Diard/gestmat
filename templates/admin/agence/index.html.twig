@@ -17,6 +17,7 @@
             <td>Début du contract</td>
             <td>Fin de contract</td>
             <td>Action</td>
+            <td>Supprimer</td>
         </tr>
     </thead>
     <tbody>
@@ -28,6 +29,7 @@
                 <td>{{ agence.startedAt|date('d/m/Y') }}</td>
                 <td>{{ agence.endingAt|date('d/m/Y') }}</td>
                 <td><a href="{{ path('admin_agence_single', { id: agence.id }) }}">Voir plus</a></td>
+                <td><a href="{{ path('admin_agence_ask_remove', { id: agence.id }) }}">Supprimer l'agence</a></td>
             </tr>
         {% endfor %}
     </tbody>

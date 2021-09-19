@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+<div class="">
+    <div class="">
+        <p>Attention !! Vous êtes sur le point de supprimer l'agence "{{ agence.name }}" de {{ agence.addressTown }}.<br/>
+        Cette action est irréversible et va supprimer tous les adhérents de l'agence, êtes vous sûr ?</p>
+        <a href="{{ path('admin_agence_remove', { id: agence.id }) }}">Oui</a>
+        <a href="{{ path('admin_agence') }}">Non</a>
+    </div>
+</div>
+
+{% endblock %}
