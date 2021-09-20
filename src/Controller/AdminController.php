@@ -199,16 +199,12 @@ class AdminController extends AbstractController
     ]
     public function removeAgence(Agence $agence): Response
     {
-        // $adherents = $agence->getAdherents();
-        // $agence->removeAdherent($adherents[0]);
-        // dd($adherents[0]);
-
         $this->entityManager->remove($agence);
         $this->entityManager->flush();
 
-        // unlink($this->getParameter('agence_directory') . 'agence' . $agence->getId() . '/picture/' . $agence->getLinkPicture());
-        // rmdir($this->getParameter('agence_directory') . 'agence' . $agence->getId() . '/picture/');
-        // rmdir($this->getParameter('agence_directory') . 'agence' . $agence->getId() );
+        unlink($this->getParameter('agence_directory') . 'agence' . $agence->getId() . '/picture/' . $agence->getLinkPicture());
+        rmdir($this->getParameter('agence_directory') . 'agence' . $agence->getId() . '/picture/');
+        rmdir($this->getParameter('agence_directory') . 'agence' . $agence->getId() );
 
         return $this->redirectToRoute('admin_agence');
     }
@@ -279,5 +275,30 @@ class AdminController extends AbstractController
         return $this->render('admin/user/addAgence.html.twig', [
             'formAgence' => $form->createView()
         ]);
+    }
+
+    //Page pour demander si l'on est sur que l'on veux supprimer l'user sélectionné
+    #[
+        Route('admin/user/{id}/remove/ask', name: 'admin_user_ask_remove'),
+        IsGranted("ROLE_ADMIN")
+    ]
+    public function askRemoveUser(User $user): Response
+    {
+        return $this->render('admin/user/askRemove.html.twig', [
+            'user' => $user
+        ]);
+    }
+
+    //Route pour supprimé l'user sélectionné
+    #[
+        Route('admin/user/{id}/remove', name: 'admin_user_remove'),
+        IsGranted("ROLE_ADMIN")
+    ]
+    public function removeUser(User $user): Response
+    {
+        $this->entityManager->remove($user);
+        $this->entityManager->flush();
+
+        return $this->redirectToRoute('admin_user_all');
     }
 }

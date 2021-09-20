@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+<div class="">
+    <div class="">
+        <p>Attention !! Vous êtes sur le point de supprimer l'utilisateur "{{ user.firstname }} {{ user.lastname }}".<br/>
+        Cette action est irréversible, êtes vous sûr ?</p>
+        <a href="{{ path('admin_user_remove', { id: user.id }) }}">Oui</a>
+        <a href="{{ path('admin_user_all') }}">Non</a>
+    </div>
+</div>
+
+{% endblock %}
