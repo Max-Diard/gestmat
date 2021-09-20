@@ -101,6 +101,14 @@ td{
     padding: 0.5rem
 }
 
+.women, 
+.women-droit,
+.men, 
+.men-droit{
+    cursor: pointer;
+    text-align: center;
+}
+
 .all-table{
     display: flex;
     justify-content: space-evenly;
@@ -145,6 +153,13 @@ td{
     border: 10px solid black;
 }
 
+.button-create-meet{
+    position: absolute;
+    bottom: 25%;
+    right: 50%;
+    transform: translate(50%, 50%);
+}
+
 /* Single Adherent */
 
 .image-adherent{
@@ -154,4 +169,33 @@ td{
 
 .adherent-droit{
     display: none;
+}
+
+.modal {
+    display: none;
+    background-color: rgba(128, 128, 128, 0.5);
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0%;
+}
+
+.modal-ask{
+    width: 50%;
+    height: 30%;
+    background-color: white;
+    top: 30%;
+    position: relative;
+    left: 25%;
+    border-radius: 10%;
+}
+
+.modal-text{
+    text-align: center;
+    padding: 1.5rem;
+}
+
+.modal-button {
+    display: flex;
+    justify-content: space-evenly;
 }

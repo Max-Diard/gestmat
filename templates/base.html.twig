@@ -6,7 +6,9 @@
         {# Run `composer require symfony/webpack-encore-bundle`
            and uncomment the following Encore helpers to start using Symfony UX #}
         {% block stylesheets %}
+        <link rel="stylesheet" href="{{ asset('css/datatable.min.css') }}">
         <link rel="stylesheet" href='{{ asset('css/style.css') }}'/>
+
             {#{{ encore_entry_link_tags('app') }}#}
         {% endblock %}
 
@@ -24,6 +26,8 @@
         {% block body %}{% endblock %}
 
         {% block javascripts %}
+        <script src="{{ asset('js/jquery3.6.min.js') }}"></script>
+        <script src="{{ asset('js/datatable.min.js') }}"></script>
         <script src='{{ asset('js/script.js') }}'></script>
             {#{{ encore_entry_script_tags('app') }}#}
         {% endblock %}

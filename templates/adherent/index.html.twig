@@ -15,7 +15,18 @@
 </div>
 {# <a href='{{ path('meet_new', {'woman': 'adherent-woman', 'man' : 'adherent-man'}) }}'>Nouvel Rencontre</a> #}
 
+<div class="modal">
+    <div class="modal-ask">
+        <div class="modal-text">
+            <p>Voulez vous créer une rencontre entre :</p>
+            <p class="modal-women-meet"></p>
+            <p class="modal-men-meet"></p>
+            <div class="modal-button"></div>
+        </div>
+    </div>
+</div>
 <div class="all-table">
+{#    Adherent Femme#}
     <table class='table-women'>
         <thead class='thead-adherent'>
             <tr>
@@ -31,17 +42,17 @@
         <tbody>
             {% for boucle in womenAdherent %}
                 {% for adherent in boucle %}
-                    <tr class='women'>
-                        <td>{{ adherent.lastname }}</td>
+                   <tr class='women'>
+                       <td class="js-adherent" data-id='{{ adherent.id }}'>{{ adherent.lastname }}</td>
                         {% if adherent.statusMeet == 'Disponible' %}
-                            <td class='status-disponibility'>{{ adherent.firstname }}</td>
+                            <td class='status-disponibility js-adherent' data-id='{{ adherent.id }}'>{{ adherent.firstname }}</td>
                         {% else %}
-                            <td>{{ adherent.firstname }}</td>
+                            <td class='js-adherent' data-id='{{ adherent.id }}'>{{ adherent.firstname }}</td>
                         {% endif %}
-                        <td>{{ adherent.getAge() }}</td>
-                        <td >{{ adherent.statusMeet }}</td>
-                        <td>{{ adherent.contractEndingAt|date('d/m/Y') }}</td>
-                        <td>{{ adherent.agence.addressTown }} - {{ adherent.agence.name }}</td>
+                        <td class="js-adherent" data-id='{{ adherent.id }}'>{{ adherent.getAge() }}</td>
+                        <td class="js-adherent" data-id='{{ adherent.id }}'>{{ adherent.statusMeet }}</td>
+                        <td class="js-adherent" data-id='{{ adherent.id }}'>{{ adherent.contractEndingAt|date('d/m/Y') }}</td>
+                        <td class="js-adherent" data-id='{{ adherent.id }}'>{{ adherent.agence.addressTown }} - {{ adherent.agence.name }}</td>
                         <td><a href='{{ path('adherent_single', {id : adherent.id}) }}'>Profil</a></td>
                     </tr>
                 {% endfor %}
@@ -49,23 +60,23 @@
             {% for boucle in womenAdherentDroit %}
                 {% for adherent in boucle %}
                     <tr class='women-droit'>
-                        <td>{{ adherent.lastname }}</td>
+                        <td class="js-adherent" data-id='{{ adherent.id }}'>{{ adherent.lastname }}</td>
                         {% if adherent.statusMeet == 'Disponible' %}
-                            <td class='status-disponibility'>{{ adherent.firstname }}</td>
+                            <td class='status-disponibility js-adherent' data-id='{{ adherent.id }}'>{{ adherent.firstname }}</td>
                         {% else %}
-                            <td>{{ adherent.firstname }}</td>
+                            <td class="js-adherent" data-id='{{ adherent.id }}'>{{ adherent.firstname }}</td>
                         {% endif %}
-                        <td>{{ adherent.getAge() }}</td>
-                        <td >{{ adherent.statusMeet }}</td>
-                        <td>{{ adherent.contractEndingAt|date('d/m/Y') }}</td>
-                        <td>{{ adherent.agence.addressTown }} - {{ adherent.agence.name }}</td>
+                        <td class="js-adherent" data-id='{{ adherent.id }}'>{{ adherent.getAge() }}</td>
+                        <td class="js-adherent" data-id='{{ adherent.id }}'>{{ adherent.statusMeet }}</td>
+                        <td class="js-adherent" data-id='{{ adherent.id }}'>{{ adherent.contractEndingAt|date('d/m/Y') }}</td>
+                        <td class="js-adherent" data-id='{{ adherent.id }}'>{{ adherent.agence.addressTown }} - {{ adherent.agence.name }}</td>
                         <td><a href='{{ path('adherent_single', {id : adherent.id}) }}'>Profil</a></td>
                     </tr>
                 {% endfor %}
             {% endfor %}
         </tbody>
-        <tbody>
     </table>
+{#    Adherent Homme#}
     <table class='table-men'>
         <thead class='thead-adherent'>
             <tr>
@@ -82,16 +93,16 @@
             {% for boucle in menAdherent %}
                 {% for adherent in boucle %}
                     <tr class='men'>
-                        <td>{{ adherent.lastname }}</td>
+                        <td class="js-adherent" data-id='{{ adherent.id }}'>{{ adherent.lastname }}</td>
                         {% if adherent.statusMeet == 'Disponible' %}
-                            <td class='status-disponibility'>{{ adherent.firstname }}</td>
+                            <td class='status-disponibility js-adherent'  data-id='{{ adherent.id }}'>{{ adherent.firstname }}</td>
                         {% else %}
-                            <td>{{ adherent.firstname }}</td>
+                            <td class="js-adherent" data-id='{{ adherent.id }}'>{{ adherent.firstname }}</td>
                         {% endif %}
-                        <td>{{ adherent.getAge() }}</td>
-                        <td >{{ adherent.statusMeet }}</td>
-                        <td>{{ adherent.contractEndingAt|date('d/m/Y') }}</td>
-                        <td>{{ adherent.agence.addressTown }} - {{ adherent.agence.name }}</td>
+                        <td class="js-adherent" data-id='{{ adherent.id }}'>{{ adherent.getAge() }}</td>
+                        <td class="js-adherent" data-id='{{ adherent.id }}'>{{ adherent.statusMeet }}</td>
+                        <td class="js-adherent" data-id='{{ adherent.id }}'>{{ adherent.contractEndingAt|date('d/m/Y') }}</td>
+                        <td class="js-adherent" data-id='{{ adherent.id }}'>{{ adherent.agence.addressTown }} - {{ adherent.agence.name }}</td>
                         <td><a href='{{ path('adherent_single', {id: adherent.id}) }}'>Profil</a></td>
                     </tr>
                 {% endfor %}
@@ -99,16 +110,16 @@
             {% for boucle in menAdherentDroit %}
                 {% for adherent in boucle %}
                     <tr class='men-droit'>
-                        <td>{{ adherent.lastname }}</td>
+                        <td class="js-adherent" data-id='{{ adherent.id }}'>{{ adherent.lastname }}</td>
                         {% if adherent.statusMeet == 'Disponible' %}
-                            <td class='status-disponibility'>{{ adherent.firstname }}</td>
+                            <td class='status-disponibility js-adherent' data-id='{{ adherent.id }}'>{{ adherent.firstname }}</td>
                         {% else %}
-                            <td>{{ adherent.firstname }}</td>
+                            <td class="js-adherent" data-id='{{ adherent.id }}'>{{ adherent.firstname }}</td>
                         {% endif %}
-                        <td>{{ adherent.getAge() }}</td>
-                        <td >{{ adherent.statusMeet }}</td>
-                        <td>{{ adherent.contractEndingAt|date('d/m/Y') }}</td>
-                        <td>{{ adherent.agence.addressTown }} - {{ adherent.agence.name }}</td>
+                        <td class="js-adherent" data-id='{{ adherent.id }}'>{{ adherent.getAge() }}</td>
+                        <td class="js-adherent" data-id='{{ adherent.id }}'>{{ adherent.statusMeet }}</td>
+                        <td class="js-adherent" data-id='{{ adherent.id }}'>{{ adherent.contractEndingAt|date('d/m/Y') }}</td>
+                        <td class="js-adherent" data-id='{{ adherent.id }}'>{{ adherent.agence.addressTown }} - {{ adherent.agence.name }}</td>
                         <td><a href='{{ path('adherent_single', {id: adherent.id}) }}'>Profil</a></td>
                     </tr>
                 {% endfor %}
@@ -116,18 +127,19 @@
         </tbody>
     </table>
 </div>
-
-
+<div class="button-meet">
+{#    <a href="#" class="button-create-meet">Créer une rencontre</a>#}
+</div>
 <div class="card-selected">
     <div class="card-selected-woman">
         <table class='table-card-woman'>
             <thead class='thead-adherent'>
                 <tr>
-                    <td>lastname</td>
-                    <td>firstname</td>
-                    <td>Age</td>
-                    <td>Rencontre : (à récupérer)</td>
-                    <td>Agence Ville - Agence Nom</td>
+                    <td class='thead-card-woman-lastname'></td>
+                    <td class='thead-card-woman-firstname'></td>
+                    <td class='thead-card-woman-years'></td>
+                    <td class='thead-card-woman-meet'></td>
+                    <td class='thead-card-woman-agence'></td>
                 </tr>
             </thead>
             <tbody>
@@ -167,11 +179,11 @@
         <table class='table-card-man'>
             <thead class='thead-adherent'>
                 <tr>
-                    <td>lastname</td>
-                    <td>firstname</td>
-                    <td>Age</td>
-                    <td>Rencontre : (à récupérer)</td>
-                    <td>Agence Ville - Agence Nom</td>
+                    <td class='thead-card-man-lastname'></td>
+                    <td class='thead-card-man-firstname'></td>
+                    <td class='thead-card-man-years'></td>
+                    <td class='thead-card-man-meet'></td>
+                    <td class='thead-card-man-agence'></td>
                 </tr>
             </thead>
             <tbody>

@@ -3,10 +3,11 @@
 namespace App\Entity;
 
 
-use App\Repository\AdherentRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\AdherentRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=AdherentRepository::class)
@@ -17,16 +18,19 @@ class Adherent
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups("adherent:read")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=100)
+     * @Groups("adherent:read")
      */
     private $firstname;
 
     /**
      * @ORM\Column(type="string", length=100)
+     * @Groups("adherent:read")
      */
     private $lastname;
 
@@ -282,6 +286,7 @@ class Adherent
 
     /**
      * @ORM\ManyToOne(targetEntity=AdherentOption::class, inversedBy="genre")
+     * @Groups("adherent:read")
      */
     private $genre;
 
@@ -322,6 +327,7 @@ class Adherent
 
     /**
      * @ORM\Column(type="date")
+     * @Groups("adherent:read")
      */
     private $contract_endingAt;
 
@@ -343,6 +349,7 @@ class Adherent
 
     /**
      * @ORM\ManyToOne(targetEntity=Agence::class, inversedBy="adherents")
+     * @Groups("adherent:read")
      */
     private $agence;
 
@@ -1172,7 +1179,10 @@ class Adherent
 
         return $this;
     }
-
+    
+    /**
+    * @Groups("adherent:read")
+    */
     public function getAge()
     {
         $dateInterval = $this->birthdate->diff(new \DateTime());

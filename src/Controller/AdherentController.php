@@ -14,6 +14,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 class AdherentController extends AbstractController
 {
@@ -28,7 +29,7 @@ class AdherentController extends AbstractController
         Route('/adherent', name: 'adherent_all'),
         IsGranted('ROLE_USER')
     ]
-    public function index(): Response
+    public function index(NormalizerInterface $normalizer): Response
     {
         $agences = $this->getUser()->getAgence();
 
