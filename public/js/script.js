@@ -3,10 +3,20 @@ let loadingWomen = false
 let meetWaitingWomen = '';
 let meetWaitingMen = '';
 
+// Tableau Adhérents all
 $(document).ready( function () {
     $('.table-women').DataTable({
         paging: false,
-        searching: false
+        searching: false,
+        info: false
+    });
+} );
+
+$(document).ready( function () {
+    $('.table-men').DataTable({
+        paging: false,
+        searching: false,
+        info: false
     });
 } );
 
@@ -38,9 +48,22 @@ window.addEventListener("DOMContentLoaded", (event) => {
             })
         })
     }
+
+    //Pour la page single Adhérents
+    const meetMoreButton = document.querySelectorAll('.meet-more');
+
+    if(meetMoreButton){
+        [].forEach.call(meetMoreButton, function (elem){
+            elem.addEventListener('click', function(ev) {
+                ev.preventDefault()
+                // informationMeet(elem.getAttribute('data-id'))
+            })
+        })
+    }
+
 });
 
-
+// Function pour appeler l'api qui récupére l'adhérent sélectionner
 function api(id){
     const modal = document.querySelector('.modal');
     const modalText = document.querySelector('.modal-text');
@@ -77,23 +100,26 @@ function api(id){
 
                 const recup = JSON.parse(request.response);
                 let i = 0;
-                while(i < recup.length){
-                    if (recup[i].genre.name === 'Féminin'){
-                        lastnameWoman.textContent = recup[i].lastname;
-                        firstnameWoman.textContent = recup[i].firstname;
-                        yearWoman.textContent = recup[i].age;
-                        agenceWoman.textContent = recup[i].agence.name + ' - ' + recup[i].agence.address_town;
-                        meetWaitingWomen = recup[i].id
+                while(i < recup.adherent.length){
+                    if (recup.adherent[i].genre.name === 'Féminin'){
+                        lastnameWoman.textContent = recup.adherent[i].lastname;
+                        firstnameWoman.textContent = recup.adherent[i].firstname;
+                        yearWoman.textContent = recup.adherent[i].age;
+                        agenceWoman.textContent = recup.adherent[i].agence.name + ' - ' + recup.adherent[i].agence.address_town;
+                        meetWaitingWomen = recup.adherent[i].id
                         loadingWomen = true
+                        informationMeetWoman(recup);
                         i++;
                     } else {
-                        lastnameMan.textContent = recup[i].lastname;
-                        firstnameMan.textContent = recup[i].firstname;
-                        yearMan.textContent = recup[i].age;
-                        agenceMan.textContent = recup[i].agence.name + ' - ' + recup[i].agence.address_town;
-                        meetWaitingMen = recup[i].id
+                        lastnameMan.textContent = recup.adherent[i].lastname;
+                        firstnameMan.textContent = recup.adherent[i].firstname;
+                        yearMan.textContent = recup.adherent[i].age;
+                        agenceMan.textContent = recup.adherent[i].agence.name + ' - ' + recup.adherent[i].agence.address_town;
+                        meetWaitingMen = recup.adherent[i].id
                         loadingMen = true
+                        informationMeetMan(recup);
                         i++;
+
                     }
                 }
                 if(loadingWomen && loadingMen){
@@ -124,18 +150,19 @@ function api(id){
                         modalButton.appendChild(buttonYes)
                         modalButton.appendChild(buttonNo)
 
-                        const date = document.createElement('input')
-                        date.type = 'date'
-                        date.value = Date.now()
-                        modalText.appendChild(date)
+                        const inputDate = document.createElement('input')
+                        inputDate.type = 'date'
+                        inputDate.value = Date.now()
+                        modalText.appendChild(inputDate)
 
-                        date.addEventListener('input', function (){
+                        inputDate.addEventListener('input', function (){
                             buttonYes.href += '-' + this.value
                         })
 
                         buttonNo.addEventListener('click', function(ev){
                             ev.preventDefault()
                             modal.style.display = 'none';
+                            modalText.removeChild(inputDate)
                             modalButton.removeChild(buttonYes)
                             modalButton.removeChild(buttonNo)
                         })
@@ -145,4 +172,160 @@ function api(id){
         }
     })
     request.send();
+}
+
+// Function appeler dans la function'api' ppour afficher les rencontres de l'adhérent sélectionner
+function informationMeetWoman(recup){
+    const divMeetWoman = document.querySelector('.woman-meeting');
+
+    if(divMeetWoman.hasChildNodes()){
+        while(divMeetWoman.hasChildNodes()){
+            divMeetWoman.removeChild(divMeetWoman.lastChild)
+        }
+    }
+    if (recup.meet.length > 0){
+        let j = 0
+        while(j < recup.meet.length){
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+
+            const row = document.createElement('tr')
+
+            const celliD = document.createElement('td')
+            celliD.textContent = recup.meet[j].id
+
+            const cellReturnAt = document.createElement('td')
+            if (recup.meet[j].returnAt){
+                const returnAt = new Date(recup.meet[j].returnAt)
+                cellReturnAt.textContent =  new Intl.DateTimeFormat('fr-FR').format(returnAt)
+            }else {
+                cellReturnAt.textContent = ''
+            }
+
+            const cellLastname = document.createElement('td')
+            cellLastname.textContent = recup.meet[j].adherent_man.lastname
+
+            const cellFirstname = document.createElement('td')
+            cellFirstname.textContent = recup.meet[j].adherent_man.firstname
+
+            const cellAgence = document.createElement('td')
+            cellAgence.textContent = recup.meet[j].adherent_man.agence.name
+
+            const cellStarted = document.createElement('td')
+            const startedAt = new Date(recup.meet[j].startedAt)
+            cellStarted.textContent = new Intl.DateTimeFormat('fr-FR').format(startedAt)
+
+            const cellMore = document.createElement('td')
+            const cellLinkMore = document.createElement('a')
+            cellLinkMore.href = '#'
+            cellLinkMore.textContent = 'Voir plus'
+
+            cellMore.appendChild(cellLinkMore)
+
+            const cellDelete = document.createElement('td')
+            const cellLinkDelete = document.createElement('a')
+            cellLinkDelete.href = '#'
+            cellLinkDelete.textContent = 'Supprimer'
+
+            cellDelete.appendChild(cellLinkDelete)
+
+            row.appendChild(celliD)
+            row.appendChild(cellReturnAt)
+            row.appendChild(cellLastname)
+            row.appendChild(cellFirstname)
+            row.appendChild(cellAgence)
+            row.appendChild(cellStarted)
+            row.appendChild(cellMore)
+            row.appendChild(cellDelete)
+
+            divMeetWoman.appendChild(row)
+            j++;
+        }
+    } else {
+        const row = document.createElement('tr')
+
+        const noMeet = document.createElement('td')
+        noMeet.colSpan = 8
+        noMeet.textContent = 'Pas de rencontre pour le moment'
+
+        row.appendChild(noMeet)
+        divMeetWoman.appendChild(row)
+    }
+}
+
+function informationMeetMan(recup){
+    const divMeetMan = document.querySelector('.man-meeting');
+
+    if(divMeetMan.hasChildNodes()){
+        while(divMeetMan.hasChildNodes()){
+            divMeetMan.removeChild(divMeetMan.lastChild)
+        }
+    }
+
+    if(recup.meet.length > 0){
+        let j = 0
+        while(j < recup.meet.length){
+            const row = document.createElement('tr')
+
+            const celliD = document.createElement('td')
+            celliD.textContent = recup.meet[j].id
+
+            const cellReturnAt = document.createElement('td')
+            if (recup.meet[j].returnAt){
+                const returnAt = new Date(recup.meet[j].returnAt)
+                cellReturnAt.textContent =  new Intl.DateTimeFormat('fr-FR').format(returnAt)
+            }else {
+                cellReturnAt.textContent = ''
+            }
+
+            const cellLastname = document.createElement('td')
+            cellLastname.textContent = recup.meet[j].adherent_woman.lastname
+
+            const cellFirstname = document.createElement('td')
+            cellFirstname.textContent = recup.meet[j].adherent_woman.firstname
+
+            const cellAgence = document.createElement('td')
+            cellAgence.textContent = recup.meet[j].adherent_woman.agence.name
+
+            const cellStarted = document.createElement('td')
+            const startedAt = new Date(recup.meet[j].startedAt)
+            cellStarted.textContent = new Intl.DateTimeFormat('fr-FR').format(startedAt)
+
+            const cellMore = document.createElement('td')
+            const cellLinkMore = document.createElement('a')
+            cellLinkMore.href = '#'
+            cellLinkMore.textContent = 'Voir plus'
+
+            cellMore.appendChild(cellLinkMore)
+
+            const cellDelete = document.createElement('td')
+            const cellLinkDelete = document.createElement('a')
+            cellLinkDelete.href = '#'
+            cellLinkDelete.textContent = 'Supprimer'
+
+            cellDelete.appendChild(cellLinkDelete)
+
+            row.appendChild(celliD)
+            row.appendChild(cellReturnAt)
+            row.appendChild(cellLastname)
+            row.appendChild(cellFirstname)
+            row.appendChild(cellAgence)
+            row.appendChild(cellStarted)
+            row.appendChild(cellMore)
+            row.appendChild(cellDelete)
+
+            divMeetMan.appendChild(row)
+
+            j++;
+        }
+    } else {
+        const row = document.createElement('tr')
+
+        const noMeet = document.createElement('td')
+        noMeet.colSpan = 8
+        noMeet.textContent = 'Pas de rencontre pour le moment'
+
+        row.appendChild(noMeet)
+        divMeetMan.appendChild(row)
+    }
+
 }

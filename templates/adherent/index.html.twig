@@ -13,7 +13,6 @@
 <div class="">
     <a href='{{ path('profile') }}'>Votre profil</a>
 </div>
-{# <a href='{{ path('meet_new', {'woman': 'adherent-woman', 'man' : 'adherent-man'}) }}'>Nouvel Rencontre</a> #}
 
 <div class="modal">
     <div class="modal-ask">
@@ -43,7 +42,11 @@
             {% for boucle in womenAdherent %}
                 {% for adherent in boucle %}
                    <tr class='women'>
-                       <td class="js-adherent" data-id='{{ adherent.id }}'>{{ adherent.lastname }}</td>
+                       {% if adherent.id in meet %}
+                           <td class="js-adherent" data-id='{{ adherent.id }}'>{{ adherent.lastname }}</td>
+                       {% else %}
+                           <td class="js-adherent no-meet" data-id='{{ adherent.id }}'>{{ adherent.lastname }}</td>
+                       {% endif %}
                         {% if adherent.statusMeet == 'Disponible' %}
                             <td class='status-disponibility js-adherent' data-id='{{ adherent.id }}'>{{ adherent.firstname }}</td>
                         {% else %}
@@ -60,7 +63,11 @@
             {% for boucle in womenAdherentDroit %}
                 {% for adherent in boucle %}
                     <tr class='women-droit'>
-                        <td class="js-adherent" data-id='{{ adherent.id }}'>{{ adherent.lastname }}</td>
+                        {% if adherent.id in meet %}
+                            <td class="js-adherent" data-id='{{ adherent.id }}'>{{ adherent.lastname }}</td>
+                        {% else %}
+                            <td class="js-adherent no-meet" data-id='{{ adherent.id }}'>{{ adherent.lastname }}</td>
+                        {% endif %}
                         {% if adherent.statusMeet == 'Disponible' %}
                             <td class='status-disponibility js-adherent' data-id='{{ adherent.id }}'>{{ adherent.firstname }}</td>
                         {% else %}
@@ -93,7 +100,11 @@
             {% for boucle in menAdherent %}
                 {% for adherent in boucle %}
                     <tr class='men'>
-                        <td class="js-adherent" data-id='{{ adherent.id }}'>{{ adherent.lastname }}</td>
+                        {% if adherent.id in meet %}
+                            <td class="js-adherent" data-id='{{ adherent.id }}'>{{ adherent.lastname }}</td>
+                        {% else %}
+                            <td class="js-adherent no-meet" data-id='{{ adherent.id }}'>{{ adherent.lastname }}</td>
+                        {% endif %}
                         {% if adherent.statusMeet == 'Disponible' %}
                             <td class='status-disponibility js-adherent'  data-id='{{ adherent.id }}'>{{ adherent.firstname }}</td>
                         {% else %}
@@ -110,7 +121,11 @@
             {% for boucle in menAdherentDroit %}
                 {% for adherent in boucle %}
                     <tr class='men-droit'>
-                        <td class="js-adherent" data-id='{{ adherent.id }}'>{{ adherent.lastname }}</td>
+                        {% if adherent.id in meet %}
+                            <td class="js-adherent" data-id='{{ adherent.id }}'>{{ adherent.lastname }}</td>
+                        {% else %}
+                            <td class="js-adherent no-meet" data-id='{{ adherent.id }}'>{{ adherent.lastname }}</td>
+                        {% endif %}
                         {% if adherent.statusMeet == 'Disponible' %}
                             <td class='status-disponibility js-adherent' data-id='{{ adherent.id }}'>{{ adherent.firstname }}</td>
                         {% else %}
@@ -148,7 +163,6 @@
                         <table class='table-card-woman-meet'>
                             <thead class='thead-adherent'>
                                 <tr>
-                                {# Gérer les meets ici !! #}
                                     <td>Id</td>
                                     <td>Date de retour</td>
                                     <td>Nom</td>
@@ -156,18 +170,10 @@
                                     <td>Agence</td>
                                     <td>Date de rencontre</td>
                                     <td>Action</td>
+                                    <td>Supprimer</td>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr class='woman-meeting'>
-                                    <td>5432</td>
-                                    <td>23/01/22</td>
-                                    <td>Truc</td>
-                                    <td>Muche</td>
-                                    <td>Larçay - L'agence de machin</td>
-                                    <td>22/01/22</td>
-                                    <td>Bouton</td>
-                                </tr>
+                            <tbody class="woman-meeting">
                             </tbody>
                         </table>
                     </td>
@@ -192,7 +198,6 @@
                         <table class='table-card-man-meet'>
                             <thead class='thead-adherent'>
                                 <tr>
-                                {# Gérer les meets ici !! #}
                                     <td>Id</td>
                                     <td>Date de retour</td>
                                     <td>Nom</td>
@@ -200,18 +205,10 @@
                                     <td>Agence</td>
                                     <td>Date de rencontre</td>
                                     <td>Action</td>
+                                    <td>Supprimer</td>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr class='man-meeting'>
-                                    <td>5432</td>
-                                    <td>23/01/22</td>
-                                    <td>Truc</td>
-                                    <td>Muche</td>
-                                    <td>Larçay - L'agence de machin</td>
-                                    <td>22/01/22</td>
-                                    <td>Bouton</td>
-                                </tr>
+                            <tbody class='man-meeting'>
                             </tbody>
                         </table>
                     </td>

@@ -376,6 +376,49 @@
             <div class="tab-meet no-tab tab">
                 <div class="row-meets-first">
                     {# TODO: lier avec la table meet #}
+                    <table>
+                        <thead>
+                            <tr>
+                                <td>Référence</td>
+                                <td>Date de retour</td>
+                                <td>Nom</td>
+                                <td>Prénom</td>
+                                <td>Agence</td>
+                                <td>Date de rencontre</td>
+                                <td>Action</td>
+                                <td>Supprimer</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for meet in meets %}
+                            <tr>
+                                <td>{{ meet.id }}</td>
+                                {% if adherentProfile.genre == 'Féminin' %}
+                                    {% if meet.returnAtWoman == '' %}
+                                        <td>En attente</td>
+                                    {% else %}
+                                        <td>{{ meet.returnAtWoman }}</td>
+                                    {% endif %}
+                                    <td>{{ meet.adherentMan.lastname }}</td>
+                                    <td>{{ meet.adherentMan.firstname }}</td>
+                                    <td>{{ meet.adherentMan.agence.name }} - {{ meet.adherentMan.agence.addressTown }}</td>
+                                {% else %}
+                                    {% if meet.returnAtMan == '' %}
+                                        <td>En attente</td>
+                                    {% else %}
+                                        <td>{{ meet.returnAtMan }}</td>
+                                    {% endif %}
+                                    <td>{{ meet.adherentWoman.lastname }}</td>
+                                    <td>{{ meet.adherentWoman.firstname }}</td>
+                                    <td>{{ meet.adherentMan.agence.name }} - {{ meet.adherentWoman.agence.addressTown }}</td>
+                                {% endif %}
+                                <td>{{ meet.startedAt|date('d/m/Y') }}</td>
+                                <td><a href="#" class="meet-more" data-id="{{ meet.id }}">Voir plus</a></td>
+                                <td><a href="#">Supprimer</a></td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
                 </div>
             </div>
             {% if trueAgence == true %}
@@ -383,5 +426,9 @@
             {% endif %}
         </div>
     </section>
-{{ form_end(formAdherent, {render_rest: false}) }}
+    {% if trueAgence == false %}
+        {{ form_end(formAdherent, {render_rest: false}) }}
+    {% else %}
+        {{ form_end(formAdherent) }}
+    {% endif %}
 {% endblock %}

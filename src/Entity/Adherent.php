@@ -2,17 +2,18 @@
 
 namespace App\Entity;
 
-
+use Serializable;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\AdherentRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use phpDocumentor\Reflection\DocBlock\Serializer;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=AdherentRepository::class)
  */
-class Adherent
+class Adherent implements Serializable
 {
     /**
      * @ORM\Id
@@ -1188,5 +1189,15 @@ class Adherent
         $dateInterval = $this->birthdate->diff(new \DateTime());
  
         return $dateInterval->y;
+    }
+
+    public function serialize()
+    {
+        return serialize($this->getId());
+    }
+
+    public function unserialize($serialized)
+    {
+        $this->id = unserialize($serialized, ['allowed_classes' => true]);
     }
 }

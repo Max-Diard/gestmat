@@ -1,6 +1,7 @@
 body {
     min-height: 100vh;
     position: relative;
+    margin: 0;
 }
 
 /* Pour le login */
@@ -92,15 +93,6 @@ label{
 }
 
 /* All Adherent */
-
-table{
-    border-collapse: collapse;
-}
-
-td{
-    padding: 0.5rem
-}
-
 .women, 
 .women-droit,
 .men, 
@@ -118,20 +110,8 @@ td{
     text-align: center;
 }
 
-.men {
-    border: 5px solid cyan;
-}
-
-.men-droit {
-    border: 5px solid rgb(0, 68, 255);
-}
-
-.women {
-    border: 5px solid purple;
-}
-
-.women-droit {
-    border: 5px solid rgb(128, 126, 0);
+.no-meet{
+    background-color: red;
 }
 
 .status-disponibility{
@@ -160,17 +140,7 @@ td{
     transform: translate(50%, 50%);
 }
 
-/* Single Adherent */
-
-.image-adherent{
-    max-width: 100%;
-    width: 10%;
-}
-
-.adherent-droit{
-    display: none;
-}
-
+/* Modal pour créer une rencontre */
 .modal {
     display: none;
     background-color: rgba(128, 128, 128, 0.5);
@@ -178,6 +148,7 @@ td{
     height: 100%;
     position: absolute;
     top: 0%;
+    z-index: 1;
 }
 
 .modal-ask{
@@ -188,6 +159,7 @@ td{
     position: relative;
     left: 25%;
     border-radius: 10%;
+    z-index: 2;
 }
 
 .modal-text{
@@ -198,4 +170,15 @@ td{
 .modal-button {
     display: flex;
     justify-content: space-evenly;
+}
+
+/* Single Adherent */
+
+.image-adherent{
+    max-width: 100%;
+    width: 10%;
+}
+
+.adherent-droit{
+    display: none;
 }

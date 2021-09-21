@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\MeetRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=MeetRepository::class)
@@ -14,53 +15,71 @@ class Meet
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups("adherent:read")
+     * @Groups("meet:read")
      */
     private $id;
 
     /**
      * @ORM\ManyToOne(targetEntity=Adherent::class, inversedBy="adherent_woman")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups("adherent:read")
+     * @Groups("meet:read")
      */
     private $adherent_woman;
 
     /**
      * @ORM\ManyToOne(targetEntity=Adherent::class, inversedBy="adherent_man")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups("adherent:read")
+     * @Groups("meet:read")
      */
     private $adherent_man;
     
     /**
      * @ORM\Column(type="date")
+     * @Groups("adherent:read")
+     * @Groups("meet:read")
      */
     private $startedAt;
 
     /**
      * @ORM\Column(type="date", nullable=true)
+     * @Groups("adherent:read")
+     * @Groups("meet:read")
      */
     private $returnAt_woman;
 
     /**
      * @ORM\Column(type="date", nullable=true)
+     * @Groups("adherent:read")
+     * @Groups("meet:read")
      */
     private $returnAt_man;
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Groups("adherent:read")
+     * @Groups("meet:read")
      */
     private $comments_woman;
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Groups("adherent:read")
+     * @Groups("meet:read")
      */
     private $comments_man;
 
     /**
      * @ORM\ManyToOne(targetEntity=AdherentOption::class, inversedBy="status_meet_woman")
+     * @Groups("meet:read")
      */
     private $status_meet_woman;
 
     /**
      * @ORM\ManyToOne(targetEntity=AdherentOption::class, inversedBy="status_meet_man")
+     * @Groups("meet:read")
      */
     private $status_meet_man;
 

@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Adherent;
 use App\Entity\Agence;
+use App\Entity\Meet;
 use App\Entity\Search;
 use App\Form\AdherentType;
 use App\Form\SearchType;
@@ -14,14 +15,12 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 class AdherentController extends AbstractController
 {
 
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(private EntityManagerInterface $entityManager)
     {
-        $this->entityManager = $entityManager;
     }
 
     //Liste de tous les adhérents
@@ -29,7 +28,7 @@ class AdherentController extends AbstractController
         Route('/adherent', name: 'adherent_all'),
         IsGranted('ROLE_USER')
     ]
-    public function index(NormalizerInterface $normalizer): Response
+    public function index(): Response
     {
         $agences = $this->getUser()->getAgence();
 
@@ -41,12 +40,18 @@ class AdherentController extends AbstractController
                 $womenAdherent[] = $this->entityManager->getRepository(Adherent::class)->findByGenreAgences('Féminin', $agence);
                 $menAdherent[] = $this->entityManager->getRepository(Adherent::class)->findByGenreAgences('Masculin', $agence);
 
+                $fullAdherent = [
+                    $i => $womenAdherent,
+                    $i + 1 => $menAdherent
+                ];
+
+
                 $otherAgences = $this->entityManager->getRepository(Agence::class)->findOtherAgence($agences[$i]);
 
                 $womenAdherentDroit = [];
                 $menAdherentDroit = [];
 
-                // On regarde si il y a plus d'agences dans la BDD que l'user à moins d'agences de lier
+                // On regarde si il y a plus d'agences dans la BDD que l'user à moins d'agences lier
                 if(count($otherAgences) > count($agences)){
                     foreach($otherAgences as $otherAgence){
                         $allAgence = $otherAgence->getDroitAgence();
@@ -56,9 +61,31 @@ class AdherentController extends AbstractController
                                 if($allAgence[$j] === $agences[$i]){
                                     $womenAdherentDroit[] = $this->entityManager->getRepository(Adherent::class)->findByGenreAgences('Féminin', $otherAgence);
                                     $menAdherentDroit[] = $this->entityManager->getRepository(Adherent::class)->findByGenreAgences('Masculin', $otherAgence);
+
+                                    $fullAdherent += [
+                                        $j + 2 => $womenAdherentDroit,
+                                        $j + 3 => $menAdherentDroit
+                                    ];
+
                                 }
                             }
-                        } 
+                            // On récupére
+                            $meeting = [];
+
+                            foreach ($fullAdherent as $agenceAdherent){
+                                foreach ($agenceAdherent as $adherents){
+                                    foreach ($adherents as $adherent){
+                                        $haveMeet = $this->entityManager->getRepository(Meet::class)->findBy(['adherent_man' => $adherent->getId()]);
+                                        if (empty($haveMeet)){
+                                            $haveMeet = $this->entityManager->getRepository(Meet::class)->findBy(['adherent_woman' => $adherent->getId()]);
+                                        }
+                                        if(!empty($haveMeet)){
+                                            $meeting[] = $adherent->getId();
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -73,7 +100,8 @@ class AdherentController extends AbstractController
             'womenAdherent'         => $womenAdherent,
             'menAdherent'           => $menAdherent,
             'womenAdherentDroit'    => $womenAdherentDroit,
-            'menAdherentDroit'      => $menAdherentDroit
+            'menAdherentDroit'      => $menAdherentDroit,
+            'meet'                  => $meeting
         ]);
     }
 
@@ -82,25 +110,24 @@ class AdherentController extends AbstractController
         Route('/adherent/profil/{id}', name: 'adherent_single'),
         IsGranted('ROLE_USER')
     ]
-    public function allAdherent(Adherent $adherent, Request $request): Response
+    public function adherentSingle(Adherent $adherent, Request $request): Response
     {
         // On regarde si l'user fait bien parti de l'agence de l'adhérent
         $agenceAdherent = $adherent->getAgence();
-        
-        $userAgenceId = $this->entityManager->getRepository(Agence::class)->findAll();
-        $agenceId = [];
+        $userAgence = $this->getUser()->getAgence();
 
-        for ($i=0; $i < count($userAgenceId); $i++){
-            $agenceId[] = $userAgenceId[$i]->getId();
+//        $agenceIdUser = [];
+
+        foreach ($userAgence as $idAgence) {
+            $agenceIdUser[] = $idAgence->getId();
         }
-        
-        if(in_array($agenceAdherent->getId(), $agenceId) ){
+
+        if(in_array($agenceAdherent->getId(), $agenceIdUser) ){
             $trueAgence = true;
-        } else{
+        } else {
             $trueAgence = false;
         }
-        
-        
+
         $form = $this->createForm(AdherentType::class, $adherent);
 
         // On récupére le nom des fichiers déjà existant
@@ -108,6 +135,15 @@ class AdherentController extends AbstractController
         $linkContract = $adherent->getLinkContract();
         $linkPic = $adherent->getLinkPicture();
         $linkAnnouncement = $adherent->getLinkPictureAnnouncement();
+
+        //Affichage des meets
+
+        if ($adherent->getGenre()->getName() === 'Féminin'){
+            $genre = 'adherent_woman';
+        } else {
+            $genre = 'adherent_man';
+        }
+        $meet = $this->entityManager->getRepository(Meet::class)->findBy([$genre => $adherent->getId()]);
 
         $form->handleRequest($request);
 
@@ -127,11 +163,11 @@ class AdherentController extends AbstractController
                 $fileInfoName = md5(uniqid()) . '.' . $fileInfoExt;
                 $fileInfo->move($this->getParameter('adherent_directory') . 'adherent' . $adherent->getId() . '/information/', $fileInfoName);
                 $adherent->setLinkInformation($fileInfoName);
-            } 
+            }
             // On récupére le nom de l'image déjà existant et on lui renvoi
             else {
                 $adherent->setLinkInformation($linkInfo);
-            } 
+            }
 
             $fileContract = $form->get('link_contract')->getData();
 
@@ -146,7 +182,7 @@ class AdherentController extends AbstractController
                 $fileContract->move($this->getParameter('adherent_directory') . 'adherent' . $adherent->getId() . '/contract/', $fileContractName);
                 $adherent->setLinkContract($fileContractName);
             }
-            // On récupére le nom de l'image déjà existant et on lui renvoi 
+            // On récupére le nom de l'image déjà existant et on lui renvoi
             else {
                 $adherent->setLinkContract($linkContract);
             }
@@ -170,6 +206,7 @@ class AdherentController extends AbstractController
             }
 
             $filePic = $form->get('link_picture')->getData();
+//             dd($filePic);
 
             // Si une image est envoyé alors on ajoute l'information en BDD
             if ($filePic){
@@ -180,9 +217,8 @@ class AdherentController extends AbstractController
                 $filePicExt = $filePic->guessExtension();
                 $filePicName = md5(uniqid()).'.'.$filePicExt;
                 $filePic->move($this->getParameter('adherent_directory') . 'adherent' . $adherent->getId() . '/picture/', $filePicName);
-                // $filePic->move($this->getParameter('picture_directory'), $filePicName);
                 $adherent->setLinkPicture($filePicName);
-            } 
+            }
             // On récupére le nom de l'image déjà existant et on lui renvoi
             else {
                 $adherent->setLinkPicture($linkPic);
@@ -199,7 +235,8 @@ class AdherentController extends AbstractController
         return $this->render('adherent/singleAdherent.html.twig', [
             'adherentProfile'   => $adherent,
             'formAdherent'      => $form->createView(),
-            'trueAgence'        => $trueAgence
+            'trueAgence'        => $trueAgence,
+            'meets'             => $meet
         ]);
     }
 
