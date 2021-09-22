@@ -20,6 +20,20 @@ $(document).ready( function () {
     });
 } );
 
+$(document).ready( function () {
+    $('.table-search').DataTable({
+        paging: false,
+        info: false
+    });
+} );
+
+$(document).ready( function () {
+    $('.table-meet').DataTable({
+        paging: false,
+        info: false
+    });
+} );
+
 window.addEventListener("DOMContentLoaded", (event) => {
     //Pour les onglets dans Single Adherent
     const buttonTab = document.querySelectorAll('.open-tab');

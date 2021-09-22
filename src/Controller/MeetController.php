@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Adherent;
+use App\Entity\Agence;
 use App\Entity\Meet;
+use App\Entity\User;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
@@ -24,10 +26,36 @@ class MeetController extends AbstractController
     ]
     public function index(): Response
     {
-        $meets = $this->entityManager->getRepository(Meet::class)->findAll();
+        $agenceUser = $this->getUser()->getAgence();
+
+        if(count($agenceUser) > 0){
+            foreach($agenceUser as $agence){
+                $adherents[] = $this->entityManager->getRepository(Adherent::class)->findBy(['agence' => $agence->getId()]);
+                foreach ($adherents as $allAdherent){
+                    foreach ($allAdherent as $adherent){
+                        if ($adherent->getGenre()->getName() === 'Féminin'){
+                            $meets[] = $this->entityManager->getRepository(Meet::class)->findBy(['adherent_woman' => $adherent->getId()]);
+                        } else {
+                            $meets[] = $this->entityManager->getRepository(Meet::class)->findBy(['adherent_man' => $adherent->getId()]);
+                        }
+                    }
+                }
+            }
+        }
+        $trueMeet = [];
+        foreach ($meets as $meet){
+            if (!empty($meet)){
+                foreach($meet as $m){
+                    $trueMeet += [
+                        $m->getId() => $m
+                    ];
+                }
+            }
+        }
+//        dd($trueMeet);
 
         return $this->render('meet/index.html.twig', [
-            'meets' => $meets
+            'meets' => $trueMeet
         ]);
     }
 

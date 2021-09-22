@@ -8,53 +8,67 @@
     <a href="#" class="link-meet">Envoyer</a>
 </div>
 
-<div class="all-meets">
-    <div class="meet">
-        <div class="meet-table-ref">
-            <p>Référence</p>
-        </div>
-        <div class="meet-table-date">
-            <p>Date de rencontre</p>
-        </div>
-        <div class="meet-table-woman">
-            <p>Femme</p>
-        </div>
-        <div class="meet-table-agence-woman">
-            <p>Agence Femme</p>
-        </div>
-        <div class="meet-table-man">
-            <p>Homme</p>
-        </div>
-        <div class="meet-table-agence-man">
-            <p>Agence Homme</p>
-        </div>
-        <div class="meet-table-action">
-            <p>Action</p>
-        </div>
-    {% for meet in meets %}
-        <div class="meet-id">
-            {{ meet.id }}
-        </div>
-        <div class="meet-startedAt">
-            {{ meet.startedAt|date('d/m/Y') }}
-        </div>
-        <div class="meet-woman">
-            {{ meet.adherentWoman.firstname }} {{ meet.adherentWoman.lastname }}
-        </div>
-        <div class="meet-woman-agence">
-            {{ meet.adherentWoman.agence.name }} {{ meet.adherentWoman.agence.addressTown }}
-        </div>
-        <div class="meet-man">
-            {{ meet.adherentMan.firstname }} {{ meet.adherentMan.lastname }}
-        </div>
-        <div class="meet-man-agence">
-            {{ meet.adherentMan.agence.name }} {{ meet.adherentMan.agence.addressTown }}
-        </div>
-        <div class="meet-action">
-            <a href="#">Voir plus</a>
-        </div>
-    {% endfor %}
-    </div>
-</div>
+<table class="table-meet">
+    <thead>
+        <tr>
+            <td>Référence</td>
+            <td>Date de rencontre</td>
+            <td>Femme</td>
+            <td>Agence Femme</td>
+            <td>Homme</td>
+            <td>Agence Homme</td>
+            <td>Action</td>
+        </tr>
+    </thead>
+    <tbody>
+{#    {{ dump(meets) }}#}
+{#    {% for boucle in meets %}#}
+        {% for meet in meets %}
+        <tr>
+            <td>{{ meet.id }}</td>
+            <td>{{ meet.startedAt|date('d/m/Y') }}</td>
+            <td>{{ meet.adherentWoman.firstname }} {{ meet.adherentWoman.lastname }}</td>
+            <td>{{ meet.adherentWoman.agence.name }} {{ meet.adherentWoman.agence.addressTown }}</td>
+            <td>{{ meet.adherentMan.firstname }} {{ meet.adherentMan.lastname }}</td>
+            <td>{{ meet.adherentMan.agence.name }} {{ meet.adherentMan.agence.addressTown }}</td>
+            <td><a href="#">Voir plus</a></td>
+        </tr>
+        {% endfor %}
+{#    {% endfor %}#}
+    </tbody>
+</table>
+
+{#<div class="all-meets">#}
+{#    <div class="meet">#}
+{#        <div class="meet-table-ref">#}
+{#        </div>#}
+{#        <div class="meet-table-date">#}
+{#        </div>#}
+{#        <div class="meet-table-woman">#}
+{#        </div>#}
+{#        <div class="meet-table-agence-woman">#}
+{#        </div>#}
+{#        <div class="meet-table-man">#}
+{#        </div>#}
+{#        <div class="meet-table-agence-man">#}
+{#        </div>#}
+{#        <div class="meet-table-action">#}
+{#        </div>#}
+{#        <div class="meet-id">#}
+{#        </div>#}
+{#        <div class="meet-startedAt">#}
+{#        </div>#}
+{#        <div class="meet-woman">#}
+{#        </div>#}
+{#        <div class="meet-woman-agence">#}
+{#        </div>#}
+{#        <div class="meet-man">#}
+{#        </div>#}
+{#        <div class="meet-man-agence">#}
+{#        </div>#}
+{#        <div class="meet-action">#}
+{#        </div>#}
+{#    </div>#}
+{#</div>#}
 
 {% endblock %}

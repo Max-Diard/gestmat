@@ -368,5 +368,4 @@ class AdminController extends AbstractController
         $this->addFlash('successRemoveOption', 'L\'option à bien était supprimé');
         return $this->redirectToRoute('admin_options');
     }
-
 }

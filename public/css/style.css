@@ -215,6 +215,16 @@ label{
     margin: 1rem;
 }
 
+/* Page de recherche */
+
+.title-search{
+    text-align: center;
+}
+
+.table-search td{
+    text-align: center;
+}
+
 /*----------------- Admin -------------------*/
 /* Page d'options */
 

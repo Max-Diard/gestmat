@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+<h1 class="title-search">Liste de tous les adhérents</h1>
+
+<table class="table-search">
+    <thead class="table-search-thead">
+        <tr>
+            <td>Genre</td>
+            <td>Nom</td>
+            <td>Prénom</td>
+            <td>Age</td>
+            <td>Ville</td>
+            <td>Téléphone Mobile</td>
+            <td>Téléphone Fixe</td>
+            <td>Fin Contrat</td>
+            <td>Etat Contrat</td>
+            <td>Position</td>
+            <td>Agence</td>
+            <td>Action</td>
+        </tr>
+    </thead>
+    <tbody>
+    {% for boucle in adherents %}
+        {% for adherent in boucle %}
+        <tr>
+            <td>{{ adherent.genre }}</td>
+            <td>{{ adherent.lastname }}</td>
+            <td>{{ adherent.firstname }}</td>
+            <td>{{ adherent.getAge }}</td>
+            <td>{{ adherent.addressTown }}</td>
+            <td>{{ adherent.phoneMobile }}</td>
+            <td>{{ adherent.phoneHome }}</td>
+            <td>{{ adherent.contractEndingAt|date('d/m/Y') }}</td>
+            <td>
+                {% if adherent.contractStartedAt < date('now') and adherent.contractEndingAt > date('now') %}
+                    En Cours
+                {% else %}
+                    Fini
+                {% endif %}
+            </td>
+            <td>{{ adherent.statusMeet }}</td>
+            <td>{{ adherent.agence.name }}</td>
+            <td><a href="{{ path('adherent_single', {id : adherent.id}) }}">Voir plus</a></td>
+        </tr>
+        {% endfor %}
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
