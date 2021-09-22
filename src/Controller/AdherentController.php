@@ -69,7 +69,7 @@ class AdherentController extends AbstractController
 
                                 }
                             }
-                            // On récupére
+                            // On récupére toute les rencontres et on met dans un tableau si l'id de l'adhérent à déjà eu une rencontre
                             $meeting = [];
 
                             foreach ($fullAdherent as $agenceAdherent){

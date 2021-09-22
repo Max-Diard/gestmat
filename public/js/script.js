@@ -61,6 +61,16 @@ window.addEventListener("DOMContentLoaded", (event) => {
         })
     }
 
+    // Pour la page Rencontre
+    const dateMeet = document.querySelector('.input-date-meet');
+    const linkMeet = document.querySelector('.link-meet');
+
+    if(dateMeet){
+        dateMeet.addEventListener('input', function (ev){
+            ev.preventDefault()
+            linkMeet.href = '/meet/search/' + this.value
+        })
+    }
 });
 
 // Function pour appeler l'api qui récupére l'adhérent sélectionner

@@ -19,10 +19,29 @@ class MeetController extends AbstractController
     }
 
     //Page pour voir tous les rencontres
-    #[Route('/meet', name: 'meet_all')]
+    #[
+        Route('/meet', name: 'meet_all')
+    ]
     public function index(): Response
     {
         $meets = $this->entityManager->getRepository(Meet::class)->findAll();
+
+        return $this->render('meet/index.html.twig', [
+            'meets' => $meets
+        ]);
+    }
+
+    //Page pour voir tous les rencontres
+    #[
+        Route('/meet/search/{date}', name: 'meet_date'),
+        ParamConverter('date' , \DateTimeImmutable::class)
+    ]
+    public function searchMeet(DateTimeImmutable $date): Response
+    {
+//        dd($date);
+        $meets = $this->entityManager->getRepository(Meet::class)->findBy(['startedAt' => $date]);
+
+//        dd($meets);
 
         return $this->render('meet/index.html.twig', [
             'meets' => $meets

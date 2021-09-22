@@ -6,13 +6,17 @@
         {{ message }}
     </div>
 {% endfor %}
-<p>Liste des adhérents</p>
 <div class="">
     <a href='{{ path('adherent_add') }}'>Ajouter un nouvel adhérent</a>
 </div>
 <div class="">
     <a href='{{ path('profile') }}'>Votre profil</a>
 </div>
+<div class="">
+    <a href='#'>Recherche</a>
+</div>
+
+<h1 class="title-adherents">Liste des adhérents</h1>
 
 <div class="modal">
     <div class="modal-ask">

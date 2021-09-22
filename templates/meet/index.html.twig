@@ -1,7 +1,60 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+<h1 class="title-meet">Toutes les rencontres</h1>
 
+<div class="search-input-meet">
+    <input type="date" class="input-date-meet">
+    <a href="#" class="link-meet">Envoyer</a>
+</div>
 
+<div class="all-meets">
+    <div class="meet">
+        <div class="meet-table-ref">
+            <p>Référence</p>
+        </div>
+        <div class="meet-table-date">
+            <p>Date de rencontre</p>
+        </div>
+        <div class="meet-table-woman">
+            <p>Femme</p>
+        </div>
+        <div class="meet-table-agence-woman">
+            <p>Agence Femme</p>
+        </div>
+        <div class="meet-table-man">
+            <p>Homme</p>
+        </div>
+        <div class="meet-table-agence-man">
+            <p>Agence Homme</p>
+        </div>
+        <div class="meet-table-action">
+            <p>Action</p>
+        </div>
+    {% for meet in meets %}
+        <div class="meet-id">
+            {{ meet.id }}
+        </div>
+        <div class="meet-startedAt">
+            {{ meet.startedAt|date('d/m/Y') }}
+        </div>
+        <div class="meet-woman">
+            {{ meet.adherentWoman.firstname }} {{ meet.adherentWoman.lastname }}
+        </div>
+        <div class="meet-woman-agence">
+            {{ meet.adherentWoman.agence.name }} {{ meet.adherentWoman.agence.addressTown }}
+        </div>
+        <div class="meet-man">
+            {{ meet.adherentMan.firstname }} {{ meet.adherentMan.lastname }}
+        </div>
+        <div class="meet-man-agence">
+            {{ meet.adherentMan.agence.name }} {{ meet.adherentMan.agence.addressTown }}
+        </div>
+        <div class="meet-action">
+            <a href="#">Voir plus</a>
+        </div>
+    {% endfor %}
+    </div>
+</div>
 
 {% endblock %}
