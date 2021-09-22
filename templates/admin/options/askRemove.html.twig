@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <div class="">
+        <div class="">
+            <p>Attention !! Vous êtes sur le point de supprimer l'option "{{ option.name }}" pour
+                {% if option.type == 'status_matrimoniale' %}
+                "Statut Matrimoniale".
+                {% elseif option.type == 'type_payment' %}
+                "Types de paiment".
+                {% elseif option.type == 'hair' %}
+                "Cheveux".
+                {% elseif option.type == 'eyes' %}
+                "Yeux".
+                {% elseif option.type == 'smoking' %}
+                "Type de fumeur".
+                {% elseif option.type == 'owner' %}
+                "Type de propriétaire".
+                {% elseif option.type == 'instruction' %}
+                "Diplôme".
+                {% elseif option.type == 'genre' %}
+                "Sexe".
+                {% elseif option.type == 'zodiaque' %}
+                "Signe Astrologique".
+                {% elseif option.type == 'status_meet' %}
+                "Types de rencontre".
+                {% else %}
+                "Préférence de contact".
+                {% endif %}<br/>
+                Cette action est irréversible, êtes vous sûr ?</p>
+            <a href="{{ path('admin_option_remove', { id: option.id }) }}">Oui</a>
+            <a href="{{ path('admin_options') }}">Non</a>
+        </div>
+    </div>
+
+{% endblock %}

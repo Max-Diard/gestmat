@@ -4,6 +4,11 @@ body {
     margin: 0;
 }
 
+.container{
+    margin-left: 1rem;
+    margin-right: 1rem;
+}
+
 /* Pour le login */
 
 .section-register{
@@ -181,4 +186,22 @@ label{
 
 .adherent-droit{
     display: none;
+}
+
+/*----------------- Admin -------------------*/
+/* Page d'options */
+
+.grid-options {
+    display: grid;
+    grid-template-columns: repeat(4 ,1fr);
+    grid-gap: 1rem;
+    text-align: center;
+}
+
+.options-form {
+    text-align: center;
+}
+
+.options-form-row {
+    margin: 0.5rem;
 }

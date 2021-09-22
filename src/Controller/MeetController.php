@@ -19,15 +19,17 @@ class MeetController extends AbstractController
     }
 
     //Page pour voir tous les rencontres
-    #[Route('/meet', name: 'meet')]
+    #[Route('/meet', name: 'meet_all')]
     public function index(): Response
     {
+        $meets = $this->entityManager->getRepository(Meet::class)->findAll();
+
         return $this->render('meet/index.html.twig', [
-            'controller_name' => 'MeetController',
+            'meets' => $meets
         ]);
     }
 
-    //Page pour créer une rencontre
+    //Route pour créer une rencontre
     #[
         Route('/meet/new/{woman}-{man}-{date}', name: 'meet_new'),
         Entity('adherent', expr:'repository.find(adherent.woman'),
@@ -36,7 +38,6 @@ class MeetController extends AbstractController
     ]
     public function newMeet(Adherent $woman, Adherent $man, DateTimeImmutable $date): Response
     {
-//        dd($date);
         $meet = new Meet();
 
         $meet->setAdherentWoman($woman);

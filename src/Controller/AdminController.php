@@ -8,10 +8,12 @@ use App\Entity\User;
 use App\Form\AgenceType;
 use App\Form\ChangeAgenceType;
 use App\Form\DelegationAgenceType;
+use App\Form\OptionsType;
 use App\Form\OptionType;
 use App\Form\UserAgenceType;
 use App\Form\UserType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -301,4 +303,70 @@ class AdminController extends AbstractController
 
         return $this->redirectToRoute('admin_user_all');
     }
+
+    //----------------------------- Gestion Admin ---------------------------------//
+    //Route pour afficher les choix de menu déroulant
+    #[
+        Route('admin/options', name: 'admin_options'),
+        IsGranted("ROLE_ADMIN")
+    ]
+    public function adminOptions(Request $request): Response
+    {
+        $options = $this->entityManager->getRepository(AdherentOption::class)->findAll();
+
+        $option = new AdherentOption();
+        $form = $this->createForm(OptionsType::class, $option);
+
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+            $option = $form->getData();
+
+            $this->entityManager->persist($option);
+            $this->entityManager->flush();
+
+            $this->addFlash('successAddOption', 'La nouvelle option à bien était envoyé');
+
+            return $this->redirectToRoute('admin_options');
+        }
+
+        return $this->render('admin/options/index.html.twig', [
+            'options'   => $options,
+            'form'      => $form->createView()
+        ]);
+    }
+
+    //Page pour demander si l'on est sur que l'on veux supprimer l'option sélectionné
+    #[
+        Route('admin/options/{id}/remove/ask', name: 'admin_option_ask_remove'),
+        IsGranted("ROLE_ADMIN")
+    ]
+    public function askRemoveOption(AdherentOption $adherentOption): Response
+    {
+        return $this->render('admin/options/askRemove.html.twig', [
+            'option' => $adherentOption
+        ]);
+    }
+
+    //Route pour supprimé l'option sélectionné
+    #[
+        Route('admin/options/{id}/remove', name: 'admin_option_remove'),
+        IsGranted("ROLE_ADMIN")
+    ]
+    public function removeOption(AdherentOption $adherentOption): Response
+    {
+        try{
+            $this->entityManager->remove($adherentOption);
+            $this->entityManager->flush();
+        } catch(\Exception $e){
+            if (error_log($e->getMessage()) == true){
+                $this->addFlash('errorRemoveOption', 'L\'option ne peux pas être supprimé !');
+                return $this->redirectToRoute('admin_options');
+            }
+        }
+
+        $this->addFlash('successRemoveOption', 'L\'option à bien était supprimé');
+        return $this->redirectToRoute('admin_options');
+    }
+
 }
