@@ -3,7 +3,7 @@ let loadingWomen = false
 let meetWaitingWomen = '';
 let meetWaitingMen = '';
 
-// Tableau Adhérents all
+// Tableau Adhérents all women
 $(document).ready( function () {
     $('.table-women').DataTable({
         paging: false,
@@ -12,6 +12,7 @@ $(document).ready( function () {
     });
 } );
 
+// Tableau Adhérents all men
 $(document).ready( function () {
     $('.table-men').DataTable({
         paging: false,
@@ -20,6 +21,7 @@ $(document).ready( function () {
     });
 } );
 
+//Tableau pour la recherche
 $(document).ready( function () {
     $('.table-search').DataTable({
         paging: false,
@@ -27,6 +29,7 @@ $(document).ready( function () {
     });
 } );
 
+//Tableau pour les rencontres
 $(document).ready( function () {
     $('.table-meet').DataTable({
         paging: false,
@@ -58,7 +61,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
         [].forEach.call(rowTable, function(elem){
             elem.addEventListener('click', function(ev){
                 ev.preventDefault();
-                api(elem.getAttribute('data-id'));
+                apiMeet(elem.getAttribute('data-id'));
             })
         })
     }
@@ -70,7 +73,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
         [].forEach.call(meetMoreButton, function (elem){
             elem.addEventListener('click', function(ev) {
                 ev.preventDefault()
-                // informationMeet(elem.getAttribute('data-id'))
+                informationMeet(elem.getAttribute('data-id'))
             })
         })
     }
@@ -88,7 +91,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
 });
 
 // Function pour appeler l'api qui récupére l'adhérent sélectionner
-function api(id){
+function apiMeet(id){
     const modal = document.querySelector('.modal');
     const modalText = document.querySelector('.modal-text');
     const modalMeetWomen = document.querySelector('.modal-women-meet')
@@ -106,7 +109,6 @@ function api(id){
     const yearMan = document.querySelector('.thead-card-man-years');
     const meetMan = document.querySelector('.thead-card-man-meet');
     const agenceMan = document.querySelector('.thead-card-man-agence');
-
 
     const div = document.querySelector('.button-meet')
     div.innerHTML = '';
@@ -143,7 +145,6 @@ function api(id){
                         loadingMen = true
                         informationMeetMan(recup);
                         i++;
-
                     }
                 }
                 if(loadingWomen && loadingMen){
@@ -352,4 +353,120 @@ function informationMeetMan(recup){
         divMeetMan.appendChild(row)
     }
 
+}
+
+// Function pour appeler l'api qui récupére les infos du meet
+
+function informationMeet(id){
+    const modalAdherent = document.querySelector('.modal-adherent');
+
+    const womanLastname = document.querySelector('.woman-lastname');
+    const womanFirstname = document.querySelector('.woman-firstname');
+    const womanAgence = document.querySelector('.woman-agence');
+    const womanDateReturn = document.querySelector('.woman-date-returnAt');
+    const womanAction = document.querySelector('.woman-action');
+    const womanComments = document.querySelector('.woman-comments');
+
+    const dateMeet = document.querySelector('.date-meet');
+    const idMeet = document.querySelector('.id-meet');
+
+    const manLastname = document.querySelector('.man-lastname');
+    const manFirstname = document.querySelector('.man-firstname');
+    const manAgence = document.querySelector('.man-agence');
+    const manDateReturn = document.querySelector('.man-date-returnAt');
+    const manAction = document.querySelector('.man-action');
+    const manComments = document.querySelector('.man-comments');
+
+    const closeModal = document.querySelector('.close-modal');
+    const sendButton = document.querySelector('.send-form');
+
+    closeModal.addEventListener('click', function (ev){
+        ev.preventDefault()
+        modalAdherent.style.display = 'none'
+    })
+
+    modalAdherent.style.display = 'block'
+
+    // Ajout d'un loader ?
+
+    const request = new XMLHttpRequest();
+    request.open("GET", "http://127.0.0.1:8000/api/meet/" + id, true);
+    request.addEventListener('readystatechange', function(){
+        if (request.readyState === XMLHttpRequest.DONE) {
+            if (request.status === 200) {
+                // Fin du loader ?
+                const recup = JSON.parse(request.response);
+                console.log(recup[0])
+                womanLastname.textContent = recup[0].adherent_woman.lastname;
+                womanFirstname.textContent = recup[0].adherent_woman.firstname;
+                womanAgence.textContent = recup[0].adherent_woman.agence.name + ' - ' + recup[0].adherent_woman.agence.address_town;
+
+                if (recup[0].returnAt_woman != null){
+                    const returnAtWoman = new Date(recup[0].returnAt_woman)
+                    womanDateReturn.value = returnAtWoman.toISOString().split('T')[0];
+                }else {
+                    womanDateReturn.value = ''
+                }
+                // womanAction.textContent = recup[0].status_meet_woman;
+                womanComments.textContent = recup[0].comments_woman;
+
+                const startedAt = new Date(recup[0].startedAt)
+                dateMeet.textContent = new Intl.DateTimeFormat('fr-FR').format(startedAt)
+                idMeet.textContent = recup[0].id;
+
+                manLastname.textContent = recup[0].adherent_man.lastname;
+                manFirstname.textContent = recup[0].adherent_man.firstname;
+                manAgence.textContent = recup[0].adherent_man.agence.name + ' - ' + recup[0].adherent_man.agence.address_town;
+
+                if (recup[0].returnAt_man != null){
+                    const returnAtMan = new Date(recup[0].returnAt_man)
+                    manDateReturn.value = returnAtMan.toISOString().split('T')[0];
+                }else {
+                    manDateReturn.value = '';
+                }
+                // manAction.textContent = recup[0].status_meet_man;
+                manComments.textContent = recup[0].comments_man;
+
+                sendButton.href = '/api/update_meet/'
+
+                sendButton.addEventListener('click', function(ev){
+                    ev.preventDefault()
+                    updateMeet(
+                        recup[0].id,
+                        womanAction.value,
+                        womanDateReturn.value,
+                        womanComments.value,
+                        manAction.value,
+                        manDateReturn.value,
+                        manComments.value,
+                    )
+                })
+            }
+        }
+    })
+    request.send();
+
+}
+
+function updateMeet(
+    id,
+    statutsMeetWoman,
+    returnWoman,
+    commentsWoman,
+    statutsMeetMan,
+    returnMan,
+    commentsMan,
+){
+    const request = new XMLHttpRequest();
+    request.open('POST', 'http://127.0.0.1:8000/api/update_meet/', true)
+    request.setRequestHeader("content-type", "application/json; charset=utf-8")
+    request.send(JSON.stringify({
+        'id': id,
+        'status_meet_woman' : statutsMeetWoman,
+        'returnAt_woman' : returnWoman,
+        'comments_woman' : commentsWoman,
+        'status_meet_man' : statutsMeetMan,
+        'returnAt_man' : returnMan,
+        'comments_man' : commentsMan
+        }))
 }

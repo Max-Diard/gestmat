@@ -20,18 +20,21 @@ class Adherent implements Serializable
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      * @Groups("adherent:read")
+     * @Groups("meet:read")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=100)
      * @Groups("adherent:read")
+     * @Groups("meet:read")
      */
     private $firstname;
 
     /**
      * @ORM\Column(type="string", length=100)
      * @Groups("adherent:read")
+     * @Groups("meet:read")
      */
     private $lastname;
 
@@ -351,6 +354,7 @@ class Adherent implements Serializable
     /**
      * @ORM\ManyToOne(targetEntity=Agence::class, inversedBy="adherents")
      * @Groups("adherent:read")
+     * @Groups("meet:read")
      */
     private $agence;
 

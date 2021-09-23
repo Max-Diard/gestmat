@@ -3,12 +3,15 @@
 namespace App\Controller;
 
 use App\Entity\Adherent;
+use App\Entity\AdherentOption;
 use App\Entity\Agence;
 use App\Entity\Meet;
 use App\Entity\Search;
 use App\Form\AdherentType;
+use App\Form\MeetType;
 use App\Form\SearchType;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -31,6 +34,7 @@ class AdherentController extends AbstractController
     public function index(): Response
     {
         $agences = $this->getUser()->getAgence();
+//        $meeting = [];
 
         //Si l'utilisateur connecté à plus d'une agence, on itére dessus
         if (count($agences) > 0){
@@ -44,7 +48,6 @@ class AdherentController extends AbstractController
                     $i => $womenAdherent,
                     $i + 1 => $menAdherent
                 ];
-
 
                 $otherAgences = $this->entityManager->getRepository(Agence::class)->findOtherAgence($agences[$i]);
 
@@ -66,24 +69,23 @@ class AdherentController extends AbstractController
                                         $j + 2 => $womenAdherentDroit,
                                         $j + 3 => $menAdherentDroit
                                     ];
-
                                 }
                             }
-                            // On récupére toute les rencontres et on met dans un tableau si l'id de l'adhérent à déjà eu une rencontre
-                            $meeting = [];
+                        }
+                    }
+                }
+                // On récupére toute les rencontres et on met dans un tableau si l'id de l'adhérent à déjà eu une rencontre
+                $meeting = [];
 
-                            foreach ($fullAdherent as $agenceAdherent){
-                                foreach ($agenceAdherent as $adherents){
-                                    foreach ($adherents as $adherent){
-                                        $haveMeet = $this->entityManager->getRepository(Meet::class)->findBy(['adherent_man' => $adherent->getId()]);
-                                        if (empty($haveMeet)){
-                                            $haveMeet = $this->entityManager->getRepository(Meet::class)->findBy(['adherent_woman' => $adherent->getId()]);
-                                        }
-                                        if(!empty($haveMeet)){
-                                            $meeting[] = $adherent->getId();
-                                        }
-                                    }
-                                }
+                foreach ($fullAdherent as $agenceAdherent){
+                    foreach ($agenceAdherent as $adherents){
+                        foreach ($adherents as $adherent){
+                            $haveMeet = $this->entityManager->getRepository(Meet::class)->findBy(['adherent_man' => $adherent->getId()]);
+                            if (empty($haveMeet)){
+                                $haveMeet = $this->entityManager->getRepository(Meet::class)->findBy(['adherent_woman' => $adherent->getId()]);
+                            }
+                            if(!empty($haveMeet)){
+                                $meeting[] = $adherent->getId();
                             }
                         }
                     }
@@ -95,7 +97,7 @@ class AdherentController extends AbstractController
             $womenAdherentDroit = [];
             $menAdherentDroit = [];
         }
-
+//        dd($meeting);
         return $this->render('adherent/index.html.twig', [
             'womenAdherent'         => $womenAdherent,
             'menAdherent'           => $menAdherent,
@@ -116,12 +118,11 @@ class AdherentController extends AbstractController
         $agenceAdherent = $adherent->getAgence();
         $userAgence = $this->getUser()->getAgence();
 
-//        $agenceIdUser = [];
-
         foreach ($userAgence as $idAgence) {
             $agenceIdUser[] = $idAgence->getId();
         }
 
+        // True ou false pour savoir si c'est l'user fait parti de l'agence
         if(in_array($agenceAdherent->getId(), $agenceIdUser) ){
             $trueAgence = true;
         } else {
@@ -143,16 +144,22 @@ class AdherentController extends AbstractController
         } else {
             $genre = 'adherent_man';
         }
-        $meet = $this->entityManager->getRepository(Meet::class)->findBy([$genre => $adherent->getId()]);
+
+        // On récupére les rencontres de l'adhérent
+        $meets = $this->entityManager->getRepository(Meet::class)->findBy([$genre => $adherent->getId()]);
+
+        // On récupére les status meet pour ajouter dans le form de la modal
+        $options = $this->entityManager->getRepository(AdherentOption::class)->findBy(['type' => 'status_meet']);
 
         $form->handleRequest($request);
 
+        // Envoi du formulaire
         if($form->isSubmitted() && $form->isValid()){
             $adherent = $form->getData();
 
+            // Gestion des fichiers
             $fileInfo = $form->get('link_information')->getData();
 
-            // Gestion des fichiers
             // Si une image est envoyé alors on ajoute l'information en BDD
             if($fileInfo){
                 // Si l'adhérent à déjà une image on supprime cette dernière du dossier 'public'
@@ -206,7 +213,6 @@ class AdherentController extends AbstractController
             }
 
             $filePic = $form->get('link_picture')->getData();
-//             dd($filePic);
 
             // Si une image est envoyé alors on ajoute l'information en BDD
             if ($filePic){
@@ -232,12 +238,30 @@ class AdherentController extends AbstractController
             $this->redirectToRoute('adherent_single', ['id' => $adherent->getId()]);
         }
 
+
         return $this->render('adherent/singleAdherent.html.twig', [
             'adherentProfile'   => $adherent,
             'formAdherent'      => $form->createView(),
             'trueAgence'        => $trueAgence,
-            'meets'             => $meet
+            'meets'             => $meets,
+            'options'           => $options
         ]);
+    }
+
+    //Route pour ajouter les informations de la rencontre
+    #[
+        Route('/adherent/profil/{woman}/{man}/{meet}/change_meet'),
+        Entity('adherent', expr:'repository.find(adherent.woman'),
+        Entity('adherent', expr:'repository.find(adherent.man'),
+        Entity('meet', expr:'repository.find(meet)'),
+    ]
+    public function changeMeet(Adherent $woman, Adherent $man, Meet $meet, Request $request)
+    {
+        dd($woman,$man, $meet);
+//        dd($request);
+//        if ($request->isMethod('GET')) {
+//            dd($request->get);
+//        }
     }
 
     //Page pour ajouter un adhérent
@@ -322,4 +346,5 @@ class AdherentController extends AbstractController
             'formAdherent' => $form->createView(),
         ]);
     }
+
 }

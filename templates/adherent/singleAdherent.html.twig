@@ -6,7 +6,80 @@
         {{ message }}
     </div>
 {% endfor %}
-<p>Le profil de la personne sélectionner</p>
+<h1>Le profil de l'adhérent sélectionner</h1>
+<div class="modal-adherent">
+    <div class="modal-info-meet">
+        <form class="form-meet" action="post">
+            <button type="button" class="close-modal">Fermer</button>
+        <div class="modal-meet-text">
+            <div class="meet-woman">
+                <div class="modal-info-woman">
+                    <div class="">
+                        <p class="woman-lastname">Nom</p>
+                        <p class="woman-firstname">Prénom</p>
+                    </div>
+                    <div class="">
+                        <p class="woman-agence">Agence</p>
+                    </div>
+                </div>
+                <div class="row-return-action">
+                    <div class="col-return">
+                        <label for="woman-date-returnAt">Date retour</label>
+                        <input type="date" id="woman-date-returnAt" class="woman-date-returnAt">
+                    </div>
+                    <div class="col-action">
+                        <label for="woman-action">Action</label>
+                        <select type="select" id="woman-action" class="woman-action">
+                            <option value=""></option>
+                            {% for option in options %}
+                                <option value="{{ option.name }}">{{ option.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <label for="woman-comments">Commentaire</label>
+                <textarea id="woman-comments" class="woman-comments" rows="5" cols="40"></textarea>
+            </div>
+            <div class="meet-info-general">
+                <p>Date de rencontre</p>
+                <p class="date-meet">23/12/21</p>
+                <p>Référence</p>
+                <p class="id-meet">456</p>
+            </div>
+            <div class="meet-man">
+                <div class="modal-info-man">
+                    <div class="">
+                        <p class="man-lastname">Nom</p>
+                        <p class="man-firstname">Prénom</p>
+                    </div>
+                    <div class="">
+                        <p class="man-agence">Agence</p>
+                    </div>
+                </div>
+                <div class="row-return-action">
+                        <div class="col-return">
+                            <label for="man-date-returnAt">Date retour</label>
+                            <input type="date" id="man-date-returnAt" class="man-date-returnAt">
+                        </div>
+                        <div class="col-action">
+                            <label for="man-action">Action</label>
+                            <select type="select" id="man-action" class="man-action">
+                                <option value=""></option>
+                                {% for option in options %}
+                                    <option value="{{ option.name }}">{{ option.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                <label for="man-comments">Commentaire</label>
+                <textarea id="man-comments" class="man-comments" rows="5" cols="40"></textarea>
+            </div>
+        </div>
+            <a href="#" class="send-form">Envoyer</a>
+        </form>
+    </div>
+</div>
+
 <div class="">
     <ul>
         <li><a href='{{path('adherent_all')}}'>Liste des adhérents</a></li>
@@ -323,7 +396,7 @@
                     {% else %}
                         <p>Vous n'avez accès à cette donnée.</p>
                     {% endif %}
-                        
+
                     <div class="row-contract-third">
                         <div class="col col-adherent-contract_comments">
                             {{ form_label(formAdherent.contract_comments) }}
@@ -397,7 +470,7 @@
                                     {% if meet.returnAtWoman == '' %}
                                         <td>En attente</td>
                                     {% else %}
-                                        <td>{{ meet.returnAtWoman }}</td>
+                                        <td>{{ meet.returnAtWoman|date('d/m/Y') }}</td>
                                     {% endif %}
                                     <td>{{ meet.adherentMan.lastname }}</td>
                                     <td>{{ meet.adherentMan.firstname }}</td>
@@ -406,7 +479,7 @@
                                     {% if meet.returnAtMan == '' %}
                                         <td>En attente</td>
                                     {% else %}
-                                        <td>{{ meet.returnAtMan }}</td>
+                                        <td>{{ meet.returnAtMan|date('d/m/Y') }}</td>
                                     {% endif %}
                                     <td>{{ meet.adherentWoman.lastname }}</td>
                                     <td>{{ meet.adherentWoman.firstname }}</td>

@@ -23,6 +23,7 @@ class Agence
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups("adherent:read")
+     * @Groups("meet:read")
      */
     private $name;
 
@@ -69,6 +70,7 @@ class Agence
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups("adherent:read")
+     * @Groups("meet:read")
      */
     private $address_town;
 
