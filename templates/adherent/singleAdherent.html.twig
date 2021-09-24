@@ -137,7 +137,8 @@
                 </div>
                 <div class="col col-adherent-last-meet">
                     <label for="">Dernière Rencontre</label>
-                    <div class="last-meet">(à calculer)</div>
+                    {% set lastmeet = meets|last %}
+                    <div class="last-meet">{{ lastmeet.startedAt|date('d/m/Y') }}</div>
                 </div>
                 <div class="col col-adherent-status-meet">
                     {{ form_label(formAdherent.status_meet) }}

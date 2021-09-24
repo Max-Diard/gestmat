@@ -23,7 +23,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class AdherentController extends AbstractController
 {
 
-    public function __construct(private EntityManagerInterface $entityManager, Container $container)
+    public function __construct(private EntityManagerInterface $entityManager)
     {
     }
 

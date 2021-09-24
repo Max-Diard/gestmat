@@ -38,7 +38,8 @@ class AdherentType extends AbstractType
             ])
             ->add('birthdate', DateType::class, [
                 'label' => 'Date de naissance',
-                'years'=> range(date('Y'), date('Y') - 100)
+                'years'=> range(date('Y'), date('Y') - 100),
+                'format' => 'dd-MM-yyyy'
             ])
             ->add('comments1', TextareaType::class, [
                 'label' => 'Commentaires',
@@ -107,7 +108,8 @@ class AdherentType extends AbstractType
             ])
             ->add('announcement_date_free', DateType::class, [
                 'label' => 'Date d\'annonce gratuite',
-                'required' => false
+                'required' => false,
+                'format' => 'dd-MM-yyyy'
             ])
             ->add('announcement_newspaper', TextareaType::class, [
                 'label' => 'Annonce Présentation Journal',
@@ -115,7 +117,8 @@ class AdherentType extends AbstractType
             ])
             ->add('announcement_date_newspaper', DateType::class, [
                 'label' => 'Date d\'annonce journal',
-                'required' => false
+                'required' => false,
+                'format' => 'dd-MM-yyyy'
             ])
             ->add('owner', EntityType::class, [
                 'class' => AdherentOption::class,
@@ -324,15 +327,18 @@ class AdherentType extends AbstractType
             ])
             ->add('contract_date', DateType::class, [
                 'label' => 'Date contrat',
-                'years'=> range(date('Y'), date('Y') + 100)
+                'years'=> range(date('Y'), date('Y') + 100),
+                'format' => 'dd-MM-yyyy'
             ])
             ->add('contract_startedAt', DateType::class, [
                 'label' => 'Date début de contrat',
-                'years'=> range(date('Y'), date('Y') + 100)
+                'years'=> range(date('Y'), date('Y') + 100),
+                'format' => 'dd-MM-yyyy'
             ])
             ->add('contract_endingAt', DateType::class, [
                 'label' => 'Date fin de contrat',
-                'years'=> range(date('Y'), date('Y') + 100)
+                'years'=> range(date('Y'), date('Y') + 100),
+                'format' => 'dd-MM-yyyy'
             ])
             ->add('contract_amount', NumberType::class, [
                 'label' => 'Montant TTC'
