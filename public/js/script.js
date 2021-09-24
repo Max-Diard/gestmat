@@ -37,6 +37,7 @@ $(document).ready( function () {
     });
 } );
 
+// On attend que la page sois charger
 window.addEventListener("DOMContentLoaded", (event) => {
     //Pour les onglets dans Single Adherent
     const buttonTab = document.querySelectorAll('.open-tab');
@@ -54,7 +55,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
         })
     }
 
-    // Pour les détails de l'adhérent
+    // Pour les détails de l'adhérent dans la liste
     const rowTable = document.querySelectorAll('.js-adherent');
 
     if(rowTable){
@@ -123,30 +124,26 @@ function apiMeet(id){
         if (request.readyState === XMLHttpRequest.DONE) {
             if (request.status === 200) {
                 // Fin du loader ?
-
                 const recup = JSON.parse(request.response);
-                let i = 0;
-                while(i < recup.adherent.length){
-                    if (recup.adherent[i].genre.name === 'Féminin'){
-                        lastnameWoman.textContent = recup.adherent[i].lastname;
-                        firstnameWoman.textContent = recup.adherent[i].firstname;
-                        yearWoman.textContent = recup.adherent[i].age;
-                        agenceWoman.textContent = recup.adherent[i].agence.name + ' - ' + recup.adherent[i].agence.address_town;
-                        meetWaitingWomen = recup.adherent[i].id
-                        loadingWomen = true
-                        informationMeetWoman(recup);
-                        i++;
-                    } else {
-                        lastnameMan.textContent = recup.adherent[i].lastname;
-                        firstnameMan.textContent = recup.adherent[i].firstname;
-                        yearMan.textContent = recup.adherent[i].age;
-                        agenceMan.textContent = recup.adherent[i].agence.name + ' - ' + recup.adherent[i].agence.address_town;
-                        meetWaitingMen = recup.adherent[i].id
-                        loadingMen = true
-                        informationMeetMan(recup);
-                        i++;
-                    }
+
+                if (recup.adherent[0].genre.name === 'Féminin'){
+                    lastnameWoman.textContent = recup.adherent[0].lastname;
+                    firstnameWoman.textContent = recup.adherent[0].firstname;
+                    yearWoman.textContent = recup.adherent[0].age;
+                    agenceWoman.textContent = recup.adherent[0].agence.name + ' - ' + recup.adherent[0].agence.address_town;
+                    meetWaitingWomen = recup.adherent[0].id
+                    loadingWomen = true
+                    informationMeetWoman(recup);
+                } else {
+                    lastnameMan.textContent = recup.adherent[0].lastname;
+                    firstnameMan.textContent = recup.adherent[0].firstname;
+                    yearMan.textContent = recup.adherent[0].age;
+                    agenceMan.textContent = recup.adherent[0].agence.name + ' - ' + recup.adherent[0].agence.address_town;
+                    meetWaitingMen = recup.adherent[0].id
+                    loadingMen = true
+                    informationMeetMan(recup);
                 }
+
                 if(loadingWomen && loadingMen){
                     // Création du bouton pour créer la rencontre
                     buttonModal.className = 'button-create-meet'
@@ -157,6 +154,7 @@ function apiMeet(id){
 
                     buttonModal.addEventListener('click', function(ev){
                         ev.preventDefault()
+
                         // Affichage de la modal
                         modal.style.display = 'block';
 
@@ -199,7 +197,7 @@ function apiMeet(id){
     request.send();
 }
 
-// Function appeler dans la function'api' ppour afficher les rencontres de l'adhérent sélectionner
+// Function appeler dans la function'api' ppour afficher les rencontres de l'adhérent sélectionner ici pour une femme
 function informationMeetWoman(recup){
     const divMeetWoman = document.querySelector('.woman-meeting');
 
@@ -208,11 +206,10 @@ function informationMeetWoman(recup){
             divMeetWoman.removeChild(divMeetWoman.lastChild)
         }
     }
+
     if (recup.meet.length > 0){
         let j = 0
         while(j < recup.meet.length){
-            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-
             const row = document.createElement('tr')
 
             const celliD = document.createElement('td')
@@ -244,11 +241,18 @@ function informationMeetWoman(recup){
             cellLinkMore.href = '#'
             cellLinkMore.textContent = 'Voir plus'
 
+            let idMeet = recup.meet[j].id
+
+            cellLinkMore.addEventListener('click', function(ev){
+                ev.preventDefault()
+                informationMeet(idMeet)
+            })
+
             cellMore.appendChild(cellLinkMore)
 
             const cellDelete = document.createElement('td')
             const cellLinkDelete = document.createElement('a')
-            cellLinkDelete.href = '#'
+            cellLinkDelete.href = '/meet/' + recup.meet[j].id + '/remove/ask'
             cellLinkDelete.textContent = 'Supprimer'
 
             cellDelete.appendChild(cellLinkDelete)
@@ -277,6 +281,7 @@ function informationMeetWoman(recup){
     }
 }
 
+//Ici pour un homme
 function informationMeetMan(recup){
     const divMeetMan = document.querySelector('.man-meeting');
 
@@ -352,11 +357,9 @@ function informationMeetMan(recup){
         row.appendChild(noMeet)
         divMeetMan.appendChild(row)
     }
-
 }
 
 // Function pour appeler l'api qui récupére les infos du meet
-
 function informationMeet(id){
     const modalAdherent = document.querySelector('.modal-adherent');
 
@@ -396,7 +399,7 @@ function informationMeet(id){
             if (request.status === 200) {
                 // Fin du loader ?
                 const recup = JSON.parse(request.response);
-                console.log(recup[0])
+                //Information de la rencontre côté femme
                 womanLastname.textContent = recup[0].adherent_woman.lastname;
                 womanFirstname.textContent = recup[0].adherent_woman.firstname;
                 womanAgence.textContent = recup[0].adherent_woman.agence.name + ' - ' + recup[0].adherent_woman.agence.address_town;
@@ -407,13 +410,19 @@ function informationMeet(id){
                 }else {
                     womanDateReturn.value = ''
                 }
-                // womanAction.textContent = recup[0].status_meet_woman;
+                if (recup[0].status_meet_woman != null){
+                    womanAction.value = recup[0].status_meet_woman.name;
+                } else{
+                    womanAction.value = ''
+                }
                 womanComments.textContent = recup[0].comments_woman;
 
+                //Information de la rencontre général
                 const startedAt = new Date(recup[0].startedAt)
                 dateMeet.textContent = new Intl.DateTimeFormat('fr-FR').format(startedAt)
                 idMeet.textContent = recup[0].id;
 
+                //Information de la rencontre côté homme
                 manLastname.textContent = recup[0].adherent_man.lastname;
                 manFirstname.textContent = recup[0].adherent_man.firstname;
                 manAgence.textContent = recup[0].adherent_man.agence.name + ' - ' + recup[0].adherent_man.agence.address_town;
@@ -424,8 +433,14 @@ function informationMeet(id){
                 }else {
                     manDateReturn.value = '';
                 }
-                // manAction.textContent = recup[0].status_meet_man;
+
+                if (recup[0].status_meet_man != null){
+                    manAction.value = recup[0].status_meet_man.name;
+                } else{
+                    manAction.value = ''
+                }
                 manComments.textContent = recup[0].comments_man;
+
 
                 sendButton.href = '/api/update_meet/'
 
@@ -448,6 +463,7 @@ function informationMeet(id){
 
 }
 
+// Function pour envoyer à l'api les informations de la rencontre
 function updateMeet(
     id,
     statutsMeetWoman,

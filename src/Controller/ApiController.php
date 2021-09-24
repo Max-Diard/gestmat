@@ -24,6 +24,7 @@ class ApiController extends AbstractController
     public function __construct(private EntityManagerInterface $entityManager){
 
     }
+    //Api en get pour récupérer l'adhérents sélectionner
     #[
         Route('/api/adherent/{id}', name: 'api_adherent', methods: 'GET'),
         IsGranted('ROLE_USER')
@@ -50,25 +51,26 @@ class ApiController extends AbstractController
 
     }
 
-    #[Route('/api/meet/{id}', name: 'api_meet', methods: 'GET')]
+    //Api en get pour récupérer la rencontre sélectionner
+    #[
+        Route('/api/meet/{id}', name: 'api_meet', methods: 'GET'),
+        IsGranted('ROLE_USER')
+    ]
     public function meet(Meet $meet ,SerializerInterface $serializer): Response
     {
         $meetApi = $this->entityManager->getRepository(Meet::class)->findBy(['id' => $meet->getId()]);
 
-//        dd($meetApi);
-        //Gestion de l'api
-
-
-        $response = $this->json($meetApi, 200, [], ['groups' => 'meet:read']);
-//        dd($response);
-        return $response;
+        return $this->json($meetApi, 200, [], ['groups' => 'meet:read']);
 
     }
 
-    #[Route('/api/update_meet/', name: 'api_update_meet', methods: 'POST')]
+    //Api en post pour ajouter des informations sur les rencontres
+    #[
+        Route('/api/update_meet/', name: 'api_update_meet', methods: 'POST'),
+        IsGranted('ROLE_USER')
+    ]
     public function infoMeet(Request $request): Response
     {
-//        dd($request->getContent());
         $data = json_decode(
             $request->getContent(),
             true

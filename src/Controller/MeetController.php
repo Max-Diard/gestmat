@@ -9,6 +9,7 @@ use App\Entity\User;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,7 +23,8 @@ class MeetController extends AbstractController
 
     //Page pour voir tous les rencontres
     #[
-        Route('/meet', name: 'meet_all')
+        Route('/meet', name: 'meet_all'),
+        IsGranted('ROLE_USER')
     ]
     public function index(): Response
     {
@@ -52,7 +54,6 @@ class MeetController extends AbstractController
                 }
             }
         }
-//        dd($trueMeet);
 
         return $this->render('meet/index.html.twig', [
             'meets' => $trueMeet
@@ -62,14 +63,12 @@ class MeetController extends AbstractController
     //Page pour voir tous les rencontres
     #[
         Route('/meet/search/{date}', name: 'meet_date'),
-        ParamConverter('date' , \DateTimeImmutable::class)
+        ParamConverter('date' , \DateTimeImmutable::class),
+        IsGranted('ROLE_USER')
     ]
     public function searchMeet(DateTimeImmutable $date): Response
     {
-//        dd($date);
         $meets = $this->entityManager->getRepository(Meet::class)->findBy(['startedAt' => $date]);
-
-//        dd($meets);
 
         return $this->render('meet/index.html.twig', [
             'meets' => $meets
@@ -79,9 +78,7 @@ class MeetController extends AbstractController
     //Route pour créer une rencontre
     #[
         Route('/meet/new/{woman}-{man}-{date}', name: 'meet_new'),
-        Entity('adherent', expr:'repository.find(adherent.woman'),
-        Entity('adherent', expr:'repository.find(adherent.man'),
-        ParamConverter('date' , \DateTimeImmutable::class)
+        IsGranted('ROLE_USER')
     ]
     public function newMeet(Adherent $woman, Adherent $man, DateTimeImmutable $date): Response
     {
@@ -94,6 +91,31 @@ class MeetController extends AbstractController
         $this->entityManager->persist($meet);
         $this->entityManager->flush();
 
+
+        return $this->redirectToRoute('adherent_all');
+    }
+
+    //Page pour demander si l'on doit supprimer cette rencontre
+    #[
+        Route('/meet/{id}/remove/ask', name: 'meet_ask_remove'),
+        IsGranted('ROLE_USER')
+    ]
+    public function askRemoveMeet(Meet $meet): Response
+    {
+        return $this->render('meet/askRemove.html.twig', [
+            'meet' => $meet
+        ]);
+    }
+
+    //Route pour supprimer la rencontre
+    #[
+        Route('/meet/{id}/remove/', name: 'meet_remove'),
+        IsGranted('ROLE_USER')
+    ]
+    public function removeMeet(Meet $meet): Response
+    {
+        $this->entityManager->remove($meet);
+        $this->entityManager->flush();
 
         return $this->redirectToRoute('adherent_all');
     }

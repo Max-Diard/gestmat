@@ -17,17 +17,20 @@ class AdherentOption
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups("meet:read")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups("adherent:read")
+     * @Groups("meet:read")
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups("meet:read")
      */
     private $type;
 

@@ -463,33 +463,39 @@
                             </tr>
                         </thead>
                         <tbody>
-                        {% for meet in meets %}
+                        {% if meets is empty %}
                             <tr>
-                                <td>{{ meet.id }}</td>
-                                {% if adherentProfile.genre == 'Féminin' %}
-                                    {% if meet.returnAtWoman == '' %}
-                                        <td>En attente</td>
-                                    {% else %}
-                                        <td>{{ meet.returnAtWoman|date('d/m/Y') }}</td>
-                                    {% endif %}
-                                    <td>{{ meet.adherentMan.lastname }}</td>
-                                    <td>{{ meet.adherentMan.firstname }}</td>
-                                    <td>{{ meet.adherentMan.agence.name }} - {{ meet.adherentMan.agence.addressTown }}</td>
-                                {% else %}
-                                    {% if meet.returnAtMan == '' %}
-                                        <td>En attente</td>
-                                    {% else %}
-                                        <td>{{ meet.returnAtMan|date('d/m/Y') }}</td>
-                                    {% endif %}
-                                    <td>{{ meet.adherentWoman.lastname }}</td>
-                                    <td>{{ meet.adherentWoman.firstname }}</td>
-                                    <td>{{ meet.adherentMan.agence.name }} - {{ meet.adherentWoman.agence.addressTown }}</td>
-                                {% endif %}
-                                <td>{{ meet.startedAt|date('d/m/Y') }}</td>
-                                <td><a href="#" class="meet-more" data-id="{{ meet.id }}">Voir plus</a></td>
-                                <td><a href="#">Supprimer</a></td>
+                                <td colspan="8">"Cette personne n'a pas de rencontre pour le moment"</td>
                             </tr>
-                        {% endfor %}
+                        {% else %}
+                            {% for meet in meets %}
+                                <tr>
+                                    <td>{{ meet.id }}</td>
+                                    {% if adherentProfile.genre == 'Féminin' %}
+                                        {% if meet.returnAtWoman == '' %}
+                                            <td>En attente</td>
+                                        {% else %}
+                                            <td>{{ meet.returnAtWoman|date('d/m/Y') }}</td>
+                                        {% endif %}
+                                        <td>{{ meet.adherentMan.lastname }}</td>
+                                        <td>{{ meet.adherentMan.firstname }}</td>
+                                        <td>{{ meet.adherentMan.agence.name }} - {{ meet.adherentMan.agence.addressTown }}</td>
+                                    {% else %}
+                                        {% if meet.returnAtMan == '' %}
+                                            <td>En attente</td>
+                                        {% else %}
+                                            <td>{{ meet.returnAtMan|date('d/m/Y') }}</td>
+                                        {% endif %}
+                                        <td>{{ meet.adherentWoman.lastname }}</td>
+                                        <td>{{ meet.adherentWoman.firstname }}</td>
+                                        <td>{{ meet.adherentMan.agence.name }} - {{ meet.adherentWoman.agence.addressTown }}</td>
+                                    {% endif %}
+                                    <td>{{ meet.startedAt|date('d/m/Y') }}</td>
+                                    <td><a href="#" class="meet-more" data-id="{{ meet.id }}">Voir plus</a></td>
+                                    <td><a href="{{ path('meet_ask_remove', {id: meet.id}) }}">Supprimer</a></td>
+                                </tr>
+                            {% endfor %}
+                        {% endif %}
                         </tbody>
                     </table>
                 </div>

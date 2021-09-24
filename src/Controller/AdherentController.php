@@ -14,6 +14,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,7 +23,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class AdherentController extends AbstractController
 {
 
-    public function __construct(private EntityManagerInterface $entityManager)
+    public function __construct(private EntityManagerInterface $entityManager, Container $container)
     {
     }
 
@@ -34,7 +35,9 @@ class AdherentController extends AbstractController
     public function index(): Response
     {
         $agences = $this->getUser()->getAgence();
-//        $meeting = [];
+
+        // On récupére les status meet pour ajouter dans le form de la modal
+        $options = $this->entityManager->getRepository(AdherentOption::class)->findBy(['type' => 'status_meet']);
 
         //Si l'utilisateur connecté à plus d'une agence, on itére dessus
         if (count($agences) > 0){
@@ -97,13 +100,13 @@ class AdherentController extends AbstractController
             $womenAdherentDroit = [];
             $menAdherentDroit = [];
         }
-//        dd($meeting);
         return $this->render('adherent/index.html.twig', [
             'womenAdherent'         => $womenAdherent,
             'menAdherent'           => $menAdherent,
             'womenAdherentDroit'    => $womenAdherentDroit,
             'menAdherentDroit'      => $menAdherentDroit,
-            'meet'                  => $meeting
+            'meet'                  => $meeting,
+            'options'               => $options
         ]);
     }
 
@@ -246,22 +249,6 @@ class AdherentController extends AbstractController
             'meets'             => $meets,
             'options'           => $options
         ]);
-    }
-
-    //Route pour ajouter les informations de la rencontre
-    #[
-        Route('/adherent/profil/{woman}/{man}/{meet}/change_meet'),
-        Entity('adherent', expr:'repository.find(adherent.woman'),
-        Entity('adherent', expr:'repository.find(adherent.man'),
-        Entity('meet', expr:'repository.find(meet)'),
-    ]
-    public function changeMeet(Adherent $woman, Adherent $man, Meet $meet, Request $request)
-    {
-        dd($woman,$man, $meet);
-//        dd($request);
-//        if ($request->isMethod('GET')) {
-//            dd($request->get);
-//        }
     }
 
     //Page pour ajouter un adhérent
