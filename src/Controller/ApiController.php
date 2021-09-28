@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Adherent;
 use App\Entity\AdherentOption;
 use App\Entity\Meet;
+use App\Entity\User;
 use App\Repository\AdherentRepository;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
@@ -24,6 +25,23 @@ class ApiController extends AbstractController
     public function __construct(private EntityManagerInterface $entityManager){
 
     }
+    //Api en get pour récupérer les adhérents femmes
+    #[
+        Route('/api/adherent/woman/{id}', name:'api_adherent_woman', methods: 'GET'),
+        IsGranted('ROLE_USER')
+    ]
+    public function adherentWoman(User $user)
+    {
+        $user = $this->entityManager->getRepository(User::class)->findBy(['id' => $user]);
+        dd($user[0]);
+
+        $woman = $this->entityManager->getRepository(Adherent::class)->findByGenre('Féminin');
+
+        dd($woman);
+    }
+
+
+
     //Api en get pour récupérer l'adhérents sélectionner
     #[
         Route('/api/adherent/{id}', name: 'api_adherent', methods: 'GET'),
@@ -118,5 +136,32 @@ class ApiController extends AbstractController
             ],
             JsonResponse::HTTP_CREATED
         );
+    }
+
+    //Api en get pour récupérer la rencontre sélectionner et la delete
+    #[
+        Route('/api/meet/delete/{id}', name: 'api_delete_meet', methods: 'DELETE'),
+        IsGranted('ROLE_USER')
+    ]
+    public function deleteMeet(Meet $meet ,SerializerInterface $serializer, Request $request): Response
+    {
+        $data = json_decode(
+            $request->getContent(),
+            true
+        );
+
+        $meet = $this->entityManager->getRepository(Meet::class)->findBy(['id' => $data['id']]);
+        $adherents = $this->entityManager->getRepository(Adherent::class)->findAll();
+
+        $this->entityManager->remove($meet[0]);
+        $this->entityManager->flush();
+
+        return new JsonResponse(
+            [
+                'status' => 'ok'
+            ],
+            JsonResponse::HTTP_CREATED
+        );
+
     }
 }

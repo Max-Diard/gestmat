@@ -209,10 +209,10 @@ label{
     bottom: 0;
 }
 
-.card-selected-woman, 
-.card-selected-man{
-    border: 10px solid black;
-}
+/*.card-selected-woman, */
+/*.card-selected-man{*/
+/*    border: 10px solid black;*/
+/*}*/
 
 .button-create-meet{
     position: absolute;

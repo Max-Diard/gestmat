@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Adherent;
+use App\Entity\AdherentOption;
 use App\Entity\Agence;
 use App\Entity\Meet;
 use App\Entity\User;
@@ -88,6 +89,20 @@ class MeetController extends AbstractController
         $meet->setAdherentMan($man);
         $meet->setStartedAt($date);
 
+        $today = new DateTimeImmutable("now");
+
+        if ($date > $today){
+            $disponibilities = $this->entityManager->getRepository(AdherentOption::class)->findBy(['type' => 'status_meet']);
+            foreach ($disponibilities as $disponibility){
+                if($disponibility->getName() == 'En rencontre'){
+                    $woman->setStatusMeet($disponibility);
+                    $man->setStatusMeet($disponibility);
+                }
+            }
+        }
+
+
+
         $this->entityManager->persist($meet);
         $this->entityManager->flush();
 
@@ -95,28 +110,18 @@ class MeetController extends AbstractController
         return $this->redirectToRoute('adherent_all');
     }
 
-    //Page pour demander si l'on doit supprimer cette rencontre
-    #[
-        Route('/meet/{id}/remove/ask', name: 'meet_ask_remove'),
-        IsGranted('ROLE_USER')
-    ]
-    public function askRemoveMeet(Meet $meet): Response
-    {
-        return $this->render('meet/askRemove.html.twig', [
-            'meet' => $meet
-        ]);
-    }
-
-    //Route pour supprimer la rencontre
-    #[
-        Route('/meet/{id}/remove/', name: 'meet_remove'),
-        IsGranted('ROLE_USER')
-    ]
-    public function removeMeet(Meet $meet): Response
-    {
-        $this->entityManager->remove($meet);
-        $this->entityManager->flush();
-
-        return $this->redirectToRoute('adherent_all');
-    }
+//    //Route pour supprimer la rencontre
+//    #[
+//        Route('/meet/{id}/remove/', name: 'meet_remove'),
+//        IsGranted('ROLE_USER')
+//    ]
+//    public function removeMeet(Meet $meet): Response
+//    {
+//        $this->entityManager->remove($meet);
+//        $this->entityManager->flush();
+//
+//        $this->addFlash('successRemoveMeet', 'La rencontre à bien était supprimé !');
+//
+//        return $this->redirectToRoute('adherent_all');
+//    }
 }

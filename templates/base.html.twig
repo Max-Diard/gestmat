@@ -12,15 +12,48 @@
             {#{{ encore_entry_link_tags('app') }}#}
         {% endblock %}
 
+
     </head>
     <header>
         {% if app.user  %}
-            <div class=""><a href="{{ path('app_logout') }}">Déconnexion</a></div>
-            <div class=""><a href="{{ path('adherent_all') }}">Liste d'adhérents</a></div>
-            <a href="{{ path('meet_all') }}">Rencontre</a>
+            <div class="">
+                <a href="{{ path('app_logout') }}">Déconnexion</a>
+            </div>
+            <div class="">
+                <a href="{{ path('adherent_all') }}">Liste d'adhérents</a>
+            </div>
+            <div class="">
+                <a href='{{ path('adherent_add') }}'>Ajouter un nouvel adhérent</a>
+            </div>
+            <div class="">
+                <a href="{{ path('meet_all') }}">Rencontre</a>
+            </div>
+            <div class="">
+                <a href='{{ path('search') }}'>Recherche</a>
+            </div>
+            <div class="">
+                <a href='{{ path('profile') }}'>Votre profil</a>
+            </div>
         {% endif %}
         {% if app.user and app.user.roles[0] == "ROLE_ADMIN" %}
-            <div class=""><a href="{{ path('admin') }}">ADMIN</a></div>
+            <div class="">
+                <a href="{{ path('admin') }}">ADMIN</a>
+            </div>
+            <div class="">
+                <a href="{{ path('admin_user_all') }}">Liste des utilisateurs</a>
+            </div>
+            <div class="">
+                <a href="{{ path('admin_user_new') }}">Ajouter un utilisateur</a>
+            </div>
+            <div class="">
+                <a href="{{ path('admin_agence') }}">Voir les agences</a>
+            </div>
+            <div class="">
+                <a href="{{ path('admin_agence_add') }}">Ajouter une agence</a>
+            </div>
+            <div class="">
+                <a href="{{ path('admin_options') }}">Voir les options</a>
+            </div>
         {% endif %}
 
     </header>
@@ -30,8 +63,13 @@
 {#    </div>#}
 
         {% block javascripts %}
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+{#        <script src='{{ asset('js/import.js') }}'></script>#}
         <script src="{{ asset('js/jquery3.6.min.js') }}"></script>
         <script src="{{ asset('js/datatable.min.js') }}"></script>
+            {% if app.user %}
+            <script>const idUser = {{ app.user.id }};</script>
+            {% endif %}
         <script src='{{ asset('js/table.js') }}'></script>
         <script src='{{ asset('js/script.js') }}'></script>
             {#{{ encore_entry_script_tags('app') }}#}

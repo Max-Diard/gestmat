@@ -137,8 +137,12 @@
                 </div>
                 <div class="col col-adherent-last-meet">
                     <label for="">Dernière Rencontre</label>
-                    {% set lastmeet = meets|last %}
-                    <div class="last-meet">{{ lastmeet.startedAt|date('d/m/Y') }}</div>
+                    {% if meets is not empty %}
+                        {% set lastmeet = meets|last %}
+                        <div class="last-meet">{{ lastmeet.startedAt|date('d/m/Y') }}</div>
+                    {% else %}
+                        <div class="last-meet">"Aucune rencontre"</div>
+                    {% endif %}
                 </div>
                 <div class="col col-adherent-status-meet">
                     {{ form_label(formAdherent.status_meet) }}
@@ -463,7 +467,7 @@
                                 <td>Supprimer</td>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody class="adherent-single-meet">
                         {% if meets is empty %}
                             <tr>
                                 <td colspan="8">"Cette personne n'a pas de rencontre pour le moment"</td>
@@ -493,7 +497,7 @@
                                     {% endif %}
                                     <td>{{ meet.startedAt|date('d/m/Y') }}</td>
                                     <td><a href="#" class="meet-more" data-id="{{ meet.id }}">Voir plus</a></td>
-                                    <td><a href="{{ path('meet_ask_remove', {id: meet.id}) }}">Supprimer</a></td>
+                                    <td><a href="#" class="meet-delete" data-id="{{ meet.id }}">Supprimer</a></td>
                                 </tr>
                             {% endfor %}
                         {% endif %}

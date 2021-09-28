@@ -32,7 +32,7 @@ class AdherentController extends AbstractController
         Route('/adherent', name: 'adherent_all'),
         IsGranted('ROLE_USER')
     ]
-    public function index(): Response
+    public function index(Request $request): Response
     {
         $agences = $this->getUser()->getAgence();
 

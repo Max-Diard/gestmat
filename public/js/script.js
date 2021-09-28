@@ -3,6 +3,12 @@ let loadingWomen = false
 let meetWaitingWomen = '';
 let meetWaitingMen = '';
 
+// let test = '?woman=&?man=' ;
+// test = test.split('')
+
+const url = new URL(window.location)
+let myParams = url.searchParams
+
 // On attend que la page sois charger
 window.addEventListener("DOMContentLoaded", (event) => {
     //Pour les onglets dans Single Adherent
@@ -15,6 +21,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
                 let allTab = document.querySelectorAll('.tab');
                 [].forEach.call(allTab, function(singleTab){
                     singleTab.classList.add('no-tab');
+                    console.log(singleTab.querySelector('.tab-meet'))
                 })
                 document.querySelector('.' + tab).classList.remove('no-tab');
             })
@@ -24,10 +31,31 @@ window.addEventListener("DOMContentLoaded", (event) => {
     // Pour les détails de l'adhérent dans la liste
     const rowTable = document.querySelectorAll('.js-adherent');
 
+    if(url.hash.includes('men')){
+
+        const manInUrl = url.hash.indexOf('men')
+        const resultMan = url.hash.slice(manInUrl)
+        const startId = resultMan.indexOf('=')
+        const idManInUrl = resultMan.slice(startId + 1)
+
+        apiMeet(idManInUrl)
+    }
+
+    if (url.hash.includes('woman')){
+
+        const womanInUrl = url.hash.indexOf('woman')
+        const endWomanInUrl = url.hash.indexOf('&')
+        const resultWoman = url.hash.slice(womanInUrl, endWomanInUrl)
+        const startId = resultWoman.indexOf('=')
+        const idWomanInUrl = resultWoman.slice(startId + 1)
+
+        apiMeet(idWomanInUrl)
+    }
     if(rowTable){
         [].forEach.call(rowTable, function(elem){
             elem.addEventListener('click', function(ev){
                 ev.preventDefault();
+                // window.location.search('?men=' + elem.getAttribute('data-id'))
                 apiMeet(elem.getAttribute('data-id'));
             })
         })
@@ -35,12 +63,39 @@ window.addEventListener("DOMContentLoaded", (event) => {
 
     //Pour la page single Adhérents
     const meetMoreButton = document.querySelectorAll('.meet-more');
+    const meetDeleteButton = document.querySelectorAll('.meet-delete');
 
     if(meetMoreButton){
         [].forEach.call(meetMoreButton, function (elem){
             elem.addEventListener('click', function(ev) {
                 ev.preventDefault()
                 informationMeet(elem.getAttribute('data-id'))
+            })
+        })
+    }
+
+    if(meetDeleteButton){
+        [].forEach.call(meetDeleteButton, function (elem){
+            elem.addEventListener('click', function (ev){
+                ev.preventDefault()
+                Swal.fire({
+                    title: 'Vous voulez vraiment supprimer cette rencontre ?',
+                    showDenyButton: true,
+                    showCancelText: 'Non',
+                    confirmButtonText: 'Oui',
+                    confirmButtonOnClick: '#',
+                    denyButtonText: `Non`,
+                    icon: 'question'
+                }).then((result) => {
+                    /* Read more about isConfirmed, isDenied below */
+                    if (result.isConfirmed) {
+                        removeMeet(elem.getAttribute('data-id'))
+
+
+                    } else if (result.isDenied) {
+                        Swal.fire("La rencontre n'a pas était supprimé !", '', 'info')
+                    }
+                })
             })
         })
     }
@@ -56,6 +111,16 @@ window.addEventListener("DOMContentLoaded", (event) => {
         })
     }
 });
+
+// Remove meet en api
+function removeMeet(id){
+    const request = new XMLHttpRequest();
+    request.open('DELETE', 'http://127.0.0.1:8000/api/meet/delete/' + id, true)
+    request.setRequestHeader("content-type", "application/json; charset=utf-8")
+    request.send(JSON.stringify({
+        'id': id
+    }))
+}
 
 // Function pour appeler l'api qui récupére l'adhérent sélectionner
 function apiMeet(id){
@@ -91,7 +156,6 @@ function apiMeet(id){
             if (request.status === 200) {
                 // Fin du loader ?
                 const recup = JSON.parse(request.response);
-
                 if (recup.adherent[0].genre.name === 'Féminin'){
                     lastnameWoman.textContent = recup.adherent[0].lastname;
                     firstnameWoman.textContent = recup.adherent[0].firstname;
@@ -99,6 +163,19 @@ function apiMeet(id){
                     agenceWoman.textContent = recup.adherent[0].agence.name + ' - ' + recup.adherent[0].agence.address_town;
                     meetWaitingWomen = recup.adherent[0].id
                     loadingWomen = true
+
+                    myParams.set('woman', recup.adherent[0].id)
+                    newUrl = url.toString()
+                    const womanUrl = newUrl.split('adherent')[1]
+
+                    if(myParams.get('men')){
+                        window.location.hash = '?woman=' + myParams.get('woman') + '&men=' + myParams.get('men')
+                    } else{
+                        window.location.hash = womanUrl
+                    }
+
+                    // window.location.hash = womanUrl
+
                     informationMeetWoman(recup);
                 } else {
                     lastnameMan.textContent = recup.adherent[0].lastname;
@@ -107,8 +184,20 @@ function apiMeet(id){
                     agenceMan.textContent = recup.adherent[0].agence.name + ' - ' + recup.adherent[0].agence.address_town;
                     meetWaitingMen = recup.adherent[0].id
                     loadingMen = true
+
+                    myParams.set('men', recup.adherent[0].id)
+                    newUrl = url.toString()
+                    const manUrl = newUrl.split('adherent')[1]
+
+                    if(myParams.get('woman')){
+                        window.location.hash = '?woman=' + myParams.get('woman') + '&men=' + myParams.get('men')
+                    } else{
+                        window.location.hash = manUrl
+                    }
+
                     informationMeetMan(recup);
                 }
+
 
                 if(loadingWomen && loadingMen){
                     // Création du bouton pour créer la rencontre
@@ -132,7 +221,7 @@ function apiMeet(id){
                         const buttonNo = document.createElement('a');
 
                         buttonYes.textContent = 'Oui'
-                        buttonYes.href = 'meet/new/' + meetWaitingWomen + '-' + meetWaitingMen
+                        buttonYes.href = '#'
                         buttonNo.textContent = 'Non'
                         buttonNo.href = '#'
 
@@ -144,8 +233,21 @@ function apiMeet(id){
                         inputDate.value = Date.now()
                         modalText.appendChild(inputDate)
 
+                        buttonYes.addEventListener('click', function (){
+                            if (modalText.lastChild == document.querySelector('.error-message-meet')){
+                                modalText.removeChild(modalText.lastChild)
+                            }
+                            if(buttonYes.href.slice(-1) == "#"){
+                                const errorMessage = document.createElement('p')
+                                errorMessage.className = 'error-message-meet'
+                                errorMessage.textContent = "Merci d'insérer une date"
+                                modalText.appendChild(errorMessage)
+                            }
+                        })
+
+
                         inputDate.addEventListener('input', function (){
-                            buttonYes.href += '-' + this.value
+                            buttonYes.href = 'meet/new/' + meetWaitingWomen + '-' + meetWaitingMen + '-' + this.value;
                         })
 
                         buttonNo.addEventListener('click', function(ev){
@@ -163,7 +265,7 @@ function apiMeet(id){
     request.send();
 }
 
-// Function appeler dans la function'api' ppour afficher les rencontres de l'adhérent sélectionner ici pour une femme
+// Function appeler dans la function 'apiMeet' ppour afficher les rencontres de l'adhérent sélectionner ici pour une femme
 function informationMeetWoman(recup){
     const divMeetWoman = document.querySelector('.woman-meeting');
 
@@ -218,8 +320,37 @@ function informationMeetWoman(recup){
 
             const cellDelete = document.createElement('td')
             const cellLinkDelete = document.createElement('a')
-            cellLinkDelete.href = '/meet/' + recup.meet[j].id + '/remove/ask'
+
+            //Test avec SweetAlert
+            cellLinkDelete.href = '#'
             cellLinkDelete.textContent = 'Supprimer'
+            cellLinkDelete.addEventListener('click', function(){
+                Swal.fire({
+                    title: 'Vous voulez vraiment supprimer cette rencontre ?',
+                    showDenyButton: true,
+                    showCancelText: 'Non',
+                    confirmButtonText: 'Oui',
+                    confirmButtonOnClick: '#',
+                    denyButtonText: `Non`,
+                    icon: 'question'
+                }).then((result) => {
+                    /* Read more about isConfirmed, isDenied below */
+                    if (result.isConfirmed) {
+                        removeMeet(idMeet)
+                        apiMeet(recup.adherent[0].id)
+
+                        $('.table-women').DataTable({
+                            "bDestroy": true,
+                            paging: false,
+                            searching: false,
+                            info: false
+                        }).ajax.reload();
+
+                    } else if (result.isDenied) {
+                        Swal.fire("La rencontre n'a pas était supprimé !", '', 'info')
+                    }
+                })
+            })
 
             cellDelete.appendChild(cellLinkDelete)
 
@@ -247,7 +378,7 @@ function informationMeetWoman(recup){
     }
 }
 
-//Ici pour un homme
+// Function appeler dans la function 'apiMeet' ppour afficher les rencontres de l'adhérent sélectionner ici pour un homme
 function informationMeetMan(recup){
     const divMeetMan = document.querySelector('.man-meeting');
 
@@ -291,12 +422,39 @@ function informationMeetMan(recup){
             cellLinkMore.href = '#'
             cellLinkMore.textContent = 'Voir plus'
 
+            let idMeet = recup.meet[j].id
+
+            cellLinkMore.addEventListener('click', function(ev){
+                ev.preventDefault()
+                informationMeet(idMeet)
+            })
+
             cellMore.appendChild(cellLinkMore)
 
             const cellDelete = document.createElement('td')
             const cellLinkDelete = document.createElement('a')
             cellLinkDelete.href = '#'
             cellLinkDelete.textContent = 'Supprimer'
+
+            cellLinkDelete.addEventListener('click', function(){
+                Swal.fire({
+                    title: 'Vous voulez vraiment supprimer cette rencontre ?',
+                    showDenyButton: true,
+                    showCancelText: 'Non',
+                    confirmButtonText: 'Oui',
+                    confirmButtonOnClick: '#',
+                    denyButtonText: `Non`,
+                    icon: 'question'
+                }).then((result) => {
+                    /* Read more about isConfirmed, isDenied below */
+                    if (result.isConfirmed) {
+                        removeMeet(idMeet)
+                        apiMeet(recup.adherent[0].id)
+                    } else if (result.isDenied) {
+                        Swal.fire("La rencontre n'a pas était supprimé !", '', 'info')
+                    }
+                })
+            })
 
             cellDelete.appendChild(cellLinkDelete)
 
@@ -407,7 +565,6 @@ function informationMeet(id){
                 }
                 manComments.textContent = recup[0].comments_man;
 
-
                 sendButton.href = '/api/update_meet/'
 
                 sendButton.addEventListener('click', function(ev){
@@ -421,6 +578,13 @@ function informationMeet(id){
                         manDateReturn.value,
                         manComments.value,
                     )
+                    // modalAdherent.style.display = 'none'
+                    Swal.fire(
+                        'Information Envoyé!',
+                        'Les imformations de la rencontre ont bien était envoyé!',
+                        'success',
+                    )
+                    modalAdherent.style.display = 'none'
                 })
             }
         }

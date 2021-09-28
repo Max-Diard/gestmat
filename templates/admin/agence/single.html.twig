@@ -1,9 +1,6 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-<div class="">
-    <a href="{{ path('admin_agence') }}">Retour</a>
-</div>
 <img class="img-agence" src='{{ asset('uploads/agence/agence'~ agence.id ~'/picture/'~ agence.linkPicture) }}' alt="Image de l'agence" />
 
 <p>Nom : {{ agence.name }}</p>

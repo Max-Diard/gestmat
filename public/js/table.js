@@ -17,6 +17,42 @@ $(document).ready( function () {
     });
 } );
 
+// Tableau card Adhérents women
+$(document).ready( function () {
+    $('.table-card-woman').DataTable({
+        paging: false,
+        searching: false,
+        info: false
+    });
+} );
+
+// Tableau card Adhérents men
+$(document).ready( function () {
+    $('.table-card-man').DataTable({
+        paging: false,
+        searching: false,
+        info: false
+    });
+} );
+
+// Tableau card meet Adhérents women
+$(document).ready( function () {
+    $('.table-card-woman-meet').DataTable({
+        paging: false,
+        searching: false,
+        info: false
+    });
+} );
+
+// Tableau card meet Adhérents men
+$(document).ready( function () {
+    $('.table-card-man-meet').DataTable({
+        paging: false,
+        searching: false,
+        info: false
+    });
+} );
+
 //Tableau pour la recherche
 $(document).ready( function () {
     $('.table-search').DataTable({
