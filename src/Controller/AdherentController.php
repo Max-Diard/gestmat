@@ -11,6 +11,8 @@ use App\Form\AdherentType;
 use App\Form\MeetType;
 use App\Form\SearchType;
 use Doctrine\ORM\EntityManagerInterface;
+use Dompdf\Dompdf;
+use Dompdf\Options;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -24,8 +26,7 @@ class AdherentController extends AbstractController
 {
 
     public function __construct(private EntityManagerInterface $entityManager)
-    {
-    }
+    {}
 
     //Liste de tous les adhérents
     #[

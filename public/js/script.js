@@ -32,7 +32,6 @@ window.addEventListener("DOMContentLoaded", (event) => {
     const rowTable = document.querySelectorAll('.js-adherent');
 
     if(url.hash.includes('men')){
-
         const manInUrl = url.hash.indexOf('men')
         const resultMan = url.hash.slice(manInUrl)
         const startId = resultMan.indexOf('=')
@@ -44,12 +43,20 @@ window.addEventListener("DOMContentLoaded", (event) => {
     if (url.hash.includes('woman')){
 
         const womanInUrl = url.hash.indexOf('woman')
-        const endWomanInUrl = url.hash.indexOf('&')
-        const resultWoman = url.hash.slice(womanInUrl, endWomanInUrl)
-        const startId = resultWoman.indexOf('=')
-        const idWomanInUrl = resultWoman.slice(startId + 1)
 
-        apiMeet(idWomanInUrl)
+        if (url.hash.indexOf('&') != -1){
+            const endWomanInUrl = url.hash.indexOf('&')
+            const resultWoman = url.hash.slice(womanInUrl, endWomanInUrl)
+            const startId = resultWoman.indexOf('=')
+            const idWomanInUrl = resultWoman.slice(startId + 1)
+
+            apiMeet(idWomanInUrl)
+        } else {
+            const startId = url.hash.indexOf('=')
+            const idWomanInUrl = url.hash.slice(startId + 1)
+
+            apiMeet(idWomanInUrl)
+        }
     }
     if(rowTable){
         [].forEach.call(rowTable, function(elem){
@@ -155,6 +162,7 @@ function apiMeet(id){
         if (request.readyState === XMLHttpRequest.DONE) {
             if (request.status === 200) {
                 // Fin du loader ?
+
                 const recup = JSON.parse(request.response);
                 if (recup.adherent[0].genre.name === 'Féminin'){
                     lastnameWoman.textContent = recup.adherent[0].lastname;
@@ -170,11 +178,11 @@ function apiMeet(id){
 
                     if(myParams.get('men')){
                         window.location.hash = '?woman=' + myParams.get('woman') + '&men=' + myParams.get('men')
+                    } else if(myParams.get('woman')){
+                        window.location.hash = '?woman=' + myParams.get('woman')
                     } else{
                         window.location.hash = womanUrl
                     }
-
-                    // window.location.hash = womanUrl
 
                     informationMeetWoman(recup);
                 } else {
@@ -191,6 +199,8 @@ function apiMeet(id){
 
                     if(myParams.get('woman')){
                         window.location.hash = '?woman=' + myParams.get('woman') + '&men=' + myParams.get('men')
+                    } else if(myParams.get('men')){
+                        window.location.hash = '?men=' + myParams.get('men')
                     } else{
                         window.location.hash = manUrl
                     }
@@ -493,6 +503,7 @@ function informationMeet(id){
     const womanDateReturn = document.querySelector('.woman-date-returnAt');
     const womanAction = document.querySelector('.woman-action');
     const womanComments = document.querySelector('.woman-comments');
+    const womanLinkPdf = document.querySelector('.link-pdf-woman')
 
     const dateMeet = document.querySelector('.date-meet');
     const idMeet = document.querySelector('.id-meet');
@@ -503,9 +514,11 @@ function informationMeet(id){
     const manDateReturn = document.querySelector('.man-date-returnAt');
     const manAction = document.querySelector('.man-action');
     const manComments = document.querySelector('.man-comments');
+    const manLinkPdf = document.querySelector('.link-pdf-man')
 
     const closeModal = document.querySelector('.close-modal');
     const sendButton = document.querySelector('.send-form');
+
 
     closeModal.addEventListener('click', function (ev){
         ev.preventDefault()
@@ -541,6 +554,8 @@ function informationMeet(id){
                 }
                 womanComments.textContent = recup[0].comments_woman;
 
+                womanLinkPdf.href = '/meet/pdf/' + recup[0].adherent_woman.id + '-' + recup[0].adherent_man.id
+
                 //Information de la rencontre général
                 const startedAt = new Date(recup[0].startedAt)
                 dateMeet.textContent = new Intl.DateTimeFormat('fr-FR').format(startedAt)
@@ -564,6 +579,8 @@ function informationMeet(id){
                     manAction.value = ''
                 }
                 manComments.textContent = recup[0].comments_man;
+
+                manLinkPdf.href = '/meet/pdf/' + recup[0].adherent_man.id + '-' + recup[0].adherent_woman.id
 
                 sendButton.href = '/api/update_meet/'
 

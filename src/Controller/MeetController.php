@@ -9,10 +9,13 @@ use App\Entity\Meet;
 use App\Entity\User;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
+use Dompdf\Dompdf;
+use Dompdf\Options;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -101,14 +104,60 @@ class MeetController extends AbstractController
             }
         }
 
-
-
         $this->entityManager->persist($meet);
         $this->entityManager->flush();
 
 
         return $this->redirectToRoute('adherent_all');
     }
+
+
+    //Page pour voir l'annonce du pdf
+    #[
+        Route('/meet/pdf/{adherent}-{meet}', name: 'adherent_single_pdf'),
+        IsGranted('ROLE_USER')
+    ]
+    public function seePdfAdherent(Adherent $adherent, Adherent $meet, Request $request)
+    {
+        $date = new DateTimeImmutable('now');
+
+        $pdf = new Options();
+        $pdf->set('defaultFont', 'Arial');
+        $pdf->set('isRemoteEnabled', true);
+
+        $dompdf = new Dompdf($pdf);
+
+
+        $agence = $this->entityManager->getRepository(Agence::class)->findBy(['id' => $adherent->getAgence()]);
+
+        $image = $request->server->filter('SYMFONY_DEFAULT_ROUTE_URL') . 'uploads/agence/agence' . $agence[0]->getId() . '/picture/'. $agence[0]->getLinkPicture();
+
+        $html = $this->renderView('meet/pdfView.html.twig', [
+            'adherent' => $adherent,
+            'meet' => $meet,
+            'date' => $date,
+            'image' => $image
+        ]);
+
+
+        $dompdf->loadHtml($html);
+
+        // (Optional) Setup the paper size and orientation 'portrait' or 'portrait'
+        $dompdf->setPaper('A4', 'portrait');
+
+        // Render the HTML as PDF
+        $dompdf->render();
+
+        // Output the generated PDF to Browser (force download)
+        $dompdf->stream("mypdf.pdf", [
+            "Attachement" => true
+        ]);
+
+        return new Response('', 200, [
+            'Content-Type' => 'application/pdf',
+        ]);
+    }
+
 
 //    //Route pour supprimer la rencontre
 //    #[

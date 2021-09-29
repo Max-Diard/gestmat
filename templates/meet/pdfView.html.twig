@@ -1,0 +1,155 @@
+<style>
+    h1{
+        color:red;
+    }
+
+    h2{
+        font-size: 1.2rem;
+    }
+
+    p{
+        font-size: 0.8rem;
+    }
+
+    .img-logo{
+        max-width: 150px;
+        height: 150px;
+    }
+
+    .adherent-left{
+        display: inline-block;
+        width: 80%;
+        height: 2%;
+    }
+
+    .adherent-right{
+        display: inline-block;
+        width: 20%;
+        font-size: 1rem;
+        height: 2%;
+    }
+
+    .info-meet-name{
+        color: #86133d;
+    }
+
+    .info-meet-age{
+        margin-left: 20.2%;
+    }
+
+    .info-meet-phone{
+        margin-left: 7.6%;
+    }
+
+    span{
+        margin: 0 2rem;
+    }
+
+    .info-meet-all{
+        display: inline-block;
+        margin-left: 45%;
+        font-style: italic;
+    }
+
+    .title-information{
+        font-style: italic;
+        font-weight: bold;
+        font-size: 1rem;
+    }
+
+    .title-result-meet{
+        text-align: center;
+        color: #86133d;
+    }
+
+    .text-positive,
+    .text-negative{
+        width: 100%;
+        height: 1%;
+        border-bottom: 1px solid black;
+    }
+
+    .choice-left{
+        /*display: inline-block;*/
+        /*width: 70%;*/
+        /*height: 4%;*/
+        /*text-align: center;*/
+    }
+
+    .choice-right{
+        /*display: inline-block;*/
+        /*width: 30%;*/
+        /*height: 4%;*/
+        text-align: right;
+    }
+
+
+    .choice-adherent{
+        border: 2px solid #86133d;
+        padding: 6px;
+    }
+
+    .sign-adherent{
+        text-align: right;
+    }
+
+    .message-footer{
+        text-transform: uppercase;
+    }
+
+
+    footer{
+        position: fixed;
+        text-align: center;
+        bottom: 3rem;
+    }
+
+</style>
+<img class='img-logo' src="{{ image }}" alt="Logo">
+
+<div class="adherent-info">
+    <div class="adherent-left">
+        <p>Le {{ date|date('d/m/Y') }}</p>
+    </div>
+    <p class="adherent-right">
+        {{ adherent.lastname }} {{ adherent.firstname }}<br/>
+        {{ adherent.addressStreet }}<br/>
+        {{ adherent.addressZipPostal }} {{ adherent.addressTown }}
+    </p>
+</div>
+<div class="">
+    <p class="info-meet-name">Nom de la personne sélectionné<span class="adherent-info">:</span>{{ meet.firstname }} {{ meet.lastname }}</p>
+    <p class="info-meet-age">Âge<span class="adherent-info">:</span>{{ meet.getAge() }}</p>
+    <p class="info-meet-phone">Numéro de téléphone<span class="adherent-info">:</span>{{ meet.phoneMobile }}</p>
+</div>
+<div class="">
+    <p class="info-meet-all">{{ meet.profession }}, {{ meet.statusMatrimoniale }}, {{ meet.size }}, Yeux: {{ meet.eyes }}, Cheveux: {{ meet.hair }}</p>
+</div>
+<div class="">
+    <h2 class="title-information">Renseignements sur cette personne :</h2>
+    <p>{{ meet.announcementPresentation }}</p>
+</div>
+<div class="">
+    <h2 class="title-result-meet">Résultat de la rencontre, vos commentaires :</h2>
+    <h3>Points Positifs :</h3>
+    <p class="text-positive"></p>
+    <p class="text-positive"></p>
+    <p class="text-positive"></p>
+    <p class="text-positive"></p>
+    <h3>Points Négatifs :</h3>
+    <p class="text-negative"></p>
+    <p class="text-negative"></p>
+    <p class="text-negative"></p>
+    <p class="text-negative"></p>
+</div>
+<div class="choice-left">
+    <p><span class="choice-adherent"> </span>Je souhaite recevoir une nouvelle sélection</p>
+    <p><span class="choice-adherent"> </span>Je souhaite que mon dossier soit mis en attente</p>
+</div>
+<div class="choice-right">
+    <p class="sign-adherent">Date et signature de l'adhérent</p>
+</div>
+<footer>
+    <p class="message-footer">Le retour de ce document est imperatif pour recevoir une nouvelle sélection</p>
+    <p class="address-agence">{{ adherent.agence.name }} - {{ adherent.agence.addressStreet }} - {{ adherent.agence.addressZipPostal }} {{ adherent.agence.addressTown }} - {{ adherent.agence.email }}</p>
+</footer>
