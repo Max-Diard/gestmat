@@ -296,6 +296,20 @@ label{
     text-align: center;
 }
 
+/* Page de toute les rencontres d'un adhérents */
+.meet-adherent-title{
+    text-align: center;
+}
+.meet-adherent-form{
+    border: 1px solid black;
+    padding: 2rem 0;
+    margin: 1rem 2rem
+}
+
+.meet-adherent-form:nth-child(even){
+    background-color: #ffd8a8;
+}
+
 /*----------------- Admin -------------------*/
 /* Page d'options */
 

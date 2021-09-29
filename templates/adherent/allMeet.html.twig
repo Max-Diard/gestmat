@@ -1,0 +1,79 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <h1 class="meet-adherent-title">Voici toute les rencontres pour {{ adherent.lastname }} {{ adherent.firstname }}</h1>
+
+{% for meet in meets %}
+    <div class="meet-adherent-form">
+        <form class="form-meet" action="post">
+            <div class="modal-meet-text">
+                <div class="meet-woman">
+                    <div class="modal-info-woman">
+                        <div class="">
+                            <p class="woman-lastname">{{ meet.adherentWoman.lastname }}</p>
+                            <p class="woman-firstname">{{ meet.adherentWoman.firstname }}</p>
+                        </div>
+                        <div class="">
+                            <p class="woman-agence">{{ meet.adherentWoman.agence.name }} - {{ meet.adherentWoman.agence.addressTown }}</p>
+                        </div>
+                    </div>
+                    <div class="meet-woman-pdf">
+                        <a class='link-pdf-woman' href="{{ path('adherent_single_pdf', {adherent: meet.adherentWoman.id, meet: meet.adherentMan.id}) }}" >Voir le pdf</a>
+                    </div>
+                    <div class="row-return-action">
+                        <div class="col-return">
+                            <p class="woman-date-returnAt">{{ meet.returnAtWoman|date('d/m/Y') }}</p>
+                        </div>
+                        <div class="col-action">
+                            {% if meet.statusMeetWoman != '' %}
+                                <p class="woman-action">{{ meet.statusMeetWoman }}</p>
+                            {% else %}
+                                <p class="woman-action">Pas d'action enregistrer</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <label for="woman-comments">Commentaire</label>
+                    <textarea id="woman-comments" class="woman-comments" rows="5" cols="40" >{{ meet.commentsWoman }}</textarea>
+                </div>
+                <div class="meet-info-general">
+                    <p>Date de rencontre</p>
+                    <p class="date-meet">{{ meet.startedAt|date('d/m/Y') }}</p>
+                    <p>Référence</p>
+                    <p class="id-meet">{{ meet.id }}</p>
+                </div>
+                <div class="meet-man">
+                    <div class="modal-info-man">
+                        <div class="">
+                            <p class="man-lastname">{{ meet.adherentMan.lastname }}</p>
+                            <p class="man-firstname">{{ meet.adherentMan.firstname }}</p>
+                        </div>
+                        <div class="">
+                            <p class="man-agence">{{ meet.adherentMan.agence.name }} - {{ meet.adherentMan.agence.addressTown }}</p>
+                        </div>
+                    </div>
+                    <div class="meet-man-pdf">
+                        <a class='link-pdf-man' href="{{ path('adherent_single_pdf', {adherent: meet.adherentWoman.id, meet: meet.adherentMan.id}) }}">Voir le pdf</a>
+                    </div>
+                    <div class="row-return-action">
+                        <div class="col-return">
+                            <p class="man-date-returnAt">{{ meet.returnAtMan|date('d/m/Y') }}</p>
+                        </div>
+                        <div class="col-action">
+                            {% if meet.statusMeetMan != '' %}
+                                <p class="man-action">{{ meet.statusMeetMan }}</p>
+                            {% else %}
+                                <p class="man-action">Pas d'action enregistrer</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <label for="man-comments">Commentaire</label>
+                    <textarea id="man-comments" class="man-comments" rows="5" cols="40">{{ meet.commentsMan }}</textarea>
+                </div>
+            </div>
+        </form>
+    </div>
+{% endfor %}
+
+
+{% endblock %}

@@ -58,11 +58,11 @@ window.addEventListener("DOMContentLoaded", (event) => {
             apiMeet(idWomanInUrl)
         }
     }
+
     if(rowTable){
         [].forEach.call(rowTable, function(elem){
             elem.addEventListener('click', function(ev){
                 ev.preventDefault();
-                // window.location.search('?men=' + elem.getAttribute('data-id'))
                 apiMeet(elem.getAttribute('data-id'));
             })
         })
@@ -117,6 +117,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
             linkMeet.href = '/meet/search/' + this.value
         })
     }
+
 });
 
 // Remove meet en api
@@ -569,6 +570,7 @@ function informationMeet(id){
                 if (recup[0].returnAt_man != null){
                     const returnAtMan = new Date(recup[0].returnAt_man)
                     manDateReturn.value = returnAtMan.toISOString().split('T')[0];
+                    console.log(manDateReturn.value)
                 }else {
                     manDateReturn.value = '';
                 }
@@ -607,7 +609,6 @@ function informationMeet(id){
         }
     })
     request.send();
-
 }
 
 // Function pour envoyer à l'api les informations de la rencontre

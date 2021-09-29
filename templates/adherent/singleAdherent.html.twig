@@ -45,9 +45,9 @@
             </div>
             <div class="meet-info-general">
                 <p>Date de rencontre</p>
-                <p class="date-meet">23/12/21</p>
+                <p class="date-meet"></p>
                 <p>Référence</p>
-                <p class="id-meet">456</p>
+                <p class="id-meet"></p>
             </div>
             <div class="meet-man">
                 <div class="modal-info-man">
@@ -509,6 +509,7 @@
                         </tbody>
                     </table>
                 </div>
+                <a href="{{ path('adherent_profile_meet_all', {id: adherentProfile.id}) }}">Voir toutes les rencontres</a>
             </div>
             {% if trueAgence == true %}
                 {{ form_row(formAdherent.submit) }}

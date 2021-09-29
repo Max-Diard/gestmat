@@ -111,7 +111,6 @@ class MeetController extends AbstractController
         return $this->redirectToRoute('adherent_all');
     }
 
-
     //Page pour voir l'annonce du pdf
     #[
         Route('/meet/pdf/{adherent}-{meet}', name: 'adherent_single_pdf'),
@@ -157,6 +156,7 @@ class MeetController extends AbstractController
             'Content-Type' => 'application/pdf',
         ]);
     }
+
 
 
 //    //Route pour supprimer la rencontre

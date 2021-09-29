@@ -335,4 +335,25 @@ class AdherentController extends AbstractController
         ]);
     }
 
+    //Page pour voir toutes les rencontres de l'adhérent sélectionné
+    #[
+        Route('/adherent/profile/{id}/meet/all', name: 'adherent_profile_meet_all'),
+        IsGranted('ROLE_USER')
+    ]
+    public function adherentMeetAll(Adherent $adherent,Request $request): Response
+    {
+        if($adherent->getGenre()->getName() == 'Féminin'){
+            $meets = $this->entityManager->getRepository(Meet::class)->findBy(['adherent_woman' => $adherent->getId()]);
+        } else {
+            $meets = $this->entityManager->getRepository(Meet::class)->findBy(['adherent_man' => $adherent->getId()]);
+        }
+
+        $options = $this->entityManager->getRepository(AdherentOption::class)->findBy(['type' => 'status_meet']);
+
+        return $this->render('adherent/allMeet.html.twig', [
+            'adherent' => $adherent,
+            'meets' => $meets,
+            'options'=> $options
+        ]);
+    }
 }
