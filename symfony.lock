@@ -285,6 +285,9 @@
             "config/packages/sensio_framework_extra.yaml"
         ]
     },
+    "sonata-project/exporter": {
+        "version": "2.8.0"
+    },
     "symfony/asset": {
         "version": "v5.3.4"
     },

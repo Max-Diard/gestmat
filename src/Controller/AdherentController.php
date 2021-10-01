@@ -20,6 +20,8 @@ use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\Routing\Annotation\Route;
 
 class AdherentController extends AbstractController
@@ -151,6 +153,19 @@ class AdherentController extends AbstractController
 
         // On récupére les rencontres de l'adhérent
         $meets = $this->entityManager->getRepository(Meet::class)->findBy([$genre => $adherent->getId()]);
+
+        if(empty($meets)){
+            if($adherent->getStatusMeet()->getName() != 'En attente'){
+                $status = $this->entityManager->getRepository(AdherentOption::class)->findBy(['type' => 'status_meet']);
+                foreach($status as $stat){
+                    if($stat->getName() == "Disponible" ){
+                        $adherent->setStatusMeet($stat);
+                        $this->entityManager->persist($adherent);
+                        $this->entityManager->flush();
+                    }
+                }
+            }
+        }
 
         // On récupére les status meet pour ajouter dans le form de la modal
         $options = $this->entityManager->getRepository(AdherentOption::class)->findBy(['type' => 'status_meet']);
@@ -355,5 +370,95 @@ class AdherentController extends AbstractController
             'meets' => $meets,
             'options'=> $options
         ]);
+    }
+
+    //Route pour télécharger la demande de témoignage
+    #[
+        Route('/adherent/profile/{id}/testimony', name: 'adherent_testimony'),
+        IsGranted('ROLE_USER')
+    ]
+    public function testimonyAdherent(Adherent $adherent, Request $request)
+    {
+        $pdf = new Options();
+        $pdf->set('defaultFont', 'Arial');
+        $pdf->set('isRemoteEnabled', true);
+
+        $dompdf = new Dompdf($pdf);
+
+        $agence = $this->entityManager->getRepository(Agence::class)->findBy(['id' => $adherent->getAgence()]);
+
+        $image = $request->server->filter('SYMFONY_DEFAULT_ROUTE_URL') . 'uploads/agence/agence' . $agence[0]->getId() . '/picture/'. $agence[0]->getLinkPicture();
+
+        $html = $this->renderView('adherent/pdfTestimony.html.twig', [
+            'adherent' => $adherent,
+            'image' => $image
+        ]);
+
+        $dompdf->loadHtml($html);
+
+        // (Optional) Setup the paper size and orientation 'portrait' or 'portrait'
+        $dompdf->setPaper('A4', 'portrait');
+
+        // Render the HTML as PDF
+        $dompdf->render();
+
+        // Output the generated PDF to Browser (force download)
+        $dompdf->stream("Témoignage-" . $adherent->getLastname() . '-' . $adherent->getFirstname(), [
+            "Attachement" => true
+        ]);
+
+        return new Response('', 200, [
+            'Content-Type' => 'application/pdf',
+        ]);
+    }
+
+    //Route pour exporter les adhérents
+    #[
+        Route('/adherent/export', name: 'adherent_export'),
+        IsGranted('ROLE_USER')
+    ]
+    public function adherentExportCsv(Request $request)
+    {
+        $userAgences = $this->getUser()->getAgence();
+
+//        foreach ($userAgences as $userAgence){
+//            $adherents = $userAgence->getAdherents();
+//            foreach ($adherents as $adherent){
+//                $adherentCsv = $adherent;
+//                $response = new StreamedResponse(function () use ($adherentCsv) {
+//                    $data = $this->myQuery()->iterate();
+//                    $csv = fopen('php://output', 'w+');
+//                    while (false !== ($line = $adherentCsv->next())) {
+//                        fputcsv($csv, [$line[0]->column1], ';');
+//                    }
+//                    fclose($csv);
+//                });
+//                $response->headers->set('Content-Type', 'text/csv; charset=utf-8');
+//                $response->headers->set('Content-Disposition', 'attachment; filename="file.csv"');        return $response;
+//
+//            }
+//        }
+
+        foreach ($userAgences as $userAgence){
+            $adherents = $userAgence->getAdherents();
+            foreach ($adherents as $adherent){
+                $adherentcsv[] = $adherent;
+            }
+        }
+        $csv = $this->renderView('adherent/template.csv.twig', [
+            'adherents' => $adherentcsv,
+        ]);
+//        dd($adherentcsv);
+        // crafting response
+        $response = new Response($csv);
+
+        $disposition = $response->headers->makeDisposition(
+            ResponseHeaderBag::DISPOSITION_ATTACHMENT,
+            sprintf('file_%s.csv', time()));
+        $response->headers->set('Content-Type', 'text/csv');
+        $response->headers->set('Content-Disposition', $disposition);
+
+        return $response;
+
     }
 }

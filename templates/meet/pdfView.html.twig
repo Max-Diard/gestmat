@@ -97,7 +97,6 @@
         text-transform: uppercase;
     }
 
-
     footer{
         position: fixed;
         text-align: center;
@@ -110,6 +109,7 @@
 <div class="adherent-info">
     <div class="adherent-left">
         <p>Le {{ date|date('d/m/Y') }}</p>
+        <p>Réf. {{ meet.id }}</p>
     </div>
     <p class="adherent-right">
         {{ adherent.lastname }} {{ adherent.firstname }}<br/>

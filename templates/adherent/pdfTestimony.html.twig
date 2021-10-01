@@ -1,0 +1,59 @@
+<style>
+    .logo-agence{
+        width: 150px;
+    }
+
+    .info-adherent{
+        text-align: right;
+    }
+
+    .post-scriptum{
+        text-align: right;
+        font-size: 0.8rem;
+    }
+
+    .testimony-title{
+        text-transform: uppercase;
+        text-align: center;
+    }
+
+    .testimony{
+        background-color: #8a8a8a;
+        height: 30%;
+    }
+
+    .date-sign{
+        color: #a4a3a3;
+        text-align: right;
+        padding-top: 15rem;
+    }
+
+</style>
+<img class="logo-agence" src="{{ image }}" alt="Image"/>
+<p class="info-adherent">
+    {{ adherent.lastname }} {{ adherent.firstname }}<br/>
+    {{ adherent.addressStreet }}<br/>
+    {{ adherent.addressZipPostal }} {{ adherent.addressTown }}
+</p>
+<p>{{ adherent.firstname }},</p>
+
+<p>Je suis très heureux d'apprendre que vous êtes en relation avec unee qui nous a fait confiance, qui a fait la même démarche que vous.<br/>
+Maintenant, vous savez, vous aussi, qu'il est possible de rencontrer le bonheur grâce aux services de votre conseiller {{ adherent.agence.name }}<br/>
+Afin de rassurer d'autres personnes et ainsi leur permettre de faire cette démarche en tout confiance.<br/>
+Je vous proposer de me raconter, à l'aide de ce document, votre démarche, votre rencontre ...</p>
+
+<p>Il est bien entendu que je respecterai votre anonymat, et que seul votre témoignage (sans nom ni adresse) pourra être mis à la disposition de nouveaux adhérents.</p>
+
+<p>Je vous remercie très sincèrement pour votre contribution au bonheur d'autres personnes.</p>
+
+<p>J'attends votre courrier !</p>
+
+<p>Bien Cordialement, Votre conseiller.</p>
+
+<p class="post-scriptum">PS: merci de renvoyer cette feuille sans la découper.</p>
+
+<p class="testimony-title">Témoignage</p>
+
+<div class="testimony">
+    <p class="date-sign">Date et signature</p>
+</div>

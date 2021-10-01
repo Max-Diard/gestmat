@@ -168,10 +168,12 @@ label{
     flex-direction: column;
 }
 
+
 /* All Adherent */
 
 .title-adherents{
     text-align: center;
+    margin-bottom: 5rem;
 }
 
 .women, 
@@ -182,9 +184,22 @@ label{
     text-align: center;
 }
 
+.filter-select-table-woman {
+    position: absolute;
+    left: 10%;
+    top: -20%;
+}
+
+.filter-select-table-man {
+    position: absolute;
+    top: -20%;
+    left: 55%;
+}
+
 .all-table{
     display: flex;
     justify-content: space-evenly;
+    position: relative;
 }
 
 .thead-adherent{
@@ -199,26 +214,57 @@ label{
     color: red;
 }
 
+.container-loader{
+    position: fixed;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 3;
+}
+
+.loader {
+    border: 6px solid #f3f3f3; /* Light grey */
+    border-top: 6px solid #86133d; /* Blue */
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    animation: spin 2s linear infinite;
+    position: absolute;
+    top: 50%;
+    right: 50%;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.card-selected-woman {
+    position: relative;
+}
+
 /* Bas de la liste des adhérents */
 
 .card-selected{
     display: flex;
     justify-content: space-evenly;
     width: 100%;
-    position: absolute;
+    /*position: absolute;*/
+    position: relative;
     bottom: 0;
 }
 
-/*.card-selected-woman, */
-/*.card-selected-man{*/
-/*    border: 10px solid black;*/
-/*}*/
-
 .button-create-meet{
-    position: absolute;
-    bottom: 25%;
-    right: 50%;
+    /*position: absolute;*/
+    /*bottom: 25%;*/
+    /*right: 50%;*/
     transform: translate(50%, 50%);
+}
+
+.button-meet {
+    text-align: center;
+    margin: 2rem 0;
 }
 
 /* Modal pour créer une rencontre */

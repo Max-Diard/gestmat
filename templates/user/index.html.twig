@@ -23,6 +23,7 @@
             {% for agence in userProfile.agence %}
                 <p>{{ agence.name }} - {{ agence.addressTown }}</p>
                 <a href="{{ path('agence_single', {id: agence.id}) }}">Voir plus</a>
+                <a href="{{ path('adherent_export') }}" download="download">Exporter mes données</a>
             {% endfor %}
         {% else %}
             <p>Merci de patienter, l'administrateur vous attribuera une agence</p>

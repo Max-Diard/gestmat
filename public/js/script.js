@@ -98,7 +98,6 @@ window.addEventListener("DOMContentLoaded", (event) => {
                     if (result.isConfirmed) {
                         removeMeet(elem.getAttribute('data-id'))
 
-
                     } else if (result.isDenied) {
                         Swal.fire("La rencontre n'a pas était supprimé !", '', 'info')
                     }
@@ -155,14 +154,25 @@ function apiMeet(id){
     const buttonModal = document.createElement('a');
     buttonModal.style.display = false;
 
-    // Ajout d'un loader ?
+    //Loader
+    const loaderMeet = document.querySelector('body');
+
+    const divContainerLoader = document.createElement('div')
+    divContainerLoader.className = 'container-loader'
+    const divLoader = document.createElement('div');
+    divLoader.className = 'loader';
+
+    divContainerLoader.appendChild(divLoader)
+
+    loaderMeet.appendChild(divContainerLoader)
 
     const request = new XMLHttpRequest();
     request.open("GET", "http://127.0.0.1:8000/api/adherent/" + id, true);
     request.addEventListener('readystatechange', function(){
         if (request.readyState === XMLHttpRequest.DONE) {
             if (request.status === 200) {
-                // Fin du loader ?
+                //Fin du loader
+                loaderMeet.removeChild(divContainerLoader)
 
                 const recup = JSON.parse(request.response);
                 if (recup.adherent[0].genre.name === 'Féminin'){
@@ -208,7 +218,6 @@ function apiMeet(id){
 
                     informationMeetMan(recup);
                 }
-
 
                 if(loadingWomen && loadingMen){
                     // Création du bouton pour créer la rencontre
@@ -278,6 +287,7 @@ function apiMeet(id){
 
 // Function appeler dans la function 'apiMeet' ppour afficher les rencontres de l'adhérent sélectionner ici pour une femme
 function informationMeetWoman(recup){
+
     const divMeetWoman = document.querySelector('.woman-meeting');
 
     if(divMeetWoman.hasChildNodes()){
@@ -528,15 +538,28 @@ function informationMeet(id){
 
     modalAdherent.style.display = 'block'
 
-    // Ajout d'un loader ?
+    // Loader
+    const loaderMeet = document.querySelector('body');
+
+    const divContainerLoader = document.createElement('div')
+    divContainerLoader.className = 'container-loader'
+    const divLoader = document.createElement('div');
+    divLoader.className = 'loader';
+
+    divContainerLoader.appendChild(divLoader)
+
+    loaderMeet.appendChild(divContainerLoader)
 
     const request = new XMLHttpRequest();
     request.open("GET", "http://127.0.0.1:8000/api/meet/" + id, true);
     request.addEventListener('readystatechange', function(){
         if (request.readyState === XMLHttpRequest.DONE) {
             if (request.status === 200) {
-                // Fin du loader ?
+                // Fin du loader
+                loaderMeet.removeChild(divContainerLoader)
+
                 const recup = JSON.parse(request.response);
+
                 //Information de la rencontre côté femme
                 womanLastname.textContent = recup[0].adherent_woman.lastname;
                 womanFirstname.textContent = recup[0].adherent_woman.firstname;

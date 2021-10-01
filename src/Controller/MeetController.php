@@ -148,7 +148,7 @@ class MeetController extends AbstractController
         $dompdf->render();
 
         // Output the generated PDF to Browser (force download)
-        $dompdf->stream("mypdf.pdf", [
+        $dompdf->stream("Rencontre-" . $adherent->getLastname() .'-'. $adherent->getFirstname(), [
             "Attachement" => true
         ]);
 
