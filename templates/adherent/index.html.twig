@@ -15,16 +15,16 @@
 <h1 class="title-adherents">Liste des adhérents</h1>
 
 {#    Modal pour créer une rencontre entre 2 adhérents#}
-<div class="modal">
-    <div class="modal-ask">
-        <div class="modal-text">
-            <p>Voulez vous créer une rencontre entre :</p>
-            <p class="modal-women-meet"></p>
-            <p class="modal-men-meet"></p>
-            <div class="modal-button"></div>
-        </div>
-    </div>
-</div>
+{#<div class="modal">#}
+{#    <div class="modal-ask">#}
+{#        <div class="modal-text">#}
+{#            <p>Voulez vous créer une rencontre entre :</p>#}
+{#            <p class="modal-women-meet"></p>#}
+{#            <p class="modal-men-meet"></p>#}
+{#            <div class="modal-button"></div>#}
+{#        </div>#}
+{#    </div>#}
+{#</div>#}
 
 {#    Modal pour voir les info de la rencontre#}
 <div class="modal-adherent">
@@ -107,16 +107,13 @@
 </div>
 
 <div class="all-table">
-    <div class="filter-select-table-woman">
-        <p id="selectTriggerFilterWoman"><label><b>Filter:</b></label><br></p>
-    </div>
-    <div class="filter-select-table-man">
-        <p id="selectTriggerFilterMan"><label><b>Filter:</b></label><br></p>
-    </div>
 
 {#    Adherent Femme#}
     <table class='table-women'>
         <thead class='thead-adherent'>
+            <th colspan="7">
+                <p id="selectTriggerFilterWoman"><label><b>Filtre:</b></label><br></p>
+            </th>
             <tr>
                 <td>Nom</td>
                 <td>Prénom</td>
@@ -177,6 +174,9 @@
 {#    Adherent Homme#}
     <table class='table-men'>
         <thead class='thead-adherent'>
+            <th colspan="7">
+                <p id="selectTriggerFilterMan"><label><b>Filtre:</b></label><br></p>
+            </th>
             <tr>
                 <td>Nom</td>
                 <td>Prénom</td>
@@ -233,44 +233,35 @@
         </tbody>
     </table>
 </div>
-<div class="button-meet">
-{#    <a href="#" class="button-create-meet">Créer une rencontre</a>#}
-</div>
+<div class="button-meet"></div>
 <div class="card-selected">
     <div class="card-selected-woman">
-        <table class='table-card-woman'>
-            <thead class='thead-adherent'>
-                <tr>
-                    <td class='thead-card-woman-lastname'></td>
-                    <td class='thead-card-woman-firstname'></td>
-                    <td class='thead-card-woman-years'></td>
-                    <td class='thead-card-woman-meet'></td>
-                    <td class='thead-card-woman-agence'></td>
-                </tr>
-            </thead>
-            <tbody>
-                <tr class='women'>
-                    <td colspan="5">
-                        <table class='table-card-woman-meet'>
-                            <thead class='thead-adherent'>
-                                <tr>
-                                    <td>Id</td>
-                                    <td>Date de retour</td>
-                                    <td>Nom</td>
-                                    <td>Prénom</td>
-                                    <td>Agence</td>
-                                    <td>Date de rencontre</td>
-                                    <td>Action</td>
-                                    <td>Supprimer</td>
-                                </tr>
-                            </thead>
-                            <tbody class="woman-meeting">
-                            </tbody>
-                        </table>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+        <div class='table-card-woman'>
+            <div class="info-adherent-woman-picked">
+                <p class='thead-card-woman-lastname'></p>
+                <p class='thead-card-woman-firstname'></p>
+                <p class='thead-card-woman-years'></p>
+                <p class='thead-card-woman-meet'></p>
+                <p class='thead-card-woman-agence'></p>
+            </div>
+
+            <table class='table-card-woman-meet'>
+                <thead class='thead-adherent'>
+                    <tr>
+                        <td>Id</td>
+                        <td>Date de retour</td>
+                        <td>Nom</td>
+                        <td>Prénom</td>
+                        <td>Agence</td>
+                        <td>Date de rencontre</td>
+                        <td>Action</td>
+                        <td>Supprimer</td>
+                    </tr>
+                </thead>
+                <tbody class="woman-meeting">
+                </tbody>
+            </table>
+        </div>
     </div>
     <div class="card-selected-man">
         <table class='table-card-man'>

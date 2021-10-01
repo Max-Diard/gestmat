@@ -246,19 +246,20 @@ label{
 
 /* Bas de la liste des adhérents */
 
+.info-adherent-woman-picked{
+    display: flex;
+    justify-content: space-between;
+}
+
 .card-selected{
     display: flex;
     justify-content: space-evenly;
     width: 100%;
-    /*position: absolute;*/
     position: relative;
     bottom: 0;
 }
 
 .button-create-meet{
-    /*position: absolute;*/
-    /*bottom: 25%;*/
-    /*right: 50%;*/
     transform: translate(50%, 50%);
 }
 

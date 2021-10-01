@@ -25,6 +25,7 @@ class ApiController extends AbstractController
     public function __construct(private EntityManagerInterface $entityManager){
 
     }
+
     //Api en get pour récupérer les adhérents femmes
     #[
         Route('/api/adherent/woman/{id}', name:'api_adherent_woman', methods: 'GET'),
@@ -39,8 +40,6 @@ class ApiController extends AbstractController
 
         dd($woman);
     }
-
-
 
     //Api en get pour récupérer l'adhérents sélectionner
     #[

@@ -9,7 +9,6 @@ $(document).ready( function () {
                 .appendTo('#selectTriggerFilterWoman')
                 .on('change', function() {
                     var val = $(this).val();
-                    console.log(val)
                     columnStatus.search(val).draw()
                 });
 
@@ -29,7 +28,6 @@ $(document).ready( function () {
                 .appendTo('#selectTriggerFilterWoman')
                 .on('change', function() {
                     var val = $(this).val();
-                    console.log(val)
                     columnAgence.search(val).draw()
                 });
 
@@ -47,22 +45,26 @@ $(document).ready( function () {
 
             var selectDate = $('<select class="filter"><option value=""></option></select>')
                 .appendTo('#selectTriggerFilterWoman')
+                .append('<option value="0">Terminé</option>')
+                .append('<option value="1">En cours</option>')
                 .on('change', function() {
                     var val = $(this).val();
-                    console.log(val)
-                    columnDate.search(val).draw()
-                });
+                    var date = new Date(Date.now())
 
-            var officesDate = [];
-            columnDate.data().toArray().forEach(function(s) {
-                s = s.split(',');
-                s.forEach(function(d) {
-                    if (!~officesDate.indexOf(d)) {
-                        officesDate.push(d)
-                        selectDate.append('<option value="' + d + '">' + d + '</option>');
-                    }
-                })
-            })
+                    let resultVal = []
+                    columnDate.data().toArray().forEach(s =>{
+                        var d = new Date(s)
+                        if (val == 0 && d < date){
+                            resultVal.push(s)
+                        } else if (val != 0 && d > date) {
+                            resultVal.push(s)
+
+                        } else if (val == ''){
+                            resultVal.push(s)
+                        }
+                    })
+                    columnDate.search(resultVal.join('|'), true, false, true).draw()
+                });
         }
     });
 
@@ -116,22 +118,26 @@ $(document).ready( function () {
 
             var selectDate = $('<select class="filter"><option value=""></option></select>')
                 .appendTo('#selectTriggerFilterMan')
+                .append('<option value="0">Terminé</option>')
+                .append('<option value="1">En cours</option>')
                 .on('change', function() {
                     var val = $(this).val();
-                    console.log(val)
-                    columnDate.search(val).draw()
-                });
+                    var date = new Date(Date.now())
 
-            var officesDate = [];
-            columnDate.data().toArray().forEach(function(s) {
-                s = s.split(',');
-                s.forEach(function(d) {
-                    if (!~officesDate.indexOf(d)) {
-                        officesDate.push(d)
-                        selectDate.append('<option value="' + d + '">' + d + '</option>');
-                    }
-                })
-            })
+                    let resultVal = []
+                    columnDate.data().toArray().forEach(s =>{
+                        var d = new Date(s)
+                        if (val == 0 && d < date){
+                            resultVal.push(s)
+                        } else if (val != 0 && d > date) {
+                            resultVal.push(s)
+
+                        } else if (val == ''){
+                            resultVal.push(s)
+                        }
+                    })
+                    columnDate.search(resultVal.join('|'), true, false, true).draw()
+                });
         }
     });
 
@@ -154,18 +160,20 @@ $(document).ready( function () {
 // } );
 
 // Tableau card meet Adhérents women
-    $('.table-card-woman-meet').DataTable({
-        paging: false,
-        searching: false,
-        info: false
-    });
-
-// Tableau card meet Adhérents men
-    $('.table-card-man-meet').DataTable({
-        paging: false,
-        searching: false,
-        info: false
-    });
+//     $('.table-card-woman-meet').DataTable({
+//         paging: false,
+//         searching: false,
+//         info: false,
+//         filter: false
+//     });
+//
+// // Tableau card meet Adhérents men
+//     $('.table-card-man-meet').DataTable({
+//         paging: false,
+//         searching: false,
+//         info: false,
+//         filter: false
+//     });
 
 //Tableau pour la recherche
     $('.table-search').DataTable({

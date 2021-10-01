@@ -92,6 +92,22 @@ class AdherentController extends AbstractController
                             }
                             if(!empty($haveMeet)){
                                 $meeting[] = $adherent->getId();
+
+                                //Pour modifier si tu le status meet pour l'adhérent
+                                $dates = [];
+                                foreach ($haveMeet as $m){
+                                    $dates[] = ($m->getStartedAt());
+                                }
+                                $today = new \DateTimeImmutable('now');
+                                if ($dates[count($dates) -1] < $today){
+                                    $dispo = $this->entityManager->getRepository(AdherentOption::class)->findBy(['type' => 'status_meet', 'name' => 'Disponible']);
+                                    $adherent->setStatusMeet($dispo[0]);
+                                } else {
+                                    $inMeet = $this->entityManager->getRepository(AdherentOption::class)->findBy(['type' => 'status_meet', 'name' => 'En rencontre']);
+                                    $adherent->setStatusMeet($inMeet[0]);
+                                }
+                                $this->entityManager->persist($adherent);
+                                $this->entityManager->flush();
                             }
                         }
                     }
@@ -421,24 +437,6 @@ class AdherentController extends AbstractController
     {
         $userAgences = $this->getUser()->getAgence();
 
-//        foreach ($userAgences as $userAgence){
-//            $adherents = $userAgence->getAdherents();
-//            foreach ($adherents as $adherent){
-//                $adherentCsv = $adherent;
-//                $response = new StreamedResponse(function () use ($adherentCsv) {
-//                    $data = $this->myQuery()->iterate();
-//                    $csv = fopen('php://output', 'w+');
-//                    while (false !== ($line = $adherentCsv->next())) {
-//                        fputcsv($csv, [$line[0]->column1], ';');
-//                    }
-//                    fclose($csv);
-//                });
-//                $response->headers->set('Content-Type', 'text/csv; charset=utf-8');
-//                $response->headers->set('Content-Disposition', 'attachment; filename="file.csv"');        return $response;
-//
-//            }
-//        }
-
         foreach ($userAgences as $userAgence){
             $adherents = $userAgence->getAdherents();
             foreach ($adherents as $adherent){
@@ -448,8 +446,7 @@ class AdherentController extends AbstractController
         $csv = $this->renderView('adherent/template.csv.twig', [
             'adherents' => $adherentcsv,
         ]);
-//        dd($adherentcsv);
-        // crafting response
+
         $response = new Response($csv);
 
         $disposition = $response->headers->makeDisposition(

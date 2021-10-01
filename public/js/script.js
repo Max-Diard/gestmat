@@ -30,6 +30,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
 
     // Pour les détails de l'adhérent dans la liste
     const rowTable = document.querySelectorAll('.js-adherent');
+    console.log(url.hash.includes('men'))
 
     if(url.hash.includes('men')){
         const manInUrl = url.hash.indexOf('men')
@@ -43,7 +44,6 @@ window.addEventListener("DOMContentLoaded", (event) => {
     if (url.hash.includes('woman')){
 
         const womanInUrl = url.hash.indexOf('woman')
-
         if (url.hash.indexOf('&') != -1){
             const endWomanInUrl = url.hash.indexOf('&')
             const resultWoman = url.hash.slice(womanInUrl, endWomanInUrl)
@@ -94,7 +94,6 @@ window.addEventListener("DOMContentLoaded", (event) => {
                     denyButtonText: `Non`,
                     icon: 'question'
                 }).then((result) => {
-                    /* Read more about isConfirmed, isDenied below */
                     if (result.isConfirmed) {
                         removeMeet(elem.getAttribute('data-id'))
 
@@ -230,53 +229,74 @@ function apiMeet(id){
                     buttonModal.addEventListener('click', function(ev){
                         ev.preventDefault()
 
+                        const today = new Date();
+                        const dateToday = today.toISOString().split('T')[0]
+
+                        Swal.fire({
+                            title: 'Vous voulez créer une rencontre entre :',
+                            showDenyButton: true,
+                            // showCancelText: 'Non',
+                            confirmButtonText: 'Oui',
+                            denyButtonText: `Non`,
+                            icon: 'question',
+                            html: '<p>' + lastnameWoman.textContent + ' ' + firstnameWoman.textContent + ' et ' + lastnameMan.textContent + ' ' + firstnameMan.textContent + '?</p>' +
+                                '<input type="date" class="swal2-input" id="expiry-date" value="'+ dateToday + '" required>',
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                const inputDate = document.querySelector('#expiry-date')
+                                window.location = 'meet/new/' + meetWaitingWomen + '-' + meetWaitingMen + '-' + inputDate.value
+                            } else if (result.isDenied) {
+                                Swal.fire("La rencontre n'a pas était effectué !", '', 'info')
+                            }
+                        })
+
                         // Affichage de la modal
-                        modal.style.display = 'block';
-
-                        modalMeetWomen.textContent = 'Femme : ' + lastnameWoman.textContent + ' ' + firstnameWoman.textContent
-                        modalMeetMen.textContent = 'Homme : ' + lastnameMan.textContent + ' ' + firstnameMan.textContent
-
-                        // Création des buttons de la modal
-                        let buttonYes = document.createElement('a');
-                        const buttonNo = document.createElement('a');
-
-                        buttonYes.textContent = 'Oui'
-                        buttonYes.href = '#'
-                        buttonNo.textContent = 'Non'
-                        buttonNo.href = '#'
-
-                        modalButton.appendChild(buttonYes)
-                        modalButton.appendChild(buttonNo)
-
-                        const inputDate = document.createElement('input')
-                        inputDate.type = 'date'
-                        inputDate.value = Date.now()
-                        modalText.appendChild(inputDate)
-
-                        buttonYes.addEventListener('click', function (){
-                            if (modalText.lastChild == document.querySelector('.error-message-meet')){
-                                modalText.removeChild(modalText.lastChild)
-                            }
-                            if(buttonYes.href.slice(-1) == "#"){
-                                const errorMessage = document.createElement('p')
-                                errorMessage.className = 'error-message-meet'
-                                errorMessage.textContent = "Merci d'insérer une date"
-                                modalText.appendChild(errorMessage)
-                            }
-                        })
-
-
-                        inputDate.addEventListener('input', function (){
-                            buttonYes.href = 'meet/new/' + meetWaitingWomen + '-' + meetWaitingMen + '-' + this.value;
-                        })
-
-                        buttonNo.addEventListener('click', function(ev){
-                            ev.preventDefault()
-                            modal.style.display = 'none';
-                            modalText.removeChild(inputDate)
-                            modalButton.removeChild(buttonYes)
-                            modalButton.removeChild(buttonNo)
-                        })
+                        // modal.style.display = 'block';
+                        //
+                        // modalMeetWomen.textContent = 'Femme : ' + lastnameWoman.textContent + ' ' + firstnameWoman.textContent
+                        // modalMeetMen.textContent = 'Homme : ' + lastnameMan.textContent + ' ' + firstnameMan.textContent
+                        //
+                        // // Création des buttons de la modal
+                        // let buttonYes = document.createElement('a');
+                        // const buttonNo = document.createElement('a');
+                        //
+                        // buttonYes.textContent = 'Oui'
+                        // buttonYes.href = '#'
+                        // buttonNo.textContent = 'Non'
+                        // buttonNo.href = '#'
+                        //
+                        // modalButton.appendChild(buttonYes)
+                        // modalButton.appendChild(buttonNo)
+                        //
+                        // const inputDate = document.createElement('input')
+                        // inputDate.type = 'date'
+                        // inputDate.value = Date.now()
+                        // modalText.appendChild(inputDate)
+                        //
+                        // buttonYes.addEventListener('click', function (){
+                        //     if (modalText.lastChild == document.querySelector('.error-message-meet')){
+                        //         modalText.removeChild(modalText.lastChild)
+                        //     }
+                        //     if(buttonYes.href.slice(-1) == "#"){
+                        //         const errorMessage = document.createElement('p')
+                        //         errorMessage.className = 'error-message-meet'
+                        //         errorMessage.textContent = "Merci d'insérer une date"
+                        //         modalText.appendChild(errorMessage)
+                        //     }
+                        // })
+                        //
+                        //
+                        // inputDate.addEventListener('input', function (){
+                        //     buttonYes.href = 'meet/new/' + meetWaitingWomen + '-' + meetWaitingMen + '-' + this.value;
+                        // })
+                        //
+                        // buttonNo.addEventListener('click', function(ev){
+                        //     ev.preventDefault()
+                        //     modal.style.display = 'none';
+                        //     modalText.removeChild(inputDate)
+                        //     modalButton.removeChild(buttonYes)
+                        //     modalButton.removeChild(buttonNo)
+                        // })
                     })
                 }
             }
@@ -305,8 +325,8 @@ function informationMeetWoman(recup){
             celliD.textContent = recup.meet[j].id
 
             const cellReturnAt = document.createElement('td')
-            if (recup.meet[j].returnAt){
-                const returnAt = new Date(recup.meet[j].returnAt)
+            if (recup.meet[j].returnAt_woman){
+                const returnAt = new Date(recup.meet[j].returnAt_woman)
                 cellReturnAt.textContent =  new Intl.DateTimeFormat('fr-FR').format(returnAt)
             }else {
                 cellReturnAt.textContent = ''
@@ -418,8 +438,8 @@ function informationMeetMan(recup){
             celliD.textContent = recup.meet[j].id
 
             const cellReturnAt = document.createElement('td')
-            if (recup.meet[j].returnAt){
-                const returnAt = new Date(recup.meet[j].returnAt)
+            if (recup.meet[j].returnAt_man){
+                const returnAt = new Date(recup.meet[j].returnAt_man)
                 cellReturnAt.textContent =  new Intl.DateTimeFormat('fr-FR').format(returnAt)
             }else {
                 cellReturnAt.textContent = ''

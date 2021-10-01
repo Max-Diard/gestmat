@@ -93,20 +93,18 @@ class MeetController extends AbstractController
         $meet->setStartedAt($date);
 
         $today = new DateTimeImmutable("now");
-
         if ($date > $today){
-            $disponibilities = $this->entityManager->getRepository(AdherentOption::class)->findBy(['type' => 'status_meet']);
-            foreach ($disponibilities as $disponibility){
-                if($disponibility->getName() == 'En rencontre'){
-                    $woman->setStatusMeet($disponibility);
-                    $man->setStatusMeet($disponibility);
-                }
-            }
+            $disponibility = $this->entityManager->getRepository(AdherentOption::class)->findBy(['type' => 'status_meet', 'name' => 'En rencontre']);
+            $woman->setStatusMeet($disponibility[0]);
+            $man->setStatusMeet($disponibility[0]);
+
+            $this->entityManager->persist($woman);
+            $this->entityManager->persist($man);
+            $this->entityManager->flush();
         }
 
         $this->entityManager->persist($meet);
         $this->entityManager->flush();
-
 
         return $this->redirectToRoute('adherent_all');
     }
