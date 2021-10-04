@@ -64,7 +64,7 @@ class MeetController extends AbstractController
         ]);
     }
 
-    //Page pour voir tous les rencontres
+    //Page pour voir tous les rencontres avec la date
     #[
         Route('/meet/search/{date}', name: 'meet_date'),
         ParamConverter('date' , \DateTimeImmutable::class),
@@ -75,7 +75,8 @@ class MeetController extends AbstractController
         $meets = $this->entityManager->getRepository(Meet::class)->findBy(['startedAt' => $date]);
 
         return $this->render('meet/index.html.twig', [
-            'meets' => $meets
+            'meets' => $meets,
+            'dateUrl' => $date
         ]);
     }
 
@@ -124,7 +125,6 @@ class MeetController extends AbstractController
 
         $dompdf = new Dompdf($pdf);
 
-
         $agence = $this->entityManager->getRepository(Agence::class)->findBy(['id' => $adherent->getAgence()]);
 
         $image = $request->server->filter('SYMFONY_DEFAULT_ROUTE_URL') . 'uploads/agence/agence' . $agence[0]->getId() . '/picture/'. $agence[0]->getLinkPicture();
@@ -136,7 +136,6 @@ class MeetController extends AbstractController
             'image' => $image
         ]);
 
-
         $dompdf->loadHtml($html);
 
         // (Optional) Setup the paper size and orientation 'portrait' or 'portrait'
@@ -145,17 +144,81 @@ class MeetController extends AbstractController
         // Render the HTML as PDF
         $dompdf->render();
 
-        // Output the generated PDF to Browser (force download)
-        $dompdf->stream("Rencontre-" . $adherent->getLastname() .'-'. $adherent->getFirstname(), [
-            "Attachement" => true
-        ]);
+        $output = $dompdf->output();
+        $location = $this->getParameter('meet_directory') . $meet->getId() .  "/Rencontre-" . $adherent->getLastname() . '-' . $adherent->getFirstname() . '.pdf';
 
-        return new Response('', 200, [
-            'Content-Type' => 'application/pdf',
+        if (!is_dir($this->getParameter('meet_directory'). $meet->getId() )) {
+            mkdir($this->getParameter('meet_directory') . $meet->getId() .  "/", 0777, true);
+        }
+        file_put_contents($location, $output);
+
+        // Output the generated PDF to Browser (force download)
+        $dompdf->stream("Rencontre-" . $adherent->getLastname() .'-'. $adherent->getFirstname(), array('Attachment' => true));
+
+//        return new Response('', 200, [
+//            'Content-Type' => 'application/pdf',
+//        ]);
+    }
+
+    //Page pour envoyer les demandes de témoignages vis à vis de leur préférence avec une date précise
+    #[
+        Route('/meet/send/{date}', name: 'meet_send_date'),
+        ParamConverter('date' , \DateTimeImmutable::class),
+        IsGranted('ROLE_USER')
+    ]
+    public function sendResultMeetWithDate(DateTimeImmutable $date): Response
+    {
+        $meets = $this->entityManager->getRepository(Meet::class)->findBy(['startedAt' => $date]);
+        if (!empty($meets)){
+            foreach ($meets as $meet){
+                $adherentMans[] = $meet->getAdherentMan();
+                $adherentWomans[] = $meet->getAdherentWoman();
+            }
+        }
+
+        return $this->render('meet/seeAllPdf.html.twig', [
+            'meets' => $meets,
         ]);
     }
 
+    //Page pour envoyer les demandes de témoignages vis à vis de leur préférence
+    #[
+        Route('/meet/send_all/', name: 'meet_send'),
+        IsGranted('ROLE_USER')
+    ]
+    public function sendResultsMeet(): Response
+    {
+        $agenceUser = $this->getUser()->getAgence();
 
+        if(count($agenceUser) > 0){
+            foreach($agenceUser as $agence){
+                $adherents[] = $this->entityManager->getRepository(Adherent::class)->findBy(['agence' => $agence->getId()]);
+                foreach ($adherents as $allAdherent){
+                    foreach ($allAdherent as $adherent){
+                        if ($adherent->getGenre()->getName() === 'Féminin'){
+                            $meets[] = $this->entityManager->getRepository(Meet::class)->findBy(['adherent_woman' => $adherent->getId()]);
+                        } else {
+                            $meets[] = $this->entityManager->getRepository(Meet::class)->findBy(['adherent_man' => $adherent->getId()]);
+                        }
+                    }
+                }
+            }
+        }
+        $trueMeet = [];
+        foreach ($meets as $meet){
+            if (!empty($meet)){
+                foreach($meet as $m){
+                    $trueMeet += [
+                        $m->getId() => $m
+                    ];
+                }
+            }
+        }
+
+        return $this->render('meet/seeAllPdf.html.twig', [
+            'meets' => $trueMeet,
+        ]);
+    }
 
 //    //Route pour supprimer la rencontre
 //    #[

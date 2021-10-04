@@ -3,9 +3,6 @@ let loadingWomen = false
 let meetWaitingWomen = '';
 let meetWaitingMen = '';
 
-// let test = '?woman=&?man=' ;
-// test = test.split('')
-
 const url = new URL(window.location)
 let myParams = url.searchParams
 
@@ -107,13 +104,32 @@ window.addEventListener("DOMContentLoaded", (event) => {
 
     // Pour la page Rencontre
     const dateMeet = document.querySelector('.input-date-meet');
-    const linkMeet = document.querySelector('.link-meet');
+    const linkTestimony = document.querySelector('.link-testimony');
+    // const linkMeet = document.querySelector('.link-meet');
 
     if(dateMeet){
+        if (dateMeet.value == '') {
+            const today = new Date();
+            const dateToday = today.toISOString().split('T')[0]
+            dateMeet.value = dateToday;
+        }
+
         dateMeet.addEventListener('input', function (ev){
             ev.preventDefault()
-            linkMeet.href = '/meet/search/' + this.value
+            if (dateMeet.value != ''){
+                window.location = '/meet/search/' + dateMeet.value
+            }
         })
+    }
+
+    if (linkTestimony){
+        // linkTestimony.addEventListener('click', function(){
+        //     if (url.pathname == '/meet'){
+        //         console.log('oiut')
+        //     } else {
+        //         linkTestimony.href = '/meet/send/' + dateMeet.value
+        //     }
+        // })
     }
 
 });
@@ -130,22 +146,22 @@ function removeMeet(id){
 
 // Function pour appeler l'api qui récupére l'adhérent sélectionner
 function apiMeet(id){
-    const modal = document.querySelector('.modal');
-    const modalText = document.querySelector('.modal-text');
-    const modalMeetWomen = document.querySelector('.modal-women-meet')
-    const modalMeetMen = document.querySelector('.modal-men-meet')
-    const modalButton = document.querySelector('.modal-button')
+    // const modal = document.querySelector('.modal');
+    // const modalText = document.querySelector('.modal-text');
+    // const modalMeetWomen = document.querySelector('.modal-women-meet')
+    // const modalMeetMen = document.querySelector('.modal-men-meet')
+    // const modalButton = document.querySelector('.modal-button')
 
     const lastnameWoman = document.querySelector('.thead-card-woman-lastname');
     const firstnameWoman = document.querySelector('.thead-card-woman-firstname');
     const yearWoman = document.querySelector('.thead-card-woman-years');
-    const meetWoman = document.querySelector('.thead-card-woman-meet');
+    // const meetWoman = document.querySelector('.thead-card-woman-meet');
     const agenceWoman = document.querySelector('.thead-card-woman-agence');
 
     const lastnameMan = document.querySelector('.thead-card-man-lastname');
     const firstnameMan = document.querySelector('.thead-card-man-firstname');
     const yearMan = document.querySelector('.thead-card-man-years');
-    const meetMan = document.querySelector('.thead-card-man-meet');
+    // const meetMan = document.querySelector('.thead-card-man-meet');
     const agenceMan = document.querySelector('.thead-card-man-agence');
 
     const div = document.querySelector('.button-meet')
@@ -249,54 +265,6 @@ function apiMeet(id){
                                 Swal.fire("La rencontre n'a pas était effectué !", '', 'info')
                             }
                         })
-
-                        // Affichage de la modal
-                        // modal.style.display = 'block';
-                        //
-                        // modalMeetWomen.textContent = 'Femme : ' + lastnameWoman.textContent + ' ' + firstnameWoman.textContent
-                        // modalMeetMen.textContent = 'Homme : ' + lastnameMan.textContent + ' ' + firstnameMan.textContent
-                        //
-                        // // Création des buttons de la modal
-                        // let buttonYes = document.createElement('a');
-                        // const buttonNo = document.createElement('a');
-                        //
-                        // buttonYes.textContent = 'Oui'
-                        // buttonYes.href = '#'
-                        // buttonNo.textContent = 'Non'
-                        // buttonNo.href = '#'
-                        //
-                        // modalButton.appendChild(buttonYes)
-                        // modalButton.appendChild(buttonNo)
-                        //
-                        // const inputDate = document.createElement('input')
-                        // inputDate.type = 'date'
-                        // inputDate.value = Date.now()
-                        // modalText.appendChild(inputDate)
-                        //
-                        // buttonYes.addEventListener('click', function (){
-                        //     if (modalText.lastChild == document.querySelector('.error-message-meet')){
-                        //         modalText.removeChild(modalText.lastChild)
-                        //     }
-                        //     if(buttonYes.href.slice(-1) == "#"){
-                        //         const errorMessage = document.createElement('p')
-                        //         errorMessage.className = 'error-message-meet'
-                        //         errorMessage.textContent = "Merci d'insérer une date"
-                        //         modalText.appendChild(errorMessage)
-                        //     }
-                        // })
-                        //
-                        //
-                        // inputDate.addEventListener('input', function (){
-                        //     buttonYes.href = 'meet/new/' + meetWaitingWomen + '-' + meetWaitingMen + '-' + this.value;
-                        // })
-                        //
-                        // buttonNo.addEventListener('click', function(ev){
-                        //     ev.preventDefault()
-                        //     modal.style.display = 'none';
-                        //     modalText.removeChild(inputDate)
-                        //     modalButton.removeChild(buttonYes)
-                        //     modalButton.removeChild(buttonNo)
-                        // })
                     })
                 }
             }
@@ -599,6 +567,7 @@ function informationMeet(id){
                 womanComments.textContent = recup[0].comments_woman;
 
                 womanLinkPdf.href = '/meet/pdf/' + recup[0].adherent_woman.id + '-' + recup[0].adherent_man.id
+                womanLinkPdf.target = '_blank'
 
                 //Information de la rencontre général
                 const startedAt = new Date(recup[0].startedAt)
@@ -626,6 +595,7 @@ function informationMeet(id){
                 manComments.textContent = recup[0].comments_man;
 
                 manLinkPdf.href = '/meet/pdf/' + recup[0].adherent_man.id + '-' + recup[0].adherent_woman.id
+                manLinkPdf.target = '_blank'
 
                 sendButton.href = '/api/update_meet/'
 

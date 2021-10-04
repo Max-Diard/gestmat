@@ -1,13 +1,20 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-<h1 class="title-meet">Toutes les rencontres</h1>
+<h1 class="title-meet">Toutes les rencontres {% if dateUrl is defined %}du {{ dateUrl|date('d/m/Y') }}{% endif %}</h1>
 
 <div class="search-input-meet">
-    <input type="date" class="input-date-meet">
-    <a href="#" class="link-meet">Envoyer</a>
+    <input type="date" class="input-date-meet" >
+{#    <a href="#" class="link-meet">Envoyer</a>#}
 </div>
 
+<a href="{{ path('meet_all') }}">Voir toutes les rencontres</a>
+<a href="
+{% if dateUrl is defined %}
+    {{ path('meet_send_date', {date: dateUrl|date('Y-m-d')}) }}
+{% else %}
+    {{ path('meet_send') }}
+{% endif %}" class="link-testimony" target="_blank">Envoyer les courriers</a>
 <table class="table-meet">
     <thead>
         <tr>
@@ -21,8 +28,6 @@
         </tr>
     </thead>
     <tbody>
-{#    {{ dump(meets) }}#}
-{#    {% for boucle in meets %}#}
         {% for meet in meets %}
         <tr>
             <td>{{ meet.id }}</td>
@@ -34,41 +39,7 @@
             <td><a href="#">Voir plus</a></td>
         </tr>
         {% endfor %}
-{#    {% endfor %}#}
     </tbody>
 </table>
-
-{#<div class="all-meets">#}
-{#    <div class="meet">#}
-{#        <div class="meet-table-ref">#}
-{#        </div>#}
-{#        <div class="meet-table-date">#}
-{#        </div>#}
-{#        <div class="meet-table-woman">#}
-{#        </div>#}
-{#        <div class="meet-table-agence-woman">#}
-{#        </div>#}
-{#        <div class="meet-table-man">#}
-{#        </div>#}
-{#        <div class="meet-table-agence-man">#}
-{#        </div>#}
-{#        <div class="meet-table-action">#}
-{#        </div>#}
-{#        <div class="meet-id">#}
-{#        </div>#}
-{#        <div class="meet-startedAt">#}
-{#        </div>#}
-{#        <div class="meet-woman">#}
-{#        </div>#}
-{#        <div class="meet-woman-agence">#}
-{#        </div>#}
-{#        <div class="meet-man">#}
-{#        </div>#}
-{#        <div class="meet-man-agence">#}
-{#        </div>#}
-{#        <div class="meet-action">#}
-{#        </div>#}
-{#    </div>#}
-{#</div>#}
 
 {% endblock %}
