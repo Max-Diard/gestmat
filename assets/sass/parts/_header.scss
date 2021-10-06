@@ -1,0 +1,110 @@
+body{
+    position: relative;
+    header{
+        z-index: 100;
+        position: absolute;
+        display: inline-block;
+        .btn-menu{
+            z-index: 1000;
+            position: absolute;
+            top: 1.8rem;
+            left: 4.3rem;
+            width: 2.5rem;
+            > div{
+                cursor: pointer;
+                transition: all .2s ease-in-out;
+                &:hover, &:focus{
+                    opacity: .7;
+                }
+            }
+            .btn-opened{
+                display: none;
+            }
+        }
+        .languette-menu{
+            position: absolute;
+            top: -100rem;
+            padding-top: 6rem;
+            padding-left: 2.5rem;
+            padding-right: 2.5rem;
+            padding-bottom: 1rem;
+            background-color: white;
+            border-bottom-left-radius: 1rem;
+            border-bottom-right-radius: 1rem;
+            box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+            left: 2.2rem;
+            transition: all .8s ease-in-out;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            &.menu-opened{
+                top: 0; 
+            }
+            &::before{
+                content: "";
+                display: block;
+                width: 108%;
+                height: 105%;
+                position: absolute;
+                background-color: $color__pink;
+                border-bottom-left-radius: 1rem;
+                border-bottom-right-radius: 1rem;
+                z-index: -1;
+                top: -.9rem; 
+                left: 50%;
+                transform: translate(-50%);
+            }
+            &_logo{
+                max-width: 13rem;
+                margin-bottom: 5rem;
+            }
+            &_list{
+                display: grid;
+                grid-template-columns: repeat(3, auto);
+                column-gap: 2.5rem;
+                row-gap: 4rem;
+                > div{
+                    a{
+                        color: $color__purple;
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        text-align: center;
+                        font-size: 1.1rem;
+                        line-height: 1.1em;
+                        white-space: nowrap;
+                        &:hover, &:focus{
+                            color: $color__pink;
+                            svg{
+                                circle{
+                                    stroke: $color__pink;
+                                }
+                                path{
+                                    fill: $color__pink;
+                                }
+                            }
+                        }
+                        svg{
+                            margin-bottom: 0.8rem;
+                            circle, path{
+                                transition: all .2s ease-in-out;
+                            }
+                        }
+                    }
+                    &.link-admin{
+                        grid-column: 2;
+                    }
+                }
+            }
+            &_mentions{
+                text-align: center;
+                margin-top: 6rem;
+                p{
+                    font-weight: 300;
+                    font-size: 1.1rem;
+                }
+            }
+        }
+    }
+}

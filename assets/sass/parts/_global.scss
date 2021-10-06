@@ -1,0 +1,45 @@
+body{
+    font-family: $font;
+    font-size: 1.4rem;
+    font-weight: normal;
+    color: $color__purple_black;
+    line-height: 1.2em;
+}
+
+.btn{
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 2rem;
+    text-transform: uppercase;
+    color: white;
+    background-color: $color__pink;
+    padding: 1.8rem 3rem 1.5rem 3rem;
+    align-self: center;
+    border: none;
+    border-radius: .5rem;
+    position: relative;
+    transition: all .2s ease-in-out;
+    right: 0rem;
+    bottom: 0rem;
+    &::before{
+        content: "";
+        display: block;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        right: -.5rem;
+        bottom: -.5rem;
+        border-radius: .5rem;
+        background-color: $color__purple;
+        z-index: -1;
+        transition: all .2s ease-in-out;
+    }
+    &:hover, &:focus{
+        right: -.5rem;
+        bottom: -.5rem;
+        &::before{
+            right: 0rem;
+            bottom: 0rem;
+        }
+    }
+}

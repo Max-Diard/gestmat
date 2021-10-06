@@ -1,0 +1,376 @@
+body {
+    min-height: 100vh;
+    position: relative;
+    margin: 0;
+}
+
+.container{
+    margin-left: 1rem;
+    margin-right: 1rem;
+}
+
+/* Pour le login */
+
+.section-register{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.form-register{
+    display: flex;
+    flex-direction: column;
+}
+
+.title-register{
+    margin-bottom: 1.5rem;
+    font-weight: bold;
+    text-align: center;
+}
+
+.form-control{
+    margin-bottom: 1rem;
+}
+
+/* Ajout Adhérent*/
+
+.header-adherent {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.row-first, 
+.row-second,
+.row-third {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+label{
+    margin: 0rem 1rem;
+}
+
+.col{
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+.col-adherent-number,
+.col-adherent-status-contract,
+.col-adherent-birthdate, 
+.col-adherent-age,
+.col-adherent-last-meet,
+.col-adherent-agence {
+    display: flex;
+    margin: 1rem 0rem;
+}
+
+.img-adherent,
+.img-agence {
+    max-width: 100%;
+    width: 10%
+} 
+
+.col-adherent-comments1,
+.col-adherent-comments2,
+.col-adherent-comments3 {
+    display: flex;
+    flex-direction: column;
+}
+
+.body-adherent {
+    display: flex;
+    justify-content: space-evenly;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+/* Page info adhérent */
+/* Pour onglet Javascript */
+.tab {
+    display: flex;
+}
+
+.no-tab {
+    display: none;
+}
+
+.modal-adherent{
+    display: none;
+    background-color: rgba(128, 128, 128, 0.5);
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0%;
+    z-index: 1;
+}
+
+.modal-info-meet{
+    max-width: 50%;
+    max-height: 50%;
+    background-color: white;
+    top: 30%;
+    position: relative;
+    left: 25%;
+    border-radius: 10%;
+    z-index: 2;
+}
+
+.form-meet {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    justify-items: center;
+    justify-self: center;
+    align-items: center;
+    position: relative;
+}
+
+.close-modal {
+    position: absolute;
+    top: 0;
+    right: 10%;
+}
+
+
+.modal-meet-text{
+    display: flex;
+}
+
+.meet-woman,
+.meet-man{
+    margin: 0 2rem;
+}
+
+.meet-info-general {
+    width: 30%;
+    text-align: center;
+}
+
+.modal-info-woman,
+.modal-info-man{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 4rem;
+    margin-top: 1rem;
+}
+
+.row-return-action{
+    display: flex;
+    justify-content: space-between;
+}
+
+.col-return,
+.col-action{
+    display: flex;
+    flex-direction: column;
+}
+
+
+/* All Adherent */
+
+.title-adherents{
+    text-align: center;
+    margin-bottom: 5rem;
+}
+
+.women, 
+.women-droit,
+.men, 
+.men-droit{
+    cursor: pointer;
+    text-align: center;
+}
+
+.filter-select-table-woman {
+    position: absolute;
+    left: 10%;
+    top: -20%;
+}
+
+.filter-select-table-man {
+    position: absolute;
+    top: -20%;
+    left: 55%;
+}
+
+.all-table{
+    display: flex;
+    justify-content: space-evenly;
+    position: relative;
+}
+
+.thead-adherent{
+    text-align: center;
+}
+
+.no-meet{
+    background-color: red;
+}
+
+.status-disponibility{
+    color: red;
+}
+
+.container-loader{
+    position: fixed;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 3;
+}
+
+.loader {
+    border: 6px solid #f3f3f3; /* Light grey */
+    border-top: 6px solid #86133d; /* Blue */
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    animation: spin 2s linear infinite;
+    position: absolute;
+    top: 50%;
+    right: 50%;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.card-selected-woman {
+    position: relative;
+}
+
+/* Bas de la liste des adhérents */
+
+.info-adherent-woman-picked{
+    display: flex;
+    justify-content: space-between;
+}
+
+.card-selected{
+    display: flex;
+    justify-content: space-evenly;
+    width: 100%;
+    position: relative;
+    bottom: 0;
+}
+
+.button-create-meet{
+    transform: translate(50%, 50%);
+}
+
+.button-meet {
+    text-align: center;
+    margin: 2rem 0;
+}
+
+/* Modal pour créer une rencontre */
+.modal {
+    display: none;
+    background-color: rgba(128, 128, 128, 0.5);
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0%;
+    z-index: 1;
+}
+
+.modal-ask{
+    width: 50%;
+    height: 30%;
+    background-color: white;
+    top: 30%;
+    position: relative;
+    left: 25%;
+    border-radius: 10%;
+    z-index: 2;
+}
+
+.modal-text{
+    text-align: center;
+    padding: 1.5rem;
+}
+
+.modal-button {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+/* Single Adherent */
+
+.image-adherent{
+    max-width: 100%;
+    width: 10%;
+}
+
+.adherent-droit{
+    display: none;
+}
+
+/* Page Rencontre */
+
+.title-meet{
+    text-align: center;
+}
+
+.meet {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    text-align: center;
+    gap: 2rem 1rem;
+    margin-right: 1rem;
+    margin-left: 1rem;
+    border: 1px solid black;
+    padding: 1rem 0;
+}
+
+.search-input-meet {
+    text-align: center;
+    margin: 1rem;
+}
+
+/* Page de recherche */
+
+.title-search{
+    text-align: center;
+}
+
+.table-search td{
+    text-align: center;
+}
+
+/* Page de toute les rencontres d'un adhérents */
+.meet-adherent-title{
+    text-align: center;
+}
+.meet-adherent-form{
+    border: 1px solid black;
+    padding: 2rem 0;
+    margin: 1rem 2rem
+}
+
+.meet-adherent-form:nth-child(even){
+    background-color: #ffd8a8;
+}
+
+/*----------------- Admin -------------------*/
+/* Page d'options */
+
+.grid-options {
+    display: grid;
+    grid-template-columns: repeat(4 ,1fr);
+    grid-gap: 1rem;
+    text-align: center;
+}
+
+.options-form {
+    text-align: center;
+}
+
+.options-form-row {
+    margin: 0.5rem;
+}

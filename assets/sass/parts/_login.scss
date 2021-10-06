@@ -1,0 +1,31 @@
+// STYLE TEMPLATE PAGE LOGIN
+.section-register{
+    flex-direction: column;
+    .container-fluid{
+        max-width: 36rem;
+        .logo-title{
+            margin-bottom: 6rem;
+        }
+        .form-register{
+            .form-control{
+                margin-bottom: 2rem;
+                border: .2rem solid $color__pink_extralight;
+                border-radius: .5rem;
+                padding: 1rem;
+                font-size: 1.8rem;
+                color: $color__purple;
+                &::placeholder{
+                    color: $color__purple;
+                    opacity: 1;
+                }
+                &:focus{
+                    outline: none;
+                    border: .2rem solid $color__pink_light;
+                }
+            }
+            .btn{
+                margin-top: 6rem;
+            }
+        }
+    }
+}
