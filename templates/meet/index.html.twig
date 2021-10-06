@@ -14,7 +14,87 @@
     {{ path('meet_send_date', {date: dateUrl|date('Y-m-d')}) }}
 {% else %}
     {{ path('meet_send') }}
-{% endif %}" class="link-testimony" target="_blank">Envoyer les courriers</a>
+{% endif %}" class="link-testimony">Envoyer les courriers</a>
+
+<div class="modal-adherent">
+    <div class="modal-info-meet">
+        <form class="form-meet" action="post">
+            <button type="button" class="close-modal">Fermer</button>
+            <div class="modal-meet-text">
+                <div class="meet-woman">
+                    <div class="modal-info-woman">
+                        <div class="">
+                            <p class="woman-lastname">Nom</p>
+                            <p class="woman-firstname">Prénom</p>
+                        </div>
+                        <div class="">
+                            <p class="woman-agence">Agence</p>
+                        </div>
+                    </div>
+                    <div class="meet-woman-pdf">
+                        <a class='link-pdf-woman' href="">Voir le pdf</a>
+                    </div>
+                    <div class="row-return-action">
+                        <div class="col-return">
+                            <label for="woman-date-returnAt">Date retour</label>
+                            <input type="date" id="woman-date-returnAt" class="woman-date-returnAt">
+                        </div>
+                        <div class="col-action">
+                            <label for="woman-action">Action</label>
+                            <select type="select" id="woman-action" class="woman-action">
+                                <option value=""></option>
+                                {% for option in options %}
+                                    <option value="{{ option.name }}">{{ option.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <label for="woman-comments">Commentaire</label>
+                    <textarea id="woman-comments" class="woman-comments" rows="5" cols="40"></textarea>
+                </div>
+                <div class="meet-info-general">
+                    <p>Date de rencontre</p>
+                    <p class="date-meet">23/12/21</p>
+                    <p>Référence</p>
+                    <p class="id-meet">456</p>
+                </div>
+                <div class="meet-man">
+                    <div class="modal-info-man">
+                        <div class="">
+                            <p class="man-lastname">Nom</p>
+                            <p class="man-firstname">Prénom</p>
+                        </div>
+                        <div class="">
+                            <p class="man-agence">Agence</p>
+                        </div>
+                    </div>
+                    <div class="meet-man-pdf">
+                        <a class='link-pdf-man' href="">Voir le pdf</a>
+                    </div>
+                    <div class="row-return-action">
+                        <div class="col-return">
+                            <label for="man-date-returnAt">Date retour</label>
+                            <input type="date" id="man-date-returnAt" class="man-date-returnAt">
+                        </div>
+                        <div class="col-action">
+                            <label for="man-action">Action</label>
+                            <select type="select" id="man-action" class="man-action">
+                                <option value=""></option>
+                                {% for option in options %}
+                                    <option value="{{ option.name }}">{{ option.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <label for="man-comments">Commentaire</label>
+                    <textarea id="man-comments" class="man-comments" rows="5" cols="40"></textarea>
+                </div>
+            </div>
+            <a href="#" class="send-form">Envoyer</a>
+        </form>
+    </div>
+</div>
+
 <table class="table-meet">
     <thead>
         <tr>
@@ -36,7 +116,7 @@
             <td>{{ meet.adherentWoman.agence.name }} {{ meet.adherentWoman.agence.addressTown }}</td>
             <td>{{ meet.adherentMan.firstname }} {{ meet.adherentMan.lastname }}</td>
             <td>{{ meet.adherentMan.agence.name }} {{ meet.adherentMan.agence.addressTown }}</td>
-            <td><a href="#">Voir plus</a></td>
+            <td><a class="page-meet-more" href="#" data-id="{{ meet.id }}">Voir plus</a></td>
         </tr>
         {% endfor %}
     </tbody>

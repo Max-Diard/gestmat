@@ -87,8 +87,17 @@ class AdherentController extends AbstractController
                     foreach ($agenceAdherent as $adherents){
                         foreach ($adherents as $adherent){
                             $haveMeet = $this->entityManager->getRepository(Meet::class)->findBy(['adherent_man' => $adherent->getId()]);
+                            // Si pas de rencontre on regarde du côté des adhérents femme
                             if (empty($haveMeet)){
                                 $haveMeet = $this->entityManager->getRepository(Meet::class)->findBy(['adherent_woman' => $adherent->getId()]);
+                            }
+                            //Si il n'y a l'id de l'adhérent du côté femme et homme alors on défini sont statut sur disponible
+                            if (empty($haveMeet)){
+                                // On regarde si la personne n'est pas en attente pour ne pas lui changer le statut
+                                if($adherent->getStatusMeet()->getName() != 'En attente'){
+                                    $dispo = $this->entityManager->getRepository(AdherentOption::class)->findBy(['type' => 'status_meet', 'name' => 'Disponible']);
+                                    $adherent->setStatusMeet($dispo[0]);
+                                }
                             }
                             if(!empty($haveMeet)){
                                 $meeting[] = $adherent->getId();
@@ -98,13 +107,14 @@ class AdherentController extends AbstractController
                                 foreach ($haveMeet as $m){
                                     $dates[] = ($m->getStartedAt());
                                 }
-                                $today = new \DateTimeImmutable('now');
-                                if ($dates[count($dates) -1] < $today){
-                                    $dispo = $this->entityManager->getRepository(AdherentOption::class)->findBy(['type' => 'status_meet', 'name' => 'Disponible']);
-                                    $adherent->setStatusMeet($dispo[0]);
-                                } else {
+
+                                $today = date('Y-m-d');
+                                if ($dates[count($dates) -1] >= $today){
                                     $inMeet = $this->entityManager->getRepository(AdherentOption::class)->findBy(['type' => 'status_meet', 'name' => 'En rencontre']);
                                     $adherent->setStatusMeet($inMeet[0]);
+                                } else {
+                                    $dispo = $this->entityManager->getRepository(AdherentOption::class)->findBy(['type' => 'status_meet', 'name' => 'Disponible']);
+                                    $adherent->setStatusMeet($dispo[0]);
                                 }
                                 $this->entityManager->persist($adherent);
                                 $this->entityManager->flush();

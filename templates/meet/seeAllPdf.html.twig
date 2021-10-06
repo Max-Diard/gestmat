@@ -2,23 +2,47 @@
 
 {% block body %}
 <h1>La liste des envois</h1>
+{#        {% for agence in app.user.agence %}#}
+{#            {{ dump(agence) }}#}
+    {% if meets is empty %}
+    <p>Aucune rencontre pour ce jour, merci de bien vouloir sélectionner une nouvelle date</p>
+    {% else %}
     {% for meet in meets %}
-        <p>Entre {{ meet.adherentWoman.lastname }} {{ meet.adherentWoman.firstname }} (
-            {% if meet.adherentWoman.preferenceContact.name == 'Email' %}
-                <a href="mailto:{{ meet.adherentWoman.email }}?subject=Résultat de votre rencontre&body=Bonjour Mme {{ meet.adherentWoman.lastname }} {{ meet.adherentWoman.firstname }}.">Email</a>
-            )
-            {% else %}
-                Courrier
-            {% endif %}
-            <a href="{{ path('adherent_single_pdf', { adherent: meet.adherentWoman.id, meet: meet.adherentMan.id }) }}" target="'_blank">Voir Pdf</a>
-            et {{ meet.adherentMan.lastname }} {{ meet.adherentMan.firstname }} (
-            {% if meet.adherentMan.preferenceContact.name == 'Email' %}
-                <a href="mailto:{{ meet.adherentMan.email }}?subject=Résultat de votre rencontre&body=Bonjour M. {{ meet.adherentMan.lastname }} {{ meet.adherentMan.firstname }}.">Email</a>
-            {% else %}
-                Courrier
-            {% endif %}
-            )
-            <a href="{{ path('adherent_single_pdf', { adherent: meet.adherentMan.id, meet: meet.adherentWoman.id }) }}" target="'_blank">Voir Pdf</a></p>
+        <p>Entre {{ meet.adherentWoman.lastname }} {{ meet.adherentWoman.firstname }}
+{#            {% if agence.id == meet.adherentWoman.agence.id %}#}
+                {% if meet.adherentWoman.preferenceContact.name == 'Email' %}
+                    (<a href="mailto:{{ meet.adherentWoman.email }}?subject=Résultat de votre rencontre&body=Bonjour Mme {{ meet.adherentWoman.lastname }} {{ meet.adherentWoman.firstname }}.">Email</a>)
+                {% else %}
+                    (Courrier)
+                {% endif %}
+                <a href="{{ path('adherent_single_pdf', { adherent: meet.adherentWoman.id, meet: meet.adherentMan.id }) }}" target="'_blank">Voir Pdf</a>
+{#            {% else %}#}
+{#                {% if meet.adherentWoman.preferenceContact.name == 'Email' %}#}
+{#                    (Email)#}
+{#                {% else %}#}
+{#                    (Courrier)#}
+{#                {% endif %}#}
+{#            {% endif %}#}
+
+            et {{ meet.adherentMan.lastname }} {{ meet.adherentMan.firstname }}
+
+{#            {% if agence.id == meet.adherentMan.agence.id %}#}
+                {% if meet.adherentMan.preferenceContact.name == 'Email' %}
+                    (<a href="mailto:{{ meet.adherentMan.email }}?subject=Résultat de votre rencontre&body=Bonjour M. {{ meet.adherentMan.lastname }} {{ meet.adherentMan.firstname }}.">Email</a>)
+                {% else %}
+                    (Courrier)
+                {% endif %}
+                <a href="{{ path('adherent_single_pdf', { adherent: meet.adherentMan.id, meet: meet.adherentWoman.id }) }}" target="'_blank">Voir Pdf</a></p>
+{#            {% else %}#}
+{#                {% if meet.adherentWoman.preferenceContact.name == 'Email' %}#}
+{#                    (Email)#}
+{#                {% else %}#}
+{#                    (Courrier)#}
+{#                {% endif %}#}
+{#            {% endif %}#}
+{#        {% endfor %}#}
+
     {% endfor %}
+    {% endif %}
 
 {% endblock %}

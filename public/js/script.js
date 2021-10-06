@@ -106,6 +106,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
     const dateMeet = document.querySelector('.input-date-meet');
     const linkTestimony = document.querySelector('.link-testimony');
     // const linkMeet = document.querySelector('.link-meet');
+    const buttonMeetMore = document.querySelectorAll('.page-meet-more')
 
     if(dateMeet){
         if (dateMeet.value == '') {
@@ -122,14 +123,13 @@ window.addEventListener("DOMContentLoaded", (event) => {
         })
     }
 
-    if (linkTestimony){
-        // linkTestimony.addEventListener('click', function(){
-        //     if (url.pathname == '/meet'){
-        //         console.log('oiut')
-        //     } else {
-        //         linkTestimony.href = '/meet/send/' + dateMeet.value
-        //     }
-        // })
+    if(buttonMeetMore){
+        [].forEach.call(buttonMeetMore, function (elem){
+            elem.addEventListener('click', function(ev) {
+                const id = elem.getAttribute('data-id')
+                informationMeet(id)
+            })
+        })
     }
 
 });
@@ -347,14 +347,6 @@ function informationMeetWoman(recup){
                     if (result.isConfirmed) {
                         removeMeet(idMeet)
                         apiMeet(recup.adherent[0].id)
-
-                        $('.table-women').DataTable({
-                            "bDestroy": true,
-                            paging: false,
-                            searching: false,
-                            info: false
-                        }).ajax.reload();
-
                     } else if (result.isDenied) {
                         Swal.fire("La rencontre n'a pas était supprimé !", '', 'info')
                     }

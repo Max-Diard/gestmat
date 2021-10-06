@@ -34,6 +34,8 @@ class MeetController extends AbstractController
     {
         $agenceUser = $this->getUser()->getAgence();
 
+        $options = $this->entityManager->getRepository(AdherentOption::class)->findBy(['type' => 'status_meet']);
+
         if(count($agenceUser) > 0){
             foreach($agenceUser as $agence){
                 $adherents[] = $this->entityManager->getRepository(Adherent::class)->findBy(['agence' => $agence->getId()]);
@@ -60,7 +62,8 @@ class MeetController extends AbstractController
         }
 
         return $this->render('meet/index.html.twig', [
-            'meets' => $trueMeet
+            'meets' => $trueMeet,
+            'options' => $options
         ]);
     }
 
@@ -74,9 +77,13 @@ class MeetController extends AbstractController
     {
         $meets = $this->entityManager->getRepository(Meet::class)->findBy(['startedAt' => $date]);
 
+        $options = $this->entityManager->getRepository(AdherentOption::class)->findBy(['type' => 'status_meet']);
+
+
         return $this->render('meet/index.html.twig', [
             'meets' => $meets,
-            'dateUrl' => $date
+            'dateUrl' => $date,
+            'options' => $options
         ]);
     }
 
@@ -189,6 +196,8 @@ class MeetController extends AbstractController
     public function sendResultsMeet(): Response
     {
         $agenceUser = $this->getUser()->getAgence();
+
+
 
         if(count($agenceUser) > 0){
             foreach($agenceUser as $agence){
