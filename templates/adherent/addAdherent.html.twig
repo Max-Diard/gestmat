@@ -2,11 +2,13 @@
 
 {% block body %}
 
+<div id="selected-profile" class="container container-screen">
 {{ form_start(formAdherent) }}
     <div class="my-custom-class-for-errors">
         {{ form_errors(formAdherent) }}
     </div>
     <section class='header-adherent'>
+        <img class="image-adherent" src='{{ asset('build/images/avatar.jpg') }}' alt="Image de l'adhérent"/>
         <div>
             <div class="row-first">
                 <div class="col col-adherent-number">
@@ -55,10 +57,7 @@
                 </div>
             </div>
         </div>
-        <img class="image-adherent" src='{{ asset('profil.svg') }}' alt="Image de l'adhérent"/>
-    </section>
-    <section class='body-adherent'>
-        <div class='container-comments'>
+         <div class='container-comments'>
             <div class="col col-adherent-comments1">
                 {{ form_label(formAdherent.comments1) }}
                 {{ form_widget(formAdherent.comments1) }}
@@ -72,13 +71,31 @@
                 {{ form_widget(formAdherent.comments3) }}
             </div>
         </div>
+    </section>
+    <section class='body-adherent'>
+        {# <div class='container-comments'>
+            <div class="col col-adherent-comments1">
+                {{ form_label(formAdherent.comments1) }}
+                {{ form_widget(formAdherent.comments1) }}
+            </div>
+            <div class="col col-adherent-comments2">
+                {{ form_label(formAdherent.comments2) }}
+                {{ form_widget(formAdherent.comments2) }}
+            </div>
+            <div class="col col-adherent-comments3">
+                {{ form_label(formAdherent.comments3) }}
+                {{ form_widget(formAdherent.comments3) }}
+            </div>
+        </div> #}
         <div class="container-general">
+            <div class="onglets">
             <button class='open-tab' data-tab='tab-general' type='button'>Général</button>
             <button class='open-tab' data-tab='tab-research' type='button'>Recherche</button>
             <button class='open-tab' data-tab='tab-announcement' type='button'>Annonces</button>
             <button class='open-tab' data-tab='tab-contrat' type='button'>Contrat</button>
             <button class='open-tab' data-tab='tab-documents' type='button'>Documents</button>
             <button class='open-tab' data-tab='tab-meet' type='button'>Rencontres</button>
+            </div>
             <div class="tab-general tab">
                 <div class="row-general-first">
                     <div class="col col-adherent-zodiaque">
@@ -333,5 +350,6 @@
         </div>
     </section>
 {{ form_end(formAdherent) }}
-
+</div>
 {% endblock %}
+
