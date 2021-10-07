@@ -1,0 +1,94 @@
+#selected-profile{
+    h1{
+        text-align: center;
+    }
+    .links{
+        display: flex;
+        justify-content: center;
+        margin-top: 4rem;
+        ul{
+            list-style: none;
+            display: flex;
+            li +li {
+                margin-left: 2rem;
+            }
+        }
+    }
+    form{
+        max-width: 120rem;
+        margin: 0 auto;
+        label, input{
+            font-size: 1.6rem;
+            margin: 0;
+            margin-right: .5rem;
+        }
+        input{
+            color: $color__purple;
+        }
+    }
+    section{
+        &.header-adherent{
+            justify-content: flex-start;
+            align-items: flex-start;
+            margin-top: 6rem;
+            .image-adherent{
+                width: 28rem;
+                margin-right: 2rem;
+            }
+            > div{
+                .row-first, .row-second, .row-third {
+                    justify-content: start;
+                    align-items: start;
+                    flex-direction: column;
+                    .col{
+                        margin: .4rem;
+                    }
+                }
+            }
+            .container-comments{
+                margin-left: auto;
+                width: 35rem;
+                textarea{
+                    height: 7rem;
+                    color: $color__purple;
+                    border: .2rem solid $color__grey;
+                    border-radius: 1rem;
+                    outline: none;
+                    padding: .5rem;
+                }
+            }
+        }
+
+        &.body-adherent{
+            margin-top: 6rem;
+            .container-general{
+                width: 100%;
+                border: .2rem solid $color__purple;
+                padding: 1.2rem;
+                background-color: $color__grey_light;
+                position: relative;
+                .onglets{
+                    position: absolute;
+                    top: -3.1rem;
+                    left: -.22rem;
+                    button{
+                        font-weight: bold;
+                        font-size: 1.4rem;
+                        text-transform: uppercase;
+                        color: white;
+                        background-color: $color__purple;
+                        border: none;
+                        padding: 0.6rem 1rem;
+                        border: .2rem solid $color__purple;
+                        border-bottom: none;
+                        cursor: pointer;
+                        &:hover, &:focus{
+                            background-color: $color__grey_light;
+                            color: $color__purple;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

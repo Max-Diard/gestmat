@@ -6,6 +6,14 @@ body{
     line-height: 1.2em;
 }
 
+.container-screen{
+    padding-top: 1.8rem;
+}
+
+h1{
+    text-transform: uppercase;
+}
+
 .btn{
     cursor: pointer;
     font-weight: bold;
@@ -42,4 +50,182 @@ body{
             bottom: 0rem;
         }
     }
+    &.btn-little{
+        font-size: 1.4rem;
+    }
+}
+
+.link-sm{
+    color: $color__pink;
+    margin-right: 2rem;
+    position: relative;
+    margin-top: 1rem;
+    &::after{
+        content: "";
+        display: block;
+        position: absolute;
+        bottom: -.1rem;
+        left: 0;
+        width: 0%;
+        height: .2rem;
+        background-color: $color__pink;
+        transition: all .2s ease-in-out;
+    }
+    &:hover, &:focus{
+        &::after{
+            width: 100%;
+        }
+    }
+}
+
+.dataTables_filter{
+    border: 0;
+    clip: rect(1px, 1px, 1px, 1px);
+    clip-path: inset(50%);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+    word-wrap: normal !important;
+    &:focus{
+        background-color: #eee;
+        clip: auto !important;
+        clip-path: none;
+        color: #444;
+        display: block;
+        font-size: 1em;
+        height: auto;
+        left: 5px;
+        line-height: normal;
+        padding: 15px 23px 14px;
+        text-decoration: none;
+        top: 5px;
+        width: auto;
+        z-index: 100000; /* Above WP toolbar. */
+    }
+}
+
+// STYLE GLOBAL TABLEAUX
+table.dataTable{
+    border-collapse:separate; 
+    border-spacing: 0 .5rem;
+}
+
+table.dataTable thead th, table.dataTable thead td, table.dataTable tbody td {
+    border-bottom: none;
+    a{
+        color: $color__pink;
+        position: relative;
+        &::after{
+            content: "";
+            display: block;
+            position: absolute;
+            bottom: -.1rem;
+            left: 0;
+            width: 0%;
+            height: .2rem;
+            background-color: $color__pink;
+            transition: all .2s ease-in-out;
+        }
+        &:hover, &:focus{
+            &::after{
+                width: 100%;
+            }
+        }
+    }
+}
+
+table.dataTable tbody tr{
+    background-color: $color__grey_light;
+    transition: all .3s ease-in-out;
+    &:hover, &:focus{
+        background-color: $color__purple_hover;
+        color: white;
+    }
+    &.dispo{
+        background-color: $color__grey;
+        &:hover, &:focus{
+            background-color: $color__purple_hover;
+            color: white;
+        }
+    }
+    &.nomeet{
+        > td{
+            border-bottom: .2rem solid $color__pink;
+            border-top: .2rem solid $color__pink;
+            &:first-child{
+                border-left: .2rem solid $color__pink;
+            }
+            &:last-child{
+                border-right: .2rem solid $color__pink;
+            }
+        }
+        &:hover, &:focus{
+            background-color: $color__purple_hover;
+            color: white;
+        }
+    }
+    &.active{
+        background-color: $color__purple_hover;
+        color: white;
+    }
+}
+
+table.dataTable tbody tr td{
+    white-space: nowrap;
+}
+
+table.dataTable.no-footer{
+    border-bottom: none;
+}
+
+#DataTables_Table_0_wrapper {
+    margin-top: 4rem;
+}
+
+.table-search-thead > tr:nth-child(1) {
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+#DataTables_Table_0 > thead:nth-child(1) > tr:nth-child(1) {
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+#DataTables_Table_0 {
+    text-align: center;
+}
+
+.link-testimony {
+    margin-left: 2rem;
+    }
+
+.swal2-confirm {
+    background-color: $color__pink !important;
+    font-size: 1.6rem;
+}
+.swal2-deny {
+    background-color: $color__purple_black !important;
+}
+
+.swal2-confirm, .swal2-deny {
+    font-size: 1.6rem !important;
+}
+
+#swal2-html-container > p:nth-child(1) {
+    color: $color__purple;
+    font-weight: bold;
+    font-size: 1.4rem;
+}
+
+#swal2-title {
+    color: $color__purple_black;
+}
+
+.btns{
+    text-align: center;
+    margin-top: 4rem;
 }

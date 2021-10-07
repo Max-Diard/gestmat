@@ -1,0 +1,118 @@
+#adherents-list{
+    .all-table{
+        margin-bottom: 3rem;
+        .table-women{
+            > .thead-adherent{
+                tr{
+                    &:nth-child(2){
+                        background-color: $color__pink_extralight;
+                        text-transform: uppercase;
+                        font-weight: bold;
+                    }
+                }
+            }
+        }
+        .table-men{
+            > .thead-adherent{
+                tr{
+                    &:nth-child(2){
+                        background-color: $color__green;
+                        text-transform: uppercase;
+                        font-weight: bold;
+                    }
+                }
+            }
+        }
+    }
+
+    .card-selected{
+        margin-top: 5rem;
+        .card-selected-woman, .card-selected-man{
+            border: .4rem solid $color__pink_extralight;
+            background-color: $color__grey_light;
+            border-radius: 2rem;
+            width: 73.7rem;
+            padding: 2rem 1.1rem;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            > div{
+                width: 100%;
+            }
+        }
+        .card-selected-man{
+            border: .4rem solid $color__green;
+        }
+        .info-adherent-woman-picked, .table-card-woman > .thead-adherent, .table-card-man > .thead-adherent{
+            font-weight: bold;
+            font-size: 1.6rem;
+            display: flex;
+            justify-content: center;
+            padding-bottom: 1rem;
+            border-bottom: .2rem solid $color__pink_extralight;
+            > p + p {
+                margin-left: 2rem;
+            }
+            .thead-card-woman-lastname, .thead-card-man-lastname{
+                text-transform: uppercase;
+            }
+        }
+        .table-card-woman-meet, .table-card-man-meet{
+            width: 100%;
+            text-align: center;
+            > .thead-adherent{
+                font-weight: bold;
+                text-transform: uppercase;
+            }
+        }
+        table{
+            border-collapse:separate; 
+            border-spacing: 0 .5rem;
+            width: 100%;
+            .woman-meeting, .man-meeting{
+                > tr{
+                    td{
+                        &:last-child{
+                            display: flex;
+                            justify-content: center;
+                            a{
+                                img{
+                                    width: 1.4rem;
+                                }
+                                &:hover, &:focus{
+                                    opacity: .7;
+                                }
+                                &::after{
+                                    content: none;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        .table-card-man > .thead-adherent{
+            border-bottom: .2rem solid $color__green;
+        }
+        a{
+            color: $color__pink;
+            position: relative;
+            &::after{
+                content: "";
+                display: block;
+                position: absolute;
+                bottom: -.1rem;
+                left: 0;
+                width: 0%;
+                height: .2rem;
+                background-color: $color__pink;
+                transition: all .2s ease-in-out;
+            }
+            &:hover, &:focus{
+                &::after{
+                    width: 100%;
+                }
+            }
+        }
+    }
+}

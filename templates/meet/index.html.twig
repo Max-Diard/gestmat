@@ -1,125 +1,127 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-<h1 class="title-meet">Toutes les rencontres {% if dateUrl is defined %}du {{ dateUrl|date('d/m/Y') }}{% endif %}</h1>
+<div id="all-meetings" class="container container-screen">
+    <h1 class="title-meet">Toutes les rencontres {% if dateUrl is defined %}du {{ dateUrl|date('d/m/Y') }}{% endif %}</h1>
 
-<div class="search-input-meet">
-    <input type="date" class="input-date-meet" >
-{#    <a href="#" class="link-meet">Envoyer</a>#}
-</div>
-
-<a href="{{ path('meet_all') }}">Voir toutes les rencontres</a>
-<a href="
-{% if dateUrl is defined %}
-    {{ path('meet_send_date', {date: dateUrl|date('Y-m-d')}) }}
-{% else %}
-    {{ path('meet_send') }}
-{% endif %}" class="link-testimony">Envoyer les courriers</a>
-
-<div class="modal-adherent">
-    <div class="modal-info-meet">
-        <form class="form-meet" action="post">
-            <button type="button" class="close-modal">Fermer</button>
-            <div class="modal-meet-text">
-                <div class="meet-woman">
-                    <div class="modal-info-woman">
-                        <div class="">
-                            <p class="woman-lastname">Nom</p>
-                            <p class="woman-firstname">Prénom</p>
-                        </div>
-                        <div class="">
-                            <p class="woman-agence">Agence</p>
-                        </div>
-                    </div>
-                    <div class="meet-woman-pdf">
-                        <a class='link-pdf-woman' href="">Voir le pdf</a>
-                    </div>
-                    <div class="row-return-action">
-                        <div class="col-return">
-                            <label for="woman-date-returnAt">Date retour</label>
-                            <input type="date" id="woman-date-returnAt" class="woman-date-returnAt">
-                        </div>
-                        <div class="col-action">
-                            <label for="woman-action">Action</label>
-                            <select type="select" id="woman-action" class="woman-action">
-                                <option value=""></option>
-                                {% for option in options %}
-                                    <option value="{{ option.name }}">{{ option.name }}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
-                    </div>
-                    <label for="woman-comments">Commentaire</label>
-                    <textarea id="woman-comments" class="woman-comments" rows="5" cols="40"></textarea>
-                </div>
-                <div class="meet-info-general">
-                    <p>Date de rencontre</p>
-                    <p class="date-meet">23/12/21</p>
-                    <p>Référence</p>
-                    <p class="id-meet">456</p>
-                </div>
-                <div class="meet-man">
-                    <div class="modal-info-man">
-                        <div class="">
-                            <p class="man-lastname">Nom</p>
-                            <p class="man-firstname">Prénom</p>
-                        </div>
-                        <div class="">
-                            <p class="man-agence">Agence</p>
-                        </div>
-                    </div>
-                    <div class="meet-man-pdf">
-                        <a class='link-pdf-man' href="">Voir le pdf</a>
-                    </div>
-                    <div class="row-return-action">
-                        <div class="col-return">
-                            <label for="man-date-returnAt">Date retour</label>
-                            <input type="date" id="man-date-returnAt" class="man-date-returnAt">
-                        </div>
-                        <div class="col-action">
-                            <label for="man-action">Action</label>
-                            <select type="select" id="man-action" class="man-action">
-                                <option value=""></option>
-                                {% for option in options %}
-                                    <option value="{{ option.name }}">{{ option.name }}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
-                    </div>
-                    <label for="man-comments">Commentaire</label>
-                    <textarea id="man-comments" class="man-comments" rows="5" cols="40"></textarea>
-                </div>
-            </div>
-            <a href="#" class="send-form">Envoyer</a>
-        </form>
+    <div class="search-input-meet">
+        <input type="date" class="input-date-meet" >
+    {#    <a href="#" class="link-meet">Envoyer</a>#}
     </div>
+    <div class="btns">
+        <a class="btn btn-little" href="{{ path('meet_all') }}">Voir toutes les rencontres</a>
+        <a href="
+        {% if dateUrl is defined %}
+            {{ path('meet_send_date', {date: dateUrl|date('Y-m-d')}) }}
+        {% else %}
+            {{ path('meet_send') }}
+        {% endif %}" class="link-testimony btn btn-little">Envoyer les courriers</a>
+    </div>
+
+    <div class="modal-adherent">
+        <div class="modal-info-meet">
+            <form class="form-meet" action="post">
+                <button type="button" class="close-modal">Fermer</button>
+                <div class="modal-meet-text">
+                    <div class="meet-woman">
+                        <div class="modal-info-woman">
+                            <div class="">
+                                <p class="woman-lastname">Nom</p>
+                                <p class="woman-firstname">Prénom</p>
+                            </div>
+                            <div class="">
+                                <p class="woman-agence">Agence</p>
+                            </div>
+                        </div>
+                        <div class="meet-woman-pdf">
+                            <a class='link-pdf-woman' href="">Voir le pdf</a>
+                        </div>
+                        <div class="row-return-action">
+                            <div class="col-return">
+                                <label for="woman-date-returnAt">Date retour</label>
+                                <input type="date" id="woman-date-returnAt" class="woman-date-returnAt">
+                            </div>
+                            <div class="col-action">
+                                <label for="woman-action">Action</label>
+                                <select type="select" id="woman-action" class="woman-action">
+                                    <option value=""></option>
+                                    {% for option in options %}
+                                        <option value="{{ option.name }}">{{ option.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <label for="woman-comments">Commentaire</label>
+                        <textarea id="woman-comments" class="woman-comments" rows="5" cols="40"></textarea>
+                    </div>
+                    <div class="meet-info-general">
+                        <p>Date de rencontre</p>
+                        <p class="date-meet">23/12/21</p>
+                        <p>Référence</p>
+                        <p class="id-meet">456</p>
+                    </div>
+                    <div class="meet-man">
+                        <div class="modal-info-man">
+                            <div class="">
+                                <p class="man-lastname">Nom</p>
+                                <p class="man-firstname">Prénom</p>
+                            </div>
+                            <div class="">
+                                <p class="man-agence">Agence</p>
+                            </div>
+                        </div>
+                        <div class="meet-man-pdf">
+                            <a class='link-pdf-man' href="">Voir le pdf</a>
+                        </div>
+                        <div class="row-return-action">
+                            <div class="col-return">
+                                <label for="man-date-returnAt">Date retour</label>
+                                <input type="date" id="man-date-returnAt" class="man-date-returnAt">
+                            </div>
+                            <div class="col-action">
+                                <label for="man-action">Action</label>
+                                <select type="select" id="man-action" class="man-action">
+                                    <option value=""></option>
+                                    {% for option in options %}
+                                        <option value="{{ option.name }}">{{ option.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <label for="man-comments">Commentaire</label>
+                        <textarea id="man-comments" class="man-comments" rows="5" cols="40"></textarea>
+                    </div>
+                </div>
+                <a href="#" class="send-form">Envoyer</a>
+            </form>
+        </div>
+    </div>
+
+    <table class="table-meet">
+        <thead>
+            <tr>
+                <td>Référence</td>
+                <td>Date de rencontre</td>
+                <td>Femme</td>
+                <td>Agence Femme</td>
+                <td>Homme</td>
+                <td>Agence Homme</td>
+                <td>Action</td>
+            </tr>
+        </thead>
+        <tbody>
+            {% for meet in meets %}
+            <tr>
+                <td>{{ meet.id }}</td>
+                <td>{{ meet.startedAt|date('d/m/Y') }}</td>
+                <td>{{ meet.adherentWoman.firstname }} {{ meet.adherentWoman.lastname }}</td>
+                <td>{{ meet.adherentWoman.agence.name }} {{ meet.adherentWoman.agence.addressTown }}</td>
+                <td>{{ meet.adherentMan.firstname }} {{ meet.adherentMan.lastname }}</td>
+                <td>{{ meet.adherentMan.agence.name }} {{ meet.adherentMan.agence.addressTown }}</td>
+                <td><a class="page-meet-more" href="#" data-id="{{ meet.id }}">Voir plus</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 </div>
-
-<table class="table-meet">
-    <thead>
-        <tr>
-            <td>Référence</td>
-            <td>Date de rencontre</td>
-            <td>Femme</td>
-            <td>Agence Femme</td>
-            <td>Homme</td>
-            <td>Agence Homme</td>
-            <td>Action</td>
-        </tr>
-    </thead>
-    <tbody>
-        {% for meet in meets %}
-        <tr>
-            <td>{{ meet.id }}</td>
-            <td>{{ meet.startedAt|date('d/m/Y') }}</td>
-            <td>{{ meet.adherentWoman.firstname }} {{ meet.adherentWoman.lastname }}</td>
-            <td>{{ meet.adherentWoman.agence.name }} {{ meet.adherentWoman.agence.addressTown }}</td>
-            <td>{{ meet.adherentMan.firstname }} {{ meet.adherentMan.lastname }}</td>
-            <td>{{ meet.adherentMan.agence.name }} {{ meet.adherentMan.agence.addressTown }}</td>
-            <td><a class="page-meet-more" href="#" data-id="{{ meet.id }}">Voir plus</a></td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
-
 {% endblock %}

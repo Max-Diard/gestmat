@@ -59,6 +59,11 @@ window.addEventListener("DOMContentLoaded", (event) => {
     if(rowTable){
         [].forEach.call(rowTable, function(elem){
             elem.addEventListener('click', function(ev){
+                [].forEach.call(rowTable, function(element){
+                    element.parentNode.classList.remove('active')
+                });
+                elem.parentNode.classList.add('active');
+
                 ev.preventDefault();
                 apiMeet(elem.getAttribute('data-id'));
             })
@@ -95,7 +100,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
                         removeMeet(elem.getAttribute('data-id'))
 
                     } else if (result.isDenied) {
-                        Swal.fire("La rencontre n'a pas était supprimé !", '', 'info')
+                        Swal.fire("La rencontre n'a pas été supprimée !", '', 'info')
                     }
                 })
             })
@@ -236,7 +241,7 @@ function apiMeet(id){
 
                 if(loadingWomen && loadingMen){
                     // Création du bouton pour créer la rencontre
-                    buttonModal.className = 'button-create-meet'
+                    buttonModal.className = 'btn btn-little button-create-meet'
                     buttonModal.textContent = 'Créer une nouvelle rencontre'
                     buttonModal.href = '#'
                     div.appendChild(buttonModal)
@@ -262,7 +267,7 @@ function apiMeet(id){
                                 const inputDate = document.querySelector('#expiry-date')
                                 window.location = 'meet/new/' + meetWaitingWomen + '-' + meetWaitingMen + '-' + inputDate.value
                             } else if (result.isDenied) {
-                                Swal.fire("La rencontre n'a pas était effectué !", '', 'info')
+                                Swal.fire("La rencontre n'a pas été effectuée !", '', 'info')
                             }
                         })
                     })
@@ -332,7 +337,7 @@ function informationMeetWoman(recup){
 
             //Test avec SweetAlert
             cellLinkDelete.href = '#'
-            cellLinkDelete.textContent = 'Supprimer'
+            cellLinkDelete.innerHTML = '<img src="/build/images/delete.svg" alt="supprimer">'
             cellLinkDelete.addEventListener('click', function(){
                 Swal.fire({
                     title: 'Vous voulez vraiment supprimer cette rencontre ?',
@@ -348,7 +353,7 @@ function informationMeetWoman(recup){
                         removeMeet(idMeet)
                         apiMeet(recup.adherent[0].id)
                     } else if (result.isDenied) {
-                        Swal.fire("La rencontre n'a pas était supprimé !", '', 'info')
+                        Swal.fire("La rencontre n'a pas été supprimée !", '', 'info')
                     }
                 })
             })
@@ -435,7 +440,7 @@ function informationMeetMan(recup){
             const cellDelete = document.createElement('td')
             const cellLinkDelete = document.createElement('a')
             cellLinkDelete.href = '#'
-            cellLinkDelete.textContent = 'Supprimer'
+            cellLinkDelete.innerHTML = '<img src="build/images/delete.svg" alt="Supprimer">'
 
             cellLinkDelete.addEventListener('click', function(){
                 Swal.fire({
@@ -452,7 +457,7 @@ function informationMeetMan(recup){
                         removeMeet(idMeet)
                         apiMeet(recup.adherent[0].id)
                     } else if (result.isDenied) {
-                        Swal.fire("La rencontre n'a pas était supprimé !", '', 'info')
+                        Swal.fire("La rencontre n'a pas été supprimée !", '', 'info')
                     }
                 })
             })

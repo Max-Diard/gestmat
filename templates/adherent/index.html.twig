@@ -12,280 +12,283 @@
     </div>
 {% endfor %}
 
-<h1 class="title-adherents">Liste des adhérents</h1>
+<div id="adherents-list" class="container container-screen">
+    <h1 class="title-adherents">Liste des adhérents</h1>
 
-{#    Modal pour voir les info de la rencontre#}
-<div class="modal-adherent">
-    <div class="modal-info-meet">
-        <form class="form-meet" action="post">
-            <button type="button" class="close-modal">Fermer</button>
-            <div class="modal-meet-text">
-                <div class="meet-woman">
-                    <div class="modal-info-woman">
-                        <div class="">
-                            <p class="woman-lastname">Nom</p>
-                            <p class="woman-firstname">Prénom</p>
+    {#    Modal pour voir les info de la rencontre #}
+    <div class="modal-adherent">
+        <div class="modal-info-meet">
+            <form class="form-meet" action="post">
+                <button type="button" class="close-modal">Fermer</button>
+                <div class="modal-meet-text">
+                    <div class="meet-woman">
+                        <div class="modal-info-woman">
+                            <div class="">
+                                <p class="woman-lastname">Nom</p>
+                                <p class="woman-firstname">Prénom</p>
+                            </div>
+                            <div class="">
+                                <p class="woman-agence">Agence</p>
+                            </div>
                         </div>
-                        <div class="">
-                            <p class="woman-agence">Agence</p>
+                        <div class="meet-woman-pdf">
+                            <a class='link-pdf-woman' href="">Voir le pdf</a>
                         </div>
+                        <div class="row-return-action">
+                            <div class="col-return">
+                                <label for="woman-date-returnAt">Date retour</label>
+                                <input type="date" id="woman-date-returnAt" class="woman-date-returnAt">
+                            </div>
+                            <div class="col-action">
+                                <label for="woman-action">Action</label>
+                                <select type="select" id="woman-action" class="woman-action">
+                                    <option value=""></option>
+                                    {% for option in options %}
+                                        <option value="{{ option.name }}">{{ option.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <label for="woman-comments">Commentaire</label>
+                        <textarea id="woman-comments" class="woman-comments" rows="5" cols="40"></textarea>
                     </div>
-                    <div class="meet-woman-pdf">
-                        <a class='link-pdf-woman' href="">Voir le pdf</a>
+                    <div class="meet-info-general">
+                        <p>Date de rencontre</p>
+                        <p class="date-meet">23/12/21</p>
+                        <p>Référence</p>
+                        <p class="id-meet">456</p>
                     </div>
-                    <div class="row-return-action">
-                        <div class="col-return">
-                            <label for="woman-date-returnAt">Date retour</label>
-                            <input type="date" id="woman-date-returnAt" class="woman-date-returnAt">
+                    <div class="meet-man">
+                        <div class="modal-info-man">
+                            <div class="">
+                                <p class="man-lastname">Nom</p>
+                                <p class="man-firstname">Prénom</p>
+                            </div>
+                            <div class="">
+                                <p class="man-agence">Agence</p>
+                            </div>
                         </div>
-                        <div class="col-action">
-                            <label for="woman-action">Action</label>
-                            <select type="select" id="woman-action" class="woman-action">
-                                <option value=""></option>
-                                {% for option in options %}
-                                    <option value="{{ option.name }}">{{ option.name }}</option>
-                                {% endfor %}
-                            </select>
+                        <div class="meet-man-pdf">
+                            <a class='link-pdf-man' href="">Voir le pdf</a>
                         </div>
+                        <div class="row-return-action">
+                            <div class="col-return">
+                                <label for="man-date-returnAt">Date retour</label>
+                                <input type="date" id="man-date-returnAt" class="man-date-returnAt">
+                            </div>
+                            <div class="col-action">
+                                <label for="man-action">Action</label>
+                                <select type="select" id="man-action" class="man-action">
+                                    <option value=""></option>
+                                    {% for option in options %}
+                                        <option value="{{ option.name }}">{{ option.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <label for="man-comments">Commentaire</label>
+                        <textarea id="man-comments" class="man-comments" rows="5" cols="40"></textarea>
                     </div>
-                    <label for="woman-comments">Commentaire</label>
-                    <textarea id="woman-comments" class="woman-comments" rows="5" cols="40"></textarea>
                 </div>
-                <div class="meet-info-general">
-                    <p>Date de rencontre</p>
-                    <p class="date-meet">23/12/21</p>
-                    <p>Référence</p>
-                    <p class="id-meet">456</p>
-                </div>
-                <div class="meet-man">
-                    <div class="modal-info-man">
-                        <div class="">
-                            <p class="man-lastname">Nom</p>
-                            <p class="man-firstname">Prénom</p>
-                        </div>
-                        <div class="">
-                            <p class="man-agence">Agence</p>
-                        </div>
-                    </div>
-                    <div class="meet-man-pdf">
-                        <a class='link-pdf-man' href="">Voir le pdf</a>
-                    </div>
-                    <div class="row-return-action">
-                        <div class="col-return">
-                            <label for="man-date-returnAt">Date retour</label>
-                            <input type="date" id="man-date-returnAt" class="man-date-returnAt">
-                        </div>
-                        <div class="col-action">
-                            <label for="man-action">Action</label>
-                            <select type="select" id="man-action" class="man-action">
-                                <option value=""></option>
-                                {% for option in options %}
-                                    <option value="{{ option.name }}">{{ option.name }}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
-                    </div>
-                    <label for="man-comments">Commentaire</label>
-                    <textarea id="man-comments" class="man-comments" rows="5" cols="40"></textarea>
-                </div>
-            </div>
-            <a href="#" class="send-form">Envoyer</a>
-        </form>
+                <a href="#" class="send-form">Envoyer</a>
+            </form>
+        </div>
     </div>
-</div>
 
-<div class="all-table">
+    <div class="all-table">
 
-{#    Adherent Femme#}
-    <table class='table-women'>
-        <thead class='thead-adherent'>
-            <th colspan="7">
-                <p id="selectTriggerFilterWoman"><label><b>Filtre:</b></label><br></p>
-            </th>
-            <tr>
-                <td>Nom</td>
-                <td>Prénom</td>
-                <td>Age</td>
-                <td>État</td>
-                <td>Fin contrat</td>
-                <td>Agence</td>
-                <td>Action</td>
-            </tr>
-        </thead>
-        <tbody>
-            {% for boucle in womenAdherent %}
-                {% for adherent in boucle %}
-                   <tr class='women'>
-                       {% if adherent.id in meet %}
-                               <td class="js-adherent" data-id='{{ adherent.id }}'>{{ adherent.lastname }}</td>
-
-                       {% else %}
-                           <td class="js-adherent no-meet" data-id='{{ adherent.id }}'>{{ adherent.lastname }}</td>
-                       {% endif %}
-                        {% if adherent.statusMeet == 'Disponible' %}
-                            <td class='status-disponibility js-adherent' data-id='{{ adherent.id }}'>{{ adherent.firstname }}</td>
-                        {% else %}
-                            <td class='js-adherent' data-id='{{ adherent.id }}'>{{ adherent.firstname }}</td>
-                        {% endif %}
-                        <td class="js-adherent" data-id='{{ adherent.id }}'>{{ adherent.getAge() }}</td>
-                        <td class="js-adherent" data-id='{{ adherent.id }}'>{{ adherent.statusMeet }}</td>
-                        <td class="js-adherent" data-id='{{ adherent.id }}'>{{ adherent.contractEndingAt|date('d/m/Y') }}</td>
-                        <td class="js-adherent" data-id='{{ adherent.id }}'>{{ adherent.agence.addressTown }} - {{ adherent.agence.name }}</td>
-                        <td><a href='{{ path('adherent_single', {id : adherent.id}) }}'>Profil</a></td>
-                    </tr>
-                {% endfor %}
-            {% endfor %}
-            {% for boucle in womenAdherentDroit %}
-                {% for adherent in boucle %}
-                    <tr class='women-droit'>
+    {#    Adherent Femme#}
+        <table class='table-women'>
+            <thead class='thead-adherent'>
+                <th colspan="7">
+                    <p id="selectTriggerFilterWoman"><label><b>Filtres :</b></label></p>
+                </th>
+                <tr>
+                    <td>Nom</td>
+                    <td>Prénom</td>
+                    <td>Âge</td>
+                    <td>État</td>
+                    <td>Fin de contrat</td>
+                    <td>Agence</td>
+                    <td>Action</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for boucle in womenAdherent %}
+                    {% for adherent in boucle %}
+                    <tr class="women {% if adherent.statusMeet == 'Disponible' %}dispo{% endif %} {% if adherent.id not in meet%}nomeet{% endif %}">
                         {% if adherent.id in meet %}
-                            <td class="js-adherent" data-id='{{ adherent.id }}'>{{ adherent.lastname }}</td>
+                                <td class="js-adherent" data-id='{{ adherent.id }}'>{{ adherent.lastname }}</td>
+
                         {% else %}
                             <td class="js-adherent no-meet" data-id='{{ adherent.id }}'>{{ adherent.lastname }}</td>
                         {% endif %}
-                        {% if adherent.statusMeet == 'Disponible' %}
-                            <td class='status-disponibility js-adherent' data-id='{{ adherent.id }}'>{{ adherent.firstname }}</td>
-                        {% else %}
-                            <td class="js-adherent" data-id='{{ adherent.id }}'>{{ adherent.firstname }}</td>
-                        {% endif %}
-                        <td class="js-adherent" data-id='{{ adherent.id }}'>{{ adherent.getAge() }}</td>
-                        <td class="js-adherent" data-id='{{ adherent.id }}'>{{ adherent.statusMeet }}</td>
-                        <td class="js-adherent" data-id='{{ adherent.id }}'>{{ adherent.contractEndingAt|date('d/m/Y') }}</td>
-                        <td class="js-adherent" data-id='{{ adherent.id }}'>{{ adherent.agence.addressTown }} - {{ adherent.agence.name }}</td>
-                        <td><a href='{{ path('adherent_single', {id : adherent.id}) }}'>Profil</a></td>
+                            {% if adherent.statusMeet == 'Disponible' %}
+                                <td class='status-disponibility js-adherent' data-id='{{ adherent.id }}'>{{ adherent.firstname }}</td>
+                            {% else %}
+                                <td class='js-adherent' data-id='{{ adherent.id }}'>{{ adherent.firstname }}</td>
+                            {% endif %}
+                            <td class="js-adherent" data-id='{{ adherent.id }}'>{{ adherent.getAge() }}</td>
+                            <td class="js-adherent" data-id='{{ adherent.id }}'>{{ adherent.statusMeet }}</td>
+                            <td class="js-adherent" data-id='{{ adherent.id }}'>{{ adherent.contractEndingAt|date('d/m/Y') }}</td>
+                            <td class="js-adherent" data-id='{{ adherent.id }}'>{{ adherent.agence.name }}</td>
+                            <td><a href='{{ path('adherent_single', {id : adherent.id}) }}'>Profil</a></td>
                     </tr>
+                    {% endfor %} 
                 {% endfor %}
-            {% endfor %}
-        </tbody>
-    </table>
+                {% for boucle in womenAdherentDroit %}
+                    {% for adherent in boucle %}
+                        <tr class='women-droit'>
+                            {% if adherent.id in meet %}
+                                <td class="js-adherent" data-id='{{ adherent.id }}'>{{ adherent.lastname }}</td>
+                            {% else %}
+                                <td class="js-adherent no-meet" data-id='{{ adherent.id }}'>{{ adherent.lastname }}</td>
+                            {% endif %}
+                            {% if adherent.statusMeet == 'Disponible' %}
+                                <td class='status-disponibility js-adherent' data-id='{{ adherent.id }}'>{{ adherent.firstname }}</td>
+                            {% else %}
+                                <td class="js-adherent" data-id='{{ adherent.id }}'>{{ adherent.firstname }}</td>
+                            {% endif %}
+                            <td class="js-adherent" data-id='{{ adherent.id }}'>{{ adherent.getAge() }}</td>
+                            <td class="js-adherent" data-id='{{ adherent.id }}'>{{ adherent.statusMeet }}</td>
+                            <td class="js-adherent" data-id='{{ adherent.id }}'>{{ adherent.contractEndingAt|date('d/m/Y') }}</td>
+                            <td class="js-adherent" data-id='{{ adherent.id }}'>{{ adherent.agence.addressTown }} - {{ adherent.agence.name }}</td>
+                            <td><a href='{{ path('adherent_single', {id : adherent.id}) }}'>Profil</a></td>
+                        </tr>
+                    {% endfor %}
+                {% endfor %}
+            </tbody>
+        </table>
 
-{#    Adherent Homme#}
-    <table class='table-men'>
-        <thead class='thead-adherent'>
-            <th colspan="7">
-                <p id="selectTriggerFilterMan"><label><b>Filtre:</b></label><br></p>
-            </th>
-            <tr>
-                <td>Nom</td>
-                <td>Prénom</td>
-                <td>Age</td>
-                <td>État</td>
-                <td>Fin contrat</td>
-                <td>Agence</td>
-                <td>Action</td>
-            </tr>
-        </thead>
-        <tbody>
-            {% for boucle in menAdherent %}
-                {% for adherent in boucle %}
-                    <tr class='men'>
-                        {% if adherent.id in meet %}
-                            <td class="js-adherent" data-id='{{ adherent.id }}'>{{ adherent.lastname }}</td>
-                        {% else %}
-                            <td class="js-adherent no-meet" data-id='{{ adherent.id }}'>{{ adherent.lastname }}</td>
-                        {% endif %}
-                        {% if adherent.statusMeet == 'Disponible' %}
-                            <td class='status-disponibility js-adherent'  data-id='{{ adherent.id }}'>{{ adherent.firstname }}</td>
-                        {% else %}
-                            <td class="js-adherent" data-id='{{ adherent.id }}'>{{ adherent.firstname }}</td>
-                        {% endif %}
-                        <td class="js-adherent" data-id='{{ adherent.id }}'>{{ adherent.getAge() }}</td>
-                        <td class="js-adherent" data-id='{{ adherent.id }}'>{{ adherent.statusMeet }}</td>
-                        <td class="js-adherent" data-id='{{ adherent.id }}'>{{ adherent.contractEndingAt|date('d/m/Y') }}</td>
-                        <td class="js-adherent" data-id='{{ adherent.id }}'>{{ adherent.agence.addressTown }} - {{ adherent.agence.name }}</td>
-                        <td><a href='{{ path('adherent_single', {id: adherent.id}) }}'>Profil</a></td>
-                    </tr>
+    {#    Adherent Homme#}
+        <table class='table-men'>
+            <thead class='thead-adherent'>
+                <th colspan="7">
+                    <p id="selectTriggerFilterMan"><label><b>Filtres :</b></label></p>
+                </th>
+                <tr>
+                    <td>Nom</td>
+                    <td>Prénom</td>
+                    <td>Age</td>
+                    <td>État</td>
+                    <td>Fin de contrat</td>
+                    <td>Agence</td>
+                    <td>Action</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for boucle in menAdherent %}
+                    {% for adherent in boucle %}
+                        <tr class="men {% if adherent.statusMeet == 'Disponible' %}dispo{% endif %} {% if adherent.id not in meet%}nomeet{% endif %}">
+                            {% if adherent.id in meet %}
+                                <td class="js-adherent" data-id='{{ adherent.id }}'>{{ adherent.lastname }}</td>
+                            {% else %}
+                                <td class="js-adherent no-meet" data-id='{{ adherent.id }}'>{{ adherent.lastname }}</td>
+                            {% endif %}
+                            {% if adherent.statusMeet == 'Disponible' %}
+                                <td class='status-disponibility js-adherent'  data-id='{{ adherent.id }}'>{{ adherent.firstname }}</td>
+                            {% else %}
+                                <td class="js-adherent" data-id='{{ adherent.id }}'>{{ adherent.firstname }}</td>
+                            {% endif %}
+                            <td class="js-adherent" data-id='{{ adherent.id }}'>{{ adherent.getAge() }}</td>
+                            <td class="js-adherent" data-id='{{ adherent.id }}'>{{ adherent.statusMeet }}</td>
+                            <td class="js-adherent" data-id='{{ adherent.id }}'>{{ adherent.contractEndingAt|date('d/m/Y') }}</td>
+                            <td class="js-adherent" data-id='{{ adherent.id }}'>{{ adherent.agence.addressTown }} - {{ adherent.agence.name }}</td>
+                            <td><a href='{{ path('adherent_single', {id: adherent.id}) }}'>Profil</a></td>
+                        </tr>
+                    {% endfor %}
                 {% endfor %}
-            {% endfor %}
-            {% for boucle in menAdherentDroit %}
-                {% for adherent in boucle %}
-                    <tr class='men-droit'>
-                        {% if adherent.id in meet %}
-                            <td class="js-adherent" data-id='{{ adherent.id }}'>{{ adherent.lastname }}</td>
-                        {% else %}
-                            <td class="js-adherent no-meet" data-id='{{ adherent.id }}'>{{ adherent.lastname }}</td>
-                        {% endif %}
-                        {% if adherent.statusMeet == 'Disponible' %}
-                            <td class='status-disponibility js-adherent' data-id='{{ adherent.id }}'>{{ adherent.firstname }}</td>
-                        {% else %}
-                            <td class="js-adherent" data-id='{{ adherent.id }}'>{{ adherent.firstname }}</td>
-                        {% endif %}
-                        <td class="js-adherent" data-id='{{ adherent.id }}'>{{ adherent.getAge() }}</td>
-                        <td class="js-adherent" data-id='{{ adherent.id }}'>{{ adherent.statusMeet }}</td>
-                        <td class="js-adherent" data-id='{{ adherent.id }}'>{{ adherent.contractEndingAt|date('d/m/Y') }}</td>
-                        <td class="js-adherent" data-id='{{ adherent.id }}'>{{ adherent.agence.addressTown }} - {{ adherent.agence.name }}</td>
-                        <td><a href='{{ path('adherent_single', {id: adherent.id}) }}'>Profil</a></td>
-                    </tr>
+                {% for boucle in menAdherentDroit %}
+                    {% for adherent in boucle %}
+                        <tr class='men-droit'>
+                            {% if adherent.id in meet %}
+                                <td class="js-adherent" data-id='{{ adherent.id }}'>{{ adherent.lastname }}</td>
+                            {% else %}
+                                <td class="js-adherent no-meet" data-id='{{ adherent.id }}'>{{ adherent.lastname }}</td>
+                            {% endif %}
+                            {% if adherent.statusMeet == 'Disponible' %}
+                                <td class='status-disponibility js-adherent' data-id='{{ adherent.id }}'>{{ adherent.firstname }}</td>
+                            {% else %}
+                                <td class="js-adherent" data-id='{{ adherent.id }}'>{{ adherent.firstname }}</td>
+                            {% endif %}
+                            <td class="js-adherent" data-id='{{ adherent.id }}'>{{ adherent.getAge() }}</td>
+                            <td class="js-adherent" data-id='{{ adherent.id }}'>{{ adherent.statusMeet }}</td>
+                            <td class="js-adherent" data-id='{{ adherent.id }}'>{{ adherent.contractEndingAt|date('d/m/Y') }}</td>
+                            <td class="js-adherent" data-id='{{ adherent.id }}'>{{ adherent.agence.addressTown }} - {{ adherent.agence.name }}</td>
+                            <td><a href='{{ path('adherent_single', {id: adherent.id}) }}'>Profil</a></td>
+                        </tr>
+                    {% endfor %}
                 {% endfor %}
-            {% endfor %}
-        </tbody>
-    </table>
-</div>
-<div class="button-meet"></div>
-<div class="card-selected">
-    <div class="card-selected-woman">
-        <div class='table-card-woman'>
-            <div class="info-adherent-woman-picked">
-                <p class='thead-card-woman-lastname'></p>
-                <p class='thead-card-woman-firstname'></p>
-                <p class='thead-card-woman-years'></p>
-                <p class='thead-card-woman-meet'></p>
-                <p class='thead-card-woman-agence'></p>
+            </tbody>
+        </table>
+    </div>
+    <div class="button-meet"></div>
+    <div class="card-selected">
+        <div class="card-selected-woman">
+            <div class='table-card-woman'>
+                <div class="info-adherent-woman-picked">
+                    <p class='thead-card-woman-lastname'></p>
+                    <p class='thead-card-woman-firstname'></p>
+                    <p class='thead-card-woman-years'></p>
+                    <p class='thead-card-woman-meet'></p>
+                    <p class='thead-card-woman-agence'></p>
+                </div>
+
+                <table class='table-card-woman-meet'>
+                    <thead class='thead-adherent'>
+                        <tr>
+                            <td>Id</td>
+                            <td>Date de retour</td>
+                            <td>Nom</td>
+                            <td>Prénom</td>
+                            <td>Agence</td>
+                            <td>Date de rencontre</td>
+                            <td>Action</td>
+                            <td>Supprimer</td>
+                        </tr>
+                    </thead>
+                    <tbody class="woman-meeting">
+                    </tbody>
+                </table>
             </div>
-
-            <table class='table-card-woman-meet'>
+        </div>
+        <div class="card-selected-man">
+            <table class='table-card-man'>
                 <thead class='thead-adherent'>
                     <tr>
-                        <td>Id</td>
-                        <td>Date de retour</td>
-                        <td>Nom</td>
-                        <td>Prénom</td>
-                        <td>Agence</td>
-                        <td>Date de rencontre</td>
-                        <td>Action</td>
-                        <td>Supprimer</td>
+                        <td class='thead-card-man-lastname'></td>
+                        <td class='thead-card-man-firstname'></td>
+                        <td class='thead-card-man-years'></td>
+                        <td class='thead-card-man-meet'></td>
+                        <td class='thead-card-man-agence'></td>
                     </tr>
                 </thead>
-                <tbody class="woman-meeting">
+                <tbody>
+                    <tr class='men'>
+                        <td colspan="5">
+                            <table class='table-card-man-meet'>
+                                <thead class='thead-adherent'>
+                                    <tr>
+                                        <td>Id</td>
+                                        <td>Date de retour</td>
+                                        <td>Nom</td>
+                                        <td>Prénom</td>
+                                        <td>Agence</td>
+                                        <td>Date de rencontre</td>
+                                        <td>Action</td>
+                                        <td>Supprimer</td>
+                                    </tr>
+                                </thead>
+                                <tbody class='man-meeting'>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
                 </tbody>
             </table>
         </div>
     </div>
-    <div class="card-selected-man">
-        <table class='table-card-man'>
-            <thead class='thead-adherent'>
-                <tr>
-                    <td class='thead-card-man-lastname'></td>
-                    <td class='thead-card-man-firstname'></td>
-                    <td class='thead-card-man-years'></td>
-                    <td class='thead-card-man-meet'></td>
-                    <td class='thead-card-man-agence'></td>
-                </tr>
-            </thead>
-            <tbody>
-                <tr class='men'>
-                    <td colspan="5">
-                        <table class='table-card-man-meet'>
-                            <thead class='thead-adherent'>
-                                <tr>
-                                    <td>Id</td>
-                                    <td>Date de retour</td>
-                                    <td>Nom</td>
-                                    <td>Prénom</td>
-                                    <td>Agence</td>
-                                    <td>Date de rencontre</td>
-                                    <td>Action</td>
-                                    <td>Supprimer</td>
-                                </tr>
-                            </thead>
-                            <tbody class='man-meeting'>
-                            </tbody>
-                        </table>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+    
 </div>
 
 {% endblock %}

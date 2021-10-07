@@ -6,70 +6,34 @@
         {{ message }}
     </div>
 {% endfor %}
-<h1>Le profil de l'adhérent sélectionner</h1>
-<div class="modal-adherent">
-    <div class="modal-info-meet">
-        <form class="form-meet" action="post">
-            <button type="button" class="close-modal">Fermer</button>
-        <div class="modal-meet-text">
-            <div class="meet-woman">
-                <div class="modal-info-woman">
-                    <div class="">
-                        <p class="woman-lastname">Nom</p>
-                        <p class="woman-firstname">Prénom</p>
+<div id="selected-profile" class="container container-screen">
+    <h1>Le profil de l'adhérent sélectionné</h1>
+    <div class="modal-adherent">
+        <div class="modal-info-meet">
+            <form class="form-meet" action="post">
+                <button type="button" class="close-modal">Fermer</button>
+            <div class="modal-meet-text">
+                <div class="meet-woman">
+                    <div class="modal-info-woman">
+                        <div class="">
+                            <p class="woman-lastname">Nom</p>
+                            <p class="woman-firstname">Prénom</p>
+                        </div>
+                        <div class="">
+                            <p class="woman-agence">Agence</p>
+                        </div>
                     </div>
-                    <div class="">
-                        <p class="woman-agence">Agence</p>
+                    <div class="meet-woman-pdf">
+                        <a class='link-pdf-woman' href="">Voir le pdf</a>
                     </div>
-                </div>
-                <div class="meet-woman-pdf">
-                    <a class='link-pdf-woman' href="">Voir le pdf</a>
-                </div>
-                <div class="row-return-action">
-                    <div class="col-return">
-                        <label for="woman-date-returnAt">Date retour</label>
-                        <input type="date" id="woman-date-returnAt" class="woman-date-returnAt">
-                    </div>
-                    <div class="col-action">
-                        <label for="woman-action">Action</label>
-                        <select type="select" id="woman-action" class="woman-action">
-                            <option value=""></option>
-                            {% for option in options %}
-                                <option value="{{ option.name }}">{{ option.name }}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                </div>
-                <label for="woman-comments">Commentaire</label>
-                <textarea id="woman-comments" class="woman-comments" rows="5" cols="40"></textarea>
-            </div>
-            <div class="meet-info-general">
-                <p>Date de rencontre</p>
-                <p class="date-meet"></p>
-                <p>Référence</p>
-                <p class="id-meet"></p>
-            </div>
-            <div class="meet-man">
-                <div class="modal-info-man">
-                    <div class="">
-                        <p class="man-lastname">Nom</p>
-                        <p class="man-firstname">Prénom</p>
-                    </div>
-                    <div class="">
-                        <p class="man-agence">Agence</p>
-                    </div>
-                </div>
-                <div class="meet-man-pdf">
-                    <a class='link-pdf-man' href="">Voir le pdf</a>
-                </div>
-                <div class="row-return-action">
+                    <div class="row-return-action">
                         <div class="col-return">
-                            <label for="man-date-returnAt">Date retour</label>
-                            <input type="date" id="man-date-returnAt" class="man-date-returnAt">
+                            <label for="woman-date-returnAt">Date retour</label>
+                            <input type="date" id="woman-date-returnAt" class="woman-date-returnAt">
                         </div>
                         <div class="col-action">
-                            <label for="man-action">Action</label>
-                            <select type="select" id="man-action" class="man-action">
+                            <label for="woman-action">Action</label>
+                            <select type="select" id="woman-action" class="woman-action">
                                 <option value=""></option>
                                 {% for option in options %}
                                     <option value="{{ option.name }}">{{ option.name }}</option>
@@ -77,451 +41,505 @@
                             </select>
                         </div>
                     </div>
-                <label for="man-comments">Commentaire</label>
-                <textarea id="man-comments" class="man-comments" rows="5" cols="40"></textarea>
-            </div>
-        </div>
-            <a href="#" class="send-form">Envoyer</a>
-        </form>
-    </div>
-</div>
-
-<div class="">
-    <ul>
-        <li><a href='{{path('adherent_all')}}'>Liste des adhérents</a></li>
-        <li><a href='{{path('adherent_add')}}'>Ajouter un adhérent</a></li>
-    </ul>
-</div>
-{{ form_start(formAdherent) }}
-    <div class="my-custom-class-for-errors">
-        {{ form_errors(formAdherent) }}
-    </div>
-    <section class='header-adherent'>
-        <div>
-            <div class="row-first">
-                <div class="col col-adherent-number">
-                    <label for="">Numéro Adhérent</label>
-                    <div class='id-adhérent'>{{ adherentProfile.id }}</div>
+                    <label for="woman-comments">Commentaire</label>
+                    <textarea id="woman-comments" class="woman-comments" rows="5" cols="40"></textarea>
                 </div>
-                <div class="col col-adherent-firstname">
-                    {{ form_label(formAdherent.firstname) }}
-                    {{ form_widget(formAdherent.firstname) }}
+                <div class="meet-info-general">
+                    <p>Date de rencontre</p>
+                    <p class="date-meet"></p>
+                    <p>Référence</p>
+                    <p class="id-meet"></p>
                 </div>
-                <div class="col col-adherent-lastname">
-                    {{ form_label(formAdherent.lastname) }}
-                    {{ form_widget(formAdherent.lastname) }}
-                </div>
-            </div>
-            <div class="row-second">
-                <div class="col col-adherent-genre">
-                    {{ form_label(formAdherent.genre) }}
-                    {{ form_widget(formAdherent.genre) }}
-                </div>
-                <div class="col col-adherent-status-contract">
-                    <label for="">Etat Contrat</label>
-                    <div class="status-contract">
-                    {% if adherentProfile.contractStartedAt < date('now') and adherentProfile.contractEndingAt > date('now') %}
-                        En Cours
-                    {% else %}
-                        Fini
-                    {% endif %}
+                <div class="meet-man">
+                    <div class="modal-info-man">
+                        <div class="">
+                            <p class="man-lastname">Nom</p>
+                            <p class="man-firstname">Prénom</p>
+                        </div>
+                        <div class="">
+                            <p class="man-agence">Agence</p>
+                        </div>
                     </div>
-                </div>
-                <div class="col col-adherent-agence">
-                    {{ form_label(formAdherent.agence) }}
-                    {{ form_widget(formAdherent.agence) }}
-                </div>
-            </div>
-            <div class="row-third">
-                <div class="col col-adherent-birthdate">
-                    {{ form_label(formAdherent.birthdate) }}
-                    {{ form_widget(formAdherent.birthdate) }}
-                </div>
-                <div class="col col-adherent-age">
-                    <label for="">Age</label>
-                    <div class="age">{{ adherentProfile.getAge() }}</div>
-                </div>
-                <div class="col col-adherent-last-meet">
-                    <label for="">Dernière Rencontre</label>
-                    {% if meets is not empty %}
-                        {% set lastmeet = meets|last %}
-                        <div class="last-meet">{{ lastmeet.startedAt|date('d/m/Y') }}</div>
-                    {% else %}
-                        <div class="last-meet">"Aucune rencontre"</div>
-                    {% endif %}
-                </div>
-                <div class="col col-adherent-status-meet">
-                    {{ form_label(formAdherent.status_meet) }}
-                    {{ form_widget(formAdherent.status_meet) }}
+                    <div class="meet-man-pdf">
+                        <a class='link-pdf-man' href="">Voir le pdf</a>
+                    </div>
+                    <div class="row-return-action">
+                            <div class="col-return">
+                                <label for="man-date-returnAt">Date retour</label>
+                                <input type="date" id="man-date-returnAt" class="man-date-returnAt">
+                            </div>
+                            <div class="col-action">
+                                <label for="man-action">Action</label>
+                                <select type="select" id="man-action" class="man-action">
+                                    <option value=""></option>
+                                    {% for option in options %}
+                                        <option value="{{ option.name }}">{{ option.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                    <label for="man-comments">Commentaire</label>
+                    <textarea id="man-comments" class="man-comments" rows="5" cols="40"></textarea>
                 </div>
             </div>
+                <a href="#" class="send-form">Envoyer</a>
+            </form>
         </div>
+    </div>
+
+    <div class="links">
+        <ul>
+            <li><a class="btn btn-little" href='{{path('adherent_all')}}'>Liste des adhérents</a></li>
+            <li><a class="btn btn-little" href='{{path('adherent_add')}}'>Ajouter un adhérent</a></li>
+        </ul>
+    </div>
+    {{ form_start(formAdherent) }}
+        <div class="my-custom-class-for-errors">
+            {{ form_errors(formAdherent) }}
+        </div>
+        <section class='header-adherent'>
             {% if adherentProfile.linkPicture != '' %}
                 <img class="image-adherent" src='{{ asset('uploads/adherent/adherent'~ adherentProfile.id ~'/picture/'~ adherentProfile.linkPicture) }}' alt="Image de l'adhérent"/>
             {% else %}
-                <img class="image-adherent" src='{{ asset('profil.svg') }}' alt="Image de l'adhérent"/>
+                <img class="image-adherent" src='{{ asset('build/images/avatar.jpg') }}' alt="Image de l'adhérent"/>
             {% endif %}
-    </section>
-    <section class='body-adherent'>
-        <div class='container-comments'>
-            <div class="col col-adherent-comments1">
-                {{ form_label(formAdherent.comments1) }}
-                {{ form_widget(formAdherent.comments1) }}
-            </div>
-            <div class="col col-adherent-comments2">
-                {{ form_label(formAdherent.comments2) }}
-                {{ form_widget(formAdherent.comments2) }}
-            </div>
-            <div class="col col-adherent-comments3">
-                {{ form_label(formAdherent.comments3) }}
-                {{ form_widget(formAdherent.comments3) }}
-            </div>
-        </div>
-        <div class="container-general">
-            <button class='open-tab' data-tab='tab-general' type='button'>Général</button>
-            <button class='open-tab' data-tab='tab-research' type='button'>Recherche</button>
-            <button class='open-tab' data-tab='tab-announcement' type='button'>Annonces</button>
-            <button class='open-tab' data-tab='tab-contract' type='button'>Contrat</button>
-            <button class='open-tab' data-tab='tab-documents' type='button'>Documents</button>
-            <button class='open-tab' data-tab='tab-meet' type='button'>Rencontres</button>
-            <div class="tab-general tab">
-                <div class="row-general-first">
-                    <div class="col col-adherent-zodiaque">
-                        {{ form_label(formAdherent.zodiaque) }}
-                        {{ form_widget(formAdherent.zodiaque) }}
+            <div>
+                <div class="row-first">
+                    <div class="col col-adherent-number">
+                        <label for="">Numéro Adhérent</label>
+                        <div class='id-adhérent'>{{ adherentProfile.id }}</div>
                     </div>
-                    <div class="col col-adherent-address_street">
-                        {{ form_label(formAdherent.address_street) }}
-                        {{ form_widget(formAdherent.address_street) }}
+                    <div class="col col-adherent-firstname">
+                        {{ form_label(formAdherent.firstname) }}
+                        {{ form_widget(formAdherent.firstname) }}
                     </div>
-                    <div class="col col-adherent-address_street2">
-                        {{ form_label(formAdherent.address_street2) }}
-                        {{ form_widget(formAdherent.address_street2) }}
-                    </div>
-                    <div class="col col-adherent-address_zip_postal">
-                        {{ form_label(formAdherent.address_zip_postal) }}
-                        {{ form_widget(formAdherent.address_zip_postal) }}
-                    </div>
-                    <div class="col col-adherent-address_town">
-                        {{ form_label(formAdherent.address_town) }}
-                        {{ form_widget(formAdherent.address_town) }}
-                    </div>
-                    <div class="col col-adherent-phone_mobile">
-                        {{ form_label(formAdherent.phone_mobile) }}
-                        {{ form_widget(formAdherent.phone_mobile) }}
-                    </div>
-                    <div class="col col-adherent-phone_home">
-                        {{ form_label(formAdherent.phone_home) }}
-                        {{ form_widget(formAdherent.phone_home) }}
-                    </div>
-                    <div class="col col-adherent-phone_work">
-                        {{ form_label(formAdherent.phone_work) }}
-                        {{ form_widget(formAdherent.phone_work) }}
-                    </div>
-                    <div class="col col-adherent-phone_comments">
-                        {{ form_label(formAdherent.phone_comments) }}
-                        {{ form_widget(formAdherent.phone_comments) }}
-                    </div>
-                    <div class="col col-adherent-email">
-                        {{ form_label(formAdherent.email) }}
-                        {{ form_widget(formAdherent.email) }}
-                    </div>
-                    <div class="col col-adherent-instruction">
-                        {{ form_label(formAdherent.instruction) }}
-                        {{ form_widget(formAdherent.instruction) }}
-                    </div>
-                    <div class="col col-adherent-profession">
-                        {{ form_label(formAdherent.profession) }}
-                        {{ form_widget(formAdherent.profession) }}
-                    </div>
-                    <div class="col col-adherent-size">
-                        {{ form_label(formAdherent.size) }}
-                        {{ form_widget(formAdherent.size) }}
-                    </div>
-                    <div class="col col-adherent-weight">
-                        {{ form_label(formAdherent.weight) }}
-                        {{ form_widget(formAdherent.weight) }}
-                    </div>
-                    <div class="col col-adherent-eyes">
-                        {{ form_label(formAdherent.eyes) }}
-                        {{ form_widget(formAdherent.eyes) }}
-                    </div>
-                    <div class="col col-adherent-hair">
-                        {{ form_label(formAdherent.hair) }}
-                        {{ form_widget(formAdherent.hair) }}
-                    </div>
-                    <div class="col col-adherent-child_girl">
-                        {{ form_label(formAdherent.child_girl) }}
-                        {{ form_widget(formAdherent.child_girl) }}
-                    </div>
-                    <div class="col col-adherent-child_boy">
-                        {{ form_label(formAdherent.child_boy) }}
-                        {{ form_widget(formAdherent.child_boy) }}
-                    </div>
-                    <div class="col col-adherent-child_dependent_girl">
-                        {{ form_label(formAdherent.child_dependent_girl) }}
-                        {{ form_widget(formAdherent.child_dependent_girl) }}
-                    </div>
-                    <div class="col col-adherent-child_dependent_boy">
-                        {{ form_label(formAdherent.child_dependent_boy) }}
-                        {{ form_widget(formAdherent.child_dependent_boy) }}
+                    <div class="col col-adherent-lastname">
+                        {{ form_label(formAdherent.lastname) }}
+                        {{ form_widget(formAdherent.lastname) }}
                     </div>
                 </div>
-                <div class="row-general-second">
-                    <div class="col col-adherent-status_matrimoniale">
-                        {{ form_label(formAdherent.status_matrimoniale) }}
-                        {{ form_widget(formAdherent.status_matrimoniale) }}
+                <div class="row-second">
+                    <div class="col col-adherent-genre">
+                        {{ form_label(formAdherent.genre) }}
+                        {{ form_widget(formAdherent.genre) }}
                     </div>
-                    <div class="col col-adherent-permis">
-                        {{ form_label(formAdherent.permis) }}
-                        {{ form_widget(formAdherent.permis) }}
-                    </div>
-                    <div class="col col-adherent-car">
-                        {{ form_label(formAdherent.car) }}
-                        {{ form_widget(formAdherent.car) }}
-                    </div>
-                    <div class="col col-adherent-lodging">
-                        {{ form_label(formAdherent.lodging) }}
-                        {{ form_widget(formAdherent.lodging) }}
-                    </div>
-                    <div class="col col-adherent-owner">
-                        {{ form_label(formAdherent.owner) }}
-                        {{ form_widget(formAdherent.owner) }}
-                    </div>
-                    <div class="col col-adherent-announcement_publish">
-                        {{ form_label(formAdherent.announcement_publish) }}
-                        {{ form_widget(formAdherent.announcement_publish) }}
-                    </div>
-                    <div class="col col-adherent-smoking">
-                        {{ form_label(formAdherent.smoking) }}
-                        {{ form_widget(formAdherent.smoking) }}
-                    </div>
-                    <div class="col col-adherent-preference_contact">
-                        {{ form_label(formAdherent.preference_contact) }}
-                        {{ form_widget(formAdherent.preference_contact) }}
-                    </div>
-                </div>
-            </div>
-            <div class="tab-research no-tab tab">
-                <div class="row-search-first">
-                    <div class="col col-adherent-search_age_min">
-                        {{ form_label(formAdherent.search_age_min) }}
-                        {{ form_widget(formAdherent.search_age_min) }}
-                    </div>
-                    <div class="col col-adherent-search_age_max">
-                        {{ form_label(formAdherent.search_age_max) }}
-                        {{ form_widget(formAdherent.search_age_max) }}
-                    </div>
-                </div>
-                <div class="row-search-second">
-                    <div class="col col-adherent-search_single">
-                        {{ form_label(formAdherent.search_single) }}
-                        {{ form_widget(formAdherent.search_single) }}
-                    </div>
-                    <div class="col col-adherent-search_divorced">
-                        {{ form_label(formAdherent.search_divorced) }}
-                        {{ form_widget(formAdherent.search_divorced) }}
-                    </div>
-                    <div class="col col-adherent-search_windower">
-                        {{ form_label(formAdherent.search_windower) }}
-                        {{ form_widget(formAdherent.search_windower) }}
-                    </div>
-                </div>
-                <div class="row-search-third">
-                    <div class="col col-adherent-search_instruction">
-                        {{ form_label(formAdherent.search_instruction) }}
-                        {{ form_widget(formAdherent.search_instruction) }}
-                    </div>
-                    <div class="col col-adherent-search_profession">
-                        {{ form_label(formAdherent.search_profession) }}
-                        {{ form_widget(formAdherent.search_profession) }}
-                    </div>
-                    <div class="col col-adherent-search_region">
-                        {{ form_label(formAdherent.search_region) }}
-                        {{ form_widget(formAdherent.search_region) }}
-                    </div>
-                    <div class="col col-adherent-search_more">
-                        {{ form_label(formAdherent.search_more) }}
-                        {{ form_widget(formAdherent.search_more) }}
-                    </div>
-                    <div class="col col-adherent-search_accept_children">
-                        {{ form_label(formAdherent.search_accept_children) }}
-                        {{ form_widget(formAdherent.search_accept_children) }}
-                    </div>
-                    <div class="col col-adherent-search_number_accept_children">
-                        {{ form_label(formAdherent.search_number_accept_children) }}
-                        {{ form_widget(formAdherent.search_number_accept_children) }}
-                    </div>
-                </div>
-            </div>
-            <div class="tab-announcement no-tab tab">
-                <div class="row-announcement-first">
-                    <div class="col col-adherent-announcement_presentation">
-                        {{ form_label(formAdherent.announcement_presentation) }}
-                        {{ form_widget(formAdherent.announcement_presentation) }}
-                    </div>
-                    <div class="col col-adherent-announcement_free">
-                        {{ form_label(formAdherent.announcement_free) }}
-                        {{ form_widget(formAdherent.announcement_free) }}
-                    </div>
-                    <div class="col col-adherent-announcement_date_free">
-                        {{ form_label(formAdherent.announcement_date_free) }}
-                        {{ form_widget(formAdherent.announcement_date_free) }}
-                    </div>
-                    <div class="col col-adherent-announcement_newspaper">
-                        {{ form_label(formAdherent.announcement_newspaper) }}
-                        {{ form_widget(formAdherent.announcement_newspaper) }}
-                    </div>
-                    <div class="col col-adherent-announcement_date_newspaper">
-                        {{ form_label(formAdherent.announcement_date_newspaper) }}
-                        {{ form_widget(formAdherent.announcement_date_newspaper) }}
-                    </div>
-                </div>
-            </div>
-            <div class="tab-contract no-tab tab">
-                <div class="row-contract-first">
-                <div class="row-contract-first">
-                    <div class="col col-adherent-contract_date">
-                        {{ form_label(formAdherent.contract_date) }}
-                        {{ form_widget(formAdherent.contract_date) }}
-                    </div>
-                    <div class="col col-adherent-contract_startedAt">
-                        {{ form_label(formAdherent.contract_startedAt) }}
-                        {{ form_widget(formAdherent.contract_startedAt) }}
-                    </div>
-                    <div class="col col-adherent-contract_endingAt">
-                        {{ form_label(formAdherent.contract_endingAt) }}
-                        {{ form_widget(formAdherent.contract_endingAt) }}
-                    </div>
-                    {% if trueAgence == true %}
-                        <div class="row-contract-second">
-                            <div class="col col-adherent-contract_amount">
-                                {{ form_label(formAdherent.contract_amount) }}
-                                {{ form_widget(formAdherent.contract_amount) }}
-                            </div>
-                            <div class="col col-adherent-type_payment">
-                                {{ form_label(formAdherent.type_payment) }}
-                                {{ form_widget(formAdherent.type_payment) }}
-                            </div>
+                    <div class="col col-adherent-status-contract">
+                        <label for="">État du contrat</label>
+                        <div class="status-contract">
+                        {% if adherentProfile.contractStartedAt < date('now') and adherentProfile.contractEndingAt > date('now') %}
+                            En Cours
+                        {% else %}
+                            Fini
+                        {% endif %}
                         </div>
-                    {% else %}
-                        <p>Vous n'avez accès à cette donnée.</p>
-                    {% endif %}
+                    </div>
+                    <div class="col col-adherent-agence">
+                        {{ form_label(formAdherent.agence) }}
+                        {{ form_widget(formAdherent.agence) }}
+                    </div>
+                </div>
+                <div class="row-third">
+                    <div class="col col-adherent-birthdate">
+                        {{ form_label(formAdherent.birthdate) }}
+                        {{ form_widget(formAdherent.birthdate) }}
+                    </div>
+                    <div class="col col-adherent-age">
+                        <label for="">Age</label>
+                        <div class="age">{{ adherentProfile.getAge() }}</div>
+                    </div>
+                    <div class="col col-adherent-last-meet">
+                        <label for="">Dernière Rencontre</label>
+                        {% if meets is not empty %}
+                            {% set lastmeet = meets|last %}
+                            <div class="last-meet">{{ lastmeet.startedAt|date('d/m/Y') }}</div>
+                        {% else %}
+                            <div class="last-meet">"Aucune rencontre"</div>
+                        {% endif %}
+                    </div>
+                    <div class="col col-adherent-status-meet">
+                        {{ form_label(formAdherent.status_meet) }}
+                        {{ form_widget(formAdherent.status_meet) }}
+                    </div>
+                </div>
+            </div>
+            <div class='container-comments'>
+                <div class="col col-adherent-comments1">
+                    {{ form_label(formAdherent.comments1) }}
+                    {{ form_widget(formAdherent.comments1) }}
+                </div>
+                <div class="col col-adherent-comments2">
+                    {# {{ form_label(formAdherent.comments2) }} #}
+                    {{ form_widget(formAdherent.comments2) }}
+                </div>
+                <div class="col col-adherent-comments3">
+                    {# {{ form_label(formAdherent.comments3) }} #}
+                    {{ form_widget(formAdherent.comments3) }}
+                </div>
+            </div>
+        </section>
+        <section class='body-adherent'>
+            {# <div class='container-comments'>
+                <div class="col col-adherent-comments1">
+                    {{ form_label(formAdherent.comments1) }}
+                    {{ form_widget(formAdherent.comments1) }}
+                </div>
+                <div class="col col-adherent-comments2">
+                    {{ form_label(formAdherent.comments2) }}
+                    {{ form_widget(formAdherent.comments2) }}
+                </div>
+                <div class="col col-adherent-comments3">
+                    {{ form_label(formAdherent.comments3) }}
+                    {{ form_widget(formAdherent.comments3) }}
+                </div>
+            </div> #}
+            <div class="container-general">
+                <div class="onglets">
+                    <button class='open-tab' data-tab='tab-general' type='button'>Général</button>
+                    <button class='open-tab' data-tab='tab-research' type='button'>Recherche</button>
+                    <button class='open-tab' data-tab='tab-announcement' type='button'>Annonces</button>
+                    <button class='open-tab' data-tab='tab-contract' type='button'>Contrat</button>
+                    <button class='open-tab' data-tab='tab-documents' type='button'>Documents</button>
+                    <button class='open-tab' data-tab='tab-meet' type='button'>Rencontres</button>
+                </div>
+                <div class="tab-general tab">
+                    <div class="row-general-first">
+                        <div class="col col-adherent-zodiaque">
+                            {{ form_label(formAdherent.zodiaque) }}
+                            {{ form_widget(formAdherent.zodiaque) }}
+                        </div>
+                        <div class="col col-adherent-address_street">
+                            {{ form_label(formAdherent.address_street) }}
+                            {{ form_widget(formAdherent.address_street) }}
+                        </div>
+                        <div class="col col-adherent-address_street2">
+                            {{ form_label(formAdherent.address_street2) }}
+                            {{ form_widget(formAdherent.address_street2) }}
+                        </div>
+                        <div class="col col-adherent-address_zip_postal">
+                            {{ form_label(formAdherent.address_zip_postal) }}
+                            {{ form_widget(formAdherent.address_zip_postal) }}
+                        </div>
+                        <div class="col col-adherent-address_town">
+                            {{ form_label(formAdherent.address_town) }}
+                            {{ form_widget(formAdherent.address_town) }}
+                        </div>
+                        <div class="col col-adherent-phone_mobile">
+                            {{ form_label(formAdherent.phone_mobile) }}
+                            {{ form_widget(formAdherent.phone_mobile) }}
+                        </div>
+                        <div class="col col-adherent-phone_home">
+                            {{ form_label(formAdherent.phone_home) }}
+                            {{ form_widget(formAdherent.phone_home) }}
+                        </div>
+                        <div class="col col-adherent-phone_work">
+                            {{ form_label(formAdherent.phone_work) }}
+                            {{ form_widget(formAdherent.phone_work) }}
+                        </div>
+                        <div class="col col-adherent-phone_comments">
+                            {{ form_label(formAdherent.phone_comments) }}
+                            {{ form_widget(formAdherent.phone_comments) }}
+                        </div>
+                        <div class="col col-adherent-email">
+                            {{ form_label(formAdherent.email) }}
+                            {{ form_widget(formAdherent.email) }}
+                        </div>
+                        <div class="col col-adherent-instruction">
+                            {{ form_label(formAdherent.instruction) }}
+                            {{ form_widget(formAdherent.instruction) }}
+                        </div>
+                        <div class="col col-adherent-profession">
+                            {{ form_label(formAdherent.profession) }}
+                            {{ form_widget(formAdherent.profession) }}
+                        </div>
+                        <div class="col col-adherent-size">
+                            {{ form_label(formAdherent.size) }}
+                            {{ form_widget(formAdherent.size) }}
+                        </div>
+                        <div class="col col-adherent-weight">
+                            {{ form_label(formAdherent.weight) }}
+                            {{ form_widget(formAdherent.weight) }}
+                        </div>
+                        <div class="col col-adherent-eyes">
+                            {{ form_label(formAdherent.eyes) }}
+                            {{ form_widget(formAdherent.eyes) }}
+                        </div>
+                        <div class="col col-adherent-hair">
+                            {{ form_label(formAdherent.hair) }}
+                            {{ form_widget(formAdherent.hair) }}
+                        </div>
+                        <div class="col col-adherent-child_girl">
+                            {{ form_label(formAdherent.child_girl) }}
+                            {{ form_widget(formAdherent.child_girl) }}
+                        </div>
+                        <div class="col col-adherent-child_boy">
+                            {{ form_label(formAdherent.child_boy) }}
+                            {{ form_widget(formAdherent.child_boy) }}
+                        </div>
+                        <div class="col col-adherent-child_dependent_girl">
+                            {{ form_label(formAdherent.child_dependent_girl) }}
+                            {{ form_widget(formAdherent.child_dependent_girl) }}
+                        </div>
+                        <div class="col col-adherent-child_dependent_boy">
+                            {{ form_label(formAdherent.child_dependent_boy) }}
+                            {{ form_widget(formAdherent.child_dependent_boy) }}
+                        </div>
+                    </div>
+                    <div class="row-general-second">
+                        <div class="col col-adherent-status_matrimoniale">
+                            {{ form_label(formAdherent.status_matrimoniale) }}
+                            {{ form_widget(formAdherent.status_matrimoniale) }}
+                        </div>
+                        <div class="col col-adherent-permis">
+                            {{ form_label(formAdherent.permis) }}
+                            {{ form_widget(formAdherent.permis) }}
+                        </div>
+                        <div class="col col-adherent-car">
+                            {{ form_label(formAdherent.car) }}
+                            {{ form_widget(formAdherent.car) }}
+                        </div>
+                        <div class="col col-adherent-lodging">
+                            {{ form_label(formAdherent.lodging) }}
+                            {{ form_widget(formAdherent.lodging) }}
+                        </div>
+                        <div class="col col-adherent-owner">
+                            {{ form_label(formAdherent.owner) }}
+                            {{ form_widget(formAdherent.owner) }}
+                        </div>
+                        <div class="col col-adherent-announcement_publish">
+                            {{ form_label(formAdherent.announcement_publish) }}
+                            {{ form_widget(formAdherent.announcement_publish) }}
+                        </div>
+                        <div class="col col-adherent-smoking">
+                            {{ form_label(formAdherent.smoking) }}
+                            {{ form_widget(formAdherent.smoking) }}
+                        </div>
+                        <div class="col col-adherent-preference_contact">
+                            {{ form_label(formAdherent.preference_contact) }}
+                            {{ form_widget(formAdherent.preference_contact) }}
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-research no-tab tab">
+                    <div class="row-search-first">
+                        <div class="col col-adherent-search_age_min">
+                            {{ form_label(formAdherent.search_age_min) }}
+                            {{ form_widget(formAdherent.search_age_min) }}
+                        </div>
+                        <div class="col col-adherent-search_age_max">
+                            {{ form_label(formAdherent.search_age_max) }}
+                            {{ form_widget(formAdherent.search_age_max) }}
+                        </div>
+                    </div>
+                    <div class="row-search-second">
+                        <div class="col col-adherent-search_single">
+                            {{ form_label(formAdherent.search_single) }}
+                            {{ form_widget(formAdherent.search_single) }}
+                        </div>
+                        <div class="col col-adherent-search_divorced">
+                            {{ form_label(formAdherent.search_divorced) }}
+                            {{ form_widget(formAdherent.search_divorced) }}
+                        </div>
+                        <div class="col col-adherent-search_windower">
+                            {{ form_label(formAdherent.search_windower) }}
+                            {{ form_widget(formAdherent.search_windower) }}
+                        </div>
+                    </div>
+                    <div class="row-search-third">
+                        <div class="col col-adherent-search_instruction">
+                            {{ form_label(formAdherent.search_instruction) }}
+                            {{ form_widget(formAdherent.search_instruction) }}
+                        </div>
+                        <div class="col col-adherent-search_profession">
+                            {{ form_label(formAdherent.search_profession) }}
+                            {{ form_widget(formAdherent.search_profession) }}
+                        </div>
+                        <div class="col col-adherent-search_region">
+                            {{ form_label(formAdherent.search_region) }}
+                            {{ form_widget(formAdherent.search_region) }}
+                        </div>
+                        <div class="col col-adherent-search_more">
+                            {{ form_label(formAdherent.search_more) }}
+                            {{ form_widget(formAdherent.search_more) }}
+                        </div>
+                        <div class="col col-adherent-search_accept_children">
+                            {{ form_label(formAdherent.search_accept_children) }}
+                            {{ form_widget(formAdherent.search_accept_children) }}
+                        </div>
+                        <div class="col col-adherent-search_number_accept_children">
+                            {{ form_label(formAdherent.search_number_accept_children) }}
+                            {{ form_widget(formAdherent.search_number_accept_children) }}
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-announcement no-tab tab">
+                    <div class="row-announcement-first">
+                        <div class="col col-adherent-announcement_presentation">
+                            {{ form_label(formAdherent.announcement_presentation) }}
+                            {{ form_widget(formAdherent.announcement_presentation) }}
+                        </div>
+                        <div class="col col-adherent-announcement_free">
+                            {{ form_label(formAdherent.announcement_free) }}
+                            {{ form_widget(formAdherent.announcement_free) }}
+                        </div>
+                        <div class="col col-adherent-announcement_date_free">
+                            {{ form_label(formAdherent.announcement_date_free) }}
+                            {{ form_widget(formAdherent.announcement_date_free) }}
+                        </div>
+                        <div class="col col-adherent-announcement_newspaper">
+                            {{ form_label(formAdherent.announcement_newspaper) }}
+                            {{ form_widget(formAdherent.announcement_newspaper) }}
+                        </div>
+                        <div class="col col-adherent-announcement_date_newspaper">
+                            {{ form_label(formAdherent.announcement_date_newspaper) }}
+                            {{ form_widget(formAdherent.announcement_date_newspaper) }}
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-contract no-tab tab">
+                    <div class="row-contract-first">
+                    <div class="row-contract-first">
+                        <div class="col col-adherent-contract_date">
+                            {{ form_label(formAdherent.contract_date) }}
+                            {{ form_widget(formAdherent.contract_date) }}
+                        </div>
+                        <div class="col col-adherent-contract_startedAt">
+                            {{ form_label(formAdherent.contract_startedAt) }}
+                            {{ form_widget(formAdherent.contract_startedAt) }}
+                        </div>
+                        <div class="col col-adherent-contract_endingAt">
+                            {{ form_label(formAdherent.contract_endingAt) }}
+                            {{ form_widget(formAdherent.contract_endingAt) }}
+                        </div>
+                        {% if trueAgence == true %}
+                            <div class="row-contract-second">
+                                <div class="col col-adherent-contract_amount">
+                                    {{ form_label(formAdherent.contract_amount) }}
+                                    {{ form_widget(formAdherent.contract_amount) }}
+                                </div>
+                                <div class="col col-adherent-type_payment">
+                                    {{ form_label(formAdherent.type_payment) }}
+                                    {{ form_widget(formAdherent.type_payment) }}
+                                </div>
+                            </div>
+                        {% else %}
+                            <p>Vous n'avez accès à cette donnée.</p>
+                        {% endif %}
 
-                    <div class="row-contract-third">
-                        <div class="col col-adherent-contract_comments">
-                            {{ form_label(formAdherent.contract_comments) }}
-                            {{ form_widget(formAdherent.contract_comments) }}
+                        <div class="row-contract-third">
+                            <div class="col col-adherent-contract_comments">
+                                {{ form_label(formAdherent.contract_comments) }}
+                                {{ form_widget(formAdherent.contract_comments) }}
+                            </div>
                         </div>
+                    </div>
                     </div>
                 </div>
-                </div>
-            </div>
-            <div class="tab-documents no-tab tab">
-                <div class="row-documents-first">
-                    <div class="col col-adherent-link_information">
-                        {{ form_label(formAdherent.link_information) }}
-                        {{ form_widget(formAdherent.link_information) }}
-                        <div class="">
-                        {% if adherentProfile.linkInformation != '' %}
-                            <embed src='{{ asset('uploads/adherent/adherent'~ adherentProfile.id ~'/information/'~ adherentProfile.linkInformation) }}' width='10%' height='10%'/>
-                        {% endif %}
-                        </div>
-                    </div>
-                    <div class="col col-adherent-link_contract">
-                        {{ form_label(formAdherent.link_contract) }}
-                        {{ form_widget(formAdherent.link_contract) }}
-                        <div class="">
-                        {% if adherentProfile.linkContract != '' %}
-                            <embed src='{{ asset('uploads/adherent/adherent'~ adherentProfile.id ~'/contract/'~ adherentProfile.linkContract) }}' width='10%' height='10%'/>
-                        {% endif %}
-                        </div>
-                    </div>
-                    <div class="col col-adherent-link_picture">
-                        {{ form_label(formAdherent.link_picture) }}
-                        {{ form_widget(formAdherent.link_picture) }}
-                        <div class="">
-                        {% if adherentProfile.linkPicture != '' %}
-                            <embed src='{{ asset('uploads/adherent/adherent'~ adherentProfile.id ~'/picture/'~ adherentProfile.linkPicture) }}' width='10%' height='10%'/>
-                        {% endif %}
-                        </div>
-                    </div>
-                    <div class="col col-adherent-link_picture_announcement">
-                        {{ form_label(formAdherent.link_picture_announcement) }}
-                        {{ form_widget(formAdherent.link_picture_announcement) }}
-                        <div class="">
-                        {% if adherentProfile.linkPictureAnnouncement != '' %}
-                            <embed src='{{ asset('uploads/adherent/adherent'~ adherentProfile.id ~'/announcement/'~ adherentProfile.linkPictureAnnouncement) }}' width='10%' height='10%'/>
-                        {% endif %}
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="tab-meet no-tab tab">
-                <div class="row-meets-first">
-                    <div class="">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <td>Référence</td>
-                                    <td>Date de retour</td>
-                                    <td>Nom</td>
-                                    <td>Prénom</td>
-                                    <td>Agence</td>
-                                    <td>Date de rencontre</td>
-                                    <td>Action</td>
-                                    <td>Supprimer</td>
-                                </tr>
-                            </thead>
-                            <tbody class="adherent-single-meet">
-                            {% if meets is empty %}
-                                <tr>
-                                    <td colspan="8">"Cette personne n'a pas de rencontre pour le moment"</td>
-                                </tr>
-                            {% else %}
-                                {% for meet in meets %}
-                                    <tr>
-                                        <td>{{ meet.id }}</td>
-                                        {% if adherentProfile.genre == 'Féminin' %}
-                                            {% if meet.returnAtWoman == '' %}
-                                                <td>En attente</td>
-                                            {% else %}
-                                                <td>{{ meet.returnAtWoman|date('d/m/Y') }}</td>
-                                            {% endif %}
-                                            <td>{{ meet.adherentMan.lastname }}</td>
-                                            <td>{{ meet.adherentMan.firstname }}</td>
-                                            <td>{{ meet.adherentMan.agence.name }} - {{ meet.adherentMan.agence.addressTown }}</td>
-                                        {% else %}
-                                            {% if meet.returnAtMan == '' %}
-                                                <td>En attente</td>
-                                            {% else %}
-                                                <td>{{ meet.returnAtMan|date('d/m/Y') }}</td>
-                                            {% endif %}
-                                            <td>{{ meet.adherentWoman.lastname }}</td>
-                                            <td>{{ meet.adherentWoman.firstname }}</td>
-                                            <td>{{ meet.adherentMan.agence.name }} - {{ meet.adherentWoman.agence.addressTown }}</td>
-                                        {% endif %}
-                                        <td>{{ meet.startedAt|date('d/m/Y') }}</td>
-                                        <td><a href="#" class="meet-more" data-id="{{ meet.id }}">Voir plus</a></td>
-                                        <td><a href="#" class="meet-delete" data-id="{{ meet.id }}">Supprimer</a></td>
-                                    </tr>
-                                {% endfor %}
+                <div class="tab-documents no-tab tab">
+                    <div class="row-documents-first">
+                        <div class="col col-adherent-link_information">
+                            {{ form_label(formAdherent.link_information) }}
+                            {{ form_widget(formAdherent.link_information) }}
+                            <div class="">
+                            {% if adherentProfile.linkInformation != '' %}
+                                <embed src='{{ asset('uploads/adherent/adherent'~ adherentProfile.id ~'/information/'~ adherentProfile.linkInformation) }}' width='10%' height='10%'/>
                             {% endif %}
-                            </tbody>
-                        </table>
+                            </div>
+                        </div>
+                        <div class="col col-adherent-link_contract">
+                            {{ form_label(formAdherent.link_contract) }}
+                            {{ form_widget(formAdherent.link_contract) }}
+                            <div class="">
+                            {% if adherentProfile.linkContract != '' %}
+                                <embed src='{{ asset('uploads/adherent/adherent'~ adherentProfile.id ~'/contract/'~ adherentProfile.linkContract) }}' width='10%' height='10%'/>
+                            {% endif %}
+                            </div>
+                        </div>
+                        <div class="col col-adherent-link_picture">
+                            {{ form_label(formAdherent.link_picture) }}
+                            {{ form_widget(formAdherent.link_picture) }}
+                            <div class="">
+                            {% if adherentProfile.linkPicture != '' %}
+                                <embed src='{{ asset('uploads/adherent/adherent'~ adherentProfile.id ~'/picture/'~ adherentProfile.linkPicture) }}' width='10%' height='10%'/>
+                            {% endif %}
+                            </div>
+                        </div>
+                        <div class="col col-adherent-link_picture_announcement">
+                            {{ form_label(formAdherent.link_picture_announcement) }}
+                            {{ form_widget(formAdherent.link_picture_announcement) }}
+                            <div class="">
+                            {% if adherentProfile.linkPictureAnnouncement != '' %}
+                                <embed src='{{ asset('uploads/adherent/adherent'~ adherentProfile.id ~'/announcement/'~ adherentProfile.linkPictureAnnouncement) }}' width='10%' height='10%'/>
+                            {% endif %}
+                            </div>
+                        </div>
                     </div>
-                    <a href="{{ path('adherent_profile_meet_all', {id: adherentProfile.id}) }}">Voir toutes les rencontres</a>
-                    <a href="{{ path('adherent_testimony', {id: adherentProfile.id}) }}">Demande de témoignage</a>
                 </div>
+                <div class="tab-meet no-tab tab">
+                    <div class="row-meets-first">
+                        <div class="">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <td>Référence</td>
+                                        <td>Date de retour</td>
+                                        <td>Nom</td>
+                                        <td>Prénom</td>
+                                        <td>Agence</td>
+                                        <td>Date de rencontre</td>
+                                        <td>Action</td>
+                                        <td>Supprimer</td>
+                                    </tr>
+                                </thead>
+                                <tbody class="adherent-single-meet">
+                                {% if meets is empty %}
+                                    <tr>
+                                        <td colspan="8">"Cette personne n'a pas de rencontre pour le moment"</td>
+                                    </tr>
+                                {% else %}
+                                    {% for meet in meets %}
+                                        <tr>
+                                            <td>{{ meet.id }}</td>
+                                            {% if adherentProfile.genre == 'Féminin' %}
+                                                {% if meet.returnAtWoman == '' %}
+                                                    <td>En attente</td>
+                                                {% else %}
+                                                    <td>{{ meet.returnAtWoman|date('d/m/Y') }}</td>
+                                                {% endif %}
+                                                <td>{{ meet.adherentMan.lastname }}</td>
+                                                <td>{{ meet.adherentMan.firstname }}</td>
+                                                <td>{{ meet.adherentMan.agence.name }} - {{ meet.adherentMan.agence.addressTown }}</td>
+                                            {% else %}
+                                                {% if meet.returnAtMan == '' %}
+                                                    <td>En attente</td>
+                                                {% else %}
+                                                    <td>{{ meet.returnAtMan|date('d/m/Y') }}</td>
+                                                {% endif %}
+                                                <td>{{ meet.adherentWoman.lastname }}</td>
+                                                <td>{{ meet.adherentWoman.firstname }}</td>
+                                                <td>{{ meet.adherentMan.agence.name }} - {{ meet.adherentWoman.agence.addressTown }}</td>
+                                            {% endif %}
+                                            <td>{{ meet.startedAt|date('d/m/Y') }}</td>
+                                            <td><a href="#" class="meet-more" data-id="{{ meet.id }}">Voir plus</a></td>
+                                            <td><a href="#" class="meet-delete" data-id="{{ meet.id }}">Supprimer</a></td>
+                                        </tr>
+                                    {% endfor %}
+                                {% endif %}
+                                </tbody>
+                            </table>
+                        </div>
+                        <a href="{{ path('adherent_profile_meet_all', {id: adherentProfile.id}) }}">Voir toutes les rencontres</a>
+                        <a href="{{ path('adherent_testimony', {id: adherentProfile.id}) }}">Demande de témoignage</a>
+                    </div>
+                </div>
+                {% if trueAgence == true %}
+                    {{ form_row(formAdherent.submit) }}
+                {% endif %}
             </div>
-            {% if trueAgence == true %}
-                {{ form_row(formAdherent.submit) }}
-            {% endif %}
-        </div>
-    </section>
-    {% if trueAgence == false %}
-        {{ form_end(formAdherent, {render_rest: false}) }}
-    {% else %}
-        {{ form_end(formAdherent) }}
-    {% endif %}
+        </section>
+        {% if trueAgence == false %}
+            {{ form_end(formAdherent, {render_rest: false}) }}
+        {% else %}
+            {{ form_end(formAdherent) }}
+        {% endif %}
+    </div>
 {% endblock %}
