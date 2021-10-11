@@ -3,7 +3,14 @@
 {% block body %}
 {% for message in app.flashes('succesModifyAdherent') %}
     <div class="alert alert-success">
-        {{ message }}
+        <script>
+            Swal.fire(
+                'Good job!',
+                'You clicked the button!',
+                'success'
+            )
+            {#alert('{{ message }}')#}
+        </script>
     </div>
 {% endfor %}
 <div id="selected-profile" class="container container-screen">

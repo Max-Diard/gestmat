@@ -97,6 +97,9 @@ class AdherentController extends AbstractController
                                 if($adherent->getStatusMeet()->getName() != 'En attente'){
                                     $dispo = $this->entityManager->getRepository(AdherentOption::class)->findBy(['type' => 'status_meet', 'name' => 'Disponible']);
                                     $adherent->setStatusMeet($dispo[0]);
+
+                                    $this->entityManager->persist($adherent);
+                                    $this->entityManager->flush();
                                 }
                             }
                             if(!empty($haveMeet)){

@@ -109,7 +109,8 @@ class AdherentType extends AbstractType
             ->add('announcement_date_free', DateType::class, [
                 'label' => 'Date d\'annonce gratuite',
                 'required' => false,
-                'format' => 'dd-MM-yyyy'
+                'format' => 'dd-MM-yyyy',
+                'years'=> range(date('Y') -10 , date('Y') + 50)
             ])
             ->add('announcement_newspaper', TextareaType::class, [
                 'label' => 'Annonce Présentation Journal',
@@ -118,7 +119,8 @@ class AdherentType extends AbstractType
             ->add('announcement_date_newspaper', DateType::class, [
                 'label' => 'Date d\'annonce journal',
                 'required' => false,
-                'format' => 'dd-MM-yyyy'
+                'format' => 'dd-MM-yyyy',
+                'years'=> range(date('Y') - 10, date('Y') + 50),
             ])
             ->add('owner', EntityType::class, [
                 'class' => AdherentOption::class,
