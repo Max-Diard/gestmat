@@ -1,39 +1,46 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-<img class="img-agence" src='{{ asset('uploads/agence/agence'~ agence.id ~'/picture/'~ agence.linkPicture) }}' alt="Image de l'agence" />
+<div id="single-agence" class="container container-screen">
 
-<p>Nom : {{ agence.name }}</p>
-<p>Email : {{ agence.email }}</p>
-<p>Téléphone : {{ agence.phoneNumber }}</p>
-<p>Date début de contract : {{ agence.startedAt|date('d/m/Y') }}</p>
-<p>Date fin de contract : {{ agence.endingAt|date('d/m/Y') }}</p>
-<p>Adresse : {{ agence.addressStreet }}
-{% if agence.addressStreet2 != '' %}
-    - {{ agence.addressStreet2 }} <br/>
-{% else %}
-    <br/>
-{% endif %}
-{{ agence.addressZipPostal }} - {{ agence.addressTown }} </p>
+    <h1 class="title-adherents">{{ agence.name }}</h1>
 
-{% if agence.droitAgence|length > 0 %}
-    <p>J'ai donné les droits à ces agences :
-    {% for droit in agence.droitAgence %}
-        {{droit.name}} 
-    {% endfor %}
-    </p>
-{% endif %}
+    <img class="img-agence" src='{{ asset('uploads/agence/agence'~ agence.id ~'/picture/'~ agence.linkPicture) }}' alt="Image de l'agence" />
 
-{{form(form)}}
-
-{% if agenceGiveDroit|length > 0 %}
-    <p>Ces agences m'ont donné les droits :
-    {% for agence in agenceGiveDroit %}
-        {{agence.name}}
-    {% endfor %}
-    </p>
-{% endif %}
-
-<a href="{{ path('admin_agence_modify', {id: agence.id}) }}">Modifier l'agence</a>
-
+    <div class="content">
+        <p>Nom : <span>{{ agence.name }}</span></p>
+        <p>Email : <span>{{ agence.email }}</span></p>
+        <p>Téléphone : <span>{{ agence.phoneNumber }}</span></p>
+        <p>Date début de contract : <span>{{ agence.startedAt|date('d/m/Y') }}</span></p>
+        <p>Date fin de contract : <span>{{ agence.endingAt|date('d/m/Y') }}</span></p>
+        <p>Adresse : <span>{{ agence.addressStreet }}
+        {% if agence.addressStreet2 != '' %}
+            - {{ agence.addressStreet2 }} <br/>
+        {% else %}
+        {% endif %}
+        - {{ agence.addressZipPostal }} - {{ agence.addressTown }}</span></p>
+            <br>
+        {% if agence.droitAgence|length > 0 %}
+            <p>J'ai donné les droits à ces agences :
+            {% for droit in agence.droitAgence %}
+            <span>{{droit.name}}</span>
+            {% endfor %}
+            </p>
+        {% endif %}
+        <br>
+        <div class="form-droits">
+            {{form(form)}}
+        </div>
+            <br>
+        {% if agenceGiveDroit|length > 0 %}
+            <p>Ces agences m'ont donné les droits :
+            {% for agence in agenceGiveDroit %}
+            <span>{{agence.name}}</span>
+            {% endfor %}
+            </p>
+        {% endif %}
+    
+    </div>
+    <a class="btn btn-little" href="{{ path('admin_agence_modify', {id: agence.id}) }}">Modifier l'agence</a>
+</div>
 {% endblock %}

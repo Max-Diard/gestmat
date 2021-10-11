@@ -22,12 +22,12 @@ class OptionsType extends AbstractType
                 'label' => 'Nom de la donnée'
             ])
             ->add('type', ChoiceType::class, [
-                'label' => 'Le type de donnée',
+                'label' => 'Le type de données',
                 'choices' => [
-                    'Status Matrimoniale' => 'status_matrimoniale',
-                    'Status de rencontre' => 'status_meet',
+                    'Statut matrimonial' => 'status_matrimoniale',
+                    'Statut de rencontre' => 'status_meet',
                     'Type de logement' => 'lodging',
-                    'Type de propriétaire' => 'owner',
+                    'Statut d\'occupation du logement' => 'owner',
                     'Type de fumeur' => 'smoking',
                     'Type de cheveux' => 'hair',
                     'Type d\'yeux' => 'eyes',
