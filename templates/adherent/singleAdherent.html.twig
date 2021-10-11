@@ -499,7 +499,10 @@
                 </div>
                 <div class="tab-meet no-tab tab">
                     <div class="row-meets-first">
-                        <div class="">
+                        <div class="">   
+                            {% if meets is empty %}
+                                <p class="nomeet">Cette personne n'a pas de rencontre pour le moment.</p>
+                            {% else %}
                             <table>
                                 <thead>
                                     <tr>
@@ -514,11 +517,6 @@
                                     </tr>
                                 </thead>
                                 <tbody class="adherent-single-meet">
-                                {% if meets is empty %}
-                                    <tr>
-                                        <td colspan="8">"Cette personne n'a pas de rencontre pour le moment"</td>
-                                    </tr>
-                                {% else %}
                                     {% for meet in meets %}
                                         <tr>
                                             <td>{{ meet.id }}</td>
