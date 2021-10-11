@@ -6,9 +6,15 @@
         margin-bottom: 10rem;
     }
     > div{
+        display: flex;
+        align-items: center;
+        flex-direction: column;
         p{
             margin-top: 1rem;
             font-size: 1.6rem;
+            span{
+                font-weight: bold;
+            }
         }
         .d-flex{
             margin-top: 10rem;
@@ -16,5 +22,10 @@
                 margin-left: 2rem;
             }
         }
+        > div:first-child{
+            max-width: 30rem;
+        }
     }
 }
+
+

@@ -1,31 +1,33 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-
-<table class="table-agence">
-    <thead>
-        <tr>
-            <td>Nom</td>
-            <td>Email</td>
-            <td>Téléphone</td>
-            <td>Début du contract</td>
-            <td>Fin de contract</td>
-            <td>Action</td>
-            <td>Supprimer</td>
-        </tr>
-    </thead>
-    <tbody>
-        {% for agence in allAgence %}
-            <tr class=''>
-                <td>{{ agence.name }}</td>
-                <td>{{ agence.email }}</td>
-                <td>{{ agence.phoneNumber }}</td>
-                <td>{{ agence.startedAt|date('d/m/Y') }}</td>
-                <td>{{ agence.endingAt|date('d/m/Y') }}</td>
-                <td><a href="{{ path('admin_agence_single', { id: agence.id }) }}">Voir plus</a></td>
-                <td><a href="{{ path('admin_agence_ask_remove', { id: agence.id }) }}">Supprimer l'agence</a></td>
+<div id="list-users" class="container container-screen">
+    <h1 class="title-adherents">Toutes les agences</h1>
+    <table class="table-agence">
+        <thead>
+            <tr>
+                <td>Nom</td>
+                <td>Email</td>
+                <td>Téléphone</td>
+                <td>Début du contract</td>
+                <td>Fin de contract</td>
+                <td>Action</td>
+                <td>Supprimer</td>
             </tr>
-        {% endfor %}
-    </tbody>
-
+        </thead>
+        <tbody>
+            {% for agence in allAgence %}
+                <tr class=''>
+                    <td>{{ agence.name }}</td>
+                    <td>{{ agence.email }}</td>
+                    <td>{{ agence.phoneNumber }}</td>
+                    <td>{{ agence.startedAt|date('d/m/Y') }}</td>
+                    <td>{{ agence.endingAt|date('d/m/Y') }}</td>
+                    <td><a href="{{ path('admin_agence_single', { id: agence.id }) }}">Voir plus</a></td>
+                    <td><a href="{{ path('admin_agence_ask_remove', { id: agence.id }) }}"> <img src="{{asset('build/images/delete.svg')}}" alt="Supprimer l'agence"></a></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
 {% endblock %}

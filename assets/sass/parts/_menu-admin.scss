@@ -29,3 +29,315 @@
         }
     }
 }
+
+// ÉCRAN "TOUS LES UTILISATEURS" + "TOUTES LES AGENCES"
+#list-users{
+    table.dataTable tbody tr,
+    table.dataTable tbody tr:hover,
+    table.dataTable tbody tr:focus{
+        background-color: $color__grey;
+        color: $color__purple_black;
+    }
+    table{
+        tbody{
+            > tr{
+                td{
+                    &:last-child{
+                        display: flex;
+                        justify-content: center;
+                        a{
+                            img{
+                                width: 1.4rem;
+                            }
+                            &:hover, &:focus{
+                                opacity: .7;
+                            }
+                            &::after{
+                                content: none;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+// ÉCRAN AGENCE
+#single-agence{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    h1{
+        margin-bottom: 10rem;
+    }
+    img{
+        width: 25rem;
+        object-fit: contain;
+    }
+    .content{
+        margin-bottom: 4rem;
+        p{
+            font-size: 1.6rem;
+            span{
+                font-weight: bold;
+            }
+        }
+        p+p{
+            margin-top: 1.5rem;
+        }
+        #delegation_agence{
+            display: flex;
+            align-items: flex-end;
+            > div + div{
+                margin-left: 2rem;
+            }
+            label{
+                margin-left: 0;
+            }
+            button{
+                cursor: pointer;
+                font-weight: bold;
+                font-size: 1.2rem;
+                text-transform: uppercase;
+                color: white;
+                background-color: $color__pink;
+                padding: 1rem 2rem .8rem 2rem;
+                align-self: center;
+                border: none;
+                border-radius: .5rem;
+                position: relative;
+                transition: all .2s ease-in-out;
+                right: 0rem;
+                bottom: 0rem;
+                &::before{
+                    content: "";
+                    display: block;
+                    position: absolute;
+                    width: 100%;
+                    height: 100%;
+                    right: -.3rem;
+                    bottom: -.3rem;
+                    border-radius: .5rem;
+                    background-color: $color__purple;
+                    z-index: -1;
+                    transition: all .2s ease-in-out;
+                }
+                &:hover, &:focus{
+                    right: -.3rem;
+                    bottom: -.3rem;
+                    &::before{
+                        right: 0rem;
+                        bottom: 0rem;
+                    }
+                }
+            }
+        }
+    }
+}
+
+// ÉCRAN "NOUVEL UTILISATEUR" + "NOUVELLE AGENCE"
+#new-user{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    h1{
+        margin-bottom: 10rem;
+    }
+    form{
+        font-size: 1.6rem;
+        label{
+            width: 19rem;
+            display: inline-block;
+            text-align: end;
+        }
+        input{
+            border: none;
+            padding: .5rem;
+            background-color: $color__grey;
+            color: $color__purple;
+            &:focus{
+                border: none;
+                outline: none;
+            }
+        }
+        #user{
+            div + div{
+                margin-top: 1rem;
+            }
+            div:nth-child(6){
+                text-align: center;
+                margin-top: 3rem;
+                button{
+                    cursor: pointer;
+                    font-weight: bold;
+                    font-size: 2rem;
+                    text-transform: uppercase;
+                    color: white;
+                    background-color: $color__pink;
+                    padding: 1.8rem 3rem 1.5rem 3rem;
+                    align-self: center;
+                    border: none;
+                    border-radius: .5rem;
+                    position: relative;
+                    transition: all .2s ease-in-out;
+                    right: 0rem;
+                    bottom: 0rem;
+                    &::before{
+                        content: "";
+                        display: block;
+                        position: absolute;
+                        width: 100%;
+                        height: 100%;
+                        right: -.5rem;
+                        bottom: -.5rem;
+                        border-radius: .5rem;
+                        background-color: $color__purple;
+                        z-index: -1;
+                        transition: all .2s ease-in-out;
+                    }
+                    &:hover, &:focus{
+                        right: -.5rem;
+                        bottom: -.5rem;
+                        &::before{
+                            right: 0rem;
+                            bottom: 0rem;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    #agence{
+        > div{
+            display: flex;
+            align-items: center;
+        }
+        div + div{
+            margin-top: 1rem;
+        }
+        select{
+            background-color: $color__grey;
+            padding: .5rem;
+            border: none;
+            color: $color__purple;
+        }
+        button{
+            margin: 0 auto;
+            margin-top: 4rem;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1.4rem;
+            text-transform: uppercase;
+            color: white;
+            background-color: $color__pink;
+            padding: 1.8rem 3rem 1.5rem 3rem;
+            align-self: center;
+            border: none;
+            border-radius: .5rem;
+            position: relative;
+            transition: all .2s ease-in-out;
+            right: 0rem;
+            bottom: 0rem;
+            &::before{
+                content: "";
+                display: block;
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                right: -.5rem;
+                bottom: -.5rem;
+                border-radius: .5rem;
+                background-color: $color__purple;
+                z-index: -1;
+                transition: all .2s ease-in-out;
+            }
+            &:hover, &:focus{
+                right: -.5rem;
+                bottom: -.5rem;
+                &::before{
+                    right: 0rem;
+                    bottom: 0rem;
+                }
+            }
+        }
+    }
+}
+
+// ÉCRAN "TOUTES LES OPTIONS"
+#all-options{
+    .options-form{
+        .options-form-row{
+            margin-top: 1.5rem;
+        }
+        input, select{
+            color: $color__purple;
+            font-weight: bold;
+            background-color: $color__grey;
+            border: none;
+            padding: .5rem;
+        }
+        button{
+            margin: 0 auto;
+            margin-top: 1rem;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            color: white;
+            background-color: $color__pink;
+            padding: 1rem 1.5rem .8rem 1.5rem;
+            align-self: center;
+            border: none;
+            border-radius: .3rem;
+            position: relative;
+            transition: all .2s ease-in-out;
+            right: 0rem;
+            bottom: 0rem;
+            &::before{
+                content: "";
+                display: block;
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                right: -.3rem;
+                bottom: -.3rem;
+                border-radius: .5rem;
+                background-color: $color__purple;
+                z-index: -1;
+                transition: all .2s ease-in-out;
+            }
+            &:hover, &:focus{
+                right: -.3rem;
+                bottom: -.3rem;
+                &::before{
+                    right: 0rem;
+                    bottom: 0rem;
+                }
+            }
+        }
+    }
+    .grid-options{
+        margin-top: 4rem;
+        grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
+        gap: 5rem;
+        p{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            a{
+                margin-left: 1rem;
+                img{
+                    width: 1.5rem;
+                }
+            }
+        }
+    }
+    h2{
+        margin-bottom: 2rem;
+    }
+    p+p{
+        margin-top: .7rem;
+    }
+}

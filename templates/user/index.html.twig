@@ -2,38 +2,42 @@
 
 {% block body %}
 <div id="my-profile" class="container container-screen">
-    <h1 class="">Vos informations :</h1>
+    <h1 class="">Mes informations</h1>
 
     <div>
-        <div class="">
+        <div>
             <div class="">
-                <p>Nom/Prénom : {{ userProfile.lastname }} {{ userProfile.firstname }}</p>
+                <div class="">
+                    <p>Nom/Prénom : <span>{{ userProfile.lastname }} {{ userProfile.firstname }}</span></p>
+                </div>
             </div>
-        </div>
-        <div class="">
+            <br>
             <div class="">
-                <p>Email : {{ userProfile.email }}</p>
+                <div class="">
+                    <p>Email : <span>{{ userProfile.email }}</span></p>
+                </div>
             </div>
-        </div>
-        <div class="">
+            <br>
             <div class="">
-                <p>Mes agences :</p>
-            </div>
-            <div class="">
-            {% if userProfile.agence|length > 0 %}
-                {% for agence in userProfile.agence %}
-                    <p>{{ agence.name }} - {{ agence.addressTown }}</p>
-                    <a class="link-sm" href="{{ path('agence_single', {id: agence.id}) }}">Voir plus</a>
-                    <a class="link-sm" href="{{ path('adherent_export') }}" download="download">Exporter mes données</a>
-                {% endfor %}
-            {% else %}
-                <p>Merci de patienter, l'administrateur vous attribuera une agence</p>
-            {% endif %}
+                <div class="">
+                    <p>Mes agences :</p>
+                </div>
+                <div class="">
+                {% if userProfile.agence|length > 0 %}
+                    {% for agence in userProfile.agence %}
+                        <p><span>{{ agence.name }} - {{ agence.addressTown }}</span></p>
+                        <a class="link-sm" href="{{ path('agence_single', {id: agence.id}) }}">Voir plus</a>
+                        <a class="link-sm" href="{{ path('adherent_export') }}" download="download">Exporter mes données</a>
+                    {% endfor %}
+                {% else %}
+                    <p>Merci de patienter, l'administrateur vous attribuera une agence</p>
+                {% endif %}
+                </div>
             </div>
         </div>
         <div class="d-flex justify-content-center m-5">
-            <a class="btn btn-secondary btn-little btn-sm mx-2" href="{{ path('user_profile') }}">Modifier le profil</a>
-            <a class="btn btn-secondary btn-little btn-sm mx-2" href="{{ path('user_password') }}">Modifier votre mot de passe</a>
+            <a class="btn btn-secondary btn-little btn-sm mx-2" href="{{ path('user_profile') }}">Modifier mon profil</a>
+            <a class="btn btn-secondary btn-little btn-sm mx-2" href="{{ path('user_password') }}">Modifier mon mot de passe</a>
         </div>
     </div>
 </div>
