@@ -15,6 +15,7 @@
 
     </head>
     <body>
+    {% if app.user %}
         <header>
             <div class="btn-menu">
                 <div class="btn-opened">
@@ -121,6 +122,7 @@
 
             </div>
         </header>
+    {% endif %}
         {% block body %}{% endblock %}
 
         {% block javascripts %}

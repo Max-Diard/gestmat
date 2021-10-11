@@ -193,11 +193,28 @@
                         }
                     }
                 }
-                > div:last-child{
-                    margin-top: 3rem;
-                    position: relative;
-                    z-index: 10;
-                    text-align: center;
+            }
+            + div{
+                margin-top: 3rem;
+                position: relative;
+                z-index: 10;
+                text-align: center;
+            }
+        }
+    }
+
+    &.add-adherent{
+        section{
+            &.header-adherent{
+                input{
+                    background-color: $color__grey;
+                }
+            }
+            &.body-adherent{
+                .container-general{
+                    .onglets{
+                        top: -3.9rem;
+                    }
                 }
             }
         }

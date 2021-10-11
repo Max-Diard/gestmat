@@ -556,11 +556,11 @@
                         </div>
                     </div>
                 </div>
-                {% if trueAgence == true %}
-                    {{ form_row(formAdherent.submit) }}
-                {% endif %}
             </div>
         </section>
+        {% if trueAgence == true %}
+            {{ form_row(formAdherent.submit) }}
+        {% endif %}
         {% if trueAgence == false %}
             {{ form_end(formAdherent, {render_rest: false}) }}
         {% else %}

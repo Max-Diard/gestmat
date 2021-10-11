@@ -1,23 +1,14 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-
-    <h1>Bienvenue Admin</h1>
-<div class="">
-    <a href="{{ path('admin_user_all') }}">Liste des utilisateurs</a>
+<div id="menu-admin" class="container container-screen">
+    <h1>Menu administrateur</h1>
+    <div class="menu-list">
+            <a href="{{ path('admin_user_all') }}">Liste des utilisateurs</a>
+            <a href="{{ path('admin_user_new') }}">Ajouter un utilisateur</a>
+            <a href="{{ path('admin_agence') }}">Voir les agences</a>
+            <a href="{{ path('admin_agence_add') }}">Ajouter une agence</a>
+            <a href="{{ path('admin_options') }}">Voir les options</a>
+    </div>
 </div>
-<div class="">
-    <a href="{{ path('admin_user_new') }}">Ajouter un utilisateur</a>
-</div>
-<div class="">
-    <a href="{{ path('admin_agence') }}">Voir les agences</a>
-</div>
-<div class="">
-    <a href="{{ path('admin_agence_add') }}">Ajouter une agence</a>
-</div>
-<div class="">
-    <a href="{{ path('admin_options') }}">Voir les options</a>
-</div>
-
-
 {% endblock %}

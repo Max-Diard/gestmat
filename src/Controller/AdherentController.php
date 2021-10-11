@@ -278,7 +278,7 @@ class AdherentController extends AbstractController
             $this->entityManager->persist($adherent);
             $this->entityManager->flush();
 
-            $this->addFlash('succesModifyAdherent', 'L\'adhérent à bien était modifier !');
+            $this->addFlash('succesModifyAdherent', 'L\'adhérent(e) a bien été modifié(e)');
 
             $this->redirectToRoute('adherent_single', ['id' => $adherent->getId()]);
         }
