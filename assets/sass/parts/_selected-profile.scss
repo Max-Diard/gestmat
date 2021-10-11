@@ -17,13 +17,17 @@
     form{
         max-width: 120rem;
         margin: 0 auto;
-        label, input{
+        label, input, select{
             font-size: 1.6rem;
             margin: 0;
             margin-right: .5rem;
         }
-        input{
+        select, input{
+            font-weight: bold;
             color: $color__purple;
+            border: none;
+            background-color: $color__grey;
+            padding-top: 0.3rem;
         }
     }
     section{
@@ -57,6 +61,17 @@
                     padding: .5rem;
                 }
             }
+            .col{
+                div:nth-child(2){
+                    font-size: 1.6rem;
+                    color: $color__purple_black;
+                    font-weight: bold;
+                }
+            }
+            select, input{
+                background-color: transparent;
+                padding-top: 0;
+            }
         }
 
         &.body-adherent{
@@ -69,7 +84,7 @@
                 position: relative;
                 .onglets{
                     position: absolute;
-                    top: -3.1rem;
+                    top: -3.8rem;
                     left: -.22rem;
                     button{
                         font-weight: bold;
@@ -78,7 +93,7 @@
                         color: white;
                         background-color: $color__purple;
                         border: none;
-                        padding: 0.6rem 1rem;
+                        padding: 1rem;
                         border: .2rem solid $color__purple;
                         border-bottom: none;
                         cursor: pointer;
@@ -87,6 +102,102 @@
                             color: $color__purple;
                         }
                     }
+                }
+                .tab{
+                    justify-content: space-between;
+                    label{
+                        display: inline-block;
+                        text-align: end;
+                    }
+                    .row-general-first{
+                        label{
+                            width: 13.5rem;
+                        }
+                    }
+                    .row-general-second{
+                        label{
+                            width: 12.3rem;
+                        }
+                    }
+                    .row-general-third{
+                        label{
+                            width: 23.6rem;
+                        }
+                    }
+                    textarea{
+                        background-color: $color__grey;
+                        border: none;
+                    }
+                    .row-meets-first, .row-meets-first table {
+                        width: 100%;
+                        border-collapse:separate; 
+                        border-spacing: 0 .5rem;
+                        tr{
+                            text-align: center;
+                        }
+                        thead{
+                            tr{
+                                td{
+                                    font-weight: bold;
+                                    text-transform: uppercase;
+                                }
+                            }
+                        }
+                        tbody{
+                            tr{
+                                td{
+                                    &:last-child{
+                                        display: flex;
+                                        justify-content: center;
+                                        a{
+                                            img{
+                                                width: 1.4rem;
+                                            }
+                                            &:hover, &:focus{
+                                                opacity: .7;
+                                            }
+                                            &::after{
+                                                content: none;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        a{
+                            color: $color__pink;
+                            position: relative;
+                            &::after{
+                                content: "";
+                                display: block;
+                                position: absolute;
+                                bottom: -.1rem;
+                                left: 0;
+                                width: 0%;
+                                height: .2rem;
+                                background-color: $color__pink;
+                                transition: all .2s ease-in-out;
+                            }
+                            &:hover, &:focus{
+                                &::after{
+                                    width: 100%;
+                                }
+                            }
+                        }
+                        .links-end{
+                            margin-top: 3rem;
+                            text-align: center;
+                            a + a{
+                                margin-left: 2rem;
+                            }
+                        }
+                    }
+                }
+                > div:last-child{
+                    margin-top: 3rem;
+                    position: relative;
+                    z-index: 10;
+                    text-align: center;
                 }
             }
         }

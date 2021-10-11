@@ -46,7 +46,7 @@
         {% endfor %}
     </div>
     <div class="all-status_meet">
-        <h2>Les types de status de rencontre :</h2>
+        <h2>Les types de statuts de rencontre :</h2>
         {% for option in options %}
             {% if option.type == 'status_meet' %}
                 <p>{{ option.name }} <a href="{{ path('admin_option_ask_remove', {id : option.id}) }}">Supprimer</a></p>
@@ -54,7 +54,7 @@
         {% endfor %}
     </div>
     <div class="all-status_matrimoniale">
-        <h2>Les types de status matrimoniale :</h2>
+        <h2>Les types de statuts matrimoniaux :</h2>
         {% for option in options %}
             {% if option.type == 'status_matrimoniale' %}
                 <p>{{ option.name }} <a href="{{ path('admin_option_ask_remove', {id : option.id}) }}">Supprimer</a></p>

@@ -7,7 +7,7 @@ App\Entity\AdherentOption:
     name: 'Veuf(ve)'
     type: 'status_matrimoniale'
   _adherentOption_2:
-    name: 'Séparée'
+    name: 'Séparé(e)'
     type: 'status_matrimoniale'
   _adherentOption_3:
     name: 'Marié(e)'

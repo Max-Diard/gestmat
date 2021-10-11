@@ -54,18 +54,18 @@ class AdherentType extends AbstractType
                 'required' => false
             ])
             ->add('phone_mobile', TelType::class, [
-                'label' => 'Numéro de téléphone portable'
+                'label' => 'N° tél. portable'
             ])
             ->add('phone_home', TelType::class, [
-                'label' => 'Numéro de téléphone fixe',
+                'label' => 'N° tél. fixe',
                 'required' => false
             ])
             ->add('phone_work', TelType::class, [
-                'label' => 'Numéro de téléphone travail',
+                'label' => 'N° tél. travail',
                 'required' => false
             ])
             ->add('phone_comments', TextType::class, [
-                'label' => 'Commentaire téléphone',
+                'label' => 'Commentaires tél.',
                 'required' => false
             ])
             ->add('profession', TextType::class, [
@@ -92,7 +92,7 @@ class AdherentType extends AbstractType
                 ]
             ])
             ->add('announcement_publish', ChoiceType::class, [
-                'label' => 'Annonce publié', 
+                'label' => 'Annonce publiée', 
                 'choices' => [
                     'Oui' => true,
                     'Non' => false
@@ -122,7 +122,7 @@ class AdherentType extends AbstractType
             ])
             ->add('owner', EntityType::class, [
                 'class' => AdherentOption::class,
-                'label' => 'Propriétaire',
+                'label' => "Statut d'occupation du logement",
                 'query_builder' => function (EntityRepository $repository) use($options){
                     return $repository->createQueryBuilder('s')
                         ->andWhere('s.type = :val')
@@ -133,22 +133,22 @@ class AdherentType extends AbstractType
                 'label' => 'Email'
             ])
             ->add('link_picture', FileType::class, [
-                'label' => 'Lien de photo de l\'adhérent',
+                'label' => 'Lien photo de l\'adhérent(e)',
                 'required' => false,
                 'data_class' => null
             ])
             ->add('link_contract', FileType::class, [
-                'label' => 'Lien du contrat de l\'adhérent',
+                'label' => 'Lien contrat de l\'adhérent(e)',
                 'required' => false,
                 'data_class' => null
             ])
             ->add('link_information', FileType::class, [
-                'label' => 'Lien information de l\'adhérent',
+                'label' => 'Lien information de l\'adhérent(e)',
                 'required' => false,
                 'data_class' => null
             ])
             ->add('link_picture_announcement', FileType::class, [
-                'label' => 'Lien photo annonce de l\'adhérent',
+                'label' => 'Lien photo annonce de l\'adhérent(e)',
                 'required' => false,
                 'data_class' => null
             ])
@@ -178,20 +178,20 @@ class AdherentType extends AbstractType
                 'label' => 'Garçon à charge'
             ])
             ->add('search_age_min', NumberType::class, [
-                'label' => 'Age Minimum'
+                'label' => 'Âge minimum'
             ])
             ->add('search_age_max', NumberType::class, [
-                'label' => 'Age Maximum'
+                'label' => 'Âge maximum'
             ])
             ->add('search_single', ChoiceType::class, [
-                'label' => 'Recherche Célibataire', 
+                'label' => 'Recherche célibataire', 
                 'choices' => [
                     'Oui' => true,
                     'Non' => false
                 ]
             ])
             ->add('search_divorced', ChoiceType::class, [
-                'label' => 'Recherche divorcée', 
+                'label' => 'Recherche divorcé(e)', 
                 'choices' => [
                     'Oui' => true,
                     'Non' => false
@@ -233,11 +233,11 @@ class AdherentType extends AbstractType
                 ]
             ])
             ->add('search_number_accept_children', NumberType::class, [
-                'label' => 'Nombre d\'enfant accepté'
+                'label' => 'Nombre d\'enfants acceptés'
             ])
             ->add('status_matrimoniale', EntityType::class, [
                 'class' => AdherentOption::class,
-                'label' => 'Status Matrimoniale',
+                'label' => 'Statut matrimonial',
                 'query_builder' => function (EntityRepository $repository){
                     return $repository->createQueryBuilder('s')
                         ->andWhere('s.type = :val')
@@ -291,7 +291,7 @@ class AdherentType extends AbstractType
             ])
             ->add('zodiaque', EntityType::class, [
                 'class' => AdherentOption::class,
-                'label' => 'Signe Astrologique',
+                'label' => 'Signe astrologique',
                 'query_builder' => function (EntityRepository $repository){
                     return $repository->createQueryBuilder('s')
                         ->andWhere('s.type = :val')
