@@ -236,3 +236,10 @@ input{
         outline: none !important;
     }
 }
+
+#all-meetings, #all-adherents{
+    table.dataTable tbody tr, table.dataTable tbody tr:hover, table.dataTable tbody tr:focus{
+        background-color: $color__grey;
+        color: $color__purple_black;
+    }
+}
