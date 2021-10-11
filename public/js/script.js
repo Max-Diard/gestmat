@@ -384,6 +384,7 @@ function informationMeetWoman(recup){
 
             //Test avec SweetAlert
             cellLinkDelete.href = '#'
+            cellLinkDelete.classList.add('suppr-meet')
             cellLinkDelete.innerHTML = '<img src="/build/images/delete.svg" alt="supprimer">'
             cellLinkDelete.addEventListener('click', function(){
                 Swal.fire({
@@ -487,6 +488,7 @@ function informationMeetMan(recup){
             const cellDelete = document.createElement('td')
             const cellLinkDelete = document.createElement('a')
             cellLinkDelete.href = '#'
+            cellLinkDelete.classList.add('suppr-meet')
             cellLinkDelete.innerHTML = '<img src="build/images/delete.svg" alt="Supprimer">'
 
             cellLinkDelete.addEventListener('click', function(){

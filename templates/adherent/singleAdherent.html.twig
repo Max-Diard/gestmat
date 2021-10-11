@@ -413,6 +413,7 @@
                     </div>
                 </div>
                 <div class="tab-contract no-tab tab">
+                {% if trueAgence == true %}
                     <div class="row-contract-first">
                     <div class="row-contract-first">
                         <div class="col col-adherent-contract_date">
@@ -430,7 +431,6 @@
                             {{ form_widget(formAdherent.contract_endingAt) }}
                         </div>
                         <br>
-                        {% if trueAgence == true %}
                             <div class="row-contract-second">
                                 <div class="col col-adherent-contract_amount">
                                     {{ form_label(formAdherent.contract_amount) }}
@@ -441,9 +441,6 @@
                                     {{ form_widget(formAdherent.type_payment) }}
                                 </div>
                             </div>
-                        {% else %}
-                            <p>Vous n'avez accès à cette donnée.</p>
-                        {% endif %}
                         <br>
                         <div class="row-contract-third">
                             <div class="col col-adherent-contract_comments">
@@ -453,6 +450,9 @@
                         </div>
                     </div>
                     </div>
+                {% else %}
+                    <p>Vous n'avez accès à cette donnée.</p>
+                {% endif %}
                 </div>
                 <div class="tab-documents no-tab tab">
                     <div class="row-documents-first">
