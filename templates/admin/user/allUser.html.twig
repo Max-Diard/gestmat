@@ -23,7 +23,7 @@
                     <td>
                         {% if user.agence|length > 0 %}
                             {% for agence in user.agence %}
-                                {{ agence.name }} |
+                                {{ agence.name }},
                             {% endfor %}
                         {% else %}
                             <strong>Pas d'agence</strong>

@@ -78,7 +78,7 @@ h1{
     }
 }
 
-.dataTables_filter{
+#adherents-list .dataTables_filter{
     border: 0;
     clip: rect(1px, 1px, 1px, 1px);
     clip-path: inset(50%);
@@ -181,7 +181,7 @@ table.dataTable.no-footer{
     border-bottom: none;
 }
 
-#DataTables_Table_0_wrapper {
+#all-meetings #DataTables_Table_0_wrapper, #all-adherents #table-adherents_wrapper {
     margin-top: 4rem;
 }
 

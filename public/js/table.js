@@ -160,13 +160,21 @@ $(document).ready( function () {
 //Tableau pour la recherche
     $('.table-search').DataTable({
         paging: false,
-        info: false
+        info: false,
+        searching: true,
+        "oLanguage": {
+            "sSearch": "Votre recherche"
+        }
     });
 
 //Tableau pour les rencontres
     $('.table-meet').DataTable({
         paging: false,
-        info: false
+        info: false,
+        searching: true,
+        "oLanguage": {
+            "sSearch": "Votre recherche"
+        }
     });
 
 //Tableau pour la liste des agences
