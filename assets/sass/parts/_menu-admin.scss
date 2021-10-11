@@ -162,6 +162,9 @@
             }
         }
         #user, #change_agence{
+            label{
+                width: 15.7rem;
+            }
             div + div{
                 margin-top: 1rem;
             }
@@ -345,4 +348,12 @@
 .img-agence{
     width: 25rem;
     object-fit: contain;
+    margin-bottom: 2rem;
+}
+
+#change_agence{
+    div:nth-child(6){
+        margin-top: 1rem !important;
+        text-align: initial !important;
+    }
 }

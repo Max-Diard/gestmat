@@ -83,19 +83,17 @@
             .woman-meeting, .man-meeting{
                 > tr{
                     td{
-                        &:last-child{
+                        a.suppr-meet{
                             display: flex;
                             justify-content: center;
-                            a{
-                                img{
-                                    width: 1.4rem;
-                                }
-                                &:hover, &:focus{
-                                    opacity: .7;
-                                }
-                                &::after{
-                                    content: none;
-                                }
+                            img{
+                                width: 1.4rem;
+                            }
+                            &:hover, &:focus{
+                                opacity: .7;
+                            }
+                            &::after{
+                                content: none;
                             }
                         }
                     }
