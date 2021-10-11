@@ -332,6 +332,9 @@ label{
 .search-input-meet {
     text-align: center;
     margin: 1rem;
+    input{
+        color: $color__purple;
+    }
 }
 
 /* Page de recherche */

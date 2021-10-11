@@ -161,11 +161,11 @@
                 outline: none;
             }
         }
-        #user{
+        #user, #change_agence{
             div + div{
                 margin-top: 1rem;
             }
-            div:nth-child(6){
+            div:nth-child(6), div:nth-child(9){
                 text-align: center;
                 margin-top: 3rem;
                 button{
@@ -340,4 +340,9 @@
     p+p{
         margin-top: .7rem;
     }
+}
+
+.img-agence{
+    width: 25rem;
+    object-fit: contain;
 }
