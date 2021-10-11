@@ -1,21 +1,19 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+
 {% for message in app.flashes('successAddOption') %}
-    <div class="alert alert-success">
-        {{ message }}
-    </div>
+    <div class="alert-add-option alert-success"></div>
 {% endfor %}
+
 {% for message in app.flashes('successRemoveOption') %}
-    <div class="alert alert-success">
-        {{ message }}
-    </div>
+    <div class="alert-remove-option alert-success"></div>
 {% endfor %}
+
 {% for message in app.flashes('errorRemoveOption') %}
-    <div class="alert alert-error">
-        {{ message }}
-    </div>
+    <div class="alert-error-remove-option alert-error"></div>
 {% endfor %}
+
     <div class="options-form">
         {{ form_start(form) }}
         <div class="options-form-row">

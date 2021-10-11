@@ -110,9 +110,10 @@ class AdherentController extends AbstractController
                                 foreach ($haveMeet as $m){
                                     $dates[] = ($m->getStartedAt());
                                 }
-
+                                $dateLastMeet = $dates[count($dates) -1]->format('Y-m-d');
                                 $today = date('Y-m-d');
-                                if ($dates[count($dates) -1] >= $today){
+
+                                if ($dateLastMeet >= $today){
                                     $inMeet = $this->entityManager->getRepository(AdherentOption::class)->findBy(['type' => 'status_meet', 'name' => 'En rencontre']);
                                     $adherent->setStatusMeet($inMeet[0]);
                                 } else {
@@ -371,7 +372,7 @@ class AdherentController extends AbstractController
                 'successNewAdherent',
                 'Félicitations, vous avez créer un nouvel adhérent !'
             );
-            return $this->redirectToRoute('adherent_all');
+            return $this->redirectToRoute('adherent_single', ['id' => $adherent->getId()]);
         }
 
         return $this->render('adherent/addAdherent.html.twig', [

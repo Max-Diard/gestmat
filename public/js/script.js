@@ -107,6 +107,53 @@ window.addEventListener("DOMContentLoaded", (event) => {
         })
     }
 
+    //Pop-up pour les messages flashs
+    const alertNewAdherent = document.querySelector('.alert-new-adherent');
+    const alertChangeAdherent = document.querySelector('.alert-change-adherent');
+    const alertAddOption = document.querySelector('.alert-add-option');
+    const alertRemoveOption = document.querySelector('.alert-remove-option');
+    const alertErrorRemoveOption = document.querySelector('.alert-error-remove-option');
+
+    if(alertNewAdherent){
+        Swal.fire({
+            title: 'Adhérent crée(e)',
+            description: "Félicitations, vous avez créer un nouvel adhérent !",
+            icon: 'success'
+        })
+    }
+
+    if(alertChangeAdherent){
+        Swal.fire({
+            title: 'Adhérent modifié(e)',
+            description: "L'adhérent(e) a bien été modifié(e)",
+            icon: 'success'
+        })
+    }
+
+    if(alertAddOption){
+        Swal.fire({
+            title: 'Option enregistrée',
+            description: "La nouvelle option à bien était enregistrée",
+            icon: 'success'
+        })
+    }
+
+    if(alertRemoveOption){
+        Swal.fire({
+            title: 'Option supprimée',
+            description: "L'option à bien était supprimée",
+            icon: 'success'
+        })
+    }
+
+    if(alertErrorRemoveOption){
+        Swal.fire({
+            title: 'Oups !',
+            description: "L'option n'a pas pu être supprimée !",
+            icon: 'error'
+        })
+    }
+
     // Pour la page Rencontre
     const dateMeet = document.querySelector('.input-date-meet');
     const linkTestimony = document.querySelector('.link-testimony');

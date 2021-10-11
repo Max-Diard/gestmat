@@ -1,15 +1,9 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+
 {% for message in app.flashes('successNewAdherent') %}
-    <div class="alert alert-success">
-        {{ message }}
-    </div>
-{% endfor %}
-{% for message in app.flashes('successRemoveMeet') %}
-    <div class="alert alert-success">
-        {{ message }}
-    </div>
+    <div class="alert-new-adherent alert-success"></div>
 {% endfor %}
 
 <div id="adherents-list" class="container container-screen">

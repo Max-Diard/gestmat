@@ -325,7 +325,7 @@ class AdminController extends AbstractController
             $this->entityManager->persist($option);
             $this->entityManager->flush();
 
-            $this->addFlash('successAddOption', 'La nouvelle option à bien était envoyé');
+            $this->addFlash('successAddOption', 'La nouvelle option à bien était enregistrée');
 
             return $this->redirectToRoute('admin_options');
         }
