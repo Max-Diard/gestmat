@@ -5,7 +5,7 @@ $(document).ready( function () {
         initComplete: function() {
             var columnStatus = this.api().column(3);
 
-            var selectStatus = $('<select class="filter"><option value="">-- État adhérent --</option></select>')
+            var selectStatus = $('<select class="filter"><option value="">État</option></select>')
                 .appendTo('#selectTriggerFilterWoman')
                 .on('change', function() {
                     var val = $(this).val();
@@ -24,7 +24,7 @@ $(document).ready( function () {
             })
             var columnAgence = this.api().column(5);
 
-            var selectAgence = $('<select class="filter"><option value="">-- Agence --</option></select>')
+            var selectAgence = $('<select class="filter"><option value="">Agence</option></select>')
                 .appendTo('#selectTriggerFilterWoman')
                 .on('change', function() {
                     var val = $(this).val();
@@ -43,7 +43,7 @@ $(document).ready( function () {
             })
             var columnDate = this.api().column(4);
 
-            var selectDate = $('<select class="filter"><option value="">-- Contrat --</option></select>')
+            var selectDate = $('<select class="filter"><option value="">Contrat</option></select>')
                 .appendTo('#selectTriggerFilterWoman')
                 .append('<option value="0">Terminé</option>')
                 .append('<option value="1">En cours</option>')
@@ -76,7 +76,7 @@ $(document).ready( function () {
         initComplete: function() {
             var columnStatus = this.api().column(3);
 
-            var selectStatus = $('<select class="filter"><option value="">-- État adhérent --</option></select>')
+            var selectStatus = $('<select class="filter"><option value="">État</option></select>')
                 .appendTo('#selectTriggerFilterMan')
                 .on('change', function() {
                     var val = $(this).val();
@@ -96,7 +96,7 @@ $(document).ready( function () {
             })
             var columnAgence = this.api().column(5);
 
-            var selectAgence = $('<select class="filter"><option value="">-- Agence --</option></select>')
+            var selectAgence = $('<select class="filter"><option value="">Agence</option></select>')
                 .appendTo('#selectTriggerFilterMan')
                 .on('change', function() {
                     var val = $(this).val();
@@ -116,7 +116,7 @@ $(document).ready( function () {
             })
             var columnDate = this.api().column(4);
 
-            var selectDate = $('<select class="filter"><option value="">-- Contrat --</option></select>')
+            var selectDate = $('<select class="filter"><option value="">Contrat</option></select>')
                 .appendTo('#selectTriggerFilterMan')
                 .append('<option value="0">Terminé</option>')
                 .append('<option value="1">En cours</option>')
