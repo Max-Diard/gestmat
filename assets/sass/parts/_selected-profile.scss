@@ -199,6 +199,24 @@
                             }
                         }
                     }
+
+                    &.tab-documents {
+                        .fic-adherent {
+                            display: flex;
+                            align-items: center;
+                            a {
+                                display: inline-block;
+                                margin-left: 1rem;
+                            }
+                            embed {
+                                max-height: 120px;
+                                width: auto;
+                            }
+                        }
+
+                    }
+
+
                 }
             }
             + div{

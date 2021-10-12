@@ -459,9 +459,12 @@
                         <div class="col col-adherent-link_information">
                             {{ form_label(formAdherent.link_information) }}
                             {{ form_widget(formAdherent.link_information) }}
-                            <div class="">
+                            <div class="fic-adherent">
                             {% if adherentProfile.linkInformation != '' %}
-                                <embed src='{{ asset('uploads/adherent/adherent'~ adherentProfile.id ~'/information/'~ adherentProfile.linkInformation) }}' width='10%' height='10%'/>
+                                <embed src='{{ asset('uploads/adherent/adherent'~ adherentProfile.id ~'/information/'~ adherentProfile.linkInformation) }}'/>
+                                <a href="{{ asset('uploads/adherent/adherent'~ adherentProfile.id ~'/information/'~ adherentProfile.linkInformation) }}" download="">
+                                    Télécharger le fichier
+                                </a>
                             {% endif %}
                             </div>
                         </div>
@@ -469,9 +472,12 @@
                         <div class="col col-adherent-link_contract">
                             {{ form_label(formAdherent.link_contract) }}
                             {{ form_widget(formAdherent.link_contract) }}
-                            <div class="">
+                            <div class="fic-adherent">
                             {% if adherentProfile.linkContract != '' %}
-                                <embed src='{{ asset('uploads/adherent/adherent'~ adherentProfile.id ~'/contract/'~ adherentProfile.linkContract) }}' width='10%' height='10%'/>
+                                <embed src='{{ asset('uploads/adherent/adherent'~ adherentProfile.id ~'/contract/'~ adherentProfile.linkContract) }}'/>
+                                <a href="{{ asset('uploads/adherent/adherent'~ adherentProfile.id ~'/contract/'~ adherentProfile.linkContract) }}" download="">
+                                    Télécharger le fichier
+                                </a>
                             {% endif %}
                             </div>
                         </div>
@@ -479,9 +485,12 @@
                         <div class="col col-adherent-link_picture">
                             {{ form_label(formAdherent.link_picture) }}
                             {{ form_widget(formAdherent.link_picture) }}
-                            <div class="">
+                            <div class="fic-adherent">
                             {% if adherentProfile.linkPicture != '' %}
-                                <embed src='{{ asset('uploads/adherent/adherent'~ adherentProfile.id ~'/picture/'~ adherentProfile.linkPicture) }}' width='10%' height='10%'/>
+                                <embed src='{{ asset('uploads/adherent/adherent'~ adherentProfile.id ~'/picture/'~ adherentProfile.linkPicture) }}'/>
+                                <a href="{{ asset('uploads/adherent/adherent'~ adherentProfile.id ~'/picture/'~ adherentProfile.linkPicture) }}" download="">
+                                    Télécharger le fichier
+                                </a>
                             {% endif %}
                             </div>
                         </div>
@@ -489,9 +498,12 @@
                         <div class="col col-adherent-link_picture_announcement">
                             {{ form_label(formAdherent.link_picture_announcement) }}
                             {{ form_widget(formAdherent.link_picture_announcement) }}
-                            <div class="">
+                            <div class="fic-adherent">
                             {% if adherentProfile.linkPictureAnnouncement != '' %}
-                                <embed src='{{ asset('uploads/adherent/adherent'~ adherentProfile.id ~'/announcement/'~ adherentProfile.linkPictureAnnouncement) }}' width='10%' height='10%'/>
+                                <embed src='{{ asset('uploads/adherent/adherent'~ adherentProfile.id ~'/announcement/'~ adherentProfile.linkPictureAnnouncement) }}'/>
+                                <a href="{{ asset('uploads/adherent/adherent'~ adherentProfile.id ~'/announcement/'~ adherentProfile.linkPictureAnnouncement) }}" download="">
+                                    Télécharger le fichier
+                                </a>
                             {% endif %}
                             </div>
                         </div>
