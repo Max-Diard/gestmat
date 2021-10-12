@@ -199,6 +199,32 @@
                             }
                         }
                     }
+
+                    &.tab-announcement{
+                        .row-announcement-first, .row-announcement-second{
+                            width: 48%;
+                        }
+                        textarea{
+                            width: 100%;
+                            height: 12rem;
+                        }
+                    }
+
+                    &.tab-documents {
+                        .fic-adherent {
+                            display: flex;
+                            align-items: center;
+                            a {
+                                display: inline-block;
+                                margin-left: 1rem;
+                            }
+                            embed {
+                                max-height: 120px;
+                                width: auto;
+                            }
+                        }
+
+                    }
                 }
             }
             + div{

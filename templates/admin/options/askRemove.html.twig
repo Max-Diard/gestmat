@@ -1,12 +1,13 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-
-    <div class="">
+<div id="add-agence" class="container container-screen">
+    <div class="pop-up">
         <div class="">
-            <p>Attention !! Vous êtes sur le point de supprimer l'option "{{ option.name }}" pour
+            <p><span>Attention !</span><br>
+            Vous êtes sur le point de supprimer l'option <span class="user">{{ option.name }}</span> pour
                 {% if option.type == 'status_matrimoniale' %}
-                "Statut Matrimoniale".
+                "Statut matrimonial".
                 {% elseif option.type == 'type_payment' %}
                 "Types de paiment".
                 {% elseif option.type == 'hair' %}
@@ -22,16 +23,18 @@
                 {% elseif option.type == 'genre' %}
                 "Sexe".
                 {% elseif option.type == 'zodiaque' %}
-                "Signe Astrologique".
+                "Signe astrologique".
                 {% elseif option.type == 'status_meet' %}
                 "Types de rencontre".
                 {% else %}
                 "Préférence de contact".
                 {% endif %}<br/>
-                Cette action est irréversible, êtes vous sûr ?</p>
-            <a href="{{ path('admin_option_remove', { id: option.id }) }}">Oui</a>
-            <a href="{{ path('admin_options') }}">Non</a>
+                Cette action est irréversible, voulez-vous continuer ?</p>
+            <div class="links">
+                <a class="link-sm" href="{{ path('admin_option_remove', { id: option.id }) }}">Oui</a>
+                <a class="link-sm" href="{{ path('admin_options') }}">Non</a>
+            </div>
         </div>
     </div>
-
+</div>
 {% endblock %}
