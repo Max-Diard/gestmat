@@ -2,10 +2,6 @@
 {% block title %}GestMat - Liste d'adhérents {% endblock %}
 {% block body %}
 
-{% for message in app.flashes('successNewAdherent') %}
-    <div class="alert-new-adherent alert-success"></div>
-{% endfor %}
-
 <div id="adherents-list" class="container container-screen">
     <h1 class="title-adherents">Liste des adhérents</h1>
 

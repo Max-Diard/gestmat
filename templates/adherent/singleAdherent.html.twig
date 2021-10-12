@@ -6,6 +6,10 @@
     <div class="alert-change-adherent alert-success"></div>
 {% endfor %}
 
+{% for message in app.flashes('successNewAdherent') %}
+    <div class="alert-new-adherent alert-success"></div>
+{% endfor %}
+
 <div id="selected-profile" class="container container-screen">
     <h1>{{ adherentProfile.firstname }} {{ adherentProfile.lastname }}</h1>
     <div class="modal-adherent">
