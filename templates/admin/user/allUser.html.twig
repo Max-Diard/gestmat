@@ -1,3 +1,5 @@
+{% block title %}GestMat - Liste d'utilisateur{% endblock %}
+
 {% extends 'base.html.twig' %}
 
 {% block body %}
@@ -22,9 +24,25 @@
                     <td>{{ user.email }}</td>
                     <td>
                         {% if user.agence|length > 0 %}
-                            {% for agence in user.agence %}
-                                {{ agence.name }},
-                            {% endfor %}
+                            {% if user.agence|length == 1 %}
+
+                                {% for agence in user.agence %}
+                                    {{ agence.name }}
+                                {% endfor %}
+
+                            {% else %}
+                                {% for agence in user.agence %}
+
+                                {% set i = (i | default(0)) + 1 %}
+                                    {% if user.agence|length == i %}
+                                        {{ agence.name }}
+                                    {% else %}
+                                        {{ agence.name }},
+                                    {% endif %}
+
+                                {% endfor %}
+
+                            {% endif %}
                         {% else %}
                             <strong>Pas d'agence</strong>
                         {% endif %}

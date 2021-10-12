@@ -27,7 +27,6 @@ window.addEventListener("DOMContentLoaded", (event) => {
 
     // Pour les détails de l'adhérent dans la liste
     const rowTable = document.querySelectorAll('.js-adherent');
-    console.log(url.hash.includes('men'))
 
     if(url.hash.includes('men')){
         const manInUrl = url.hash.indexOf('men')
@@ -117,7 +116,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
     if(alertNewAdherent){
         Swal.fire({
             title: 'Adhérent crée(e)',
-            description: "Félicitations, vous avez créer un nouvel adhérent !",
+            text: "Félicitations, vous avez créer un nouvel adhérent !",
             icon: 'success'
         })
     }
@@ -125,7 +124,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
     if(alertChangeAdherent){
         Swal.fire({
             title: 'Adhérent modifié(e)',
-            description: "L'adhérent(e) a bien été modifié(e)",
+            text: "L'adhérent(e) a bien été modifié(e)",
             icon: 'success'
         })
     }
@@ -133,7 +132,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
     if(alertAddOption){
         Swal.fire({
             title: 'Option enregistrée',
-            description: "La nouvelle option à bien était enregistrée",
+            text: "La nouvelle option à bien était enregistrée",
             icon: 'success'
         })
     }
@@ -141,15 +140,15 @@ window.addEventListener("DOMContentLoaded", (event) => {
     if(alertRemoveOption){
         Swal.fire({
             title: 'Option supprimée',
-            description: "L'option à bien était supprimée",
+            text: "L'option à bien était supprimée",
             icon: 'success'
         })
     }
 
     if(alertErrorRemoveOption){
         Swal.fire({
-            title: 'Oups !',
-            description: "L'option n'a pas pu être supprimée !",
+            title: 'Opération impossible !',
+            text: "L'option ne peux pas être supprimée car utilisée pour un adhérent !",
             icon: 'error'
         })
     }
@@ -327,7 +326,6 @@ function apiMeet(id){
 
 // Function appeler dans la function 'apiMeet' ppour afficher les rencontres de l'adhérent sélectionner ici pour une femme
 function informationMeetWoman(recup){
-
     const divMeetWoman = document.querySelector('.woman-meeting');
 
     if(divMeetWoman.hasChildNodes()){
