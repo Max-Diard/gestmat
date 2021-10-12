@@ -1,14 +1,17 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-
-    <div class="">
+<div id="add-agence" class="container container-screen">
+    <div class="pop-up">
         <div class="">
-            <p>Attention !! Vous êtes sur le point de supprimer la rencontre entre "{{ meet.adherentWoman.firstname }} {{ meet.adherentWoman.lastname }}" et "{{ meet.adherentMan.firstname }} {{ meet.adherentMan.lastname }}".<br/>
-                Cette action est irréversible, êtes vous sûr ?</p>
-            <a href="{{ path('meet_remove', { id: meet.id }) }}">Oui</a>
-            <a href="{{ path('adherent_all') }}">Non</a>
+            <p><span>Attention !</span><br>
+            Vous êtes sur le point de supprimer la rencontre entre <span class="user">{{ meet.adherentWoman.firstname }} {{ meet.adherentWoman.lastname }}" et "{{ meet.adherentMan.firstname }} {{ meet.adherentMan.lastname }}</span>.<br/>
+                Cette action est irréversible, voulez-vous continuer ?</p>
+            <div class="links">
+                <a class="link-sm" href="{{ path('meet_remove', { id: meet.id }) }}">Oui</a>
+                <a class="link-sm" href="{{ path('adherent_all') }}">Non</a>
+            </div>
         </div>
     </div>
-
+</div>
 {% endblock %}

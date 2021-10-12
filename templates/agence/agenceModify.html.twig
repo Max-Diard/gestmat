@@ -1,10 +1,14 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-
-<a href="{{ path('profile') }}">Retour</a>
-
+<div id="new-user" class="container container-screen">
+    <h1 class="title-adherents">Modifier l'agence {{ agence.name }}</h1>
+    <div class="return-link">
+        <a class="link-sm" href="{{ path('profile') }}">Retour</a>
+    </div>
 <img class="img-agence" src='{{ asset('uploads/agence/agence'~ agence.id ~'/picture/'~ agence.linkPicture) }}' alt="Image de l'agence" />
-{{form(form)}}
+    {{form(form)}}
+
+</div>
 
 {% endblock %}

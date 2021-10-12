@@ -14,7 +14,7 @@ h1{
     text-transform: uppercase;
 }
 
-.btn, #adherent_submit{
+.btn, #adherent_submit, #user_agence_submit, .send-form{
     cursor: pointer;
     font-weight: bold;
     font-size: 2rem;
@@ -262,5 +262,91 @@ input{
     table.dataTable tbody tr, table.dataTable tbody tr:hover, table.dataTable tbody tr:focus{
         background-color: $color__grey;
         color: $color__purple_black;
+    }
+}
+
+// POP UP CRÉATION DE RENCONTRE
+.swal2-icon.swal2-info, .swal2-icon.swal2-question {
+    border-color: $color__pink_light !important;
+    color: $color__pink_light !important;
+}
+
+// POP UP RENCONTRE
+#all-meetings{
+    .modal-adherent{
+        height: 100vh;
+        width: 100%;
+        .modal-info-meet{
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border-radius: 2rem;
+            border: .4rem solid $color__pink_light;
+            form{
+                padding: 4rem;
+                .modal-info-woman, .modal-info-man{
+                    >div{
+                        &:first-child{
+                            display: flex;
+                            align-items: center;
+                            p + p{
+                                margin-left: .5rem;
+                            }
+                            p{
+                                font-weight: bold;
+                                color: $color__purple;
+                                &:first-child{
+                                    text-transform: uppercase;
+                                }
+                            }
+                        }
+                    }
+                }
+                textarea, select{
+                    border: none;
+                    outline: none;
+                    background-color: $color__grey;
+                }
+                textarea{
+                    width: 100%;
+                    color: $color__pink;
+                }
+                label{
+                    margin: 0;
+                    margin-top: 1rem;
+                    margin-bottom: .5rem;
+                }
+                .row-return-action{
+                    margin-bottom: 1.5rem;
+                }
+                .meet-info-general{
+                    p{
+                        text-transform: uppercase;
+                        &:nth-child(3){
+                            margin-top: 1rem;
+                        }
+                        &.date-meet, &.id-meet{
+                            font-weight: bold;
+                        }
+                    }
+                }
+                .modal-meet-text{
+                    margin-bottom: 4rem;
+                }
+                .meet-woman-pdf, .meet-man-pdf{
+                    margin-bottom: 1rem;
+                }
+            }
+        }
+    }
+}
+
+.return-link{
+    .link-sm{
+        margin: 0;
+        &::before{
+            content: "<<";
+            margin-right: 0.5rem;
+        }
     }
 }
