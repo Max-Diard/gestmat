@@ -161,10 +161,34 @@
                 outline: none;
             }
         }
-        #user, #change_agence{
+        #change_agence, #change_profile{
             label{
                 width: 15.7rem;
             }
+        }
+        #change_profile{
+            > div{
+                &:nth-child(4){
+                    margin-top: 3rem;
+                    text-align: center;
+                    button{
+                        font-size: 1.4rem;
+                    }
+                }
+            }
+        }
+        #change_password{
+            > div{
+                &:nth-child(3){
+                    margin-top: 3rem;
+                    text-align: center;
+                    button{
+                        font-size: 1.4rem;
+                    }
+                }
+            }
+        }
+        #user, #change_agence, #change_profile, #change_password{
             div + div{
                 margin-top: 1rem;
             }

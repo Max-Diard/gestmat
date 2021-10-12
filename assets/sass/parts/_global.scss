@@ -14,7 +14,7 @@ h1{
     text-transform: uppercase;
 }
 
-.btn, #adherent_submit, #user_agence_submit, .send-form{
+.btn, #adherent_submit, #user_agence_submit, .send-form, #change_profile_submit, #change_password_submit{
     cursor: pointer;
     font-weight: bold;
     font-size: 2rem;
@@ -272,7 +272,7 @@ input{
 }
 
 // POP UP RENCONTRE
-#all-meetings{
+#all-meetings, #adherents-list{
     .modal-adherent{
         height: 100vh;
         width: 100%;
@@ -338,6 +338,22 @@ input{
                 }
             }
         }
+        .close-modal{
+            background-color: transparent;
+            border: none;
+            top: .9rem;
+            right: .9rem;
+            cursor: pointer;
+            &:hover, &:focus{
+                img{
+                    opacity: .6;
+                }
+            }
+           img{
+               width: 1.8rem;
+               transition: .2s;
+           }
+        }
     }
 }
 
@@ -348,5 +364,11 @@ input{
             content: "<<";
             margin-right: 0.5rem;
         }
+    }
+}
+
+#selectTriggerFilterWoman{
+    label{
+        text-transform: initial;
     }
 }
