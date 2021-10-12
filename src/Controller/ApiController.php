@@ -81,6 +81,51 @@ class ApiController extends AbstractController
 
     }
 
+    //Api en post pour créer une nouvelle rencontre
+    #[
+        Route('/api/new_meet/', name: 'api_new_meet', methods: 'POST'),
+        IsGranted('ROLE_USER')
+    ]
+    public function newMeet(Request $request): Response
+    {
+        $data = json_decode(
+            $request->getContent(),
+            true
+        );
+
+        $woman = $this->entityManager->getRepository(Adherent::class)->findBy(['id' => $data['woman']]);
+        $man = $this->entityManager->getRepository(Adherent::class)->findBy(['id' => $data['man']]);
+        $date = new DateTimeImmutable($data['date']);
+        $meet = new Meet();
+
+        $meet->setAdherentWoman($woman[0]);
+        $meet->setAdherentMan($man[0]);
+        $meet->setStartedAt($date);
+
+        $today = new DateTimeImmutable("now");
+
+        if ($date > $today){
+            $disponibility = $this->entityManager->getRepository(AdherentOption::class)->findBy(['type' => 'status_meet', 'name' => 'En rencontre']);
+            $woman[0]->setStatusMeet($disponibility[0]);
+            $man[0]->setStatusMeet($disponibility[0]);
+
+            $this->entityManager->persist($woman[0]);
+            $this->entityManager->persist($man[0]);
+            $this->entityManager->flush();
+        }
+
+        $this->entityManager->persist($meet);
+        $this->entityManager->flush();
+
+        return new JsonResponse(
+            [
+                'status' => 'ok',
+                'meet' => $meet->getId()
+            ],
+            JsonResponse::HTTP_CREATED
+        );
+    }
+
     //Api en post pour ajouter des informations sur les rencontres
     #[
         Route('/api/update_meet/', name: 'api_update_meet', methods: 'POST'),

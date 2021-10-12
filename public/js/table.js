@@ -2,6 +2,9 @@ $(document).ready( function () {
     $('.table-women').DataTable({
         paging: false,
         info: false,
+        "language": {
+            "emptyTable": "Pas encore de donées dans ce tableau"
+        },
         initComplete: function() {
             var columnStatus = this.api().column(3);
 
@@ -73,6 +76,9 @@ $(document).ready( function () {
     $('.table-men').DataTable({
         paging: false,
         info: false,
+        "language": {
+            "emptyTable": "Pas encore de donées dans ce tableau"
+        },
         initComplete: function() {
             var columnStatus = this.api().column(3);
 
@@ -164,6 +170,9 @@ $(document).ready( function () {
         searching: true,
         "oLanguage": {
             "sSearch": "Votre recherche"
+        },
+        "language": {
+            "emptyTable": "Pas encore de donées dans ce tableau"
         }
     });
 
@@ -174,6 +183,9 @@ $(document).ready( function () {
         searching: true,
         "oLanguage": {
             "sSearch": "Votre recherche"
+        },
+        "language": {
+            "emptyTable": "Pas encore de donées dans ce tableau"
         }
     });
 
@@ -181,13 +193,19 @@ $(document).ready( function () {
     $('.table-agence').DataTable({
         paging: false,
         searching: false,
-        info: false
+        info: false,
+        "language": {
+            "emptyTable": "Pas encore de donées dans ce tableau"
+        }
     });
 
 //Tableau pour la liste des utilisateurs
     $('.table-user').DataTable({
         paging: false,
         searching: false,
-        info: false
+        info: false,
+        "language": {
+            "emptyTable": "Pas encore de donées dans ce tableau"
+        }
     });
 } );

@@ -433,7 +433,7 @@ class AdherentController extends AbstractController
         $dompdf->render();
 
         // Output the generated PDF to Browser (force download)
-        $dompdf->stream("Témoignage-" . $adherent->getLastname() . '-' . $adherent->getFirstname(), [
+        $dompdf->stream("temoignage-" . strtolower($adherent->getLastname()) . '-' . strtolower($adherent->getFirstname()), [
             "Attachement" => true
         ]);
 

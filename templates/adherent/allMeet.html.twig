@@ -29,12 +29,12 @@
                             {% if meet.statusMeetWoman != '' %}
                                 <p class="woman-action">{{ meet.statusMeetWoman }}</p>
                             {% else %}
-                                <p class="woman-action">Pas d'action enregistrer</p>
+                                <p class="woman-action">Pas d'action enregistrée</p>
                             {% endif %}
                         </div>
                     </div>
                     <label for="woman-comments">Commentaire</label>
-                    <textarea id="woman-comments" class="woman-comments" rows="5" cols="40" >{{ meet.commentsWoman }}</textarea>
+                    <textarea id="woman-comments" class="woman-comments" rows="5" cols="40" disabled>{{ meet.commentsWoman }}</textarea>
                 </div>
                 <div class="meet-info-general">
                     <p>Date de rencontre</p>
@@ -53,7 +53,7 @@
                         </div>
                     </div>
                     <div class="meet-man-pdf">
-                        <a class='link-pdf-man' href="{{ path('adherent_single_pdf', {adherent: meet.adherentWoman.id, meet: meet.adherentMan.id}) }}">Voir le pdf</a>
+                        <a class='link-pdf-man' href="{{ path('adherent_single_pdf', {adherent: meet.adherentMan.id, meet: meet.adherentWoman.id}) }}">Voir le pdf</a>
                     </div>
                     <div class="row-return-action">
                         <div class="col-return">
@@ -63,12 +63,12 @@
                             {% if meet.statusMeetMan != '' %}
                                 <p class="man-action">{{ meet.statusMeetMan }}</p>
                             {% else %}
-                                <p class="man-action">Pas d'action enregistrer</p>
+                                <p class="man-action">Pas d'action enregistrée</p>
                             {% endif %}
                         </div>
                     </div>
                     <label for="man-comments">Commentaire</label>
-                    <textarea id="man-comments" class="man-comments" rows="5" cols="40">{{ meet.commentsMan }}</textarea>
+                    <textarea id="man-comments" class="man-comments" rows="5" cols="40" disabled>{{ meet.commentsMan }}</textarea>
                 </div>
             </div>
         </form>

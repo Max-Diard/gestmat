@@ -15,9 +15,12 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Config\Framework\RouterConfig;
 
 class MeetController extends AbstractController
 {
@@ -92,29 +95,36 @@ class MeetController extends AbstractController
         Route('/meet/new/{woman}-{man}-{date}', name: 'meet_new'),
         IsGranted('ROLE_USER')
     ]
-    public function newMeet(Adherent $woman, Adherent $man, DateTimeImmutable $date): Response
+    public function newMeet(Adherent $woman, Adherent $man, DateTimeImmutable $date, UrlGeneratorInterface $router): Response
     {
-        $meet = new Meet();
+//        $meet = new Meet();
+//
+//        $meet->setAdherentWoman($woman);
+//        $meet->setAdherentMan($man);
+//        $meet->setStartedAt($date);
+//
+//        $today = new DateTimeImmutable("now");
+//        if ($date > $today){
+//            $disponibility = $this->entityManager->getRepository(AdherentOption::class)->findBy(['type' => 'status_meet', 'name' => 'En rencontre']);
+//            $woman->setStatusMeet($disponibility[0]);
+//            $man->setStatusMeet($disponibility[0]);
+//
+//            $this->entityManager->persist($woman);
+//            $this->entityManager->persist($man);
+//            $this->entityManager->flush();
+//        }
+//
+//        $this->entityManager->persist($meet);
+//        $this->entityManager->flush();
+//
+//        $hashwoman = '?woman=';
+////        dd($hashwoman);
+////         $this->redirectToRoute('adherent_all');
+//        $url = $this->generateUrl('adherent_all'). $hashwoman. $woman->getId() . '&men=' . $man->getId();
+////        dd($url);
+//        return $this->redirectToRoute($url);
+//        dd($router->generate('adherent_all', [$hashwoman => $woman->getId()]));
 
-        $meet->setAdherentWoman($woman);
-        $meet->setAdherentMan($man);
-        $meet->setStartedAt($date);
-
-        $today = new DateTimeImmutable("now");
-        if ($date > $today){
-            $disponibility = $this->entityManager->getRepository(AdherentOption::class)->findBy(['type' => 'status_meet', 'name' => 'En rencontre']);
-            $woman->setStatusMeet($disponibility[0]);
-            $man->setStatusMeet($disponibility[0]);
-
-            $this->entityManager->persist($woman);
-            $this->entityManager->persist($man);
-            $this->entityManager->flush();
-        }
-
-        $this->entityManager->persist($meet);
-        $this->entityManager->flush();
-
-        return $this->redirectToRoute('adherent_all');
     }
 
     //Page pour voir l'annonce du pdf
@@ -160,7 +170,7 @@ class MeetController extends AbstractController
         file_put_contents($location, $output);
 
         // Output the generated PDF to Browser (force download)
-        $dompdf->stream("Rencontre-" . $adherent->getLastname() .'-'. $adherent->getFirstname(), array('Attachment' => true));
+        $dompdf->stream("rencontre-" . strtolower($adherent->getLastname()) .'-'. strtolower($adherent->getFirstname()), array('Attachment' => true));
 
 //        return new Response('', 200, [
 //            'Content-Type' => 'application/pdf',

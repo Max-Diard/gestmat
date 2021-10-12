@@ -106,6 +106,35 @@ window.addEventListener("DOMContentLoaded", (event) => {
         })
     }
 
+    // Pour la page Rencontre
+    const dateMeet = document.querySelector('.input-date-meet');
+    const linkTestimony = document.querySelector('.link-testimony');
+    const buttonMeetMore = document.querySelectorAll('.page-meet-more')
+
+    if(dateMeet){
+        if (dateMeet.value == '') {
+            const today = new Date();
+            const dateToday = today.toISOString().split('T')[0]
+            dateMeet.value = window.location.pathname.slice(-10);
+        }
+
+        dateMeet.addEventListener('input', function (ev){
+            ev.preventDefault()
+            if (dateMeet.value != ''){
+                window.location = '/meet/search/' + dateMeet.value
+            }
+        })
+    }
+
+    if(buttonMeetMore){
+        [].forEach.call(buttonMeetMore, function (elem){
+            elem.addEventListener('click', function(ev) {
+                const id = elem.getAttribute('data-id')
+                informationMeet(id)
+            })
+        })
+    }
+
     //Pop-up pour les messages flashs
     const alertNewAdherent = document.querySelector('.alert-new-adherent');
     const alertChangeAdherent = document.querySelector('.alert-change-adherent');
@@ -153,36 +182,6 @@ window.addEventListener("DOMContentLoaded", (event) => {
         })
     }
 
-    // Pour la page Rencontre
-    const dateMeet = document.querySelector('.input-date-meet');
-    const linkTestimony = document.querySelector('.link-testimony');
-    // const linkMeet = document.querySelector('.link-meet');
-    const buttonMeetMore = document.querySelectorAll('.page-meet-more')
-
-    if(dateMeet){
-        if (dateMeet.value == '') {
-            const today = new Date();
-            const dateToday = today.toISOString().split('T')[0]
-            dateMeet.value = dateToday;
-        }
-
-        dateMeet.addEventListener('input', function (ev){
-            ev.preventDefault()
-            if (dateMeet.value != ''){
-                window.location = '/meet/search/' + dateMeet.value
-            }
-        })
-    }
-
-    if(buttonMeetMore){
-        [].forEach.call(buttonMeetMore, function (elem){
-            elem.addEventListener('click', function(ev) {
-                const id = elem.getAttribute('data-id')
-                informationMeet(id)
-            })
-        })
-    }
-
 });
 
 // Remove meet en api
@@ -197,12 +196,6 @@ function removeMeet(id){
 
 // Function pour appeler l'api qui récupére l'adhérent sélectionner
 function apiMeet(id){
-    // const modal = document.querySelector('.modal');
-    // const modalText = document.querySelector('.modal-text');
-    // const modalMeetWomen = document.querySelector('.modal-women-meet')
-    // const modalMeetMen = document.querySelector('.modal-men-meet')
-    // const modalButton = document.querySelector('.modal-button')
-
     const lastnameWoman = document.querySelector('.thead-card-woman-lastname');
     const firstnameWoman = document.querySelector('.thead-card-woman-firstname');
     const yearWoman = document.querySelector('.thead-card-woman-years');
@@ -262,6 +255,7 @@ function apiMeet(id){
                     }
 
                     informationMeetWoman(recup);
+
                 } else {
                     lastnameMan.textContent = recup.adherent[0].lastname;
                     firstnameMan.textContent = recup.adherent[0].firstname;
@@ -284,7 +278,6 @@ function apiMeet(id){
 
                     informationMeetMan(recup);
                 }
-
                 if(loadingWomen && loadingMen){
                     // Création du bouton pour créer la rencontre
                     buttonModal.className = 'btn btn-little button-create-meet'
@@ -311,7 +304,15 @@ function apiMeet(id){
                         }).then((result) => {
                             if (result.isConfirmed) {
                                 const inputDate = document.querySelector('#expiry-date')
-                                window.location = 'meet/new/' + meetWaitingWomen + '-' + meetWaitingMen + '-' + inputDate.value
+                                // window.location = 'meet/new/' + meetWaitingWomen + '-' + meetWaitingMen + '-' + inputDate.value
+                                // Test en api
+                                newMeet(meetWaitingWomen, meetWaitingMen, inputDate.value)
+                                apiMeet(meetWaitingWomen)
+
+                                setTimeout(()=> {
+                                    apiMeet(meetWaitingMen)
+
+                                }, 900)
                             } else if (result.isDenied) {
                                 Swal.fire("La rencontre n'a pas été effectuée !", '', 'info')
                             }
@@ -338,6 +339,7 @@ function informationMeetWoman(recup){
         let j = 0
         while(j < recup.meet.length){
             const row = document.createElement('tr')
+
 
             const celliD = document.createElement('td')
             celliD.textContent = recup.meet[j].id
@@ -394,7 +396,6 @@ function informationMeetWoman(recup){
                     denyButtonText: `Non`,
                     icon: 'question'
                 }).then((result) => {
-                    /* Read more about isConfirmed, isDenied below */
                     if (result.isConfirmed) {
                         removeMeet(idMeet)
                         apiMeet(recup.adherent[0].id)
@@ -690,4 +691,16 @@ function updateMeet(
         'returnAt_man' : returnMan,
         'comments_man' : commentsMan
         }))
+}
+
+// Test en api de créer une rencontre
+function newMeet(woman, man, date){
+    const request = new XMLHttpRequest();
+    request.open('POST', 'http://127.0.0.1:8000/api/new_meet/', true)
+    request.setRequestHeader("content-type", "application/json; charset=utf-8")
+    request.send(JSON.stringify({
+        woman: woman,
+        man: man,
+        date: date
+    }))
 }
