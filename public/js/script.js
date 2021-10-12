@@ -18,7 +18,6 @@ window.addEventListener("DOMContentLoaded", (event) => {
                 let allTab = document.querySelectorAll('.tab');
                 [].forEach.call(allTab, function(singleTab){
                     singleTab.classList.add('no-tab');
-                    console.log(singleTab.querySelector('.tab-meet'))
                 })
                 document.querySelector('.' + tab).classList.remove('no-tab');
             })

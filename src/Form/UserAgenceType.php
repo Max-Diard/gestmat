@@ -20,7 +20,7 @@ class UserAgenceType extends AbstractType
             ->add('agence', EntityType::class, [
                 'class' => Agence::class,
                 'choice_label' => function($agence) {
-                    return $agence->getName() . " - " . $agence->getAddressTown(); 
+                    return $agence->getName();
                 },
                 'label'=> 'Ajouter une agence',
                 'multiple' => true, 
