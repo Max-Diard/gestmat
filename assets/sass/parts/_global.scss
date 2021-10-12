@@ -310,6 +310,7 @@ input{
                 textarea{
                     width: 100%;
                     color: $color__pink;
+                    padding: .5rem;
                 }
                 label{
                     margin: 0;
@@ -370,5 +371,93 @@ input{
 #selectTriggerFilterWoman{
     label{
         text-transform: initial;
+    }
+}
+
+// ÉCRAN "LISTE DES ENVOIS"
+#list-pdf{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    h1{
+        margin-bottom: 6rem;
+    }
+    .content{
+        p+p{
+            margin-top: 1rem;
+        }
+        .link-sm{
+            margin: 0;
+        }
+        span{
+            font-weight: bold;
+        }
+    }
+}
+
+// ÉCRAN "TOUTES LES RENCONTRES DE ..."
+#list-meets{
+    h1{
+        margin-bottom: 6rem;
+    }
+    .meet-adherent-form{
+        border-radius: 2rem;
+        border: .4rem solid $color__pink_light;
+        background-color: $color__grey_light;
+        form{
+            .modal-info-woman, .modal-info-man{
+                >div{
+                    &:first-child{
+                        display: flex;
+                        align-items: center;
+                        p + p{
+                            margin-left: .5rem;
+                        }
+                        p{
+                            font-weight: bold;
+                            color: $color__purple;
+                            &:first-child{
+                                text-transform: uppercase;
+                            }
+                        }
+                    }
+                }
+            }
+            textarea, select{
+                border: none;
+                outline: none;
+                background-color: $color__grey;
+            }
+            textarea{
+                width: 100%;
+                color: $color__pink;
+                padding: .5rem;
+            }
+            label{
+                margin: 0;
+                margin-top: 1rem;
+                margin-bottom: .5rem;
+            }
+            .row-return-action{
+                margin-bottom: 1.5rem;
+            }
+            .meet-info-general{
+                p{
+                    text-transform: uppercase;
+                    &:nth-child(3){
+                        margin-top: 1rem;
+                    }
+                    &.date-meet, &.id-meet{
+                        font-weight: bold;
+                    }
+                }
+            }
+            .modal-meet-text{
+                margin-bottom: 4rem;
+            }
+            .meet-woman-pdf, .meet-man-pdf{
+                margin-bottom: 1rem;
+            }
+        }
     }
 }

@@ -1,31 +1,35 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+<div id="list-pdf" class="container container-screen">
 <h1>La liste des envois</h1>
 {#        {% for agence in app.user.agence %}#}
 {#            {{ dump(agence) }}#}
-    {% if meets is empty %}
-    <p>Aucune rencontre pour ce jour, merci de bien vouloir sélectionner une nouvelle date</p>
-    {% else %}
-    {% for meet in meets %}
-        <p>Entre {{ meet.adherentWoman.lastname }} {{ meet.adherentWoman.firstname }}
-                {% if meet.adherentWoman.preferenceContact.name == 'Email' %}
-                    (<a href="mailto:{{ meet.adherentWoman.email }}?subject=Résultat de votre rencontre&body=Bonjour Mme {{ meet.adherentWoman.lastname }} {{ meet.adherentWoman.firstname }}.">Email</a>)
-                {% else %}
-                    (Courrier)
-                {% endif %}
-                <a href="{{ path('adherent_single_pdf', { adherent: meet.adherentWoman.id, meet: meet.adherentMan.id }) }}" target="'_blank">Voir Pdf</a>
+    <div class="content">
+        {% if meets is empty %}
+        <p>Aucune rencontre pour ce jour, merci de bien vouloir sélectionner une nouvelle date</p>
+        {% else %}
+        {% for meet in meets %}
+            <p>Entre <span>{{ meet.adherentWoman.lastname }} {{ meet.adherentWoman.firstname }}</span>
+                    {% if meet.adherentWoman.preferenceContact.name == 'Email' %}
+                        (<a class="link-sm" href="mailto:{{ meet.adherentWoman.email }}?subject=Résultat de votre rencontre&body=Bonjour Mme {{ meet.adherentWoman.lastname }} {{ meet.adherentWoman.firstname }}.">Email</a>)
+                    {% else %}
+                        (Courrier)
+                    {% endif %}
+                    <a class="link-sm" href="{{ path('adherent_single_pdf', { adherent: meet.adherentWoman.id, meet: meet.adherentMan.id }) }}" target="'_blank">Voir PDF</a>
 
-            et {{ meet.adherentMan.lastname }} {{ meet.adherentMan.firstname }}
+                et <span>{{ meet.adherentMan.lastname }} {{ meet.adherentMan.firstname }}</span>
 
-                {% if meet.adherentMan.preferenceContact.name == 'Email' %}
-                    (<a href="mailto:{{ meet.adherentMan.email }}?subject=Résultat de votre rencontre&body=Bonjour M. {{ meet.adherentMan.lastname }} {{ meet.adherentMan.firstname }}.">Email</a>)
-                {% else %}
-                    (Courrier)
-                {% endif %}
-                <a href="{{ path('adherent_single_pdf', { adherent: meet.adherentMan.id, meet: meet.adherentWoman.id }) }}" target="'_blank">Voir Pdf</a></p>
+                    {% if meet.adherentMan.preferenceContact.name == 'Email' %}
+                        (<a class="link-sm" href="mailto:{{ meet.adherentMan.email }}?subject=Résultat de votre rencontre&body=Bonjour M. {{ meet.adherentMan.lastname }} {{ meet.adherentMan.firstname }}.">Email</a>)
+                    {% else %}
+                        (Courrier)
+                    {% endif %}
+                    <a class="link-sm" href="{{ path('adherent_single_pdf', { adherent: meet.adherentMan.id, meet: meet.adherentWoman.id }) }}" target="'_blank">Voir PDF</a></p>
 
-    {% endfor %}
-    {% endif %}
-
+        {% endfor %}
+        {% endif %}
+            
+    </div>
+</div>
 {% endblock %}

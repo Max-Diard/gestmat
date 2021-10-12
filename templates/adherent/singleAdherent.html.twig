@@ -400,7 +400,8 @@
                             {{ form_label(formAdherent.announcement_date_free) }}
                             {{ form_widget(formAdherent.announcement_date_free) }}
                         </div>
-                        <br>
+                    </div>
+                    <div class="row-announcement-second">
                         <div class="col col-adherent-announcement_newspaper">
                             {{ form_label(formAdherent.announcement_newspaper) }}
                             {{ form_widget(formAdherent.announcement_newspaper) }}
@@ -462,7 +463,7 @@
                             <div class="fic-adherent">
                             {% if adherentProfile.linkInformation != '' %}
                                 <embed src='{{ asset('uploads/adherent/adherent'~ adherentProfile.id ~'/information/'~ adherentProfile.linkInformation) }}'/>
-                                <a href="{{ asset('uploads/adherent/adherent'~ adherentProfile.id ~'/information/'~ adherentProfile.linkInformation) }}" download="">
+                                <a class="link-sm" href="{{ asset('uploads/adherent/adherent'~ adherentProfile.id ~'/information/'~ adherentProfile.linkInformation) }}" download="">
                                     Télécharger le fichier
                                 </a>
                             {% endif %}
@@ -475,7 +476,7 @@
                             <div class="fic-adherent">
                             {% if adherentProfile.linkContract != '' %}
                                 <embed src='{{ asset('uploads/adherent/adherent'~ adherentProfile.id ~'/contract/'~ adherentProfile.linkContract) }}'/>
-                                <a href="{{ asset('uploads/adherent/adherent'~ adherentProfile.id ~'/contract/'~ adherentProfile.linkContract) }}" download="">
+                                <a class="link-sm" href="{{ asset('uploads/adherent/adherent'~ adherentProfile.id ~'/contract/'~ adherentProfile.linkContract) }}" download="">
                                     Télécharger le fichier
                                 </a>
                             {% endif %}
@@ -488,7 +489,7 @@
                             <div class="fic-adherent">
                             {% if adherentProfile.linkPicture != '' %}
                                 <embed src='{{ asset('uploads/adherent/adherent'~ adherentProfile.id ~'/picture/'~ adherentProfile.linkPicture) }}'/>
-                                <a href="{{ asset('uploads/adherent/adherent'~ adherentProfile.id ~'/picture/'~ adherentProfile.linkPicture) }}" download="">
+                                <a class="link-sm" href="{{ asset('uploads/adherent/adherent'~ adherentProfile.id ~'/picture/'~ adherentProfile.linkPicture) }}" download="">
                                     Télécharger le fichier
                                 </a>
                             {% endif %}
@@ -501,7 +502,7 @@
                             <div class="fic-adherent">
                             {% if adherentProfile.linkPictureAnnouncement != '' %}
                                 <embed src='{{ asset('uploads/adherent/adherent'~ adherentProfile.id ~'/announcement/'~ adherentProfile.linkPictureAnnouncement) }}'/>
-                                <a href="{{ asset('uploads/adherent/adherent'~ adherentProfile.id ~'/announcement/'~ adherentProfile.linkPictureAnnouncement) }}" download="">
+                                <a class="link-sm" href="{{ asset('uploads/adherent/adherent'~ adherentProfile.id ~'/announcement/'~ adherentProfile.linkPictureAnnouncement) }}" download="">
                                     Télécharger le fichier
                                 </a>
                             {% endif %}
