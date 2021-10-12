@@ -12,91 +12,7 @@
 
 <div id="selected-profile" class="container container-screen">
     <h1>{{ adherentProfile.firstname }} {{ adherentProfile.lastname }}</h1>
-    <div class="modal-adherent">
-        <div class="modal-info-meet">
-            <form class="form-meet" action="post">
-                <button type="button" class="close-modal">Fermer</button>
-            <div class="modal-meet-text">
-                <div class="meet-woman">
-                    <div class="modal-info-woman">
-                        <div class="">
-                            <p class="woman-lastname">Nom</p>
-                            <p class="woman-firstname">Prénom</p>
-                        </div>
-                        <div class="">
-                            <p class="woman-agence">Agence</p>
-                        </div>
-                    </div>
-                    <div class="meet-woman-pdf">
-                        <a class='link-pdf-woman' href="">Voir le pdf</a>
-                    </div>
-                    <div class="row-return-action">
-                        <div class="col-return">
-                            <label for="woman-date-returnAt">Date retour</label>
-                            <input type="date" id="woman-date-returnAt" class="woman-date-returnAt">
-                        </div>
-                        <div class="col-action">
-                            <label for="woman-action">Action</label>
-                            <select type="select" id="woman-action" class="woman-action">
-                                <option value=""></option>
-                                {% for option in options %}
-                                    <option value="{{ option.name }}">{{ option.name }}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
-                    </div>
-                    <label for="woman-comments">Commentaire</label>
-                    <textarea id="woman-comments" class="woman-comments" rows="5" cols="40"></textarea>
-                </div>
-                <div class="meet-info-general">
-                    <p>Date de rencontre</p>
-                    <p class="date-meet"></p>
-                    <p>Référence</p>
-                    <p class="id-meet"></p>
-                </div>
-                <div class="meet-man">
-                    <div class="modal-info-man">
-                        <div class="">
-                            <p class="man-lastname">Nom</p>
-                            <p class="man-firstname">Prénom</p>
-                        </div>
-                        <div class="">
-                            <p class="man-agence">Agence</p>
-                        </div>
-                    </div>
-                    <div class="meet-man-pdf">
-                        <a class='link-pdf-man' href="">Voir le pdf</a>
-                    </div>
-                    <div class="row-return-action">
-                            <div class="col-return">
-                                <label for="man-date-returnAt">Date retour</label>
-                                <input type="date" id="man-date-returnAt" class="man-date-returnAt">
-                            </div>
-                            <div class="col-action">
-                                <label for="man-action">Action</label>
-                                <select type="select" id="man-action" class="man-action">
-                                    <option value=""></option>
-                                    {% for option in options %}
-                                        <option value="{{ option.name }}">{{ option.name }}</option>
-                                    {% endfor %}
-                                </select>
-                            </div>
-                        </div>
-                    <label for="man-comments">Commentaire</label>
-                    <textarea id="man-comments" class="man-comments" rows="5" cols="40"></textarea>
-                </div>
-            </div>
-                <a href="#" class="send-form btn">Envoyer</a>
-            </form>
-        </div>
-    </div>
-
-    {# <div class="links">
-        <ul>
-            <li><a class="btn btn-little" href='{{path('adherent_all')}}'>Liste des adhérents</a></li>
-            <li><a class="btn btn-little" href='{{path('adherent_add')}}'>Ajouter un adhérent</a></li>
-        </ul>
-    </div> #}
+    {% include('modal.html.twig') %}
     {{ form_start(formAdherent) }}
         <div class="my-custom-class-for-errors">
             {{ form_errors(formAdherent) }}
@@ -182,20 +98,6 @@
             </div>
         </section>
         <section class='body-adherent'>
-            {# <div class='container-comments'>
-                <div class="col col-adherent-comments1">
-                    {{ form_label(formAdherent.comments1) }}
-                    {{ form_widget(formAdherent.comments1) }}
-                </div>
-                <div class="col col-adherent-comments2">
-                    {{ form_label(formAdherent.comments2) }}
-                    {{ form_widget(formAdherent.comments2) }}
-                </div>
-                <div class="col col-adherent-comments3">
-                    {{ form_label(formAdherent.comments3) }}
-                    {{ form_widget(formAdherent.comments3) }}
-                </div>
-            </div> #}
             <div class="container-general">
                 <div class="onglets">
                     <button class='open-tab' data-tab='tab-general' type='button'>Général</button>
