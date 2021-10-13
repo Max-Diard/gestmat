@@ -181,7 +181,7 @@ table.dataTable.no-footer{
     border-bottom: none;
 }
 
-#all-meetings #DataTables_Table_0_wrapper, #all-adherents #table-adherents_wrapper {
+#all-meetings .dataTables_wrapper, #all-adherents #table-search_wrapper {
     margin-top: 4rem;
 }
 
@@ -207,12 +207,12 @@ table.dataTable.no-footer{
     text-transform: uppercase;
 }
 
-#DataTables_Table_0 > thead:nth-child(1) > tr:nth-child(1) {
+.dataTable > thead:nth-child(1) > tr:nth-child(1) {
     font-weight: bold;
     text-transform: uppercase;
 }
 
-#DataTables_Table_0 {
+.dataTable {
     text-align: center;
 }
 
@@ -263,6 +263,10 @@ input{
         background-color: $color__grey;
         color: $color__purple_black;
     }
+}
+
+.dataTables_wrapper.no-footer .dataTables_scrollBody {
+    border-bottom: none;
 }
 
 // POP UP CRÉATION DE RENCONTRE
@@ -369,7 +373,7 @@ input{
     }
 }
 
-#selectTriggerFilterWoman{
+#selectTriggerFilterWoman, #selectTriggerFilterMan{
     label{
         text-transform: initial;
     }
@@ -463,6 +467,3 @@ input{
     }
 }
 
-.dataTables_wrapper.no-footer .dataTables_scrollBody{
-    border-bottom: none;
-}
