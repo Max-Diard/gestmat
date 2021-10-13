@@ -1,5 +1,5 @@
 $(document).ready( function () {
-    $('.table-women').DataTable({
+    $('#table-women').DataTable({
         paging: false,
         info: false,
         "language": {
@@ -77,7 +77,7 @@ $(document).ready( function () {
 
 
 // Tableau Adhérents all men
-    $('.table-men').DataTable({
+    $('#table-men').DataTable({
         paging: false,
         info: false,
         "language": {
@@ -156,7 +156,7 @@ $(document).ready( function () {
     });
 
 //Tableau pour la recherche
-    $('.table-search').DataTable({
+    $('#table-search').DataTable({
         paging: false,
         info: false,
         searching: true,
@@ -169,7 +169,7 @@ $(document).ready( function () {
     });
 
 //Tableau pour les rencontres
-    $('.table-meet').DataTable({
+    $('#table-meet').DataTable({
         paging: false,
         info: false,
         searching: true,
@@ -182,7 +182,7 @@ $(document).ready( function () {
     });
 
 //Tableau pour la liste des agences
-    $('.table-agence').DataTable({
+    $('#table-agence').DataTable({
         paging: false,
         searching: false,
         info: false,
@@ -192,7 +192,7 @@ $(document).ready( function () {
     });
 
 //Tableau pour la liste des utilisateurs
-    $('.table-user').DataTable({
+    $('#table-user').DataTable({
         paging: false,
         searching: false,
         info: false,
