@@ -147,22 +147,6 @@ $(document).ready( function () {
         }
     });
 
-// Tableau card meet Adhérents women
-//     $('.table-card-woman-meet').DataTable({
-//         paging: false,
-//         searching: false,
-//         info: false,
-//         filter: false
-//     });
-//
-// // Tableau card meet Adhérents men
-//     $('.table-card-man-meet').DataTable({
-//         paging: false,
-//         searching: false,
-//         info: false,
-//         filter: false
-//     });
-
 //Tableau pour la recherche
     $('.table-search').DataTable({
         paging: false,
@@ -185,7 +169,7 @@ $(document).ready( function () {
             "sSearch": "Votre recherche"
         },
         "language": {
-            "emptyTable": "Pas encore de donées dans ce tableau"
+            "emptyTable": "Pas encore de rencontre à ce jour"
         }
     });
 

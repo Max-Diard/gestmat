@@ -25,7 +25,7 @@
                 <div class="">
                 {% if userProfile.agence|length > 0 %}
                     {% for agence in userProfile.agence %}
-                        <p><span>{{ agence.name }} - {{ agence.addressTown }}</span></p>
+                        <p><span>{{ agence.name }}</span></p>
                         <a class="link-sm" href="{{ path('agence_single', {id: agence.id}) }}">Voir plus</a>
                         <a class="link-sm" href="{{ path('adherent_export') }}" download="download">Exporter mes données</a>
                     {% endfor %}

@@ -237,7 +237,7 @@ function apiMeet(id){
                     lastnameWoman.textContent = recup.adherent[0].lastname;
                     firstnameWoman.textContent = recup.adherent[0].firstname;
                     yearWoman.textContent = recup.adherent[0].age;
-                    agenceWoman.textContent = recup.adherent[0].agence.name + ' - ' + recup.adherent[0].agence.address_town;
+                    agenceWoman.textContent = recup.adherent[0].agence.name;
                     meetWaitingWomen = recup.adherent[0].id
                     loadingWomen = true
 
@@ -259,7 +259,7 @@ function apiMeet(id){
                     lastnameMan.textContent = recup.adherent[0].lastname;
                     firstnameMan.textContent = recup.adherent[0].firstname;
                     yearMan.textContent = recup.adherent[0].age;
-                    agenceMan.textContent = recup.adherent[0].agence.name + ' - ' + recup.adherent[0].agence.address_town;
+                    agenceMan.textContent = recup.adherent[0].agence.name;
                     meetWaitingMen = recup.adherent[0].id
                     loadingMen = true
 
@@ -278,6 +278,11 @@ function apiMeet(id){
                     informationMeetMan(recup);
                 }
                 if(loadingWomen && loadingMen){
+                    // On regarde si il n'y a pas un bouton d'affiché avant de l'afficher
+                    if(div.hasChildNodes()){
+                        div.removeChild(div.lastChild);
+                    }
+
                     // Création du bouton pour créer la rencontre
                     buttonModal.className = 'btn btn-little button-create-meet'
                     buttonModal.textContent = 'Créer une nouvelle rencontre'
@@ -307,11 +312,8 @@ function apiMeet(id){
                                 // Test en api
                                 newMeet(meetWaitingWomen, meetWaitingMen, inputDate.value)
                                 apiMeet(meetWaitingWomen)
+                                apiMeet(meetWaitingMen)
 
-                                setTimeout(()=> {
-                                    apiMeet(meetWaitingMen)
-
-                                }, 900)
                             } else if (result.isDenied) {
                                 Swal.fire("La rencontre n'a pas été effectuée !", '', 'info')
                             }
@@ -595,7 +597,7 @@ function informationMeet(id){
                 //Information de la rencontre côté femme
                 womanLastname.textContent = recup[0].adherent_woman.lastname;
                 womanFirstname.textContent = recup[0].adherent_woman.firstname;
-                womanAgence.textContent = recup[0].adherent_woman.agence.name + ' - ' + recup[0].adherent_woman.agence.address_town;
+                womanAgence.textContent = recup[0].adherent_woman.agence.name;
 
                 if (recup[0].returnAt_woman != null){
                     const returnAtWoman = new Date(recup[0].returnAt_woman)
@@ -621,7 +623,7 @@ function informationMeet(id){
                 //Information de la rencontre côté homme
                 manLastname.textContent = recup[0].adherent_man.lastname;
                 manFirstname.textContent = recup[0].adherent_man.firstname;
-                manAgence.textContent = recup[0].adherent_man.agence.name + ' - ' + recup[0].adherent_man.agence.address_town;
+                manAgence.textContent = recup[0].adherent_man.agence.name;
 
                 if (recup[0].returnAt_man != null){
                     const returnAtMan = new Date(recup[0].returnAt_man)

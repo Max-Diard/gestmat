@@ -447,7 +447,7 @@
                                                 {% endif %}
                                                 <td>{{ meet.adherentMan.lastname }}</td>
                                                 <td>{{ meet.adherentMan.firstname }}</td>
-                                                <td>{{ meet.adherentMan.agence.name }} - {{ meet.adherentMan.agence.addressTown }}</td>
+                                                <td>{{ meet.adherentMan.agence.name }}</td>
                                             {% else %}
                                                 {% if meet.returnAtMan == '' %}
                                                     <td>En attente</td>
@@ -456,7 +456,7 @@
                                                 {% endif %}
                                                 <td>{{ meet.adherentWoman.lastname }}</td>
                                                 <td>{{ meet.adherentWoman.firstname }}</td>
-                                                <td>{{ meet.adherentMan.agence.name }} - {{ meet.adherentWoman.agence.addressTown }}</td>
+                                                <td>{{ meet.adherentMan.agence.name }}</td>
                                             {% endif %}
                                             <td>{{ meet.startedAt|date('d/m/Y') }}</td>
                                             <td><a href="#" class="meet-more" data-id="{{ meet.id }}">Voir plus</a></td>

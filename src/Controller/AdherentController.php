@@ -447,18 +447,24 @@ class AdherentController extends AbstractController
         Route('/adherent/export', name: 'adherent_export'),
         IsGranted('ROLE_USER')
     ]
-    public function adherentExportCsv(Request $request)
+    public function adherentExportCsv(Request $request): Response
     {
         $userAgences = $this->getUser()->getAgence();
 
         foreach ($userAgences as $userAgence){
             $adherents = $userAgence->getAdherents();
             foreach ($adherents as $adherent){
+                if($adherent->getGenre()->getName() == 'Féminin'){
+                    $meets[] = $this->entityManager->getRepository(Meet::class)->findBy(['adherent_woman' => $adherent->getId()]);
+                } else {
+                    $meets[] = $this->entityManager->getRepository(Meet::class)->findBy(['adherent_man' => $adherent->getId()]);
+                }
                 $adherentcsv[] = $adherent;
             }
         }
         $csv = $this->renderView('adherent/template.csv.twig', [
-            'adherents' => $adherentcsv,
+                'adherents' => $adherentcsv,
+                'meets' => $meets
         ]);
 
         $response = new Response($csv);

@@ -364,7 +364,7 @@ class AdherentType extends AbstractType
                 'choices' => $agences
             ])
             ->add('submit', SubmitType::class, [
-                'label' => 'Envoyer'
+                'label' => 'Enregistrer'
             ])
         ;
     }
