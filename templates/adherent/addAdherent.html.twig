@@ -10,7 +10,6 @@
         {{ form_errors(formAdherent) }}
     </div>
     <section class='header-adherent'>
-        <img class="image-adherent" src='{{ asset('build/images/avatar.jpg') }}' alt="Image de l'adhérent"/>
         <div>
             <div class="row-first">
                 <div class="col col-adherent-number">
@@ -46,19 +45,20 @@
                     {{ form_widget(formAdherent.birthdate) }}
                 </div>
                 <div class="col col-adherent-age">
-                    <label for="">Age</label>
+                    <label for="">Âge</label>
                     <div class="age">(Automatique)</div>
-                </div>
-                <div class="col col-adherent-last-meet">
-                    <label for="">Dernière Rencontre</label>
-                    <div class="last-meet">(Automatique)</div>
                 </div>
                 <div class="col col-adherent-status-meet">
                     {{ form_label(formAdherent.status_meet) }}
                     {{ form_widget(formAdherent.status_meet) }}
                 </div>
+                <div class="col col-adherent-last-meet">
+                    <label for="">Dernière Rencontre</label>
+                    <div class="last-meet">(Automatique)</div>
+                </div>
             </div>
         </div>
+        <img class="image-adherent" src='{{ asset('build/images/avatar.jpg') }}' alt="Image de l'adhérent"/>
          <div class='container-comments'>
             <div class="col col-adherent-comments1">
                 {{ form_label(formAdherent.comments1) }}
