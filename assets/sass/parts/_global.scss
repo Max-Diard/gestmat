@@ -276,6 +276,7 @@ input{
     .modal-adherent{
         height: 100vh;
         width: 100%;
+        z-index: 100;
         .modal-info-meet{
             top: 50%;
             left: 50%;
