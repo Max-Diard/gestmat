@@ -2,6 +2,9 @@ $(document).ready( function () {
     $('#table-women').DataTable({
         paging: false,
         info: false,
+        "scrollX":        false,
+        "scrollY":        "373px",
+        "scrollCollapse": true,
         "language": {
             "emptyTable": "Pas encore de donées dans ce tableau"
         },
@@ -69,10 +72,6 @@ $(document).ready( function () {
                     columnDate.search(resultVal.join('|'), true, false, true).draw()
                 });
         },
-        "scrollX":        false,
-        "scrollY":        "373px",
-        "scrollCollapse": true,
-        "paging":         false
     });
 
 
@@ -80,6 +79,9 @@ $(document).ready( function () {
     $('#table-men').DataTable({
         paging: false,
         info: false,
+        "scrollX":        false,
+        "scrollY":        "373px",
+        "scrollCollapse": true,
         "language": {
             "emptyTable": "Pas encore de donées dans ce tableau"
         },
@@ -149,10 +151,7 @@ $(document).ready( function () {
                     columnDate.search(resultVal.join('|'), true, false, true).draw()
                 });
         },
-        "scrollX":        false,
-        "scrollY":        "373px",
-        "scrollCollapse": true,
-        "paging":         false
+
     });
 
 //Tableau pour la recherche

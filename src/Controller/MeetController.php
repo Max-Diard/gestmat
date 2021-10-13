@@ -20,6 +20,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Config\Framework\RouterConfig;
 
 class MeetController extends AbstractController
@@ -132,7 +133,7 @@ class MeetController extends AbstractController
         Route('/meet/pdf/{adherent}-{meet}', name: 'adherent_single_pdf'),
         IsGranted('ROLE_USER')
     ]
-    public function seePdfAdherent(Adherent $adherent, Adherent $meet, Request $request)
+    public function seePdfAdherent(Adherent $adherent, Adherent $meet, Request $request, SluggerInterface $slugger)
     {
         $date = new DateTimeImmutable('now');
 
@@ -169,8 +170,10 @@ class MeetController extends AbstractController
         }
         file_put_contents($location, $output);
 
+        $slug = $slugger->slug('rencontre-' . strtolower($adherent->getLastname()) .'-'. strtolower($adherent->getFirstname()));
+
         // Output the generated PDF to Browser (force download)
-        $dompdf->stream("rencontre-" . strtolower($adherent->getLastname()) .'-'. strtolower($adherent->getFirstname()), array('Attachment' => true));
+        $dompdf->stream($slug , array('Attachment' => true));
 
 //        return new Response('', 200, [
 //            'Content-Type' => 'application/pdf',

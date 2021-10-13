@@ -23,6 +23,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 class AdherentController extends AbstractController
 {
@@ -406,7 +407,7 @@ class AdherentController extends AbstractController
         Route('/adherent/profile/{id}/testimony', name: 'adherent_testimony'),
         IsGranted('ROLE_USER')
     ]
-    public function testimonyAdherent(Adherent $adherent, Request $request)
+    public function testimonyAdherent(Adherent $adherent, Request $request, SluggerInterface $slugger)
     {
         $pdf = new Options();
         $pdf->set('defaultFont', 'Arial');
@@ -431,8 +432,10 @@ class AdherentController extends AbstractController
         // Render the HTML as PDF
         $dompdf->render();
 
+        $slug = $slugger->slug("temoignage-" . strtolower($adherent->getLastname()) . '-' . strtolower($adherent->getFirstname()));
+
         // Output the generated PDF to Browser (force download)
-        $dompdf->stream("temoignage-" . strtolower($adherent->getLastname()) . '-' . strtolower($adherent->getFirstname()), [
+        $dompdf->stream($slug , [
             "Attachement" => true
         ]);
 
