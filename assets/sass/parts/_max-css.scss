@@ -110,7 +110,7 @@ label{
 }
 
 .modal-info-meet{
-    max-width: 50%;
+    max-width: 70%;
     max-height: 50%;
     background-color: white;
     top: 30%;
@@ -118,6 +118,9 @@ label{
     left: 25%;
     border-radius: 10%;
     z-index: 2;
+    @include xxl{
+        max-width: 50%;
+    }
 }
 
 .form-meet {

@@ -3,8 +3,13 @@
         width: 100%;
     }
     .all-table{
-        margin: 0 3rem;
         margin-bottom: 3rem;
+        > div{
+            width: 48%;
+            @include rwd(2508){
+                width: 35%;
+            }
+        }
         .table-women{
             > .thead-adherent{
                 tr{
@@ -93,7 +98,7 @@
             position: sticky;
             background-color: $color__grey_light;
             top: 0;
-            z-index: 10;
+            z-index: 1;
             > p + p {
                 margin-left: 2rem;
             }

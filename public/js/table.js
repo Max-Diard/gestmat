@@ -69,6 +69,7 @@ $(document).ready( function () {
                     columnDate.search(resultVal.join('|'), true, false, true).draw()
                 });
         },
+        "scrollX":        false,
         "scrollY":        "373px",
         "scrollCollapse": true,
         "paging":         false
@@ -148,6 +149,7 @@ $(document).ready( function () {
                     columnDate.search(resultVal.join('|'), true, false, true).draw()
                 });
         },
+        "scrollX":        false,
         "scrollY":        "373px",
         "scrollCollapse": true,
         "paging":         false
