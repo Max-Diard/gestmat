@@ -68,7 +68,10 @@ $(document).ready( function () {
                     })
                     columnDate.search(resultVal.join('|'), true, false, true).draw()
                 });
-        }
+        },
+        "scrollY":        "373px",
+        "scrollCollapse": true,
+        "paging":         false
     });
 
 
@@ -144,7 +147,10 @@ $(document).ready( function () {
                     })
                     columnDate.search(resultVal.join('|'), true, false, true).draw()
                 });
-        }
+        },
+        "scrollY":        "373px",
+        "scrollCollapse": true,
+        "paging":         false
     });
 
 //Tableau pour la recherche

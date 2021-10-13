@@ -1,5 +1,9 @@
 #adherents-list{
+    .container-tables{
+        width: 100%;
+    }
     .all-table{
+        margin: 0 3rem;
         margin-bottom: 3rem;
         .table-women{
             > .thead-adherent{
@@ -8,6 +12,9 @@
                         background-color: $color__pink_extralight;
                         text-transform: uppercase;
                         font-weight: bold;
+                    }
+                    td{
+                        white-space: nowrap;
                     }
                 }
             }
@@ -19,6 +26,9 @@
                         background-color: $color__green;
                         text-transform: uppercase;
                         font-weight: bold;
+                    }
+                    td{
+                        white-space: nowrap;
                     }
                 }
             }
@@ -42,17 +52,34 @@
             border: .4rem solid $color__pink_extralight;
             background-color: $color__grey_light;
             border-radius: 2rem;
-            width: 73.7rem;
+            width: 49%;
             padding: 2rem 1.1rem;
+            padding-top: 0;
             display: flex;
             align-items: flex-start;
             justify-content: center;
+            @include xxl{
+                width: 48%;
+            }
+            @include rwd(1991){
+                width: 35%;
+            }
             > div{
                 width: 100%;
             }
         }
         .card-selected-man{
             border: .4rem solid $color__green;
+            // margin-left: 0.5rem;
+            // @include rwd(1510){
+            //     margin-left: 0;
+            // }
+        }
+        .card-selected-woman{
+            // margin-right: 0.5rem;
+            // @include rwd(1510){
+            //     margin-right: 0;
+            // }
         }
         .info-adherent-woman-picked, .table-card-woman > .thead-adherent, .table-card-man > .thead-adherent{
             font-weight: bold;
@@ -61,6 +88,12 @@
             justify-content: center;
             padding-bottom: 1rem;
             border-bottom: .2rem solid $color__pink_extralight;
+            margin-bottom: 0.5rem;
+            padding-top: 1.1rem;
+            position: sticky;
+            background-color: $color__grey_light;
+            top: 0;
+            z-index: 10;
             > p + p {
                 margin-left: 2rem;
             }
@@ -68,18 +101,29 @@
                 text-transform: uppercase;
             }
         }
+        .table-card-woman, .table-card-man{
+            height: 17rem;
+            overflow-y: scroll;
+        }
         .table-card-woman-meet, .table-card-man-meet{
             width: 100%;
             text-align: center;
+            // display: inline-block;
+            // height: 14rem;
+            // overflow-y: scroll;
             > .thead-adherent{
                 font-weight: bold;
                 text-transform: uppercase;
+                position: sticky;
+                // top: 0;
+                // background-color: $color__grey_light;
+                // z-index: 10;
             }
         }
         table{
-            border-collapse:separate; 
-            border-spacing: 0 .5rem;
-            width: 100%;
+            // border-collapse:separate; 
+            // border-spacing: 0 .5rem;
+            // width: 100%;
             .woman-meeting, .man-meeting{
                 > tr{
                     td{
