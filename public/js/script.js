@@ -115,7 +115,6 @@ window.addEventListener("DOMContentLoaded", (event) => {
 
     // Pour la page Rencontre
     const dateMeet = document.querySelector('.input-date-meet');
-    const linkTestimony = document.querySelector('.link-testimony');
     const buttonMeetMore = document.querySelectorAll('.page-meet-more')
 
     if(dateMeet){
@@ -248,7 +247,9 @@ function apiMeet(id){
                     } else{
                         window.location.hash = womanUrl
                     }
+
                     infoWoman = recup
+
                     informationMeetWoman(recup);
 
                 }
@@ -289,8 +290,6 @@ function apiMeet(id){
                     div.appendChild(buttonModal)
                     buttonModal.style.display = true;
 
-                    console.log(infoWoman)
-
                     //On regarde si une rencontre n'a pas déjà été effectué entre les 2 personnes sélectionner
                     if(infoWoman.meet.length > 0){
                         for (let i = 0; i < infoWoman.meet.length; i++){
@@ -308,18 +307,21 @@ function apiMeet(id){
                         ev.preventDefault()
 
                         const today = new Date();
-                        const dateToday = today.toISOString().split('T')[0]
-                        let test = '<p>' + lastnameWoman.textContent + ' ' + firstnameWoman.textContent + ' et ' + lastnameMan.textContent + ' ' + firstnameMan.textContent + '?</p>' +
-                            '<input type="date" class="swal2-input" id="expiry-date" value="'+ dateToday + '" required>';
+                        const dateToday = today.toISOString().split('T')[0];
+
+                        let test =  '<p>' + lastnameWoman.textContent + ' ' + firstnameWoman.textContent + ' et ' + lastnameMan.textContent + ' ' + firstnameMan.textContent + '?</p>' +
+                                    '<input type="date" class="swal2-input" id="expiry-date" value="'+ dateToday + '" required>';
+
                         if (alreadyMeet === true){
-                            test += '<p>Attention, une rencontre a déjà été éffectué entre ces deux personnes !</p>';
+                            test += '<p style="margin-top : 1em">Attention, une rencontre a déjà été éffectué entre ces deux personnes !</p>';
                         } else if(infoWoman.adherent[0].status_meet.name != 'Disponible' && infoMan.adherent[0].status_meet.name != 'Disponible'){
-                            test += '<p>Attention, ces deux personnes ne sont pas disponible pour le moment !</p>';
+                            test += '<p style="margin-top : 1em">Attention, ces deux personnes ne sont pas disponible pour le moment !</p>';
                         } else if(infoWoman.adherent[0].status_meet.name != 'Disponible') {
-                            test += '<p>Attention, ' + lastnameWoman.textContent + ' ' + firstnameWoman.textContent + ' n\'est pas disponible pour le moment !</p>';
+                            test += '<p style="margin-top : 1em">Attention, ' + lastnameWoman.textContent + ' ' + firstnameWoman.textContent + ' n\'est pas disponible pour le moment !</p>';
                         } else if(infoMan.adherent[0].status_meet.name != 'Disponible') {
-                            test += '<p>Attention, ' + lastnameMan.textContent + ' ' + firstnameMan.textContent + ' n\'est pas disponible pour le moment !</p>';
+                            test += '<p style="margin-top : 1em">Attention, ' + lastnameMan.textContent + ' ' + firstnameMan.textContent + ' n\'est pas disponible pour le moment !</p>';
                         }
+
                         Swal.fire({
                             title: 'Vous voulez créer une rencontre entre :',
                             showDenyButton: true,
@@ -339,8 +341,6 @@ function apiMeet(id){
                                 Swal.fire("La rencontre n'a pas été effectuée !", '', 'info')
                             }
                         })
-
-
                     })
                 }
             }
@@ -360,8 +360,8 @@ function informationMeetWoman(recup){
     }
 
     if (recup.meet.length > 0){
-        let j = 0
-        while(j < recup.meet.length){
+        let j = recup.meet.length - 1 ;
+        while(j != -1){
             const row = document.createElement('tr')
 
             const celliD = document.createElement('td')
@@ -439,7 +439,7 @@ function informationMeetWoman(recup){
             row.appendChild(cellDelete)
 
             divMeetWoman.appendChild(row)
-            j++;
+            j--;
         }
     } else {
         const row = document.createElement('tr')
@@ -464,8 +464,8 @@ function informationMeetMan(recup){
     }
 
     if(recup.meet.length > 0){
-        let j = 0
-        while(j < recup.meet.length){
+        let j = recup.meet.length - 1 ;
+        while(j != -1){
             const row = document.createElement('tr')
 
             const celliD = document.createElement('td')
@@ -545,7 +545,7 @@ function informationMeetMan(recup){
 
             divMeetMan.appendChild(row)
 
-            j++;
+            j--;
         }
     } else {
         const row = document.createElement('tr')

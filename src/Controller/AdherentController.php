@@ -287,7 +287,6 @@ class AdherentController extends AbstractController
             $this->redirectToRoute('adherent_single', ['id' => $adherent->getId()]);
         }
 
-
         return $this->render('adherent/singleAdherent.html.twig', [
             'adherentProfile'   => $adherent,
             'formAdherent'      => $form->createView(),
