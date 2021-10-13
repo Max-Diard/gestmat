@@ -32,45 +32,68 @@
     }
     section{
         &.header-adherent{
-            justify-content: flex-start;
             align-items: flex-start;
+            flex-wrap: wrap;
+            justify-content: space-between;
             margin-top: 5rem;
             .image-adherent{
-                width: 28rem;
-                margin-right: 2rem;
+                width: 12rem;
+                height: 13rem;
+                object-fit: cover;
+                margin-right: 1rem;
             }
             > div{
+                &:first-child{
+                    width: 85%;
+                    > div + div{
+                        margin-top: .5rem;
+                    }
+                }
                 .row-first, .row-second, .row-third {
                     justify-content: start;
                     align-items: start;
-                    flex-direction: column;
+                    justify-content: space-between;
                     .col{
                         margin: .4rem;
+                        display: flex;
+                        label{
+                            white-space: nowrap;
+                            line-height: 1.3em;
+                        }
+                        input{
+                            width: 12rem;
+                            padding: 0.2rem;
+                        }
                     }
                 }
             }
             .container-comments{
-                margin-left: auto;
-                width: 35rem;
+                width: 100%;
+                display: flex;
+                align-items: flex-end;
                 textarea{
-                    height: 7rem;
+                    height: 10rem;
                     color: $color__purple;
                     border: .2rem solid $color__grey;
                     border-radius: 1rem;
                     outline: none;
                     padding: .5rem;
                 }
+                .col + .col{
+                    margin-left: 2rem;
+                }
             }
             .col{
+                margin: 0;
                 div:nth-child(2){
                     font-size: 1.6rem;
                     color: $color__purple_black;
                     font-weight: bold;
                 }
             }
-            select, input{
-                background-color: transparent;
-                padding-top: 0;
+
+            #adherent_birthdate_month, #adherent_birthdate_year{
+                margin-left: 0.3rem;
             }
         }
 
