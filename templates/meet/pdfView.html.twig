@@ -41,6 +41,10 @@
         margin-left: 7.6%;
     }
 
+    .info-meet-agence{
+        margin-left: 17.3%;
+    }
+
     span{
         margin: 0 2rem;
     }
@@ -69,17 +73,7 @@
         border-bottom: 1px solid black;
     }
 
-    .choice-left{
-        /*display: inline-block;*/
-        /*width: 70%;*/
-        /*height: 4%;*/
-        /*text-align: center;*/
-    }
-
     .choice-right{
-        /*display: inline-block;*/
-        /*width: 30%;*/
-        /*height: 4%;*/
         text-align: right;
     }
 
@@ -118,9 +112,10 @@
     </p>
 </div>
 <div class="">
-    <p class="info-meet-name">Nom de la personne sélectionné<span class="adherent-info">:</span>{{ meet.firstname }} {{ meet.lastname }}</p>
-    <p class="info-meet-age">Âge<span class="adherent-info">:</span>{{ meet.getAge() }}</p>
-    <p class="info-meet-phone">Numéro de téléphone<span class="adherent-info">:</span>{{ meet.phoneMobile }}</p>
+    <p class="info-meet-name">Nom de la personne sélectionné<span>:</span>{{ meet.firstname }} {{ meet.lastname }}</p>
+    <p class="info-meet-age">Âge<span>:</span>{{ meet.getAge() }}</p>
+    <p class="info-meet-phone">Numéro de téléphone<span>:</span>{{ meet.phoneMobile }}</p>
+    <p class="info-meet-agence">Agence <span>:</span>{{ meet.agence.name }}</p>
 </div>
 <div class="">
     <p class="info-meet-all">{{ meet.profession }}, {{ meet.statusMatrimoniale }}, {{ meet.size }}, Yeux: {{ meet.eyes }}, Cheveux: {{ meet.hair }}</p>

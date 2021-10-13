@@ -1,8 +1,16 @@
+// Pour faire apparâitre le bouton de rencontre
 let loadingMen = false
 let loadingWomen = false
+
 let meetWaitingWomen = '';
 let meetWaitingMen = '';
 
+//Pour recupérer ler informations de la personne sélectionner
+let infoWoman = '';
+let infoMan = '';
+let alreadyMeet = false;
+
+//Pour mettre les informations dans l'url
 const url = new URL(window.location)
 let myParams = url.searchParams
 
@@ -183,28 +191,16 @@ window.addEventListener("DOMContentLoaded", (event) => {
 
 });
 
-// Remove meet en api
-function removeMeet(id){
-    const request = new XMLHttpRequest();
-    request.open('DELETE', 'http://127.0.0.1:8000/api/meet/delete/' + id, true)
-    request.setRequestHeader("content-type", "application/json; charset=utf-8")
-    request.send(JSON.stringify({
-        'id': id
-    }))
-}
-
 // Function pour appeler l'api qui récupére l'adhérent sélectionner
 function apiMeet(id){
     const lastnameWoman = document.querySelector('.thead-card-woman-lastname');
     const firstnameWoman = document.querySelector('.thead-card-woman-firstname');
     const yearWoman = document.querySelector('.thead-card-woman-years');
-    // const meetWoman = document.querySelector('.thead-card-woman-meet');
     const agenceWoman = document.querySelector('.thead-card-woman-agence');
 
     const lastnameMan = document.querySelector('.thead-card-man-lastname');
     const firstnameMan = document.querySelector('.thead-card-man-firstname');
     const yearMan = document.querySelector('.thead-card-man-years');
-    // const meetMan = document.querySelector('.thead-card-man-meet');
     const agenceMan = document.querySelector('.thead-card-man-agence');
 
     const div = document.querySelector('.button-meet')
@@ -252,10 +248,11 @@ function apiMeet(id){
                     } else{
                         window.location.hash = womanUrl
                     }
-
+                    infoWoman = recup
                     informationMeetWoman(recup);
 
-                } else {
+                }
+                else {
                     lastnameMan.textContent = recup.adherent[0].lastname;
                     firstnameMan.textContent = recup.adherent[0].firstname;
                     yearMan.textContent = recup.adherent[0].age;
@@ -274,8 +271,10 @@ function apiMeet(id){
                     } else{
                         window.location.hash = manUrl
                     }
+                    infoMan = recup;
 
                     informationMeetMan(recup);
+
                 }
                 if(loadingWomen && loadingMen){
                     // On regarde si il n'y a pas un bouton d'affiché avant de l'afficher
@@ -290,26 +289,48 @@ function apiMeet(id){
                     div.appendChild(buttonModal)
                     buttonModal.style.display = true;
 
+                    console.log(infoWoman)
+
+                    //On regarde si une rencontre n'a pas déjà été effectué entre les 2 personnes sélectionner
+                    if(infoWoman.meet.length > 0){
+                        for (let i = 0; i < infoWoman.meet.length; i++){
+                            if(infoWoman.meet[i].adherent_man.id == infoMan.adherent[0].id){
+                                alreadyMeet = true
+                                break;
+                            }
+                            else {
+                                alreadyMeet = false
+                            }
+                        }
+                    }
+
                     buttonModal.addEventListener('click', function(ev){
                         ev.preventDefault()
 
                         const today = new Date();
                         const dateToday = today.toISOString().split('T')[0]
-
+                        let test = '<p>' + lastnameWoman.textContent + ' ' + firstnameWoman.textContent + ' et ' + lastnameMan.textContent + ' ' + firstnameMan.textContent + '?</p>' +
+                            '<input type="date" class="swal2-input" id="expiry-date" value="'+ dateToday + '" required>';
+                        if (alreadyMeet === true){
+                            test += '<p>Attention, une rencontre a déjà été éffectué entre ces deux personnes !</p>';
+                        } else if(infoWoman.adherent[0].status_meet.name != 'Disponible' && infoMan.adherent[0].status_meet.name != 'Disponible'){
+                            test += '<p>Attention, ces deux personnes ne sont pas disponible pour le moment !</p>';
+                        } else if(infoWoman.adherent[0].status_meet.name != 'Disponible') {
+                            test += '<p>Attention, ' + lastnameWoman.textContent + ' ' + firstnameWoman.textContent + ' n\'est pas disponible pour le moment !</p>';
+                        } else if(infoMan.adherent[0].status_meet.name != 'Disponible') {
+                            test += '<p>Attention, ' + lastnameMan.textContent + ' ' + firstnameMan.textContent + ' n\'est pas disponible pour le moment !</p>';
+                        }
                         Swal.fire({
                             title: 'Vous voulez créer une rencontre entre :',
                             showDenyButton: true,
-                            // showCancelText: 'Non',
                             confirmButtonText: 'Oui',
                             denyButtonText: `Non`,
                             icon: 'question',
-                            html: '<p>' + lastnameWoman.textContent + ' ' + firstnameWoman.textContent + ' et ' + lastnameMan.textContent + ' ' + firstnameMan.textContent + '?</p>' +
-                                '<input type="date" class="swal2-input" id="expiry-date" value="'+ dateToday + '" required>',
+                            html: test
+
                         }).then((result) => {
                             if (result.isConfirmed) {
                                 const inputDate = document.querySelector('#expiry-date')
-                                // window.location = 'meet/new/' + meetWaitingWomen + '-' + meetWaitingMen + '-' + inputDate.value
-                                // Test en api
                                 newMeet(meetWaitingWomen, meetWaitingMen, inputDate.value)
                                 apiMeet(meetWaitingWomen)
                                 apiMeet(meetWaitingMen)
@@ -318,6 +339,8 @@ function apiMeet(id){
                                 Swal.fire("La rencontre n'a pas été effectuée !", '', 'info')
                             }
                         })
+
+
                     })
                 }
             }
@@ -340,7 +363,6 @@ function informationMeetWoman(recup){
         let j = 0
         while(j < recup.meet.length){
             const row = document.createElement('tr')
-
 
             const celliD = document.createElement('td')
             celliD.textContent = recup.meet[j].id
@@ -383,7 +405,6 @@ function informationMeetWoman(recup){
             const cellDelete = document.createElement('td')
             const cellLinkDelete = document.createElement('a')
 
-            //Test avec SweetAlert
             cellLinkDelete.href = '#'
             cellLinkDelete.classList.add('suppr-meet')
             cellLinkDelete.innerHTML = '<img src="/build/images/delete.svg" alt="supprimer">'
@@ -694,7 +715,7 @@ function updateMeet(
         }))
 }
 
-// Test en api de créer une rencontre
+// Permet de créer une rencontre en Api
 function newMeet(woman, man, date){
     const request = new XMLHttpRequest();
     request.open('POST', 'http://127.0.0.1:8000/api/new_meet/', true)
@@ -703,5 +724,15 @@ function newMeet(woman, man, date){
         woman: woman,
         man: man,
         date: date
+    }))
+}
+
+// Remove rencontre en api
+function removeMeet(id){
+    const request = new XMLHttpRequest();
+    request.open('DELETE', 'http://127.0.0.1:8000/api/meet/delete/' + id, true)
+    request.setRequestHeader("content-type", "application/json; charset=utf-8")
+    request.send(JSON.stringify({
+        'id': id
     }))
 }

@@ -255,6 +255,7 @@ class Adherent implements Serializable
 
     /**
      * @ORM\ManyToOne(targetEntity=AdherentOption::class, inversedBy="adhrents_status_meet")
+     * @Groups("adherent:read")
      */
     private $status_meet;
 
