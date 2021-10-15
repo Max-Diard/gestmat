@@ -5,17 +5,25 @@
     <h1 class="title-meet">Toutes les rencontres {% if dateUrl is defined %}du {{ dateUrl|date('d/m/Y') }}{% endif %}</h1>
 
     <div class="search-input-meet">
-        <input type="date" class="input-date-meet" >
+        <h2>Rechercher les rencontres entre :</h2>
+
+        <label for="input-date-meet-start">Début</label>
+        <input type="date" class="input-date-meet-start" id="input-date-meet-start">
+
+        <label for="input-date-meet-end">Fin</label>
+        <input type="date" class="input-date-meet-end" id="input-date-meet-end">
+
+        <a href="#" class="link-search-meet-date">Envoyer</a>
     </div>
 
     <div class="btns">
         <a class="btn btn-little" href="{{ path('meet_all') }}">Voir toutes les rencontres</a>
         <a href="
-        {% if dateUrl is defined %}
-            {{ path('meet_send_date', {date: dateUrl|date('Y-m-d')}) }}
+        {% if dateUrlStart is defined and dateUrlEnd is defined %}
+            {{ path('meet_send_date', {dateStart: dateUrlStart|date('Y-m-d'), dateEnd: dateUrlEnd|date('Y-m-d')}) }}
         {% else %}
             {{ path('meet_send') }}
-        {% endif %}" class="link-testimony btn btn-little">Envoyer les courriers</a>
+        {% endif %}" class="link-testimony btn btn-little">Voir la liste d'envoi</a>
     </div>
 
     {% include('modal.html.twig') %}
@@ -36,11 +44,11 @@
             {% for meet in meets %}
             <tr>
                 <td>{{ meet.id }}</td>
-                <td>{{ meet.startedAt|date('d/m/Y') }}</td>
+                <td data-sort='{{ meet.startedAt|date('Ymd') }}'>{{ meet.startedAt|date('d/m/Y') }}</td>
                 <td>{{ meet.adherentWoman.firstname }} {{ meet.adherentWoman.lastname }}</td>
-                <td>{{ meet.adherentWoman.agence.name }} {{ meet.adherentWoman.agence.addressTown }}</td>
+                <td>{{ meet.adherentWoman.agence.name }}</td>
                 <td>{{ meet.adherentMan.firstname }} {{ meet.adherentMan.lastname }}</td>
-                <td>{{ meet.adherentMan.agence.name }} {{ meet.adherentMan.agence.addressTown }}</td>
+                <td>{{ meet.adherentMan.agence.name }}</td>
                 <td><a class="page-meet-more" href="#" data-id="{{ meet.id }}">Voir plus</a></td>
             </tr>
             {% endfor %}

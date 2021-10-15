@@ -176,7 +176,7 @@ $(document).ready( function () {
             "sSearch": "Votre recherche"
         },
         "language": {
-            "emptyTable": "Pas encore de rencontre à ce jour"
+            "emptyTable": "Pas encore de rencontre pendant cette période"
         }
     });
 

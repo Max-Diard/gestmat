@@ -33,7 +33,7 @@
                 <td>{{ adherent.addressTown }}</td>
                 <td>{{ adherent.phoneMobile }}</td>
                 <td>{{ adherent.phoneHome }}</td>
-                <td>{{ adherent.contractEndingAt|date('d/m/Y') }}</td>
+                <td data-sort='{{ adherent.contractEndingAt|date('Ymd') }}'>{{ adherent.contractEndingAt|date('d/m/Y') }}</td>
                 <td>
                     {% if adherent.contractStartedAt < date('now') and adherent.contractEndingAt > date('now') %}
                         En Cours

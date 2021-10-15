@@ -114,20 +114,34 @@ window.addEventListener("DOMContentLoaded", (event) => {
     }
 
     // Pour la page Rencontre
-    const dateMeet = document.querySelector('.input-date-meet');
-    const buttonMeetMore = document.querySelectorAll('.page-meet-more')
+    const dateMeetStart = document.querySelector('.input-date-meet-start');
+    const dateMeetEnd = document.querySelector('.input-date-meet-end');
+    const linkSearchMeet = document.querySelector('.link-search-meet-date');
 
-    if(dateMeet){
-        if (dateMeet.value == '') {
-            const today = new Date();
-            const dateToday = today.toISOString().split('T')[0]
-            dateMeet.value = window.location.pathname.slice(-10);
+    const buttonMeetMore = document.querySelectorAll('.page-meet-more');
+    const buttonSendPaper = document.querySelector('.link-send-paper');
+    const buttonSendEmail = document.querySelector('.link-send-email');
+
+    if(dateMeetStart){
+        if (dateMeetStart.value == '') {
+            const date = window.location.pathname.slice(-21);
+            dateMeetStart.value = date.slice(0,10);
         }
+        if(dateMeetEnd.value == ''){
+            dateMeetEnd.value = window.location.pathname.slice(-10);
+        }
+    }
 
-        dateMeet.addEventListener('input', function (ev){
-            ev.preventDefault()
-            if (dateMeet.value != ''){
-                window.location = '/meet/search/' + dateMeet.value
+    if(linkSearchMeet){
+        linkSearchMeet.addEventListener('click', () => {
+            if(dateMeetStart.value != '' && dateMeetEnd.value != ''){
+                window.location = '/meet/search/' + dateMeetStart.value + '/' + dateMeetEnd.value;
+            } else {
+                Swal.fire({
+                    title: 'Recherche impossible',
+                    text: 'Attention, vous devez sélectionner 2 dates !',
+                    icon: 'error'
+                })
             }
         })
     }
@@ -137,6 +151,55 @@ window.addEventListener("DOMContentLoaded", (event) => {
             elem.addEventListener('click', function(ev) {
                 const id = elem.getAttribute('data-id')
                 informationMeet(id)
+            })
+        })
+    }
+
+    if(buttonSendPaper){
+        buttonSendPaper.addEventListener('click', () => {
+            const dataPaper = buttonSendPaper.getAttribute('data-paper');
+            let textPaper = '';
+            if (dataPaper > 30){
+                textPaper = 'Attention, vous êtes sur le point de créer un PDF pour plus de ' + dataPaper + ' personnes, nous vous recommandons de sélectionner une date !'
+            } else {
+                textPaper = 'Êtes-vous sûr de vouloir créer un PDF pour ' + dataPaper + ' personnes ?'
+            }
+            Swal.fire({
+                title: 'Créer le PDF à envoyer ?',
+                text: textPaper,
+                icon: 'question',
+                showDenyButton: true,
+                confirmButtonText: 'Oui',
+                denyButtonText: `Non`,
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location = '/meet/search_all/paper';
+                }
+            })
+        })
+    }
+
+    if(buttonSendEmail){
+        buttonSendEmail.addEventListener('click', () => {
+            const dataEmail = buttonSendEmail.getAttribute('data-email');
+            let textEmail = '';
+            if (dataEmail > 30){
+                textEmail = 'Attention, vous êtes sur le point d\'envoyer ' + dataEmail + ' emails, nous vous recommandons de sélectionner une date !'
+            } else {
+                textEmail = 'Êtes-vous sûr de vouloir d\'envoyer ' + dataEmail + ' emails ?'
+            }
+            Swal.fire({
+                title: 'Envoyer les emails ?',
+                text: textEmail,
+                icon: 'question',
+                showDenyButton: true,
+                confirmButtonText: 'Oui',
+                denyButtonText: `Non`,
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    console.log('Email send')
+                    // window.location = '/meet/send_all/paper';
+                }
             })
         })
     }
@@ -313,7 +376,7 @@ function apiMeet(id){
                                     '<input type="date" class="swal2-input" id="expiry-date" value="'+ dateToday + '" required>';
 
                         if (alreadyMeet === true){
-                            test += '<p style="margin-top : 1em">Attention, une rencontre a déjà été éffectué entre ces deux personnes !</p>';
+                            test += '<p style="margin-top : 1em">Attention, une rencontre a déjà été éffectuée entre ces deux personnes !</p>';
                         } else if(infoWoman.adherent[0].status_meet.name != 'Disponible' && infoMan.adherent[0].status_meet.name != 'Disponible'){
                             test += '<p style="margin-top : 1em">Attention, ces deux personnes ne sont pas disponible pour le moment !</p>';
                         } else if(infoWoman.adherent[0].status_meet.name != 'Disponible') {

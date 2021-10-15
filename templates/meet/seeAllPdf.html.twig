@@ -3,13 +3,32 @@
 {% block body %}
 <div id="list-pdf" class="container container-screen">
 <h1>La liste des envois</h1>
-{#        {% for agence in app.user.agence %}#}
-{#            {{ dump(agence) }}#}
+    <div class="btns">
+        <div class="">
+            {% if adherentPapers|length > 0 %}
+                {% if adherentPapers|length > 30 %}
+                    <a href="#" data-paper="{{ adherentPapers|length }}" class="link-send-paper link-testimony btn btn-little">Envoyer les courriers</a>
+                {% else %}
+                    <a href="#" data-paper="{{ adherentPapers|length }}" class="link-send-paper link-testimony btn btn-little">Envoyer les courriers</a>
+                {% endif %}
+            {% endif %}
+        </div>
+        <div class="">
+            {% if adherentEmails|length > 0 %}
+                {% if adherentEmails|length > 30 %}
+                    <a href="#" data-email="{{ adherentEmails|length }}" class="link-send-email link-testimony btn btn-little">Envoyer les emails</a>
+                {% else %}
+                    <a href="#" data-email="{{ adherentEmails|length }}" class="link-send-email link-testimony btn btn-little">Envoyer les emails</a>
+                {% endif %}
+            {% endif %}
+        </div>
+    </div>
     <div class="content">
         {% if meets is empty %}
         <p>Aucune rencontre pour ce jour, merci de bien vouloir sélectionner une nouvelle date</p>
         {% else %}
-        {% for meet in meets %}
+
+            {% for meet in meets %}
             <p>Entre <span>{{ meet.adherentWoman.lastname }} {{ meet.adherentWoman.firstname }}</span>
                     {% if meet.adherentWoman.preferenceContact.name == 'Email' %}
                         (<a class="link-sm" href="mailto:{{ meet.adherentWoman.email }}?subject=Résultat de votre rencontre&body=Bonjour Mme {{ meet.adherentWoman.lastname }} {{ meet.adherentWoman.firstname }}.">Email</a>)

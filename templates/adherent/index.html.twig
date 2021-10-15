@@ -43,7 +43,7 @@
                                 {% endif %}
                                 <td class="js-adherent" data-id='{{ adherent.id }}'>{{ adherent.getAge() }}</td>
                                 <td class="js-adherent" data-id='{{ adherent.id }}'>{{ adherent.statusMeet }}</td>
-                                <td class="js-adherent" data-id='{{ adherent.id }}'>{{ adherent.contractEndingAt|date('d/m/Y') }}</td>
+                                <td class="js-adherent" data-id='{{ adherent.id }}' data-sort='{{ adherent.contractEndingAt|date('Ymd') }}'>{{ adherent.contractEndingAt|date('d/m/Y') }}</td>
                                 <td class="js-adherent" data-id='{{ adherent.id }}'>{{ adherent.agence.name }}</td>
                                 <td><a href='{{ path('adherent_single', {id : adherent.id}) }}'>Profil</a></td>
                         </tr>
@@ -64,7 +64,7 @@
                                 {% endif %}
                                 <td class="js-adherent" data-id='{{ adherent.id }}'>{{ adherent.getAge() }}</td>
                                 <td class="js-adherent" data-id='{{ adherent.id }}'>{{ adherent.statusMeet }}</td>
-                                <td class="js-adherent" data-id='{{ adherent.id }}'>{{ adherent.contractEndingAt|date('d/m/Y') }}</td>
+                                <td class="js-adherent" data-id='{{ adherent.id }}' data-sort='{{ adherent.contractEndingAt|date('Ymd') }}'>{{ adherent.contractEndingAt|date('d/m/Y') }}</td>
                                 <td class="js-adherent" data-id='{{ adherent.id }}'>{{ adherent.agence.name }}</td>
                                 <td><a href='{{ path('adherent_single', {id : adherent.id}) }}'>Profil</a></td>
                             </tr>
@@ -105,7 +105,7 @@
                                 {% endif %}
                                 <td class="js-adherent" data-id='{{ adherent.id }}'>{{ adherent.getAge() }}</td>
                                 <td class="js-adherent" data-id='{{ adherent.id }}'>{{ adherent.statusMeet }}</td>
-                                <td class="js-adherent" data-id='{{ adherent.id }}'>{{ adherent.contractEndingAt|date('d/m/Y') }}</td>
+                                <td class="js-adherent" data-id='{{ adherent.id }}' data-sort='{{ adherent.contractEndingAt|date('Ymd') }}'>{{ adherent.contractEndingAt|date('d/m/Y') }}</td>
                                 <td class="js-adherent" data-id='{{ adherent.id }}'>{{ adherent.agence.name }}</td>
                                 <td><a href='{{ path('adherent_single', {id: adherent.id}) }}'>Profil</a></td>
                             </tr>
@@ -126,7 +126,7 @@
                                 {% endif %}
                                 <td class="js-adherent" data-id='{{ adherent.id }}'>{{ adherent.getAge() }}</td>
                                 <td class="js-adherent" data-id='{{ adherent.id }}'>{{ adherent.statusMeet }}</td>
-                                <td class="js-adherent" data-id='{{ adherent.id }}'>{{ adherent.contractEndingAt|date('d/m/Y') }}</td>
+                                <td class="js-adherent" data-id='{{ adherent.id }}' data-sort='{{ adherent.contractEndingAt|date('Ymd') }}'>{{ adherent.contractEndingAt|date('d/m/Y') }}</td>
                                 <td class="js-adherent" data-id='{{ adherent.id }}'>{{ adherent.agence.name }}</td>
                                 <td><a href='{{ path('adherent_single', {id: adherent.id}) }}'>Profil</a></td>
                             </tr>

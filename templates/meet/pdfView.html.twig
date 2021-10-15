@@ -1,4 +1,8 @@
 <style>
+    body{
+        min-height: 29.7cm;
+    }
+
     h1{
         color:red;
     }
@@ -98,53 +102,55 @@
     }
 
 </style>
-<img class='img-logo' src="{{ image }}" alt="Logo">
+<body>
+    <img class='img-logo' src="{{ image }}" alt="Logo">
 
-<div class="adherent-info">
-    <div class="adherent-left">
-        <p>Le {{ date|date('d/m/Y') }}</p>
-        <p>Réf. {{ meet.id }}</p>
+    <div class="adherent-info">
+        <div class="adherent-left">
+            <p>Le {{ date|date('d/m/Y') }}</p>
+            <p>Réf. {{ meet.id }}</p>
+        </div>
+        <p class="adherent-right">
+            {{ adherent.lastname }} {{ adherent.firstname }}<br/>
+            {{ adherent.addressStreet }}<br/>
+            {{ adherent.addressZipPostal }} {{ adherent.addressTown }}
+        </p>
     </div>
-    <p class="adherent-right">
-        {{ adherent.lastname }} {{ adherent.firstname }}<br/>
-        {{ adherent.addressStreet }}<br/>
-        {{ adherent.addressZipPostal }} {{ adherent.addressTown }}
-    </p>
-</div>
-<div class="">
-    <p class="info-meet-name">Nom de la personne sélectionné<span>:</span>{{ meet.firstname }} {{ meet.lastname }}</p>
-    <p class="info-meet-age">Âge<span>:</span>{{ meet.getAge() }}</p>
-    <p class="info-meet-phone">Numéro de téléphone<span>:</span>{{ meet.phoneMobile }}</p>
-    <p class="info-meet-agence">Agence <span>:</span>{{ meet.agence.name }}</p>
-</div>
-<div class="">
-    <p class="info-meet-all">{{ meet.profession }}, {{ meet.statusMatrimoniale }}, {{ meet.size }}, Yeux: {{ meet.eyes }}, Cheveux: {{ meet.hair }}</p>
-</div>
-<div class="">
-    <h2 class="title-information">Renseignements sur cette personne :</h2>
-    <p>{{ meet.announcementPresentation }}</p>
-</div>
-<div class="">
-    <h2 class="title-result-meet">Résultat de la rencontre, vos commentaires :</h2>
-    <h3>Points Positifs :</h3>
-    <p class="text-positive"></p>
-    <p class="text-positive"></p>
-    <p class="text-positive"></p>
-    <p class="text-positive"></p>
-    <h3>Points Négatifs :</h3>
-    <p class="text-negative"></p>
-    <p class="text-negative"></p>
-    <p class="text-negative"></p>
-    <p class="text-negative"></p>
-</div>
-<div class="choice-left">
-    <p><span class="choice-adherent"> </span>Je souhaite recevoir une nouvelle sélection</p>
-    <p><span class="choice-adherent"> </span>Je souhaite que mon dossier soit mis en attente</p>
-</div>
-<div class="choice-right">
-    <p class="sign-adherent">Date et signature de l'adhérent</p>
-</div>
-<footer>
-    <p class="message-footer">Le retour de ce document est imperatif pour recevoir une nouvelle sélection</p>
-    <p class="address-agence">{{ adherent.agence.name }} - {{ adherent.agence.addressStreet }} - {{ adherent.agence.addressZipPostal }} {{ adherent.agence.addressTown }} - {{ adherent.agence.email }}</p>
-</footer>
+    <div class="">
+        <p class="info-meet-name">Nom de la personne sélectionné<span>:</span>{{ meet.firstname }} {{ meet.lastname }}</p>
+        <p class="info-meet-age">Âge<span>:</span>{{ meet.getAge() }}</p>
+        <p class="info-meet-phone">Numéro de téléphone<span>:</span>{{ meet.phoneMobile }}</p>
+        <p class="info-meet-agence">Agence <span>:</span>{{ meet.agence.name }}</p>
+    </div>
+    <div class="">
+        <p class="info-meet-all">{{ meet.profession }}, {{ meet.statusMatrimoniale }}, {{ meet.size }}, Yeux: {{ meet.eyes }}, Cheveux: {{ meet.hair }}</p>
+    </div>
+    <div class="">
+        <h2 class="title-information">Renseignements sur cette personne :</h2>
+        <p>{{ meet.announcementPresentation }}</p>
+    </div>
+    <div class="">
+        <h2 class="title-result-meet">Résultat de la rencontre, vos commentaires :</h2>
+        <h3>Points Positifs :</h3>
+        <p class="text-positive"></p>
+        <p class="text-positive"></p>
+        <p class="text-positive"></p>
+        <p class="text-positive"></p>
+        <h3>Points Négatifs :</h3>
+        <p class="text-negative"></p>
+        <p class="text-negative"></p>
+        <p class="text-negative"></p>
+        <p class="text-negative"></p>
+    </div>
+    <div class="choice-left">
+        <p><span class="choice-adherent"> </span>Je souhaite recevoir une nouvelle sélection</p>
+        <p><span class="choice-adherent"> </span>Je souhaite que mon dossier soit mis en attente</p>
+    </div>
+    <div class="choice-right">
+        <p class="sign-adherent">Date et signature de l'adhérent</p>
+    </div>
+    <footer>
+        <p class="message-footer">Le retour de ce document est imperatif pour recevoir une nouvelle sélection</p>
+        <p class="address-agence">{{ adherent.agence.name }} - {{ adherent.agence.addressStreet }} - {{ adherent.agence.addressZipPostal }} {{ adherent.agence.addressTown }} - {{ adherent.agence.email }}</p>
+    </footer>
+</body>
