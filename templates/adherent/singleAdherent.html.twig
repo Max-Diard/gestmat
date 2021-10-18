@@ -11,8 +11,10 @@
 {% endfor %}
 
 <div id="selected-profile" class="container container-screen">
-    <h1>{{ adherentProfile.firstname }} {{ adherentProfile.lastname }}</h1>
-    {% include('modal.html.twig') %}
+    {% if adherentProfile is defined %}
+        <h1>{{ adherentProfile.firstname }} {{ adherentProfile.lastname }}</h1>
+        {% include('modal.html.twig') %}
+    {% endif %}
     {{ form_start(formAdherent) }}
         <div class="my-custom-class-for-errors">
             {{ form_errors(formAdherent) }}
@@ -22,7 +24,13 @@
                 <div class="row-first">
                     <div class="col col-adherent-number">
                         <label for="">Numéro Adhérent</label>
-                        <div class='id-adhérent'>{{ adherentProfile.id }}</div>
+                        <div class='id-adhérent'>
+                            {% if adherentProfile is defined %}
+                                {{ adherentProfile.id }}
+                            {% else %}
+                                (Automatique)
+                            {% endif %}
+                        </div>
                     </div>
                     <div class="col col-adherent-firstname">
                         {{ form_label(formAdherent.firstname) }}
@@ -41,11 +49,15 @@
                     <div class="col col-adherent-status-contract">
                         <label for="">État du contrat</label>
                         <div class="status-contract">
-                        {% if adherentProfile.contractStartedAt < date('now') and adherentProfile.contractEndingAt > date('now') %}
-                            En Cours
-                        {% else %}
-                            Fini
-                        {% endif %}
+                            {% if adherentProfile is defined %}
+                                {% if adherentProfile.contractStartedAt < date('now') and adherentProfile.contractEndingAt > date('now') %}
+                                    En Cours
+                                {% else %}
+                                    Fini
+                                {% endif %}
+                            {% else %}
+                                (Automatique)
+                            {% endif %}
                         </div>
                     </div>
                     <div class="col col-adherent-agence">
@@ -60,7 +72,13 @@
                     </div>
                     <div class="col col-adherent-age">
                         <label for="">Âge</label>
-                        <div class="age">{{ adherentProfile.getAge() }}</div>
+                        <div class="age">
+                            {% if adherentProfile is defined %}
+                                {{ adherentProfile.getAge() }}
+                            {% else %}
+                                (Automatique)
+                            {% endif %}
+                        </div>
                     </div>
                     <div class="col col-adherent-status-meet">
                         {{ form_label(formAdherent.status_meet) }}
@@ -68,17 +86,23 @@
                     </div>
                     <div class="col col-adherent-last-meet">
                         <label for="">Dernière Rencontre</label>
-                        {% if meets is not empty %}
-                            {% set lastmeet = meets|last %}
-                            <div class="last-meet">{{ lastmeet.startedAt|date('d/m/Y') }}</div>
+                        {% if meets is defined %}
+                            {% if meets is not empty %}
+                                {% set lastmeet = meets|last %}
+                                <div class="last-meet">{{ lastmeet.startedAt|date('d/m/Y') }}</div>
+                            {% else %}
+                                <div class="last-meet">"Aucune rencontre"</div>
+                            {% endif %}
                         {% else %}
-                            <div class="last-meet">"Aucune rencontre"</div>
+                                <div class="last-meet">(Automatique)</div>
                         {% endif %}
                     </div>
                 </div>
             </div>
-            {% if adherentProfile.linkPicture != '' %}
-                <img class="image-adherent" src='{{ asset('uploads/adherent/adherent'~ adherentProfile.id ~'/picture/'~ adherentProfile.linkPicture) }}' alt="Image de l'adhérent"/>
+            {% if adherentProfile is defined %}
+                {% if adherentProfile.linkPicture != '' %}
+                    <img class="image-adherent" src='{{ asset('uploads/adherent/adherent'~ adherentProfile.id ~'/picture/'~ adherentProfile.linkPicture) }}' alt="Image de l'adhérent"/>
+                {% endif %}
             {% else %}
                 <img class="image-adherent" src='{{ asset('build/images/avatar.jpg') }}' alt="Image de l'adhérent"/>
             {% endif %}
@@ -320,7 +344,8 @@
                     </div>
                 </div>
                 <div class="tab-contract no-tab tab">
-                {% if trueAgence == true %}
+                {% if trueAgence is defined %}
+                    {% if trueAgence == true %}
                     <div class="row-contract-first">
                     <div class="row-contract-first">
                         <div class="col col-adherent-contract_date">
@@ -357,8 +382,44 @@
                         </div>
                     </div>
                     </div>
+                    {% else %}
+                        <p>Vous n'avez accès à cette donnée.</p>
+                    {% endif %}
                 {% else %}
-                    <p>Vous n'avez accès à cette donnée.</p>
+                    <div class="row-contrat-first">
+                        <div class="col col-adherent-contract_date">
+                            {{ form_label(formAdherent.contract_date) }}
+                            {{ form_widget(formAdherent.contract_date) }}
+                        </div>
+                        <br>
+                        <div class="col col-adherent-contract_startedAt">
+                            {{ form_label(formAdherent.contract_startedAt) }}
+                            {{ form_widget(formAdherent.contract_startedAt) }}
+                        </div>
+                        <br>
+                        <div class="col col-adherent-contract_endingAt">
+                            {{ form_label(formAdherent.contract_endingAt) }}
+                            {{ form_widget(formAdherent.contract_endingAt) }}
+                        </div>
+                        <br>
+                        <div class="row-contrat-second">
+                            <div class="col col-adherent-contract_amount">
+                                {{ form_label(formAdherent.contract_amount) }}
+                                {{ form_widget(formAdherent.contract_amount) }}
+                            </div>
+                            <div class="col col-adherent-type_payment">
+                                {{ form_label(formAdherent.type_payment) }}
+                                {{ form_widget(formAdherent.type_payment) }}
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row-contrat-third">
+                            <div class="col col-adherent-contract_comments">
+                                {{ form_label(formAdherent.contract_comments) }}
+                                {{ form_widget(formAdherent.contract_comments) }}
+                            </div>
+                        </div>
+                    </div>
                 {% endif %}
                 </div>
                 <div class="tab-documents no-tab tab">
@@ -367,11 +428,13 @@
                             {{ form_label(formAdherent.link_information) }}
                             {{ form_widget(formAdherent.link_information) }}
                             <div class="fic-adherent">
-                            {% if adherentProfile.linkInformation != '' %}
+                            {% if adherentProfile is defined %}
+                                {% if adherentProfile.linkInformation != '' %}
                                 <embed src='{{ asset('uploads/adherent/adherent'~ adherentProfile.id ~'/information/'~ adherentProfile.linkInformation) }}'/>
                                 <a class="link-sm" href="{{ asset('uploads/adherent/adherent'~ adherentProfile.id ~'/information/'~ adherentProfile.linkInformation) }}" download="">
                                     Télécharger le fichier
                                 </a>
+                                {% endif %}
                             {% endif %}
                             </div>
                         </div>
@@ -380,11 +443,13 @@
                             {{ form_label(formAdherent.link_contract) }}
                             {{ form_widget(formAdherent.link_contract) }}
                             <div class="fic-adherent">
-                            {% if adherentProfile.linkContract != '' %}
+                            {% if trueAgence is defined %}
+                                {% if adherentProfile.linkContract != '' %}
                                 <embed src='{{ asset('uploads/adherent/adherent'~ adherentProfile.id ~'/contract/'~ adherentProfile.linkContract) }}'/>
                                 <a class="link-sm" href="{{ asset('uploads/adherent/adherent'~ adherentProfile.id ~'/contract/'~ adherentProfile.linkContract) }}" download="">
                                     Télécharger le fichier
                                 </a>
+                                {% endif %}
                             {% endif %}
                             </div>
                         </div>
@@ -393,11 +458,13 @@
                             {{ form_label(formAdherent.link_picture) }}
                             {{ form_widget(formAdherent.link_picture) }}
                             <div class="fic-adherent">
-                            {% if adherentProfile.linkPicture != '' %}
+                            {% if trueAgence is defined %}
+                                {% if adherentProfile.linkPicture != '' %}
                                 <embed src='{{ asset('uploads/adherent/adherent'~ adherentProfile.id ~'/picture/'~ adherentProfile.linkPicture) }}'/>
                                 <a class="link-sm" href="{{ asset('uploads/adherent/adherent'~ adherentProfile.id ~'/picture/'~ adherentProfile.linkPicture) }}" download="">
                                     Télécharger le fichier
                                 </a>
+                                {% endif %}
                             {% endif %}
                             </div>
                         </div>
@@ -406,11 +473,13 @@
                             {{ form_label(formAdherent.link_picture_announcement) }}
                             {{ form_widget(formAdherent.link_picture_announcement) }}
                             <div class="fic-adherent">
-                            {% if adherentProfile.linkPictureAnnouncement != '' %}
+                            {% if trueAgence is defined %}
+                                {% if adherentProfile.linkPictureAnnouncement != '' %}
                                 <embed src='{{ asset('uploads/adherent/adherent'~ adherentProfile.id ~'/announcement/'~ adherentProfile.linkPictureAnnouncement) }}'/>
                                 <a class="link-sm" href="{{ asset('uploads/adherent/adherent'~ adherentProfile.id ~'/announcement/'~ adherentProfile.linkPictureAnnouncement) }}" download="">
                                     Télécharger le fichier
                                 </a>
+                                {% endif %}
                             {% endif %}
                             </div>
                         </div>
@@ -418,7 +487,8 @@
                 </div>
                 <div class="tab-meet no-tab tab">
                     <div class="row-meets-first">
-                        <div class="">   
+                        <div class="">
+                        {% if meets is defined %}
                             {% if meets is empty %}
                                 <p class="nomeet">Cette personne n'a pas de rencontre pour le moment.</p>
                             {% else %}
@@ -471,15 +541,20 @@
                             <a href="{{ path('adherent_profile_meet_all', {id: adherentProfile.id}) }}">Voir toutes les rencontres</a>
                             <a href="{{ path('adherent_testimony', {id: adherentProfile.id}) }}">Demande de témoignage</a>
                         </div>
+                    {% endif %}
                     </div>
                 </div>
             </div>
         </section>
-        {% if trueAgence == true %}
-            {{ form_row(formAdherent.submit) }}
-        {% endif %}
-        {% if trueAgence == false %}
-            {{ form_end(formAdherent, {render_rest: false}) }}
+        {% if trueAgence is defined %}
+            {% if trueAgence == true %}
+                {{ form_row(formAdherent.submit) }}
+            {% endif %}
+            {% if trueAgence == false %}
+                {{ form_end(formAdherent, {render_rest: false}) }}
+            {% else %}
+                {{ form_end(formAdherent) }}
+            {% endif %}
         {% else %}
             {{ form_end(formAdherent) }}
         {% endif %}

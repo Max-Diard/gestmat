@@ -32,7 +32,6 @@
                         <tr class="women {% if adherent.statusMeet == 'Disponible' %}dispo{% endif %} {% if adherent.id not in meet%}nomeet{% endif %}">
                             {% if adherent.id in meet %}
                                     <td class="js-adherent" data-id='{{ adherent.id }}'>{{ adherent.lastname }}</td>
-
                             {% else %}
                                 <td class="js-adherent no-meet" data-id='{{ adherent.id }}'>{{ adherent.lastname }}</td>
                             {% endif %}
