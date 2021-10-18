@@ -200,11 +200,12 @@ class AdherentController extends AbstractController
 
         // On récupére les status meet pour ajouter dans le form de la modal
         $options = $this->entityManager->getRepository(AdherentOption::class)->findBy(['type' => 'status_meet']);
-
         $form->handleRequest($request);
 
         // Envoi du formulaire
         if($form->isSubmitted() && $form->isValid()){
+
+
             $adherent = $form->getData();
 
             // Gestion des fichiers

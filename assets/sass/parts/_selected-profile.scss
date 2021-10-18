@@ -87,6 +87,12 @@
             }
             .col{
                 margin: 0;
+                .ck-editor__editable{
+                    width: 100%;
+                    height: 10rem;
+                    font-size: 14px;
+                    font-weight: 400;
+                }
                 div:nth-child(2){
                     font-size: 1.6rem;
                     color: $color__purple_black;
@@ -229,7 +235,10 @@
                         .row-announcement-first, .row-announcement-second{
                             width: 48%;
                         }
-                        textarea{
+                        .ck label {
+                            display: none;
+                        }
+                        .ck-editor__editable{
                             width: 100%;
                             height: 12rem;
                         }
@@ -248,7 +257,14 @@
                                 width: auto;
                             }
                         }
-
+                    }
+                    &.tab-contract{
+                        .ck-label{
+                            display: none;
+                        }
+                        .ck-editor__editable{
+                            height: 5rem;
+                        }
                     }
                 }
             }

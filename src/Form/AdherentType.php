@@ -92,7 +92,7 @@ class AdherentType extends AbstractType
                 ]
             ])
             ->add('announcement_publish', ChoiceType::class, [
-                'label' => 'Annonce publiée', 
+                'label' => 'Annonce publiée',
                 'choices' => [
                     'Oui' => true,
                     'Non' => false
@@ -100,11 +100,16 @@ class AdherentType extends AbstractType
             ])
             ->add('announcement_presentation', TextareaType::class, [
                 'label' => 'Annonce Présentation',
-                'required' => false
+                'attr' => [
+                    'class' => 'ckeditor'
+                ]
             ])
             ->add('announcement_free', TextareaType::class, [
                 'label' => 'Annonce Présentation Gratuite',
-                'required' => false
+                'required' => false,
+                'attr' => [
+                    'class' => 'ckeditor'
+                ]
             ])
             ->add('announcement_date_free', DateType::class, [
                 'label' => 'Date d\'annonce gratuite',
@@ -114,7 +119,10 @@ class AdherentType extends AbstractType
             ])
             ->add('announcement_newspaper', TextareaType::class, [
                 'label' => 'Annonce Présentation Journal',
-                'required' => false
+                'required' => false,
+                'attr' => [
+                    'class' => 'ckeditor'
+                ]
             ])
             ->add('announcement_date_newspaper', DateType::class, [
                 'label' => 'Date d\'annonce journal',
@@ -347,7 +355,10 @@ class AdherentType extends AbstractType
             ])
             ->add('contract_comments', TextareaType::class, [
                 'label' => 'Commentaires',
-                'required' => false
+                'required' => false,
+                'attr' => [
+                    'class' => 'ckeditor'
+                ]
             ])
             ->add('type_payment', EntityType::class, [
                 'class' => AdherentOption::class,

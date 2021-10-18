@@ -3,18 +3,14 @@
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}GestMat{% endblock %}</title>
-        {# Run `composer require symfony/webpack-encore-bundle`
-           and uncomment the following Encore helpers to start using Symfony UX #}
         {% block stylesheets %}
-        <link rel="stylesheet" href="{{ asset('css/datatable.min.css') }}">
-        <link rel="stylesheet" href='{{ asset('css/style.css') }}'/>
-        <link rel="apple-touch-icon" sizes="180x180" href="{{asset('build/images/favicon/apple-touch-icon.png')}}">
-        <link rel="icon" type="image/png" sizes="32x32" href="{{asset('build/images/favicon/favicon-32x32.png')}}">
-        <link rel="icon" type="image/png" sizes="16x16" href="{{asset('build/images/favicon/favicon-16x16.png')}}">
-        <link rel="manifest" href="{{asset('build/images/favicon/site.webmanifest')}}">
-                    {{ encore_entry_link_tags('app') }}
-
-            {#{{ encore_entry_link_tags('app') }}#}
+            <link rel="stylesheet" href="{{ asset('css/datatable.min.css') }}">
+            <link rel="stylesheet" href='{{ asset('css/style.css') }}'/>
+            <link rel="apple-touch-icon" sizes="180x180" href="{{asset('build/images/favicon/apple-touch-icon.png')}}">
+            <link rel="icon" type="image/png" sizes="32x32" href="{{asset('build/images/favicon/favicon-32x32.png')}}">
+            <link rel="icon" type="image/png" sizes="16x16" href="{{asset('build/images/favicon/favicon-16x16.png')}}">
+            <link rel="manifest" href="{{asset('build/images/favicon/site.webmanifest')}}">
+            {{ encore_entry_link_tags('app') }}
         {% endblock %}
 
     </head>
@@ -115,12 +111,18 @@
         {% block body %}{% endblock %}
 
         {% block javascripts %}
-        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-        <script src="{{ asset('js/jquery3.6.min.js') }}"></script>
-        <script src="{{ asset('js/datatable.min.js') }}"></script>
-        <script src='{{ asset('js/table.js') }}'></script>
-        <script src='{{ asset('js/script.js') }}'></script>
-        {{ encore_entry_script_tags('app') }}
+            {# SweetAlert #}
+                <script src="{{ asset('js/plugin/sweetalert.js') }}"></script>
+            {# Datatable #}
+                <script src="{{ asset('js/plugin/jquery3.6.min.js') }}"></script>
+                <script src="{{ asset('js/plugin/datatable.min.js') }}"></script>
+                <script src='{{ asset('js/table.js') }}'></script>
+            {# Classic Editor 5 #}
+                <script src="{{ asset('js/plugin/ckeditor.js') }}"></script>
+                <script src="{{ asset('js/plugin/ckeditorfr.js') }}"></script>
+                <script src="{{ asset('js/classicEditor.js') }}"></script>
+            <script src='{{ asset('js/script.js') }}'></script>
+            {{ encore_entry_script_tags('app') }}
         {% endblock %}
     </body>
 </html>

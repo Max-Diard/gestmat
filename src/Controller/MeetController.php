@@ -64,12 +64,12 @@ class MeetController extends AbstractController
     public function searchMeet(DateTimeImmutable $dateStart, DateTimeImmutable $dateEnd): Response
     {
         $options = $this->entityManager->getRepository(AdherentOption::class)->findBy(['type' => 'status_meet']);
-
         $dateIncrement = date_diff($dateStart, $dateEnd)->days;
+        $dateChange = $dateStart;
 
         for($i = 0; $i < $dateIncrement; $i++){
-            $meets[] = $this->entityManager->getRepository(Meet::class)->findBy(['startedAt' => $dateStart]);
-            $dateStart = $dateStart->add(new DateInterval('P1D'));
+            $meets[] = $this->entityManager->getRepository(Meet::class)->findBy(['startedAt' => $dateChange]);
+            $dateChange = $dateChange->add(new DateInterval('P1D'));
         }
         if(!empty($meets)){
             $trueMeet = $this->trueMeet($meets);
@@ -85,46 +85,6 @@ class MeetController extends AbstractController
         ]);
     }
 
-    //Page pour voir les pdf de rencontre vis à vis de leur préférence et avec une date précise
-    #[
-        Route('/meet/send/{dateStart}/{dateEnd}', name: 'meet_send_date'),
-        ParamConverter('dateStart' , \DateTimeImmutable::class),
-        ParamConverter('dateEnd' , \DateTimeImmutable::class),
-        IsGranted('ROLE_USER')
-    ]
-    public function searchResultMeetWithDate(DateTimeImmutable $dateStart, DateTimeImmutable $dateEnd): Response
-    {
-        dd($dateStart, $dateEnd);
-
-        $meets = $this->entityManager->getRepository(Meet::class)->findBy(['startedAt' => $date]);
-
-        $adherentPaper = [];
-        $adherentEmail = [];
-
-        if (!empty($meets)){
-            foreach ($meets as $meet) {
-                $adherentMans[] = $meet->getAdherentMan();
-                $adherentWomans[] = $meet->getAdherentWoman();
-                if($meet->getAdherentWoman()->getPreferenceContact()->getName() == 'Courrier'){
-                    $adherentPaper[] = $meet->getAdherentWoman();
-                } else {
-                    $adherentEmail[] = $meet->getAdherentWoman();
-                }
-                if($meet->getAdherentMan()->getPreferenceContact()->getName() == 'Courrier'){
-                    $adherentPaper[] = $meet->getAdherentMan();
-                } else {
-                    $adherentEmail[] = $meet->getAdherentMan();
-                }
-            }
-        }
-
-        return $this->render('meet/seeAllPdf.html.twig', [
-            'meets' => $meets,
-            'adherentPapers' => $adherentPaper,
-            'adherentEmails' => $adherentEmail
-        ]);
-    }
-
     //Page pour voir les pdfs de rencontres à tous les adhérents et vis à vis de leur préférence
     #[
         Route('/meet/send_all/', name: 'meet_send'),
@@ -137,28 +97,75 @@ class MeetController extends AbstractController
         if(count($agenceUser) > 0) {
             $meets = $this->meets($agenceUser);
             $trueMeet = $this->trueMeet($meets);
+
+            $adherentPaper = [];
+            $adherentEmail = [];
+
+            if (array_key_exists('paper', $this->adherentPreference($trueMeet, $agenceUser))){
+                $adherentPaper = $this->adherentPreference($trueMeet, $agenceUser)['paper'];
+            }
+            if (array_key_exists('email', $this->adherentPreference($trueMeet, $agenceUser))){
+                $adherentEmail = $this->adherentPreference($trueMeet, $agenceUser)['email'];
+            }
+            if (array_key_exists('trueAgence', $this->adherentPreference($trueMeet, $agenceUser))){
+                $trueAgence = $this->adherentPreference($trueMeet, $agenceUser)['trueAgence'];
+            }
         } else {
             $trueMeet = [];
+            $trueAgence = [];
+        }
+
+        return $this->render('meet/seeAllPdf.html.twig', [
+            'meets' => $trueMeet,
+            'trueAgence' => $trueAgence,
+            'adherentPapers' => $adherentPaper,
+            'adherentEmails' => $adherentEmail
+        ]);
+    }
+
+    //Page pour voir les pdf de rencontre vis à vis de leur préférence et avec une date précise
+    #[
+        Route('/meet/send/{dateStart}/{dateEnd}', name: 'meet_send_date'),
+        ParamConverter('dateStart' , \DateTimeImmutable::class),
+        ParamConverter('dateEnd' , \DateTimeImmutable::class),
+        IsGranted('ROLE_USER')
+    ]
+    public function searchResultMeetWithDate(DateTimeImmutable $dateStart, DateTimeImmutable $dateEnd): Response
+    {
+        $agenceUser = $this->getUser()->getAgence();
+
+        $dateIncrement = date_diff($dateStart, $dateEnd)->days;
+
+        for($i = 0; $i < $dateIncrement; $i++){
+            $meets[] = $this->entityManager->getRepository(Meet::class)->findBy(['startedAt' => $dateStart]);
+
+            $dateStart = $dateStart->add(new DateInterval('P1D'));
         }
 
         $adherentPaper = [];
         $adherentEmail = [];
 
-        foreach ($trueMeet as $meet){
-            if($meet->getAdherentWoman()->getPreferenceContact()->getName() == 'Courrier'){
-                $adherentPaper[] = $meet->getAdherentWoman();
-            } else {
-                $adherentEmail[] = $meet->getAdherentWoman();
+        if (!empty($meets)){
+            $trueMeet = $this->trueMeet($meets);
+            foreach ($meets as $ms) {
+                if (array_key_exists('paper', $this->adherentPreference($ms, $agenceUser))){
+                    $adherentPaper = $this->adherentPreference($ms, $agenceUser)['paper'];
+                }
+                if (array_key_exists('email', $this->adherentPreference($ms, $agenceUser))){
+                    $adherentEmail = $this->adherentPreference($ms, $agenceUser)['email'];
+                }
+                if (array_key_exists('trueAgence', $this->adherentPreference($ms, $agenceUser))){
+                    $trueAgence = $this->adherentPreference($ms, $agenceUser)['trueAgence'];
+                }
             }
-            if($meet->getAdherentMan()->getPreferenceContact()->getName() == 'Courrier'){
-                $adherentPaper[] = $meet->getAdherentMan();
-            } else {
-                $adherentEmail[] = $meet->getAdherentMan();
-            }
+        } else{
+            $trueMeet = [];
+            $trueAgence = [];
         }
 
         return $this->render('meet/seeAllPdf.html.twig', [
             'meets' => $trueMeet,
+            'trueAgence' => $trueAgence,
             'adherentPapers' => $adherentPaper,
             'adherentEmails' => $adherentEmail
         ]);
@@ -231,86 +238,56 @@ class MeetController extends AbstractController
         $dompdf = new Dompdf($pdf);
 
         $html = '';
+        $agenceUser = $this->getUser()->getAgence();
 
-        if(substr($lien, -5) === '/meet'){
-            $agenceUser = $this->getUser()->getAgence();
-
+        // On regarde d'où viens l'utilisateur
+        if(substr($lien, -10) === '/send_all/'){
             if(count($agenceUser) > 0){
                 $meets = $this->meets($agenceUser);
                 $trueMeet = $this->trueMeet($meets);
-                foreach ($trueMeet as $meet){
-                    $adherentPaper = [];
 
-                    if($meet->getAdherentWoman()->getPreferenceContact()->getName() == 'Courrier'){
-                        $adherentPaper[] = $meet->getAdherentWoman();
-                    }
-                    if($meet->getAdherentMan()->getPreferenceContact()->getName() == 'Courrier'){
-                        $adherentPaper[] = $meet->getAdherentMan();
-                    }
-
+                $trueAgence = [];
+                foreach ($trueMeet as $meet) {
+                    $adherentPaper = $this->adherentPaper($meet, $agenceUser);
                     if(!empty($adherentPaper)){
-
-                        foreach ($adherentPaper as $adherentSend){
-                            if($adherentSend->getGenre()->getName() === 'Féminin'){
-                                $genre = $meet->getAdherentMan();
-                            } else {
-                                $genre = $meet->getAdherentWoman();
-                            }
-
-                            $agence = $adherentSend->getAgence()->getLinkPicture();
-
-                            $image = $request->server->filter('SYMFONY_DEFAULT_ROUTE_URL') . 'uploads/agence/agence' . $adherentSend->getAgence()->getId() . '/picture/'. $agence;
-
-                            $html .= $this->renderView('meet/pdfView.html.twig', [
-                                'adherent' => $adherentSend,
-                                'meet' => $genre,
-                                'date' => $date,
-                                'image' => $image
-                            ]);
-                        }
+                        $html .= $this->renderHtml($adherentPaper, $meet, $request, $date);
                     }
                 }
             } else {
                 $trueMeet = [];
+                $trueAgence = [];
             }
         }
         else {
-            $dateLink = substr($lien, -10);
-            $dateImmu = new DateTimeImmutable($dateLink);
-            $meets = $this->entityManager->getRepository(Meet::class)->findBy(['startedAt' => $dateImmu]);
+            $agenceUser = $this->getUser()->getAgence();
 
-            if (!empty($meets)){
-                foreach ($meets as $meet){
-                    $adherentPaper = [];
+            $dateLinkStart = substr($lien, -21, -11);
+            $dateLinkEnd = substr($lien, -10);
 
-                    if($meet->getAdherentWoman()->getPreferenceContact()->getName() == 'Courrier'){
-                        $adherentPaper[] = $meet->getAdherentWoman();
-                    }
-                    if($meet->getAdherentMan()->getPreferenceContact()->getName() == 'Courrier'){
-                        $adherentPaper[] = $meet->getAdherentMan();
-                    }
+            $dateImmuStart = new DateTimeImmutable($dateLinkStart);
+            $dateImmuEnd = new DateTimeImmutable($dateLinkEnd);
 
-                    if(!empty($adherentPaper)){
+            $dateIncrement = date_diff($dateImmuStart, $dateImmuEnd)->days;
 
-                        foreach ($adherentPaper as $adherentSend){
-                            if($adherentSend->getGenre()->getName() === 'Féminin'){
-                                $genre = $meet->getAdherentMan();
-                            } else {
-                                $genre = $meet->getAdherentWoman();
-                            }
+            if(count($agenceUser) > 0){
+                for($i = 0; $i < $dateIncrement; $i++){
+                    $meets[] = $this->entityManager->getRepository(Meet::class)->findBy(['startedAt' => $dateImmuStart]);
 
-                            $agence = $adherentSend->getAgence()->getLinkPicture();
+                    $dateImmuStart = $dateImmuStart->add(new DateInterval('P1D'));
+                }
 
-                            $image = $request->server->filter('SYMFONY_DEFAULT_ROUTE_URL') . 'uploads/agence/agence' . $adherentSend->getAgence()->getId() . '/picture/'. $agence;
+                if (!empty($meets)){
+                    $trueMeet = $this->trueMeet($meets);
+                    foreach ($trueMeet as $meet){
+                        $adherentPaper = $this->adherentPaper($meet, $agenceUser);
 
-                            $html .= $this->renderView('meet/pdfView.html.twig', [
-                                'adherent' => $adherentSend,
-                                'meet' => $genre,
-                                'date' => $date,
-                                'image' => $image
-                            ]);
+                        if(!empty($adherentPaper)){
+                            $html .= $this->renderHtml($adherentPaper, $meet, $request, $date);
                         }
                     }
+                } else {
+                    $trueMeet = [];
+                    $trueAgence = [];
                 }
             }
         }
@@ -371,4 +348,73 @@ class MeetController extends AbstractController
         }
         return $trueMeet;
     }
+
+    private function adherentPaper($meet, $agenceUser)
+    {
+        $adherentPaper = [];
+        foreach ($agenceUser as $agence) {
+            if ($meet->getAdherentWoman()->getAgence() === $agence) {
+                if ($meet->getAdherentWoman()->getPreferenceContact()->getName() === 'Courrier') {
+                    $adherentPaper[] = $meet->getAdherentWoman();
+                }
+            }
+            if ($meet->getAdherentMan()->getAgence() === $agence) {
+                if ($meet->getAdherentMan()->getPreferenceContact()->getName() === 'Courrier') {
+                    $adherentPaper[] = $meet->getAdherentMan();
+                }
+            }
+        }
+        return $adherentPaper;
+    }
+
+    private function renderHtml($adherentPaper, $meet, $request, $date)
+    {
+        $html= '';
+        foreach ($adherentPaper as $adherentSend){
+            if($adherentSend->getGenre()->getName() === 'Féminin'){
+                $genre = $meet->getAdherentMan();
+            } else {
+                $genre = $meet->getAdherentWoman();
+            }
+
+            $agence = $adherentSend->getAgence()->getLinkPicture();
+
+            $image = $request->server->filter('SYMFONY_DEFAULT_ROUTE_URL') . 'uploads/agence/agence' . $adherentSend->getAgence()->getId() . '/picture/'. $agence;
+
+            $html .= $this->renderView('meet/pdfView.html.twig', [
+                'adherent' => $adherentSend,
+                'meet' => $genre,
+                'date' => $date,
+                'image' => $image
+            ]);
+        }
+        return $html;
+    }
+
+    private function adherentPreference($meets, $agenceUser)
+    {
+        $adherent = [];
+        foreach ($meets as $meet){
+            foreach ($agenceUser as $agence){
+                if ($meet->getAdherentWoman()->getAgence() === $agence){
+                    $adherent['trueAgence'][] = $meet->getAdherentWoman();
+                    if($meet->getAdherentWoman()->getPreferenceContact()->getName() === 'Courrier'){
+                        $adherent['paper'][] = $meet->getAdherentWoman();
+                    } else {
+                        $adherent['email'][] = $meet->getAdherentWoman();
+                    }
+                }
+                if($meet->getAdherentMan()->getAgence() === $agence){
+                    $adherent['trueAgence'][] = $meet->getAdherentMan();
+                    if($meet->getAdherentMan()->getPreferenceContact()->getName() === 'Courrier'){
+                        $adherent['paper'][] = $meet->getAdherentMan();
+                    } else {
+                        $adherent['email'][] = $meet->getAdherentMan();
+                    }
+                }
+            }
+        }
+        return $adherent;
+    }
+
 }

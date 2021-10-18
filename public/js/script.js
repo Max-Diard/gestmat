@@ -136,7 +136,8 @@ window.addEventListener("DOMContentLoaded", (event) => {
         linkSearchMeet.addEventListener('click', () => {
             if(dateMeetStart.value != '' && dateMeetEnd.value != ''){
                 window.location = '/meet/search/' + dateMeetStart.value + '/' + dateMeetEnd.value;
-            } else {
+            }
+            else {
                 Swal.fire({
                     title: 'Recherche impossible',
                     text: 'Attention, vous devez sélectionner 2 dates !',
@@ -173,7 +174,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
                 denyButtonText: `Non`,
             }).then((result) => {
                 if (result.isConfirmed) {
-                    window.location = '/meet/search_all/paper';
+                    window.location = '/meet/send/paper';
                 }
             })
         })
