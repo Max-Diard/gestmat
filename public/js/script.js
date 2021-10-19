@@ -206,18 +206,6 @@ window.addEventListener("DOMContentLoaded", (event) => {
         })
     }
 
-    //Page Admin option
-    const buttonRemoveOption = document.querySelectorAll('.button-remove-option');
-
-    if (buttonRemoveOption){
-        [].forEach.call(buttonRemoveOption, function(elem) {
-            elem.addEventListener('click', () => {
-                const id = elem.getAttribute('data-option-id');
-                console.log(id)
-            })
-        })
-    }
-
     //Pop-up pour les messages flashs
     const alertNewAdherent = document.querySelector('.alert-new-adherent');
     const alertChangeAdherent = document.querySelector('.alert-change-adherent');

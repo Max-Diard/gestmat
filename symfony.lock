@@ -288,6 +288,9 @@
     "sonata-project/exporter": {
         "version": "2.8.0"
     },
+    "swiftmailer/swiftmailer": {
+        "version": "v6.3.0"
+    },
     "symfony/asset": {
         "version": "v5.3.4"
     },

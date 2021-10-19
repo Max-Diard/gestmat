@@ -431,8 +431,8 @@
                             {% if adherentProfile is defined %}
                                 {% if adherentProfile.linkInformation != '' %}
                                 <embed src='{{ asset('uploads/adherent/adherent'~ adherentProfile.id ~'/information/'~ adherentProfile.linkInformation) }}'/>
-                                <a class="link-sm" href="{{ asset('uploads/adherent/adherent'~ adherentProfile.id ~'/information/'~ adherentProfile.linkInformation) }}" download="">
-                                    Télécharger le fichier
+                                <a class="link-sm" href="{{ asset('uploads/adherent/adherent'~ adherentProfile.id ~'/information/'~ adherentProfile.linkInformation) }}" target="_blank">
+                                    Voir le fichier
                                 </a>
                                 {% endif %}
                             {% endif %}
@@ -446,8 +446,8 @@
                             {% if trueAgence is defined %}
                                 {% if adherentProfile.linkContract != '' %}
                                 <embed src='{{ asset('uploads/adherent/adherent'~ adherentProfile.id ~'/contract/'~ adherentProfile.linkContract) }}'/>
-                                <a class="link-sm" href="{{ asset('uploads/adherent/adherent'~ adherentProfile.id ~'/contract/'~ adherentProfile.linkContract) }}" download="">
-                                    Télécharger le fichier
+                                <a class="link-sm" href="{{ asset('uploads/adherent/adherent'~ adherentProfile.id ~'/contract/'~ adherentProfile.linkContract) }}" target="_blank">
+                                    Voir le fichier
                                 </a>
                                 {% endif %}
                             {% endif %}
@@ -461,8 +461,8 @@
                             {% if trueAgence is defined %}
                                 {% if adherentProfile.linkPicture != '' %}
                                 <embed src='{{ asset('uploads/adherent/adherent'~ adherentProfile.id ~'/picture/'~ adherentProfile.linkPicture) }}'/>
-                                <a class="link-sm" href="{{ asset('uploads/adherent/adherent'~ adherentProfile.id ~'/picture/'~ adherentProfile.linkPicture) }}" download="">
-                                    Télécharger le fichier
+                                <a class="link-sm" href="{{ asset('uploads/adherent/adherent'~ adherentProfile.id ~'/picture/'~ adherentProfile.linkPicture) }}" target="_blank">
+                                    Voir le fichier
                                 </a>
                                 {% endif %}
                             {% endif %}
@@ -476,8 +476,8 @@
                             {% if trueAgence is defined %}
                                 {% if adherentProfile.linkPictureAnnouncement != '' %}
                                 <embed src='{{ asset('uploads/adherent/adherent'~ adherentProfile.id ~'/announcement/'~ adherentProfile.linkPictureAnnouncement) }}'/>
-                                <a class="link-sm" href="{{ asset('uploads/adherent/adherent'~ adherentProfile.id ~'/announcement/'~ adherentProfile.linkPictureAnnouncement) }}" download="">
-                                    Télécharger le fichier
+                                <a class="link-sm" href="{{ asset('uploads/adherent/adherent'~ adherentProfile.id ~'/announcement/'~ adherentProfile.linkPictureAnnouncement) }}" target="_blank">
+                                    Voir le fichier
                                 </a>
                                 {% endif %}
                             {% endif %}
@@ -539,7 +539,7 @@
                         </div>
                         <div class="links-end">
                             <a href="{{ path('adherent_profile_meet_all', {id: adherentProfile.id}) }}">Voir toutes les rencontres</a>
-                            <a href="{{ path('adherent_testimony', {id: adherentProfile.id}) }}">Demande de témoignage</a>
+                            <a href="{{ path('adherent_testimony', {id: adherentProfile.id}) }}" target="_blank">Demande de témoignage</a>
                         </div>
                     {% endif %}
                     </div>

@@ -445,13 +445,10 @@ class AdherentController extends AbstractController
         $slug = $slugger->slug("temoignage-" . strtolower($adherent->getLastname()) . '-' . strtolower($adherent->getFirstname()));
 
         // Output the generated PDF to Browser (force download)
-        $dompdf->stream($slug , [
-            "Attachement" => true
+        return $dompdf->stream($slug , [
+            'Attachment' => false
         ]);
 
-        return new Response('', 200, [
-            'Content-Type' => 'application/pdf',
-        ]);
     }
 
     //Route pour exporter les adhérents

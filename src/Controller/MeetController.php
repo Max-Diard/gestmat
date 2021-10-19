@@ -68,12 +68,17 @@ class MeetController extends AbstractController
     {
         $options = $this->entityManager->getRepository(AdherentOption::class)->findBy(['type' => 'status_meet']);
         $actions = $this->entityManager->getRepository(AdherentOption::class)->findBy(['type' => 'action_meet']);
-        $dateIncrement = date_diff($dateStart, $dateEnd)->days;
-        $dateChange = $dateStart;
 
-        for($i = 0; $i < $dateIncrement; $i++){
-            $meets[] = $this->entityManager->getRepository(Meet::class)->findBy(['startedAt' => $dateChange]);
-            $dateChange = $dateChange->add(new DateInterval('P1D'));
+        $dateIncrement = date_diff($dateStart, $dateEnd)->days;
+
+        if($dateIncrement > 0){
+            $dateChange = $dateStart;
+            for($i = 0; $i < $dateIncrement; $i++){
+                $meets[] = $this->entityManager->getRepository(Meet::class)->findBy(['startedAt' => $dateChange]);
+                $dateChange = $dateChange->add(new DateInterval('P1D'));
+            }
+        } else {
+            $meets[] = $this->entityManager->getRepository(Meet::class)->findBy(['startedAt' => $dateStart]);
         }
         if(!empty($meets)){
             $trueMeet = $this->trueMeet($meets);
@@ -141,10 +146,14 @@ class MeetController extends AbstractController
 
         $dateIncrement = date_diff($dateStart, $dateEnd)->days;
 
-        for($i = 0; $i < $dateIncrement; $i++){
-            $meets[] = $this->entityManager->getRepository(Meet::class)->findBy(['startedAt' => $dateStart]);
+        if($dateIncrement > 0) {
+            for($i = 0; $i < $dateIncrement; $i++){
+                $meets[] = $this->entityManager->getRepository(Meet::class)->findBy(['startedAt' => $dateStart]);
 
-            $dateStart = $dateStart->add(new DateInterval('P1D'));
+                $dateStart = $dateStart->add(new DateInterval('P1D'));
+            }
+        } else {
+            $meets[] = $this->entityManager->getRepository(Meet::class)->findBy(['startedAt' => $dateStart]);
         }
 
         $adherentPaper = [];
