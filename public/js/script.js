@@ -633,7 +633,8 @@ function informationMeet(id){
     const womanDateReturn = document.querySelector('.woman-date-returnAt');
     const womanAction = document.querySelector('.woman-action');
     const womanComments = document.querySelector('.woman-comments');
-    const womanLinkPdf = document.querySelector('.link-pdf-woman')
+    const womanLinkPdf = document.querySelector('.link-pdf-woman');
+    const womanPosition = document.querySelector('.meet-woman-position');
 
     const dateMeet = document.querySelector('.date-meet');
     const idMeet = document.querySelector('.id-meet');
@@ -644,7 +645,8 @@ function informationMeet(id){
     const manDateReturn = document.querySelector('.man-date-returnAt');
     const manAction = document.querySelector('.man-action');
     const manComments = document.querySelector('.man-comments');
-    const manLinkPdf = document.querySelector('.link-pdf-man')
+    const manLinkPdf = document.querySelector('.link-pdf-man');
+    const manPosition = document.querySelector('.meet-man-position');
 
     const closeModal = document.querySelector('.close-modal');
     const sendButton = document.querySelector('.send-form');
@@ -683,6 +685,11 @@ function informationMeet(id){
                 womanLastname.textContent = recup[0].adherent_woman.lastname;
                 womanFirstname.textContent = recup[0].adherent_woman.firstname;
                 womanAgence.textContent = recup[0].adherent_woman.agence.name;
+                if (recup[0].actionMeetWoman != null){
+                    womanAction.value = recup[0].actionMeetWoman.name
+                } else {
+                    womanAction.value = '';
+                }
 
                 if (recup[0].returnAt_woman != null){
                     const returnAtWoman = new Date(recup[0].returnAt_woman)
@@ -690,11 +697,7 @@ function informationMeet(id){
                 }else {
                     womanDateReturn.value = ''
                 }
-                if (recup[0].status_meet_woman != null){
-                    womanAction.value = recup[0].status_meet_woman.name;
-                } else{
-                    womanAction.value = ''
-                }
+                womanPosition.value = recup[0].adherent_woman.status_meet.name;
                 womanComments.textContent = recup[0].comments_woman;
 
                 womanLinkPdf.href = '/meet/pdf/' + recup[0].adherent_woman.id + '-' + recup[0].adherent_man.id
@@ -709,6 +712,11 @@ function informationMeet(id){
                 manLastname.textContent = recup[0].adherent_man.lastname;
                 manFirstname.textContent = recup[0].adherent_man.firstname;
                 manAgence.textContent = recup[0].adherent_man.agence.name;
+                if (recup[0].actionMeetMan != null){
+                    manAction.value = recup[0].actionMeetMan.name
+                } else {
+                    manAction.value = '';
+                }
 
                 if (recup[0].returnAt_man != null){
                     const returnAtMan = new Date(recup[0].returnAt_man)
@@ -717,12 +725,7 @@ function informationMeet(id){
                 }else {
                     manDateReturn.value = '';
                 }
-
-                if (recup[0].status_meet_man != null){
-                    manAction.value = recup[0].status_meet_man.name;
-                } else{
-                    manAction.value = ''
-                }
+                manPosition.value = recup[0].adherent_man.status_meet.name;
                 manComments.textContent = recup[0].comments_man;
 
                 manLinkPdf.href = '/meet/pdf/' + recup[0].adherent_man.id + '-' + recup[0].adherent_woman.id
@@ -734,9 +737,12 @@ function informationMeet(id){
                     ev.preventDefault()
                     updateMeet(
                         recup[0].id,
+                        womanPosition.value,
                         womanAction.value,
                         womanDateReturn.value,
                         womanComments.value,
+
+                        manPosition.value,
                         manAction.value,
                         manDateReturn.value,
                         manComments.value,
@@ -759,9 +765,11 @@ function informationMeet(id){
 function updateMeet(
     id,
     statutsMeetWoman,
+    actionWoman,
     returnWoman,
     commentsWoman,
     statutsMeetMan,
+    actionMan,
     returnMan,
     commentsMan,
 ){
@@ -771,9 +779,11 @@ function updateMeet(
     request.send(JSON.stringify({
         'id': id,
         'status_meet_woman' : statutsMeetWoman,
+        'action_woman' : actionWoman,
         'returnAt_woman' : returnWoman,
         'comments_woman' : commentsWoman,
         'status_meet_man' : statutsMeetMan,
+        'action_man' : actionMan,
         'returnAt_man' : returnMan,
         'comments_man' : commentsMan
         }))

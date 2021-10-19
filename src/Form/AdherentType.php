@@ -207,7 +207,7 @@ class AdherentType extends AbstractType
                     'Non' => false
                 ]
             ])
-            ->add('search_windower', ChoiceType::class, [
+            ->add('search_widower', ChoiceType::class, [
                 'label' => 'Recherche Veuf(ve)', 
                 'choices' => [
                     'Oui' => true,

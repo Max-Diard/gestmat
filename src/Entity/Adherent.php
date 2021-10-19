@@ -221,7 +221,7 @@ class Adherent implements Serializable
     /**
      * @ORM\Column(type="boolean")
      */
-    private $search_windower;
+    private $search_widower;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -256,6 +256,7 @@ class Adherent implements Serializable
     /**
      * @ORM\ManyToOne(targetEntity=AdherentOption::class, inversedBy="adhrents_status_meet")
      * @Groups("adherent:read")
+     * @Groups("meet:read")
      */
     private $status_meet;
 
@@ -826,14 +827,14 @@ class Adherent implements Serializable
         return $this;
     }
 
-    public function getSearchWindower(): ?bool
+    public function getSearchWidower(): ?bool
     {
-        return $this->search_windower;
+        return $this->search_widower;
     }
 
-    public function setSearchWindower(bool $search_windower): self
+    public function setSearchWidower(bool $search_widower): self
     {
-        $this->search_windower = $search_windower;
+        $this->search_widower = $search_widower;
 
         return $this;
     }

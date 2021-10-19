@@ -138,37 +138,63 @@ class ApiController extends AbstractController
             true
         );
 
+
         $meet = $this->entityManager->getRepository(Meet::class)->findBy(['id' => $data['id']]);
+        $options = $this->entityManager->getRepository(AdherentOption::class)->findBy(['type' => 'status_meet']);
+        $actions = $this->entityManager->getRepository(AdherentOption::class)->findBy(['type' => 'action_meet']);
 
         if($data['status_meet_woman']){
-            $options = $this->entityManager->getRepository(AdherentOption::class)->findBy(['type' => 'status_meet']);
             foreach ($options as $option){
                 if ($option->getName() == $data['status_meet_woman']){
                     $meet[0]->setStatusMeetWoman($option);
                 }
             }
         }
+
         if($data['status_meet_man']){
-            $options = $this->entityManager->getRepository(AdherentOption::class)->findBy(['type' => 'status_meet']);
             foreach ($options as $option){
                 if ($option->getName() == $data['status_meet_woman']){
                     $meet[0]->setStatusMeetMan($option);
                 }
             }
         }
+
         if($data['returnAt_woman']){
             $date = new DateTimeImmutable($data['returnAt_woman']);
             $meet[0]->setReturnAtWoman($date);
         }
+
         if($data['returnAt_man']){
             $date = new DateTimeImmutable($data['returnAt_man']);
             $meet[0]->setReturnAtMan($date);
         }
+
         if($data['comments_woman']){
             $meet[0]->setCommentsWoman($data['comments_woman']);
+        } else {
+            $meet[0]->setCommentsWoman('');
         }
+
         if($data['comments_man']){
             $meet[0]->setCommentsMan($data['comments_man']);
+        } else {
+            $meet[0]->setCommentsMan('');
+        }
+
+        if($data['action_woman']){
+            foreach ($actions as $action){
+                if ($action->getName() == $data['action_woman']){
+                    $meet[0]->setActionMeetWoman($action);
+                }
+            }
+        }
+
+        if($data['action_man']){
+            foreach ($actions as $action){
+                if ($action->getName() == $data['action_man']){
+                    $meet[0]->setActionMeetMan($action);
+                }
+            }
         }
 
         $this->entityManager->persist($meet[0]);

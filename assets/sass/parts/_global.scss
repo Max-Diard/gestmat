@@ -341,8 +341,20 @@ input{
                 .modal-meet-text{
                     margin-bottom: 4rem;
                 }
-                .meet-woman-pdf, .meet-man-pdf{
-                    margin-bottom: 1rem;
+                .meet-woman-pdf-position, .meet-man-pdf-position{
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    .meet-woman-pdf, .meet-man-pdf{
+                        margin-bottom: 1rem;
+                    }
+                    .meet-woman-choice-postion, .meet-man-choice-postion{
+                        display: flex;
+                        flex-direction: column;
+                    }
+                }
+                .col-action label{
+                    text-align: end;
                 }
             }
         }

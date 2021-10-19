@@ -109,6 +109,11 @@ class AdherentOption
      */
     private $type_payment;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Meet::class, mappedBy="actionMeetWoman")
+     */
+    private $meets;
+
     public function __construct()
     {
         $this->adherents = new ArrayCollection();
@@ -126,6 +131,7 @@ class AdherentOption
         $this->type_payment = new ArrayCollection();
         $this->status_meet_woman = new ArrayCollection();
         $this->status_meet_man = new ArrayCollection();
+        $this->meets = new ArrayCollection();
     }
 
     public function __toString()
@@ -606,6 +612,36 @@ class AdherentOption
             // set the owning side to null (unless already changed)
             if ($typePayment->getTypePayment() === $this) {
                 $typePayment->setTypePayment(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Meet[]
+     */
+    public function getMeets(): Collection
+    {
+        return $this->meets;
+    }
+
+    public function addMeet(Meet $meet): self
+    {
+        if (!$this->meets->contains($meet)) {
+            $this->meets[] = $meet;
+            $meet->setActionMeetWoman($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMeet(Meet $meet): self
+    {
+        if ($this->meets->removeElement($meet)) {
+            // set the owning side to null (unless already changed)
+            if ($meet->getActionMeetWoman() === $this) {
+                $meet->setActionMeetWoman(null);
             }
         }
 

@@ -42,6 +42,8 @@ class AdherentController extends AbstractController
 
         // On récupére les status meet pour ajouter dans le form de la modal
         $options = $this->entityManager->getRepository(AdherentOption::class)->findBy(['type' => 'status_meet']);
+        $actions = $this->entityManager->getRepository(AdherentOption::class)->findBy(['type' => 'action_meet']);
+
 
         //Si l'utilisateur connecté à plus d'une agence, on itére dessus
         if (count($agences) > 0){
@@ -140,7 +142,8 @@ class AdherentController extends AbstractController
             'womenAdherentDroit'    => $womenAdherentDroit,
             'menAdherentDroit'      => $menAdherentDroit,
             'meet'                  => $meeting,
-            'options'               => $options
+            'options'               => $options,
+            'actions'               => $actions
         ]);
     }
 
@@ -200,6 +203,8 @@ class AdherentController extends AbstractController
 
         // On récupére les status meet pour ajouter dans le form de la modal
         $options = $this->entityManager->getRepository(AdherentOption::class)->findBy(['type' => 'status_meet']);
+        $actions = $this->entityManager->getRepository(AdherentOption::class)->findBy(['type' => 'action_meet']);
+
         $form->handleRequest($request);
 
         // Envoi du formulaire
@@ -294,7 +299,8 @@ class AdherentController extends AbstractController
             'formAdherent'      => $form->createView(),
             'trueAgence'        => $trueAgence,
             'meets'             => $meets,
-            'options'           => $options
+            'options'           => $options,
+            'actions'           => $actions
         ]);
     }
 
@@ -395,11 +401,14 @@ class AdherentController extends AbstractController
         }
 
         $options = $this->entityManager->getRepository(AdherentOption::class)->findBy(['type' => 'status_meet']);
+        $actions = $this->entityManager->getRepository(AdherentOption::class)->findBy(['type' => 'action_meet']);
+
 
         return $this->render('adherent/allMeet.html.twig', [
-            'adherent' => $adherent,
-            'meets' => $meets,
-            'options'=> $options
+            'adherent'  => $adherent,
+            'meets'     => $meets,
+            'options'   => $options,
+            'actions'   => $actions
         ]);
     }
 

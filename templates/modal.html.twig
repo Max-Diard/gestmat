@@ -13,8 +13,19 @@
                             <p class="woman-agence"></p>
                         </div>
                     </div>
-                    <div class="meet-woman-pdf">
-                        <a class='link-pdf-woman link-sm' href="">Voir le pdf</a>
+                    <div class="meet-woman-pdf-position">
+                        <div class="meet-woman-pdf">
+                            <a class='link-pdf-woman link-sm' href="">Voir le pdf</a>
+                        </div>
+                        <div class="meet-woman-choice-postion">
+                            <label for="meet-woman-position">Position Actuelle</label>
+                            <select type="select" id="meet-woman-position" class="meet-woman-position">
+                                <option value=""></option>
+                                {% for option in options %}
+                                    <option value="{{ option.name }}">{{ option.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
                     </div>
                     <div class="row-return-action">
                         <div class="col-return">
@@ -23,10 +34,10 @@
                         </div>
                         <div class="col-action">
                             <label for="woman-action">Action</label>
-                            <select type="select" id="woman-action" class="woman-action">
+                            <select type="select" name="woman-action" id="woman-action" class="woman-action">
                                 <option value=""></option>
-                                {% for option in options %}
-                                    <option value="{{ option.name }}">{{ option.name }}</option>
+                                {% for action in actions %}
+                                    <option value="{{ action.name }}">{{ action.name }}</option>
                                 {% endfor %}
                             </select>
                         </div>
@@ -50,8 +61,19 @@
                             <p class="man-agence"></p>
                         </div>
                     </div>
-                    <div class="meet-man-pdf">
-                        <a class='link-pdf-man link-sm' href="">Voir le pdf</a>
+                    <div class="meet-man-pdf-position">
+                        <div class="meet-man-pdf">
+                            <a class='link-pdf-man link-sm' href="">Voir le pdf</a>
+                        </div>
+                        <div class="meet-man-choice-postion">
+                            <label for="meet-man-position">Position actuelle</label>
+                            <select type="select" id="meet-man-position" class="meet-man-position">
+                                <option value=""></option>
+                                {% for option in options %}
+                                    <option value="{{ option.name }}">{{ option.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
                     </div>
                     <div class="row-return-action">
                         <div class="col-return">
@@ -60,11 +82,11 @@
                         </div>
                         <div class="col-action">
                             <label for="man-action">Action</label>
-                            <select type="select" id="man-action" class="man-action">
+                            <select type="select" name="man-action" id="man-action" class="man-action">
                                 <option value=""></option>
-                                {% for option in options %}
-                                    <option value="{{ option.name }}">{{ option.name }}</option>
-                                {% endfor %}
+                            {% for action in actions %}
+                                <option value="{{ action.name }}">{{ action.name }}</option>
+                            {% endfor %}
                             </select>
                         </div>
                     </div>

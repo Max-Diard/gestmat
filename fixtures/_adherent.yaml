@@ -23,7 +23,7 @@ App\Entity\Adherent:
     search_age_max: 30
     search_single: 1
     search_divorced: 1
-    search_windower: 1
+    search_widower: 1
     search_accept_children: 0
     search_number_accept_children: 0
 

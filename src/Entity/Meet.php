@@ -83,6 +83,18 @@ class Meet
      */
     private $status_meet_man;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=AdherentOption::class, inversedBy="meets")
+     * @Groups("meet:read")
+     */
+    private $actionMeetWoman;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=AdherentOption::class, inversedBy="meets")
+     * @Groups("meet:read")
+     */
+    private $actionMeetMan;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -192,6 +204,30 @@ class Meet
     public function setAdherentMan(?Adherent $adherent_man): self
     {
         $this->adherent_man = $adherent_man;
+
+        return $this;
+    }
+
+    public function getActionMeetWoman(): ?AdherentOption
+    {
+        return $this->actionMeetWoman;
+    }
+
+    public function setActionMeetWoman(?AdherentOption $actionMeetWoman): self
+    {
+        $this->actionMeetWoman = $actionMeetWoman;
+
+        return $this;
+    }
+
+    public function getActionMeetMan(): ?AdherentOption
+    {
+        return $this->actionMeetMan;
+    }
+
+    public function setActionMeetMan(?AdherentOption $actionMeetMan): self
+    {
+        $this->actionMeetMan = $actionMeetMan;
 
         return $this;
     }

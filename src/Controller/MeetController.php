@@ -40,6 +40,8 @@ class MeetController extends AbstractController
         $agenceUser = $this->getUser()->getAgence();
 
         $options = $this->entityManager->getRepository(AdherentOption::class)->findBy(['type' => 'status_meet']);
+        $actions = $this->entityManager->getRepository(AdherentOption::class)->findBy(['type' => 'action_meet']);
+
 
         if(count($agenceUser) > 0){
             $meets = $this->meets($agenceUser);
@@ -49,8 +51,9 @@ class MeetController extends AbstractController
         }
 
         return $this->render('meet/index.html.twig', [
-            'meets' => $trueMeet,
-            'options' => $options,
+            'meets'     => $trueMeet,
+            'options'   => $options,
+            'actions'   => $actions
         ]);
     }
 
@@ -64,6 +67,7 @@ class MeetController extends AbstractController
     public function searchMeet(DateTimeImmutable $dateStart, DateTimeImmutable $dateEnd): Response
     {
         $options = $this->entityManager->getRepository(AdherentOption::class)->findBy(['type' => 'status_meet']);
+        $actions = $this->entityManager->getRepository(AdherentOption::class)->findBy(['type' => 'action_meet']);
         $dateIncrement = date_diff($dateStart, $dateEnd)->days;
         $dateChange = $dateStart;
 
@@ -78,10 +82,11 @@ class MeetController extends AbstractController
         }
 
         return $this->render('meet/index.html.twig', [
-            'meets' => $trueMeet,
-            'dateUrlStart' => $dateStart,
-            'dateUrlEnd' => $dateEnd,
-            'options' => $options,
+            'meets'         => $trueMeet,
+            'dateUrlStart'  => $dateStart,
+            'dateUrlEnd'    => $dateEnd,
+            'options'       => $options,
+            'actions'       => $actions
         ]);
     }
 
@@ -116,10 +121,10 @@ class MeetController extends AbstractController
         }
 
         return $this->render('meet/seeAllPdf.html.twig', [
-            'meets' => $trueMeet,
-            'trueAgence' => $trueAgence,
-            'adherentPapers' => $adherentPaper,
-            'adherentEmails' => $adherentEmail
+            'meets'             => $trueMeet,
+            'trueAgence'        => $trueAgence,
+            'adherentPapers'    => $adherentPaper,
+            'adherentEmails'    => $adherentEmail
         ]);
     }
 
@@ -164,10 +169,10 @@ class MeetController extends AbstractController
         }
 
         return $this->render('meet/seeAllPdf.html.twig', [
-            'meets' => $trueMeet,
-            'trueAgence' => $trueAgence,
-            'adherentPapers' => $adherentPaper,
-            'adherentEmails' => $adherentEmail
+            'meets'             => $trueMeet,
+            'trueAgence'        => $trueAgence,
+            'adherentPapers'    => $adherentPaper,
+            'adherentEmails'    => $adherentEmail
         ]);
     }
 
