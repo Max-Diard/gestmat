@@ -126,6 +126,14 @@
                 {% endif %}
             {% endfor %}
         </div>
+        <div class="all-action-meet">
+            <h2>Les types d'action pour une rencontre</h2>
+            {% for option in options %}
+                {% if option.type == 'action_meet' %}
+                    <p>{{ option.name }} <a href="{{ path('admin_option_ask_remove', {id : option.id}) }}"><img src="{{asset('build/images/delete.svg')}}" alt="Supprimer"></a></p>
+                {% endif %}
+            {% endfor %}
+        </div>
     </div>
 </div>
 {% endblock %}

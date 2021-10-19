@@ -24,18 +24,19 @@ class OptionsType extends AbstractType
             ->add('type', ChoiceType::class, [
                 'label' => 'Le type de données',
                 'choices' => [
-                    'Statut matrimonial' => 'status_matrimoniale',
-                    'Statut de rencontre' => 'status_meet',
-                    'Type de logement' => 'lodging',
-                    'Statut d\'occupation du logement' => 'owner',
-                    'Type de fumeur' => 'smoking',
-                    'Type de cheveux' => 'hair',
-                    'Type d\'yeux' => 'eyes',
-                    'Type de diplôme' => 'instruction',
-                    'Sexe' => 'genre',
-                    'Type de paiement' => 'type_payment',
-                    'Préférence de contact' => 'preference_contact',
-                    'Signe Astrologique' => 'zodiaque'
+                    'Statut matrimonial'                => 'status_matrimoniale',
+                    'Statut de rencontre'               => 'status_meet',
+                    'Type de logement'                  => 'lodging',
+                    'Statut d\'occupation du logement'  => 'owner',
+                    'Type de fumeur'                    => 'smoking',
+                    'Type de cheveux'                   => 'hair',
+                    'Type d\'yeux'                      => 'eyes',
+                    'Type de diplôme'                   => 'instruction',
+                    'Sexe'                              => 'genre',
+                    'Type de paiement'                  => 'type_payment',
+                    'Préférence de contact'             => 'preference_contact',
+                    'Signe Astrologique'                => 'zodiaque',
+                    'Action de la rencontre'            => 'action_meet'
                 ]
             ])
             ->add('submit', SubmitType::class, [

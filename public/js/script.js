@@ -117,10 +117,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
     const dateMeetStart = document.querySelector('.input-date-meet-start');
     const dateMeetEnd = document.querySelector('.input-date-meet-end');
     const linkSearchMeet = document.querySelector('.link-search-meet-date');
-
     const buttonMeetMore = document.querySelectorAll('.page-meet-more');
-    const buttonSendPaper = document.querySelector('.link-send-paper');
-    const buttonSendEmail = document.querySelector('.link-send-email');
 
     if(dateMeetStart){
         if (dateMeetStart.value == '') {
@@ -155,6 +152,10 @@ window.addEventListener("DOMContentLoaded", (event) => {
             })
         })
     }
+
+    // Page pour envoyer les pdfs
+    const buttonSendPaper = document.querySelector('.link-send-paper');
+    const buttonSendEmail = document.querySelector('.link-send-email');
 
     if(buttonSendPaper){
         buttonSendPaper.addEventListener('click', () => {
@@ -201,6 +202,18 @@ window.addEventListener("DOMContentLoaded", (event) => {
                     console.log('Email send')
                     // window.location = '/meet/send_all/paper';
                 }
+            })
+        })
+    }
+
+    //Page Admin option
+    const buttonRemoveOption = document.querySelectorAll('.button-remove-option');
+
+    if (buttonRemoveOption){
+        [].forEach.call(buttonRemoveOption, function(elem) {
+            elem.addEventListener('click', () => {
+                const id = elem.getAttribute('data-option-id');
+                console.log(id)
             })
         })
     }
