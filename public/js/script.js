@@ -200,7 +200,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
             }).then((result) => {
                 if (result.isConfirmed) {
                     console.log('Email send')
-                    // window.location = '/meet/send_all/paper';
+                    window.location = '/meet/send/email';
                 }
             })
         })

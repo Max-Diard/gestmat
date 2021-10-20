@@ -4,30 +4,24 @@ namespace App\Controller;
 
 use App\Entity\Adherent;
 use App\Entity\AdherentOption;
-use App\Entity\Agence;
 use App\Entity\Meet;
-use App\Entity\User;
-use Cassandra\Date;
 use DateInterval;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Dompdf\Dompdf;
 use Dompdf\Options;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;
-use Symfony\Config\Framework\RouterConfig;
 
 class MeetController extends AbstractController
 {
-    public function __construct(private EntityManagerInterface $entityManager)
+    public function __construct(private EntityManagerInterface $entityManager, private  SluggerInterface $slugger)
     {}
 
     //Page pour voir tous les rencontres
@@ -158,6 +152,7 @@ class MeetController extends AbstractController
 
         $adherentPaper = [];
         $adherentEmail = [];
+        $trueAgence = [];
 
         if (!empty($meets)){
             $trueMeet = $this->trueMeet($meets);
@@ -174,7 +169,6 @@ class MeetController extends AbstractController
             }
         } else{
             $trueMeet = [];
-            $trueAgence = [];
         }
 
         return $this->render('meet/seeAllPdf.html.twig', [
@@ -315,19 +309,113 @@ class MeetController extends AbstractController
         $dompdf->render();
 
         $date = Date('m.d.Y');
+        $slug = $slugger->slug('impression-du-' . $date);
 
         $output = $dompdf->output();
-        $location = $this->getParameter('meet_directory') .  "/" . $date . '.pdf';
+        $location = $this->getParameter('meet_directory') .  "/" . $date . '/' . $slug . '.pdf';
 
         if (!is_dir($this->getParameter('meet_directory'). $date )) {
             mkdir($this->getParameter('meet_directory') . $date .  "/", 0777, true);
         }
         file_put_contents($location, $output);
 
-        $slug = $slugger->slug('impression-du-' . $date);
 
         // Output the generated PDF to Browser (force download)
         $dompdf->stream($slug , array('Attachment' => true));
+    }
+
+    // Création des pdfs pour tous les adhérents qui ont une préférence de contact 'email'
+    #[
+        Route('/meet/send/email', name: 'meet_search_email'),
+        IsGranted('ROLE_USER')
+    ]
+    public function sendAllMeetEmail(Request $request, \Swift_Mailer $mailer,): Response
+    {
+        $lien = $request->server->get('HTTP_REFERER');
+
+        $date = new DateTimeImmutable('now');
+
+        $pdf = new Options();
+        $pdf->set('defaultFont', 'Arial');
+        $pdf->set('isRemoteEnabled', true);
+
+        $agenceUser = $this->getUser()->getAgence();
+
+        // On regarde d'où viens l'utilisateur
+        if(substr($lien, -10) === '/send_all/'){
+            if(count($agenceUser) > 0){
+                $meets = $this->meets($agenceUser);
+                $trueMeet = $this->trueMeet($meets);
+
+                $trueAgence = [];
+
+                $number = 1;
+                foreach ($trueMeet as $meet) {
+                    $adherentEmail = $this->adherentMail($meet, $agenceUser);
+                    if(!empty($adherentEmail)){
+                        foreach ($adherentEmail as $adherent){
+
+                            $dompdf = new Dompdf($pdf);
+
+                            $html = $this->renderHtmlEmail($adherent, $meet, $request, $date);
+
+                            $message = $this->preparationSendEmail($dompdf, $html, $number, $adherent);
+
+                            $mailer->send($message);
+                        }
+                    }
+                    $number++;
+                }
+            } else {
+                $trueMeet = [];
+                $trueAgence = [];
+            }
+            return $this->redirectToRoute('meet_send');
+        }
+        else {
+            $dateLinkStart = substr($lien, -21, -11);
+            $dateLinkEnd = substr($lien, -10);
+
+            $dateImmuStart = new DateTimeImmutable($dateLinkStart);
+            $dateImmuEnd = new DateTimeImmutable($dateLinkEnd);
+
+            $dateIncrement = date_diff($dateImmuStart, $dateImmuEnd)->days;
+
+            if(count($agenceUser) > 0){
+                for($i = 0; $i < $dateIncrement; $i++){
+                    $meets[] = $this->entityManager->getRepository(Meet::class)->findBy(['startedAt' => $dateImmuStart]);
+
+                    $dateImmuStart = $dateImmuStart->add(new DateInterval('P1D'));
+                }
+
+                if (!empty($meets)){
+                    $trueMeet = $this->trueMeet($meets);
+
+                    $number = 1;
+                    foreach ($trueMeet as $meet){
+                        $adherentEmail = $this->adherentMail($meet, $agenceUser);
+
+                        if(!empty($adherentEmail)){
+                            foreach ($adherentEmail as $adherent){
+
+                                $dompdf = new Dompdf($pdf);
+
+                                $html = $this->renderHtmlEmail($adherent, $meet, $request, $date);
+
+                                $message = $this->preparationSendEmail($dompdf, $html, $number, $adherent);
+
+                                $mailer->send($message);
+                            }
+                        }
+                        $number++;
+                    }
+                } else {
+                    $trueMeet = [];
+                    $trueAgence = [];
+                }
+            }
+            return $this->redirectToRoute('meet_send_date', ['dateStart' => $dateLinkStart, 'dateEnd' => $dateLinkEnd ]);
+        }
     }
 
     // --------------------------- Function private --------------------------- //
@@ -381,6 +469,24 @@ class MeetController extends AbstractController
         return $adherentPaper;
     }
 
+    private function adherentMail($meet, $agenceUser)
+    {
+        $adherentMail = [];
+        foreach ($agenceUser as $agence) {
+            if ($meet->getAdherentWoman()->getAgence() === $agence) {
+                if ($meet->getAdherentWoman()->getPreferenceContact()->getName() === 'Email') {
+                    $adherentMail[] = $meet->getAdherentWoman();
+                }
+            }
+            if ($meet->getAdherentMan()->getAgence() === $agence) {
+                if ($meet->getAdherentMan()->getPreferenceContact()->getName() === 'Email') {
+                    $adherentMail[] = $meet->getAdherentMan();
+                }
+            }
+        }
+        return $adherentMail;
+    }
+
     private function renderHtml($adherentPaper, $meet, $request, $date)
     {
         $html= '';
@@ -402,6 +508,29 @@ class MeetController extends AbstractController
                 'image' => $image
             ]);
         }
+        return $html;
+    }
+
+    private function renderHtmlEmail($adherent, $meet, $request, $date)
+    {
+        $html= '';
+        if($adherent->getGenre()->getName() === 'Féminin'){
+            $genre = $meet->getAdherentMan();
+        } else {
+            $genre = $meet->getAdherentWoman();
+        }
+
+        $agence = $adherent->getAgence()->getLinkPicture();
+
+        $image = $request->server->filter('SYMFONY_DEFAULT_ROUTE_URL') . 'uploads/agence/agence' . $adherent->getAgence()->getId() . '/picture/'. $agence;
+
+        $html .= $this->renderView('meet/pdfView.html.twig', [
+            'adherent' => $adherent,
+            'meet' => $genre,
+            'date' => $date,
+            'image' => $image
+        ]);
+
         return $html;
     }
 
@@ -430,5 +559,50 @@ class MeetController extends AbstractController
         }
         return $adherent;
     }
+
+    private function preparationSendEmail($dompdf, $html, $number, $adherent)
+    {
+        $dompdf->loadHtml($html);
+
+        // (Optional) Setup the paper size and orientation 'portrait' or 'portrait'
+        $dompdf->setPaper('A4', 'portrait');
+
+        // Render the HTML as PDF
+        $dompdf->render();
+
+        $date = Date('m.d.Y');
+
+        $slug = $this->slugger->slug('email-'. $number . '-du-' . $date);
+        $output = $dompdf->output();
+
+        $location = $this->getParameter('meet_directory') . $date . '/' . $slug . '.pdf';
+
+        if (!is_dir($this->getParameter('meet_directory'). $date )) {
+            mkdir($this->getParameter('meet_directory') . $date .  "/", 0777, true);
+        }
+
+        file_put_contents($location, $output);
+
+        $message = new \Swift_Message();
+
+        $userMail = $this->getUser()->getEmail();
+
+        $message
+            //Encoder en UTF-8 ne fonctionne pas ! En iso-8859-2 non plus mais moins d'ajout de code dans l'email
+            ->setSubject('Envoi de rencontre')
+            ->setCharset('iso-8859-2')
+            ->setFrom('themax41@hotmail.fr')
+            ->setTo('themax41@hotmail.fr') //$adherent->getEmail()
+            ->setBody(
+                $this->renderView('email/sendPdf.html.twig',[
+                    'user' => $adherent
+                ]),
+                'text/html', 'iso-8859-2'
+            )
+            ->attach(\Swift_Attachment::fromPath($location));
+
+        return $message;
+    }
+
 
 }

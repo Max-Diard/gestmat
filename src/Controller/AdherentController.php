@@ -392,7 +392,7 @@ class AdherentController extends AbstractController
         Route('/adherent/profile/{id}/meet/all', name: 'adherent_profile_meet_all'),
         IsGranted('ROLE_USER')
     ]
-    public function adherentMeetAll(Adherent $adherent,Request $request): Response
+    public function adherentMeetAll(Adherent $adherent): Response
     {
         if($adherent->getGenre()->getName() == 'Féminin'){
             $meets = $this->entityManager->getRepository(Meet::class)->findBy(['adherent_woman' => $adherent->getId()]);
