@@ -145,55 +145,11 @@ class AdminController extends AbstractController
 //            return $this->redirectToRoute('admin_agence_single', ['id' => $agence->getId()]);
 //        }
 
-        return $this->render('admin/agence/single.html.twig', [
+        return $this->render('agence/singleAgence.html.twig', [
             'agence' => $agence,
                 // Suppression des droits d'agences
 //            'form' => $form->createView(),
 //            'agenceGiveDroit' => $agenceGiveDroit
-        ]);
-    }
-
-    //Modifier l'agence sélectionné
-    #[
-        Route('/admin/agence/{id}/modify', name: 'admin_agence_modify'),
-        IsGranted("ROLE_ADMIN")
-    ]
-    public function modifyAgence(Agence $agence, Request $request): Response
-    {
-        $linkPic = $agence->getLinkPicture();
-
-        $form = $this->createForm(ChangeAgenceType::class, $agence);
-
-        $form->handleRequest($request);
-
-        if($form->isSubmitted() && $form->isValid()){
-            $agence = $form->getData();
-
-            $picture = $form->get('link_picture')->getData();
-            // Si une image est envoyé alors on ajoute l'information en BDD
-            if($picture){
-                if ($linkPic){
-                    unlink($this->getParameter('agence_directory') . 'agence' . $agence->getId() . '/picture/' . $linkPic);
-                }
-                $pictureExt = $picture->guessExtension();
-                $pictureName = md5(uniqid()) . '.' . $pictureExt;
-                $picture->move($this->getParameter('agence_directory') . 'agence' . $agence->getId() . '/picture/', $pictureName);
-                $agence->setLinkPicture($pictureName);
-            } 
-            // On récupére le nom de l'image déjà existant et on lui renvoi
-            else {
-                $agence->setLinkPicture($linkPic);
-            } 
-
-            $this->entityManager->persist($agence);
-            $this->entityManager->flush();
-
-            return $this->redirectToRoute('admin_agence_single', ['id' => $agence->getId()]);
-        }
-
-        return $this->render('admin/agence/agenceModify.html.twig', [
-            'form' => $form->createView(),
-            'agence' => $agence
         ]);
     }
 

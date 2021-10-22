@@ -186,6 +186,15 @@ table.dataTable.no-footer{
 }
 
 #all-meetings, #all-adherents{
+    .filter-button::after{
+        content: 'Filtre >';
+        display: flex;
+        justify-content: center;
+        margin-top: 2rem;
+    }
+    .modal-filter{
+        margin-bottom: 2rem;
+    }
     #table-adherents_filter, .dataTables_filter{
         float: none;
         text-align: center;
@@ -232,6 +241,14 @@ table.dataTable.no-footer{
             color: $color__purple;
             border-radius: 3px;
             padding: 5px;
+        }
+    }
+    #selectTriggerSearchInterAgence{
+        display: flex;
+        justify-content: center;
+        .filter{
+            margin-top: 1rem;
+            margin-right: 1rem;
         }
     }
     label{

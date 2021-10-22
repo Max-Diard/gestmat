@@ -590,14 +590,14 @@ class MeetController extends AbstractController
         $message
             //Encoder en UTF-8 ne fonctionne pas ! En iso-8859-2 non plus mais moins d'ajout de code dans l'email
             ->setSubject('Envoi de rencontre')
-            ->setCharset('iso-8859-2')
-            ->setFrom('maxime_diard@orange.fr')
-            ->setTo('themax41@hotmail.fr') //$adherent->getEmail()
+            ->setCharset('utf-8')
+            ->setFrom('themax41@hotmail.fr')
+            ->setTo('maxime_diard@orange.fr') //$adherent->getEmail()
             ->setBody(
                 $this->renderView('email/sendPdf.html.twig',[
-                    'user' => $adherent
+                    'adherent' => $adherent
                 ]),
-                'text/html', 'iso-8859-2'
+                'text/html', 'utf-8'
             )
             ->attach(\Swift_Attachment::fromPath($location));
 

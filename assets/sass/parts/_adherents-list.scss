@@ -59,9 +59,25 @@
             }
             .not-in-agence-woman{
                 background-color: $color__pink_extralight;
+                position: relative;
+                &:before {
+                    content:"Rencontre inter-agence !";
+                    position: absolute;
+                    top: 2px;
+                    left: 7px;
+                    color: red;
+                }
             }
             .not-in-agence-man{
                 background-color: $color__green;
+                position: relative;
+                &:before {
+                    content:"Rencontre inter-agence !";
+                    position: absolute;
+                    top: 2px;
+                    left: 7px;
+                    color: red;
+                }
             }
         .card-selected-woman, .card-selected-man{
             //background-color: $color__grey_light;

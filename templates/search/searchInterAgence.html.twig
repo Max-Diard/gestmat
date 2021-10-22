@@ -4,39 +4,42 @@
 
     <div id="all-adherents" class="container container-screen">
         <h1 class="title-search">Liste de tous les adhérents inter-agences</h1>
-        <div class="search-filter">
-            <div class="search-year">
-                <div class="year-min">
-                    <label>Âge minimum:</label>
-                    <input type="text" id="min" name="min" />
+        <a href="#" class="filter-button"></a>
+        <div class="modal-filter" hidden>
+            <div class="search-filter">
+                <div class="search-year">
+                    <div class="year-min">
+                        <label>Âge minimum:</label>
+                        <input type="text" id="min" name="min" />
+                    </div>
+                    <div class="year-max">
+                        <label>Âge maximum:</label>
+                        <input type="text" id="max" name="max" />
+                    </div>
                 </div>
-                <div class="year-max">
-                    <label>Âge maximum:</label>
-                    <input type="text" id="max" name="max" />
+                <div class="search-size">
+                    <div class="size-min">
+                        <label>Taille minimum:</label>
+                        <input type="text" id="size-min" name="size-min" />
+                    </div>
+                    <div class="size-max">
+                        <label>Taille maximum:</label>
+                        <input type="text" id="size-max" name="size-max" />
+                    </div>
+                </div>
+                <div class="search-weight">
+                    <div class="weight-min">
+                        <label>Poids minimum:</label>
+                        <input type="text" id="weight-min" name="weight-min" />
+                    </div>
+                    <div class="weight-max">
+                        <label>Poids maximum:</label>
+                        <input type="text" id="weight-max" name="weight-max" />
+                    </div>
                 </div>
             </div>
-            <div class="search-size">
-                <div class="size-min">
-                    <label>Taille minimum:</label>
-                    <input type="text" id="size-min" name="size-min" />
-                </div>
-                <div class="size-max">
-                    <label>Taille maximum:</label>
-                    <input type="text" id="size-max" name="size-max" />
-                </div>
-            </div>
-            <div class="search-weight">
-                <div class="weight-min">
-                    <label>Poids minimum:</label>
-                    <input type="text" id="weight-min" name="weight-min" />
-                </div>
-                <div class="weight-max">
-                    <label>Poids maximum:</label>
-                    <input type="text" id="weight-max" name="weight-max" />
-                </div>
-            </div>
+            <p id="selectTriggerSearchInterAgence"></p>
         </div>
-        <p id="selectTriggerSearchInterAgence"></p>
 
         <table id="table-search-inter-agence" class="table-search">
             <thead class="table-search-thead">
