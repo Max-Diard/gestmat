@@ -44,7 +44,6 @@ class AdherentController extends AbstractController
         $options = $this->entityManager->getRepository(AdherentOption::class)->findBy(['type' => 'status_meet']);
         $actions = $this->entityManager->getRepository(AdherentOption::class)->findBy(['type' => 'action_meet']);
 
-
         //Si l'utilisateur connecté à plus d'une agence, on itére dessus
         if (count($agences) > 0){
             for($i = 0; $i < count($agences); $i++){
@@ -58,31 +57,31 @@ class AdherentController extends AbstractController
                     $i + 1 => $menAdherent
                 ];
 
-                $otherAgences = $this->entityManager->getRepository(Agence::class)->findOtherAgence($agences[$i]);
-
-                $womenAdherentDroit = [];
-                $menAdherentDroit = [];
+//                $otherAgences = $this->entityManager->getRepository(Agence::class)->findOtherAgence($agences[$i]);
+//
+//                $womenAdherentDroit = [];
+//                $menAdherentDroit = [];
 
                 // On regarde si il y a plus d'agences dans la BDD que l'user à moins d'agences lier
-                if(count($otherAgences) > count($agences)){
-                    foreach($otherAgences as $otherAgence){
-                        $allAgence = $otherAgence->getDroitAgence();
-
-                        if(count($allAgence) > 0){
-                            for($j = 0; $j < count($allAgence); $j++){
-                                if($allAgence[$j] === $agences[$i]){
-                                    $womenAdherentDroit[] = $this->entityManager->getRepository(Adherent::class)->findByGenreAgences('Féminin', $otherAgence);
-                                    $menAdherentDroit[] = $this->entityManager->getRepository(Adherent::class)->findByGenreAgences('Masculin', $otherAgence);
-
-                                    $fullAdherent += [
-                                        $j + 2 => $womenAdherentDroit,
-                                        $j + 3 => $menAdherentDroit
-                                    ];
-                                }
-                            }
-                        }
-                    }
-                }
+//                if(count($otherAgences) > count($agences)){
+//                    foreach($otherAgences as $otherAgence){
+//                        $allAgence = $otherAgence->getDroitAgence();
+//
+//                        if(count($allAgence) > 0){
+//                            for($j = 0; $j < count($allAgence); $j++){
+//                                if($allAgence[$j] === $agences[$i]){
+//                                    $womenAdherentDroit[] = $this->entityManager->getRepository(Adherent::class)->findByGenreAgences('Féminin', $otherAgence);
+//                                    $menAdherentDroit[] = $this->entityManager->getRepository(Adherent::class)->findByGenreAgences('Masculin', $otherAgence);
+//
+//                                    $fullAdherent += [
+//                                        $j + 2 => $womenAdherentDroit,
+//                                        $j + 3 => $menAdherentDroit
+//                                    ];
+//                                }
+//                            }
+//                        }
+//                    }
+//                }
                 // On récupére toute les rencontres et on met dans un tableau si l'id de l'adhérent à déjà eu une rencontre
                 $meeting = [];
 
@@ -133,17 +132,18 @@ class AdherentController extends AbstractController
         } else {
             $womenAdherent = '';
             $menAdherent = '';
-            $womenAdherentDroit = [];
-            $menAdherentDroit = [];
+//            $womenAdherentDroit = [];
+//            $menAdherentDroit = [];
         }
         return $this->render('adherent/index.html.twig', [
             'womenAdherent'         => $womenAdherent,
             'menAdherent'           => $menAdherent,
-            'womenAdherentDroit'    => $womenAdherentDroit,
-            'menAdherentDroit'      => $menAdherentDroit,
+//            'womenAdherentDroit'    => $womenAdherentDroit,
+//            'menAdherentDroit'      => $menAdherentDroit,
             'meet'                  => $meeting,
             'options'               => $options,
-            'actions'               => $actions
+            'actions'               => $actions,
+            'agences'               => $agences
         ]);
     }
 
@@ -334,6 +334,8 @@ class AdherentController extends AbstractController
         if($form->isSubmitted() && $form->isValid()){
             $adherent = $form->getData();
 
+            $adherent->setActive(true);
+
             $agence = $this->getUser();
 
             $fileInfo = $form->get('link_information')->getData();
@@ -429,7 +431,7 @@ class AdherentController extends AbstractController
 
         $image = $request->server->filter('SYMFONY_DEFAULT_ROUTE_URL') . 'uploads/agence/agence' . $agence[0]->getId() . '/picture/'. $agence[0]->getLinkPicture();
 
-        $html = $this->renderView('adherent/pdfTestimony.html.twig', [
+        $html = $this->renderView('file/pdfTestimony.html.twig', [
             'adherent' => $adherent,
             'image' => $image
         ]);
@@ -471,7 +473,7 @@ class AdherentController extends AbstractController
                 $adherentcsv[] = $adherent;
             }
         }
-        $csv = $this->renderView('adherent/template.csv.twig', [
+        $csv = $this->renderView('file/template.csv.twig', [
                 'adherents' => $adherentcsv,
                 'meets' => $meets
         ]);

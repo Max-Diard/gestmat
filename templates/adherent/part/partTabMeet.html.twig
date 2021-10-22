@@ -1,0 +1,57 @@
+<div class="row-meets-first">
+    <div class="">
+    {% if meets is defined %}
+        {% if meets is empty %}
+        <p class="nomeet">Cette personne n'a pas de rencontre pour le moment.</p>
+        {% else %}
+        <table>
+            <thead>
+            <tr>
+                <td>Référence</td>
+                <td>Date de retour</td>
+                <td>Nom</td>
+                <td>Prénom</td>
+                <td>Agence</td>
+                <td>Date de rencontre</td>
+                <td>Action</td>
+                <td>Supprimer</td>
+            </tr>
+            </thead>
+            <tbody class="adherent-single-meet">
+            {% for meet in meets %}
+                <tr>
+                    <td>{{ meet.id }}</td>
+                    {% if adherentProfile.genre == 'Féminin' %}
+                        {% if meet.returnAtWoman == '' %}
+                            <td>En attente</td>
+                        {% else %}
+                            <td>{{ meet.returnAtWoman|date('d/m/Y') }}</td>
+                        {% endif %}
+                        <td>{{ meet.adherentMan.lastname }}</td>
+                        <td>{{ meet.adherentMan.firstname }}</td>
+                        <td>{{ meet.adherentMan.agence.name }}</td>
+                    {% else %}
+                        {% if meet.returnAtMan == '' %}
+                            <td>En attente</td>
+                        {% else %}
+                            <td>{{ meet.returnAtMan|date('d/m/Y') }}</td>
+                        {% endif %}
+                        <td>{{ meet.adherentWoman.lastname }}</td>
+                        <td>{{ meet.adherentWoman.firstname }}</td>
+                        <td>{{ meet.adherentMan.agence.name }}</td>
+                    {% endif %}
+                    <td>{{ meet.startedAt|date('d/m/Y') }}</td>
+                    <td><a href="#" class="meet-more" data-id="{{ meet.id }}">Voir plus</a></td>
+                    <td><a href="#" class="meet-delete" data-id="{{ meet.id }}"><img src="{{asset('build/images/delete.svg')}}" alt="Supprimer"></a></td>
+                </tr>
+            {% endfor %}
+        {% endif %}
+            </tbody>
+        </table>
+    </div>
+    <div class="links-end">
+        <a href="{{ path('adherent_profile_meet_all', {id: adherentProfile.id}) }}">Voir toutes les rencontres</a>
+        <a href="{{ path('adherent_testimony', {id: adherentProfile.id}) }}" target="_blank">Demande de témoignage</a>
+    </div>
+    {% endif %}
+</div>

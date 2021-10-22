@@ -1,0 +1,61 @@
+<div class="row-documents-first">
+    <div class="col col-adherent-link_information">
+        {{ form_label(formAdherent.link_information) }}
+        {{ form_widget(formAdherent.link_information) }}
+        <div class="fic-adherent">
+            {% if adherentProfile is defined %}
+                {% if adherentProfile.linkInformation != '' %}
+                    <embed src='{{ asset('uploads/adherent/adherent'~ adherentProfile.id ~'/information/'~ adherentProfile.linkInformation) }}'/>
+                    <a class="link-sm" href="{{ asset('uploads/adherent/adherent'~ adherentProfile.id ~'/information/'~ adherentProfile.linkInformation) }}" target="_blank">
+                        Voir le fichier
+                    </a>
+                {% endif %}
+            {% endif %}
+        </div>
+    </div>
+    <br>
+    <div class="col col-adherent-link_contract">
+        {{ form_label(formAdherent.link_contract) }}
+        {{ form_widget(formAdherent.link_contract) }}
+        <div class="fic-adherent">
+            {% if trueAgence is defined %}
+                {% if adherentProfile.linkContract != '' %}
+                    <embed src='{{ asset('uploads/adherent/adherent'~ adherentProfile.id ~'/contract/'~ adherentProfile.linkContract) }}'/>
+                    <a class="link-sm" href="{{ asset('uploads/adherent/adherent'~ adherentProfile.id ~'/contract/'~ adherentProfile.linkContract) }}" target="_blank">
+                        Voir le fichier
+                    </a>
+                {% endif %}
+            {% endif %}
+        </div>
+    </div>
+    <br>
+    <div class="col col-adherent-link_picture">
+        {{ form_label(formAdherent.link_picture) }}
+        {{ form_widget(formAdherent.link_picture) }}
+        <div class="fic-adherent">
+            {% if trueAgence is defined %}
+                {% if adherentProfile.linkPicture != '' %}
+                    <embed src='{{ asset('uploads/adherent/adherent'~ adherentProfile.id ~'/picture/'~ adherentProfile.linkPicture) }}'/>
+                    <a class="link-sm" href="{{ asset('uploads/adherent/adherent'~ adherentProfile.id ~'/picture/'~ adherentProfile.linkPicture) }}" target="_blank">
+                        Voir le fichier
+                    </a>
+                {% endif %}
+            {% endif %}
+        </div>
+    </div>
+    <br>
+    <div class="col col-adherent-link_picture_announcement">
+        {{ form_label(formAdherent.link_picture_announcement) }}
+        {{ form_widget(formAdherent.link_picture_announcement) }}
+        <div class="fic-adherent">
+            {% if trueAgence is defined %}
+                {% if adherentProfile.linkPictureAnnouncement != '' %}
+                    <embed src='{{ asset('uploads/adherent/adherent'~ adherentProfile.id ~'/announcement/'~ adherentProfile.linkPictureAnnouncement) }}'/>
+                    <a class="link-sm" href="{{ asset('uploads/adherent/adherent'~ adherentProfile.id ~'/announcement/'~ adherentProfile.linkPictureAnnouncement) }}" target="_blank">
+                        Voir le fichier
+                    </a>
+                {% endif %}
+            {% endif %}
+        </div>
+    </div>
+</div>

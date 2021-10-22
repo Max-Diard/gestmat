@@ -4,7 +4,9 @@
 
 <div id="adherents-list" class="container container-screen">
     <h1 class="title-adherents">Liste des adhérents</h1>
-
+    {% for agence in agences %}
+        <input class="name-agence-datatable" name-agence="{{ agence.name }}" hidden/>
+    {% endfor %}
     {#    Modal pour voir les info de la rencontre #}
     {% include('modal.html.twig') %}
 
@@ -48,27 +50,27 @@
                         </tr>
                         {% endfor %} 
                     {% endfor %}
-                    {% for boucle in womenAdherentDroit %}
-                        {% for adherent in boucle %}
-                            <tr class='women-droit'>
-                                {% if adherent.id in meet %}
-                                    <td class="js-adherent" data-id='{{ adherent.id }}'>{{ adherent.lastname }}</td>
-                                {% else %}
-                                    <td class="js-adherent no-meet" data-id='{{ adherent.id }}'>{{ adherent.lastname }}</td>
-                                {% endif %}
-                                {% if adherent.statusMeet == 'Disponible' %}
-                                    <td class='status-disponibility js-adherent' data-id='{{ adherent.id }}'>{{ adherent.firstname }}</td>
-                                {% else %}
-                                    <td class="js-adherent" data-id='{{ adherent.id }}'>{{ adherent.firstname }}</td>
-                                {% endif %}
-                                <td class="js-adherent" data-id='{{ adherent.id }}'>{{ adherent.getAge() }}</td>
-                                <td class="js-adherent" data-id='{{ adherent.id }}'>{{ adherent.statusMeet }}</td>
-                                <td class="js-adherent" data-id='{{ adherent.id }}' data-sort='{{ adherent.contractEndingAt|date('Ymd') }}'>{{ adherent.contractEndingAt|date('d/m/Y') }}</td>
-                                <td class="js-adherent" data-id='{{ adherent.id }}'>{{ adherent.agence.name }}</td>
-                                <td><a href='{{ path('adherent_single', {id : adherent.id}) }}'>Profil</a></td>
-                            </tr>
-                        {% endfor %}
-                    {% endfor %}
+{#                    {% for boucle in womenAdherentDroit %}#}
+{#                        {% for adherent in boucle %}#}
+{#                            <tr class='women-droit'>#}
+{#                                {% if adherent.id in meet %}#}
+{#                                    <td class="js-adherent" data-id='{{ adherent.id }}'>{{ adherent.lastname }}</td>#}
+{#                                {% else %}#}
+{#                                    <td class="js-adherent no-meet" data-id='{{ adherent.id }}'>{{ adherent.lastname }}</td>#}
+{#                                {% endif %}#}
+{#                                {% if adherent.statusMeet == 'Disponible' %}#}
+{#                                    <td class='status-disponibility js-adherent' data-id='{{ adherent.id }}'>{{ adherent.firstname }}</td>#}
+{#                                {% else %}#}
+{#                                    <td class="js-adherent" data-id='{{ adherent.id }}'>{{ adherent.firstname }}</td>#}
+{#                                {% endif %}#}
+{#                                <td class="js-adherent" data-id='{{ adherent.id }}'>{{ adherent.getAge() }}</td>#}
+{#                                <td class="js-adherent" data-id='{{ adherent.id }}'>{{ adherent.statusMeet }}</td>#}
+{#                                <td class="js-adherent" data-id='{{ adherent.id }}' data-sort='{{ adherent.contractEndingAt|date('Ymd') }}'>{{ adherent.contractEndingAt|date('d/m/Y') }}</td>#}
+{#                                <td class="js-adherent" data-id='{{ adherent.id }}'>{{ adherent.agence.name }}</td>#}
+{#                                <td><a href='{{ path('adherent_single', {id : adherent.id}) }}'>Profil</a></td>#}
+{#                            </tr>#}
+{#                        {% endfor %}#}
+{#                    {% endfor %}#}
                 </tbody>
             </table>
 
@@ -110,27 +112,27 @@
                             </tr>
                         {% endfor %}
                     {% endfor %}
-                    {% for boucle in menAdherentDroit %}
-                        {% for adherent in boucle %}
-                            <tr class='men-droit'>
-                                {% if adherent.id in meet %}
-                                    <td class="js-adherent" data-id='{{ adherent.id }}'>{{ adherent.lastname }}</td>
-                                {% else %}
-                                    <td class="js-adherent no-meet" data-id='{{ adherent.id }}'>{{ adherent.lastname }}</td>
-                                {% endif %}
-                                {% if adherent.statusMeet == 'Disponible' %}
-                                    <td class='status-disponibility js-adherent' data-id='{{ adherent.id }}'>{{ adherent.firstname }}</td>
-                                {% else %}
-                                    <td class="js-adherent" data-id='{{ adherent.id }}'>{{ adherent.firstname }}</td>
-                                {% endif %}
-                                <td class="js-adherent" data-id='{{ adherent.id }}'>{{ adherent.getAge() }}</td>
-                                <td class="js-adherent" data-id='{{ adherent.id }}'>{{ adherent.statusMeet }}</td>
-                                <td class="js-adherent" data-id='{{ adherent.id }}' data-sort='{{ adherent.contractEndingAt|date('Ymd') }}'>{{ adherent.contractEndingAt|date('d/m/Y') }}</td>
-                                <td class="js-adherent" data-id='{{ adherent.id }}'>{{ adherent.agence.name }}</td>
-                                <td><a href='{{ path('adherent_single', {id: adherent.id}) }}'>Profil</a></td>
-                            </tr>
-                        {% endfor %}
-                    {% endfor %}
+{#                    {% for boucle in menAdherentDroit %}#}
+{#                        {% for adherent in boucle %}#}
+{#                            <tr class='men-droit'>#}
+{#                                {% if adherent.id in meet %}#}
+{#                                    <td class="js-adherent" data-id='{{ adherent.id }}'>{{ adherent.lastname }}</td>#}
+{#                                {% else %}#}
+{#                                    <td class="js-adherent no-meet" data-id='{{ adherent.id }}'>{{ adherent.lastname }}</td>#}
+{#                                {% endif %}#}
+{#                                {% if adherent.statusMeet == 'Disponible' %}#}
+{#                                    <td class='status-disponibility js-adherent' data-id='{{ adherent.id }}'>{{ adherent.firstname }}</td>#}
+{#                                {% else %}#}
+{#                                    <td class="js-adherent" data-id='{{ adherent.id }}'>{{ adherent.firstname }}</td>#}
+{#                                {% endif %}#}
+{#                                <td class="js-adherent" data-id='{{ adherent.id }}'>{{ adherent.getAge() }}</td>#}
+{#                                <td class="js-adherent" data-id='{{ adherent.id }}'>{{ adherent.statusMeet }}</td>#}
+{#                                <td class="js-adherent" data-id='{{ adherent.id }}' data-sort='{{ adherent.contractEndingAt|date('Ymd') }}'>{{ adherent.contractEndingAt|date('d/m/Y') }}</td>#}
+{#                                <td class="js-adherent" data-id='{{ adherent.id }}'>{{ adherent.agence.name }}</td>#}
+{#                                <td><a href='{{ path('adherent_single', {id: adherent.id}) }}'>Profil</a></td>#}
+{#                            </tr>#}
+{#                        {% endfor %}#}
+{#                    {% endfor %}#}
                 </tbody>
             </table>
         </div>

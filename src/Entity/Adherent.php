@@ -360,6 +360,11 @@ class Adherent implements Serializable
      */
     private $agence;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $active;
+
     public function __construct()
     {
         $this->adherent_woman = new ArrayCollection();
@@ -1205,5 +1210,17 @@ class Adherent implements Serializable
     public function unserialize($serialized)
     {
         $this->id = unserialize($serialized, ['allowed_classes' => true]);
+    }
+
+    public function getActive(): ?bool
+    {
+        return $this->active;
+    }
+
+    public function setActive(bool $active): self
+    {
+        $this->active = $active;
+
+        return $this;
     }
 }

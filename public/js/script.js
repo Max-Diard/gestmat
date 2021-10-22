@@ -206,6 +206,28 @@ window.addEventListener("DOMContentLoaded", (event) => {
         })
     }
 
+    // Page pour la recherche
+
+    const createMeetInterAgence = document.querySelectorAll('.create-meet-search-inter-agence');
+
+    if (createMeetInterAgence){
+        [].forEach.call(createMeetInterAgence, function(elem){
+            const idAdherent = elem.getAttribute('data-adherent-id');
+            const genreAdherent = elem.getAttribute('data-adherent-genre');
+            elem.addEventListener('click', () => {
+                let hash = ''
+                if(genreAdherent === 'Féminin'){
+                    hash = 'woman=' + idAdherent
+
+                } else {
+                    hash = 'men=' + idAdherent
+                }
+                console.log(hash)
+                window.location = '/adherent#?' + hash
+            })
+        })
+    }
+
     //Pop-up pour les messages flashs
     const alertNewAdherent = document.querySelector('.alert-new-adherent');
     const alertChangeAdherent = document.querySelector('.alert-change-adherent');
@@ -257,6 +279,11 @@ window.addEventListener("DOMContentLoaded", (event) => {
 
 // Function pour appeler l'api qui récupére l'adhérent sélectionner
 function apiMeet(id){
+    const cardSelectedWoman = document.querySelector('.card-selected-woman')
+    const cardSelectedMan = document.querySelector('.card-selected-man')
+
+    const nameAgence = document.querySelector('.name-agence-datatable').getAttribute('name-agence')
+
     const lastnameWoman = document.querySelector('.thead-card-woman-lastname');
     const firstnameWoman = document.querySelector('.thead-card-woman-firstname');
     const yearWoman = document.querySelector('.thead-card-woman-years');
@@ -293,7 +320,22 @@ function apiMeet(id){
                 loaderMeet.removeChild(divContainerLoader)
 
                 const recup = JSON.parse(request.response);
+                console.log(recup.adherent[0].agence.name)
                 if (recup.adherent[0].genre.name === 'Féminin'){
+                    const listClass = cardSelectedWoman.classList
+
+                    if(nameAgence != recup.adherent[0].agence.name){
+                        if(listClass[1] === 'in-agence-woman'){
+                            cardSelectedWoman.classList.remove('in-agence-woman')
+                        }
+                        cardSelectedWoman.classList.add('not-in-agence-woman')
+                    } else {
+                        if(listClass[1] === 'not-in-agence-woman'){
+                            cardSelectedWoman.classList.remove('not-in-agence-woman')
+                        }
+                        cardSelectedWoman.classList.add('in-agence-woman')
+                    }
+
                     lastnameWoman.textContent = recup.adherent[0].lastname;
                     firstnameWoman.textContent = recup.adherent[0].firstname;
                     yearWoman.textContent = recup.adherent[0].age;
@@ -315,10 +357,23 @@ function apiMeet(id){
 
                     infoWoman = recup
 
-                    informationMeetWoman(recup);
-
+                    informationMeetWoman(recup, cardSelectedWoman);
                 }
                 else {
+                    const listClass = cardSelectedMan.classList
+
+                    if(nameAgence != recup.adherent[0].agence.name){
+                        if(listClass[1] === 'in-agence-man'){
+                            cardSelectedMan.classList.remove('in-agence-man')
+                        }
+                        cardSelectedMan.classList.add('not-in-agence-man')
+                    } else {
+                        if(listClass[1] === 'not-in-agence-man'){
+                            cardSelectedMan.classList.remove('not-in-agence-man')
+                        }
+                        cardSelectedMan.classList.add('in-agence-man')
+                    }
+
                     lastnameMan.textContent = recup.adherent[0].lastname;
                     firstnameMan.textContent = recup.adherent[0].firstname;
                     yearMan.textContent = recup.adherent[0].age;
@@ -339,7 +394,7 @@ function apiMeet(id){
                     }
                     infoMan = recup;
 
-                    informationMeetMan(recup);
+                    informationMeetMan(recup, cardSelectedMan);
 
                 }
                 if(loadingWomen && loadingMen){
@@ -415,7 +470,7 @@ function apiMeet(id){
 }
 
 // Function appeler dans la function 'apiMeet' ppour afficher les rencontres de l'adhérent sélectionner ici pour une femme
-function informationMeetWoman(recup){
+function informationMeetWoman(recup, card){
     const divMeetWoman = document.querySelector('.woman-meeting');
 
     if(divMeetWoman.hasChildNodes()){
@@ -459,10 +514,17 @@ function informationMeetWoman(recup){
             cellLinkMore.textContent = 'Voir plus'
 
             let idMeet = recup.meet[j].id
-
             cellLinkMore.addEventListener('click', function(ev){
-                ev.preventDefault()
-                informationMeet(idMeet)
+                if(card.classList[1] === 'in-agence-woman'){
+                    ev.preventDefault()
+                    informationMeet(idMeet)
+                } else {
+                    Swal.fire({
+                        title: 'Donnés non disponible',
+                        text: 'Vous n\'avez pas accès à cette donnée !',
+                        icon: 'info'
+                    })
+                }
             })
 
             cellMore.appendChild(cellLinkMore)
@@ -474,22 +536,30 @@ function informationMeetWoman(recup){
             cellLinkDelete.classList.add('suppr-meet')
             cellLinkDelete.innerHTML = '<img src="/build/images/delete.svg" alt="supprimer">'
             cellLinkDelete.addEventListener('click', function(){
-                Swal.fire({
-                    title: 'Vous voulez vraiment supprimer cette rencontre ?',
-                    showDenyButton: true,
-                    showCancelText: 'Non',
-                    confirmButtonText: 'Oui',
-                    confirmButtonOnClick: '#',
-                    denyButtonText: `Non`,
-                    icon: 'question'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        removeMeet(idMeet)
-                        apiMeet(recup.adherent[0].id)
-                    } else if (result.isDenied) {
-                        Swal.fire("La rencontre n'a pas été supprimée !", '', 'info')
-                    }
-                })
+                if(card.classList[1] === 'in-agence-woman'){
+                    Swal.fire({
+                        title: 'Vous voulez vraiment supprimer cette rencontre ?',
+                        showDenyButton: true,
+                        showCancelText: 'Non',
+                        confirmButtonText: 'Oui',
+                        confirmButtonOnClick: '#',
+                        denyButtonText: `Non`,
+                        icon: 'question'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            removeMeet(idMeet)
+                            apiMeet(recup.adherent[0].id)
+                        } else if (result.isDenied) {
+                            Swal.fire("La rencontre n'a pas été supprimée !", '', 'info')
+                        }
+                    })
+                } else {
+                    Swal.fire({
+                        title: 'Suppression impossible',
+                        text: 'Impossible de supprimer cette rencontre',
+                        icon: 'info'
+                    })
+                }
             })
 
             cellDelete.appendChild(cellLinkDelete)
@@ -519,7 +589,7 @@ function informationMeetWoman(recup){
 }
 
 // Function appeler dans la function 'apiMeet' ppour afficher les rencontres de l'adhérent sélectionner ici pour un homme
-function informationMeetMan(recup){
+function informationMeetMan(recup, card){
     const divMeetMan = document.querySelector('.man-meeting');
 
     if(divMeetMan.hasChildNodes()){
@@ -564,9 +634,18 @@ function informationMeetMan(recup){
 
             let idMeet = recup.meet[j].id
 
-            cellLinkMore.addEventListener('click', function(ev){
-                ev.preventDefault()
-                informationMeet(idMeet)
+            cellLinkMore.addEventListener('click', function (ev) {
+                if(card.classList[1] === 'in-agence-man') {
+                    ev.preventDefault()
+                    informationMeet(idMeet)
+
+                } else {
+                    Swal.fire({
+                        title: 'Donnée non disponible',
+                        text: 'Vous n\'avez pas accès à cette donnée !',
+                        icon: 'info'
+                    })
+                }
             })
 
             cellMore.appendChild(cellLinkMore)
@@ -576,25 +655,30 @@ function informationMeetMan(recup){
             cellLinkDelete.href = '#'
             cellLinkDelete.classList.add('suppr-meet')
             cellLinkDelete.innerHTML = '<img src="build/images/delete.svg" alt="Supprimer">'
-
             cellLinkDelete.addEventListener('click', function(){
-                Swal.fire({
-                    title: 'Vous voulez vraiment supprimer cette rencontre ?',
-                    showDenyButton: true,
-                    showCancelText: 'Non',
-                    confirmButtonText: 'Oui',
-                    confirmButtonOnClick: '#',
-                    denyButtonText: `Non`,
-                    icon: 'question'
-                }).then((result) => {
-                    /* Read more about isConfirmed, isDenied below */
-                    if (result.isConfirmed) {
-                        removeMeet(idMeet)
-                        apiMeet(recup.adherent[0].id)
-                    } else if (result.isDenied) {
-                        Swal.fire("La rencontre n'a pas été supprimée !", '', 'info')
-                    }
-                })
+                if(card.classList[1] === 'in-agence-man'){
+                    Swal.fire({
+                        title: 'Vous voulez vraiment supprimer cette rencontre ?',
+                        showDenyButton: true,
+                        showCancelText: 'Non',
+                        confirmButtonText: 'Oui',
+                        confirmButtonOnClick: '#',
+                        denyButtonText: `Non`,
+                        icon: 'question'
+                    }).then((result) => {
+                        /* Read more about isConfirmed, isDenied below */
+                        if (result.isConfirmed) {
+                            removeMeet(idMeet)
+                            apiMeet(recup.adherent[0].id)
+                        }
+                    })
+                }else{
+                    Swal.fire({
+                        title: 'Suppression impossible',
+                        text: 'Impossible de supprimer cette rencontre',
+                        icon: 'info'
+                    })
+                }
             })
 
             cellDelete.appendChild(cellLinkDelete)
@@ -634,7 +718,7 @@ function informationMeet(id){
     const womanDateReturn = document.querySelector('.woman-date-returnAt');
     const womanAction = document.querySelector('.woman-action');
     const womanComments = document.querySelector('.woman-comments');
-    const womanLinkPdf = document.querySelector('.link-pdf-woman');
+    const womanLinkPdf = document.querySelector('.link-file-woman');
     const womanPosition = document.querySelector('.meet-woman-position');
 
     const dateMeet = document.querySelector('.date-meet');
@@ -646,7 +730,7 @@ function informationMeet(id){
     const manDateReturn = document.querySelector('.man-date-returnAt');
     const manAction = document.querySelector('.man-action');
     const manComments = document.querySelector('.man-comments');
-    const manLinkPdf = document.querySelector('.link-pdf-man');
+    const manLinkPdf = document.querySelector('.link-file-man');
     const manPosition = document.querySelector('.meet-man-position');
 
     const closeModal = document.querySelector('.close-modal');
@@ -701,7 +785,7 @@ function informationMeet(id){
                 womanPosition.value = recup[0].adherent_woman.status_meet.name;
                 womanComments.textContent = recup[0].comments_woman;
 
-                womanLinkPdf.href = '/meet/pdf/' + recup[0].adherent_woman.id + '-' + recup[0].adherent_man.id
+                womanLinkPdf.href = '/meet/file/' + recup[0].adherent_woman.id + '-' + recup[0].adherent_man.id
                 womanLinkPdf.target = '_blank'
 
                 //Information de la rencontre général
@@ -729,7 +813,7 @@ function informationMeet(id){
                 manPosition.value = recup[0].adherent_man.status_meet.name;
                 manComments.textContent = recup[0].comments_man;
 
-                manLinkPdf.href = '/meet/pdf/' + recup[0].adherent_man.id + '-' + recup[0].adherent_woman.id
+                manLinkPdf.href = '/meet/file/' + recup[0].adherent_man.id + '-' + recup[0].adherent_woman.id
                 manLinkPdf.target = '_blank'
 
                 sendButton.href = '/api/update_meet/'

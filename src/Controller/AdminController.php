@@ -81,6 +81,19 @@ class AdminController extends AbstractController
                 $agence->setLinkPicture($pictureName);
             }
 
+            // droit agence
+            $allAgence = $this->entityManager->getRepository(Agence::class)->findAll();
+
+            foreach ($allAgence as $singleAgence){
+                $agence->addDroitAgence($singleAgence);
+                $singleAgence->addDroitAgence($agence);
+
+                $this->entityManager->persist($agence);
+                $this->entityManager->persist($singleAgence);
+            }
+
+            $this->entityManager->flush();
+
             return $this->redirectToRoute('admin_agence');
         }
 
@@ -96,45 +109,47 @@ class AdminController extends AbstractController
     ]
     public function singleAgence(Agence $agence, Request $request): Response
     {
-        $allAgence = $this->entityManager->getRepository(Agence::class)->findAll();
-        $agenceId = $agence->getId();
-        for($i = 0; $i < count($allAgence); $i++){
-            $otherAgences = $this->entityManager->getRepository(Agence::class)->findOtherAgence($agenceId);
-        }
 
-        $agenceGiveDroit = [];
-        
-        foreach($otherAgences as $otherAgence){
-            for($j = 0; $j < count($allAgence); $j++){
-                if($otherAgence->getDroitAgence()[$j] === $agence){
-                    $agenceGiveDroit[] = $otherAgence;
-                }
-            }
-        }
-
-        $form = $this->createForm(DelegationAgenceType::class, $agence, [
-            'agences' => $otherAgences
-        ]);
-
-        $form->handleRequest($request);
-        
-        if($form->isSubmitted() && $form->isValid()){
-            $delegation = $form->get('droit_agence')->getData();
-            
-            foreach($delegation as $deleg){
-                $agence->addDroitAgence($deleg);
-            }
-
-            $this->entityManager->persist($agence);
-            $this->entityManager->flush();
-
-            return $this->redirectToRoute('admin_agence_single', ['id' => $agence->getId()]);
-        }
+        // Suppresion des droits d'agences
+//        $allAgence = $this->entityManager->getRepository(Agence::class)->findAll();
+//        $agenceId = $agence->getId();
+//        for($i = 0; $i < count($allAgence); $i++){
+//            $otherAgences = $this->entityManager->getRepository(Agence::class)->findOtherAgence($agenceId);
+//        }
+//
+//        $agenceGiveDroit = [];
+//
+//        foreach($otherAgences as $otherAgence){
+//            for($j = 0; $j < count($allAgence); $j++){
+//                if($otherAgence->getDroitAgence()[$j] === $agence){
+//                    $agenceGiveDroit[] = $otherAgence;
+//                }
+//            }
+//        }
+//        $form = $this->createForm(DelegationAgenceType::class, $agence, [
+//            'agences' => $otherAgences
+//        ]);
+//
+//        $form->handleRequest($request);
+//
+//        if($form->isSubmitted() && $form->isValid()){
+//            $delegation = $form->get('droit_agence')->getData();
+//
+//            foreach($delegation as $deleg){
+//                $agence->addDroitAgence($deleg);
+//            }
+//
+//            $this->entityManager->persist($agence);
+//            $this->entityManager->flush();
+//
+//            return $this->redirectToRoute('admin_agence_single', ['id' => $agence->getId()]);
+//        }
 
         return $this->render('admin/agence/single.html.twig', [
             'agence' => $agence,
-            'form' => $form->createView(),
-            'agenceGiveDroit' => $agenceGiveDroit
+                // Suppression des droits d'agences
+//            'form' => $form->createView(),
+//            'agenceGiveDroit' => $agenceGiveDroit
         ]);
     }
 

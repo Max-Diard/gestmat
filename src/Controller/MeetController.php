@@ -127,7 +127,7 @@ class MeetController extends AbstractController
         ]);
     }
 
-    //Page pour voir les pdf de rencontre vis à vis de leur préférence et avec une date précise
+    //Page pour voir les file de rencontre vis à vis de leur préférence et avec une date précise
     #[
         Route('/meet/send/{dateStart}/{dateEnd}', name: 'meet_send_date'),
         ParamConverter('dateStart' , \DateTimeImmutable::class),
@@ -179,10 +179,10 @@ class MeetController extends AbstractController
         ]);
     }
 
-    // --------------------------- Function pour créer les pdf --------------------------- //
-    //Page pour voir le pdf de rencontre de l'adhérent sélectionner
+    // --------------------------- Function pour créer les file --------------------------- //
+    //Page pour voir le file de rencontre de l'adhérent sélectionner
     #[
-        Route('/meet/pdf/{adherent}-{meet}', name: 'adherent_single_pdf'),
+        Route('/meet/file/{adherent}-{meet}', name: 'adherent_single_pdf'),
         IsGranted('ROLE_USER')
     ]
     public function seePdfAdherent(Adherent $adherent, Adherent $meet, Request $request, SluggerInterface $slugger)
@@ -199,7 +199,7 @@ class MeetController extends AbstractController
 
         $image = $request->server->filter('SYMFONY_DEFAULT_ROUTE_URL') . 'uploads/agence/agence' . $adherent->getAgence()->getId() . '/picture/'. $agence;
 
-        $html = $this->renderView('meet/pdfView.html.twig', [
+        $html = $this->renderView('file/pdfView.html.twig', [
             'adherent' => $adherent,
             'meet' => $meet,
             'date' => $date,
@@ -215,7 +215,7 @@ class MeetController extends AbstractController
         $dompdf->render();
 
         $output = $dompdf->output();
-        $location = $this->getParameter('meet_directory') . $meet->getId() .  "/Rencontre-" . $adherent->getLastname() . '-' . $adherent->getFirstname() . '.pdf';
+        $location = $this->getParameter('meet_directory') . $meet->getId() .  "/Rencontre-" . $adherent->getLastname() . '-' . $adherent->getFirstname() . '.file';
 
         if (!is_dir($this->getParameter('meet_directory'). $meet->getId() )) {
             mkdir($this->getParameter('meet_directory') . $meet->getId() .  "/", 0777, true);
@@ -312,7 +312,7 @@ class MeetController extends AbstractController
         $slug = $slugger->slug('impression-du-' . $date);
 
         $output = $dompdf->output();
-        $location = $this->getParameter('meet_directory') .  "/" . $date . '/' . $slug . '.pdf';
+        $location = $this->getParameter('meet_directory') .  "/" . $date . '/' . $slug . '.file';
 
         if (!is_dir($this->getParameter('meet_directory'). $date )) {
             mkdir($this->getParameter('meet_directory') . $date .  "/", 0777, true);
@@ -501,7 +501,7 @@ class MeetController extends AbstractController
 
             $image = $request->server->filter('SYMFONY_DEFAULT_ROUTE_URL') . 'uploads/agence/agence' . $adherentSend->getAgence()->getId() . '/picture/'. $agence;
 
-            $html .= $this->renderView('meet/pdfView.html.twig', [
+            $html .= $this->renderView('file/pdfView.html.twig', [
                 'adherent' => $adherentSend,
                 'meet' => $genre,
                 'date' => $date,
@@ -524,7 +524,7 @@ class MeetController extends AbstractController
 
         $image = $request->server->filter('SYMFONY_DEFAULT_ROUTE_URL') . 'uploads/agence/agence' . $adherent->getAgence()->getId() . '/picture/'. $agence;
 
-        $html .= $this->renderView('meet/pdfView.html.twig', [
+        $html .= $this->renderView('file/pdfView.html.twig', [
             'adherent' => $adherent,
             'meet' => $genre,
             'date' => $date,
@@ -575,7 +575,7 @@ class MeetController extends AbstractController
         $slug = $this->slugger->slug('email-'. $number . '-du-' . $date);
         $output = $dompdf->output();
 
-        $location = $this->getParameter('meet_directory') . $date . '/' . $slug . '.pdf';
+        $location = $this->getParameter('meet_directory') . $date . '/' . $slug . '.file';
 
         if (!is_dir($this->getParameter('meet_directory'). $date )) {
             mkdir($this->getParameter('meet_directory') . $date .  "/", 0777, true);
@@ -591,7 +591,7 @@ class MeetController extends AbstractController
             //Encoder en UTF-8 ne fonctionne pas ! En iso-8859-2 non plus mais moins d'ajout de code dans l'email
             ->setSubject('Envoi de rencontre')
             ->setCharset('iso-8859-2')
-            ->setFrom('themax41@hotmail.fr')
+            ->setFrom('maxime_diard@orange.fr')
             ->setTo('themax41@hotmail.fr') //$adherent->getEmail()
             ->setBody(
                 $this->renderView('email/sendPdf.html.twig',[

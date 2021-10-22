@@ -200,6 +200,51 @@ table.dataTable.no-footer{
             color: $color__purple;
         }
     }
+    #table-search_filter, #table-search-inter-agence_filter{
+        display: none;
+    }
+    .search-filter{
+        display: flex;
+        justify-content: center;
+        .search-year,
+        .search-size,
+        .search-weight{
+            display: flex;
+            flex-direction: column;
+            margin-top: 1rem;
+            align-items: center;
+            .year-min,
+            .year-max,
+            .size-min,
+            .size-max,
+            .weight-min,
+            .weight-max{
+                margin-top: 1rem;
+            }
+        }
+        label{
+            color: $color__purple_black;
+            font-size: 1.6rem;
+        }
+        input{
+            border: none;
+            background-color: $color__grey;
+            color: $color__purple;
+            border-radius: 3px;
+            padding: 5px;
+        }
+    }
+    label{
+        color: $color__purple_black;
+        font-size: 1.6rem;
+    }
+    input{
+        border: none;
+        background-color: $color__grey;
+        color: $color__purple;
+        border-radius: 3px;
+        padding: 5px;
+    }
 }
 
 .table-search-thead > tr:nth-child(1) {

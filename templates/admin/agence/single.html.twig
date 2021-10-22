@@ -20,6 +20,7 @@
         {% endif %}
         - {{ agence.addressZipPostal }} - {{ agence.addressTown }}</span></p>
             <br>
+        {# Suppresion des droits d'agences
         {% if agence.droitAgence|length > 0 %}
             <p>J'ai donné les droits à ces agences :
             {% for droit in agence.droitAgence %}
@@ -39,7 +40,7 @@
             {% endfor %}
             </p>
         {% endif %}
-    
+        #}
     </div>
     <a class="btn btn-little" href="{{ path('admin_agence_modify', {id: agence.id}) }}">Modifier l'agence</a>
 </div>
