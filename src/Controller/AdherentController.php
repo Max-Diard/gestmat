@@ -94,16 +94,16 @@ class AdherentController extends AbstractController
                                 $haveMeet = $this->entityManager->getRepository(Meet::class)->findBy(['adherent_woman' => $adherent->getId()]);
                             }
                             //Si il n'y a l'id de l'adhérent du côté femme et homme alors on défini sont statut sur disponible
-                            if (empty($haveMeet)){
-                                // On regarde si la personne n'est pas en attente pour ne pas lui changer le statut
-                                if($adherent->getStatusMeet()->getName() != 'En attente'){
-                                    $dispo = $this->entityManager->getRepository(AdherentOption::class)->findBy(['type' => 'status_meet', 'name' => 'Disponible']);
-                                    $adherent->setStatusMeet($dispo[0]);
-
-                                    $this->entityManager->persist($adherent);
-                                    $this->entityManager->flush();
-                                }
-                            }
+//                            if (empty($haveMeet)){
+//                                // On regarde si la personne n'est pas en attente pour ne pas lui changer le statut
+//                                if($adherent->getStatusMeet()->getName() != 'En attente'){
+//                                    $dispo = $this->entityManager->getRepository(AdherentOption::class)->findBy(['type' => 'status_meet', 'name' => 'Disponible']);
+//                                    $adherent->setStatusMeet($dispo[0]);
+//
+//                                    $this->entityManager->persist($adherent);
+//                                    $this->entityManager->flush();
+//                                }
+//                            }
                             if(!empty($haveMeet)){
                                 $meeting[] = $adherent->getId();
 
@@ -112,18 +112,18 @@ class AdherentController extends AbstractController
                                 foreach ($haveMeet as $m){
                                     $dates[] = ($m->getStartedAt());
                                 }
-                                $dateLastMeet = $dates[count($dates) -1]->format('Y-m-d');
-                                $today = date('Y-m-d');
-
-                                if ($dateLastMeet >= $today){
-                                    $inMeet = $this->entityManager->getRepository(AdherentOption::class)->findBy(['type' => 'status_meet', 'name' => 'En rencontre']);
-                                    $adherent->setStatusMeet($inMeet[0]);
-                                } else {
-                                    $dispo = $this->entityManager->getRepository(AdherentOption::class)->findBy(['type' => 'status_meet', 'name' => 'Disponible']);
-                                    $adherent->setStatusMeet($dispo[0]);
-                                }
-                                $this->entityManager->persist($adherent);
-                                $this->entityManager->flush();
+//                                $dateLastMeet = $dates[count($dates) -1]->format('Y-m-d');
+//                                $today = date('Y-m-d');
+//
+//                                if ($dateLastMeet >= $today){
+//                                    $inMeet = $this->entityManager->getRepository(AdherentOption::class)->findBy(['type' => 'status_meet', 'name' => 'En rencontre']);
+//                                    $adherent->setStatusMeet($inMeet[0]);
+//                                } else {
+//                                    $dispo = $this->entityManager->getRepository(AdherentOption::class)->findBy(['type' => 'status_meet', 'name' => 'Disponible']);
+//                                    $adherent->setStatusMeet($dispo[0]);
+//                                }
+//                                $this->entityManager->persist($adherent);
+//                                $this->entityManager->flush();
                             }
                         }
                     }

@@ -5,7 +5,6 @@ window.addEventListener("DOMContentLoaded", (event) => {
 
     if(filterButton){
         filterButton.addEventListener('click', function(){
-            console.log(modalFilter.getAttributeNames())
             if (modalFilter.getAttributeNames().includes('hidden')){
                 modalFilter.removeAttribute('hidden')
             } else {
@@ -28,7 +27,6 @@ window.addEventListener("DOMContentLoaded", (event) => {
                 } else {
                     hash = 'men=' + idAdherent
                 }
-                console.log(hash)
                 window.location = '/adherent#?' + hash
             })
         })

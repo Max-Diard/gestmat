@@ -46,7 +46,6 @@ window.addEventListener("DOMContentLoaded", (event) => {
                 denyButtonText: `Non`,
             }).then((result) => {
                 if (result.isConfirmed) {
-                    console.log('Email send')
                     window.location = '/meet/send/email';
                 }
             })

@@ -269,9 +269,12 @@ function informationMeetWoman(recup, card){
                     }).then((result) => {
                         if (result.isConfirmed) {
                             removeMeet(idMeet)
-                            apiMeet(recup.adherent[0].id)
-                        } else if (result.isDenied) {
-                            Swal.fire("La rencontre n'a pas été supprimée !", '', 'info')
+                            recup.meet.forEach(s => {
+                                if (s.id === idMeet){
+                                    apiMeet(s.adherent_woman.id)
+                                    apiMeet(s.adherent_man.id)
+                                }
+                            })
                         }
                     })
                 } else {
@@ -527,7 +530,6 @@ function informationMeet(id){
                 if (recup.returnAt_man != null){
                     const returnAtMan = new Date(recup.returnAt_man)
                     manDateReturn.value = returnAtMan.toISOString().split('T')[0];
-                    console.log(manDateReturn.value)
                 }else {
                     manDateReturn.value = '';
                 }
@@ -553,13 +555,16 @@ function informationMeet(id){
                         manDateReturn.value,
                         manComments.value,
                     )
-                    // modalAdherent.style.display = 'none'
                     Swal.fire(
                         'Information Envoyé!',
                         'Les imformations de la rencontre ont bien était envoyé!',
                         'success',
-                    )
-                    modalAdherent.style.display = 'none'
+                    ).then((result) => {
+                        if (result.isConfirmed){
+                            location.reload();
+                        }
+                    })
+                    // modalAdherent.style.display = 'none'
                 })
             }
         }
@@ -615,4 +620,5 @@ function removeMeet(id){
     request.send(JSON.stringify({
         'id': id
     }))
+    // window.reload;
 }

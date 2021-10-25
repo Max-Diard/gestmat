@@ -41,8 +41,15 @@
                         <td>{{ meet.adherentMan.agence.name }}</td>
                     {% endif %}
                     <td>{{ meet.startedAt|date('d/m/Y') }}</td>
-                    <td><a href="#" class="meet-more" data-id="{{ meet.id }}">Voir plus</a></td>
-                    <td><a href="#" class="meet-delete" data-id="{{ meet.id }}"><img src="{{asset('build/images/delete.svg')}}" alt="Supprimer"></a></td>
+                    {% if trueAgence is defined %}
+                        {% if trueAgence == true %}
+                            <td><a href="#" class="meet-more" data-id="{{ meet.id }}">Voir plus</a></td>
+                            <td><a href="#" class="meet-delete" data-id="{{ meet.id }}"><img src="{{asset('build/images/delete.svg')}}" alt="Supprimer"></a></td>
+                        {% else %}
+                            <td><a href="#" class="meet-more-no-agence" data-id="{{ meet.id }}">Voir plus</a></td>
+                            <td><a href="#" class="meet-delete-no-agence" data-id="{{ meet.id }}"><img src="{{asset('build/images/delete.svg')}}" alt="Supprimer"></a></td>
+                        {% endif %}
+                    {% endif %}
                 </tr>
             {% endfor %}
         {% endif %}

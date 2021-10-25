@@ -147,7 +147,6 @@ $(document).ready( function () {
                 .appendTo('#selectTriggerFilterMan')
                 .on('change', function() {
                     var val = $(this).val();
-                    console.log(val)
                     columnStatus.search(val).draw()
                 });
 
@@ -169,7 +168,6 @@ $(document).ready( function () {
                 .appendTo('#selectTriggerFilterMan')
                 .on('change', function() {
                     var val = $(this).val();
-                    console.log(val)
                     columnAgence.search(val).draw()
                 });
 

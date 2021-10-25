@@ -132,6 +132,10 @@ label{
     justify-self: center;
     align-items: center;
     position: relative;
+    .meet-woman-pdf-position, .meet-man-pdf-position{
+        display: flex;
+        justify-content: space-between;
+    }
 }
 
 .close-modal {

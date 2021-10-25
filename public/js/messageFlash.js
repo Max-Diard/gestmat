@@ -7,6 +7,8 @@ window.addEventListener("DOMContentLoaded", (event) => {
     const alertRemoveOption = document.querySelector('.alert-remove-option');
     const alertErrorRemoveOption = document.querySelector('.alert-error-remove-option');
     const alertErrorNoAgence = document.querySelector('.alert-error-no-agence')
+    const meetDeleteNoAgence = document.querySelectorAll('.meet-delete-no-agence')
+    const meetMoreNoAgence = document.querySelectorAll('.meet-more-no-agence')
 
     if(alertNewAdherent){
         Swal.fire({
@@ -56,4 +58,27 @@ window.addEventListener("DOMContentLoaded", (event) => {
         })
     }
 
+    if(meetDeleteNoAgence){
+        [].forEach.call(meetDeleteNoAgence, function(elem){
+            elem.addEventListener('click', () => {
+                Swal.fire({
+                    title: 'Donnée non disponible !',
+                    text: "Vous n'avez pas accès à cette donnée !",
+                    icon: 'info'
+                })
+            })
+        })
+    }
+
+    if(meetMoreNoAgence){
+        [].forEach.call(meetMoreNoAgence, function(elem){
+            elem.addEventListener('click', () => {
+                Swal.fire({
+                    title: 'Donnée non disponible !',
+                    text: "Vous n'avez pas accès à cette donnée !",
+                    icon: 'info'
+                })
+            })
+        })
+    }
 });
