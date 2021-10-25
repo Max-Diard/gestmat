@@ -185,16 +185,22 @@ table.dataTable.no-footer{
     margin-top: 4rem;
 }
 
+.search-inter-agence{
+    position: relative;
+    h1{
+        margin-bottom: 6rem;
+    }
+    .filter-button{
+        position: absolute;
+        top: 6%;
+        right: 50%;
+    }
+}
+.modal-filter{
+    margin-bottom: 2rem;
+}
+
 #all-meetings, #all-adherents{
-    .filter-button::after{
-        content: 'Filtre >';
-        display: flex;
-        justify-content: center;
-        margin-top: 2rem;
-    }
-    .modal-filter{
-        margin-bottom: 2rem;
-    }
     #table-adherents_filter, .dataTables_filter{
         float: none;
         text-align: center;
@@ -261,6 +267,11 @@ table.dataTable.no-footer{
         color: $color__purple;
         border-radius: 3px;
         padding: 5px;
+        &.search-filter-text{
+            width: 100%;
+            padding: 3px;
+            box-sizing: border-box;
+        }
     }
 }
 

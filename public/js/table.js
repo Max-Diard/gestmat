@@ -96,7 +96,7 @@ $(document).ready( function () {
             var selectDate = $('<select class="filter"><option value="">Contrat</option></select>')
                 .appendTo('#selectTriggerFilterWoman')
                 .append('<option value="0">Terminé</option>')
-                .append('<option value="1">En cours</option>')
+                .append('<option value="1" selected>En cours</option>')
                 .on('change', function () {
                     var val = $(this).val();
                     var date = new Date(Date.now())
@@ -190,7 +190,7 @@ $(document).ready( function () {
             var selectDate = $('<select class="filter"><option value="">Contrat</option></select>')
                 .appendTo('#selectTriggerFilterMan')
                 .append('<option value="0">Terminé</option>')
-                .append('<option value="1">En cours</option>')
+                .append('<option value="1" selected>En cours</option>')
                 .on('change', function() {
                     var val = $(this).val();
                     var date = new Date(Date.now())
@@ -262,6 +262,7 @@ $(document).ready( function () {
         "language": {
             "emptyTable": "Pas encore de donées dans ce tableau"
         },
+        "bAutoWidth": true,
         initComplete: function () {
             // Apply the search
             this.api().columns().every(function (){
