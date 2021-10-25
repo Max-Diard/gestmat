@@ -61,6 +61,7 @@ body{
             }
             &_list{
                 display: grid;
+                grid-auto-flow: dense;
                 grid-template-columns: repeat(3, auto);
                 column-gap: 2.5rem;
                 row-gap: 4rem;
