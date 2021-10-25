@@ -153,7 +153,7 @@ class ApiController extends AbstractController
 
         if($data['status_meet_man']){
             foreach ($options as $option){
-                if ($option->getName() == $data['status_meet_woman']){
+                if ($option->getName() == $data['status_meet_man']){
                     $meet[0]->setStatusMeetMan($option);
                     $meet[0]->getAdherentMan()->setStatusMeet($option);
                 }

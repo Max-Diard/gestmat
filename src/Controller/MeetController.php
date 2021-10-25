@@ -390,11 +390,12 @@ class MeetController extends AbstractController
             $dateIncrement = date_diff($dateImmuStart, $dateImmuEnd)->days;
 
             if(count($agenceUser) > 0){
-                for($i = 0; $i < $dateIncrement; $i++){
+                for($i = 0; $i <= $dateIncrement; $i++){
                     $meets[] = $this->entityManager->getRepository(Meet::class)->findBy(['startedAt' => $dateImmuStart]);
 
                     $dateImmuStart = $dateImmuStart->add(new DateInterval('P1D'));
                 }
+
 
                 if (!empty($meets)){
                     $trueMeet = $this->trueMeet($meets);
@@ -599,8 +600,9 @@ class MeetController extends AbstractController
             //Encoder en UTF-8 ne fonctionne pas ! En iso-8859-2 non plus mais moins d'ajout de code dans l'email
             ->setSubject('Envoi de rencontre')
             ->setCharset('utf-8')
-            ->setFrom('themax41@hotmail.fr')
-            ->setTo('maxime_diard@orange.fr') //$adherent->getEmail()
+            ->setFrom('ne_pas_repondre@loveexpert.com')
+            ->setTo($adherent->getEmail()) //$adherent->getEmail()
+            ->setReplyTo($adherent->getAgence()->getEmail()) //$userMail)
             ->setBody(
                 $this->renderView('email/sendPdf.html.twig',[
                     'adherent' => $adherent

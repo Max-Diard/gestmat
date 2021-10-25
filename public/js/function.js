@@ -82,7 +82,6 @@ function apiMeet(id, elem){
                 }
                 else {
                     const listClass = cardSelectedMan.classList
-                    console.log(listClass)
 
                     if(nameAgence != recup.adherent[0].agence.name){
                         if(listClass[1] === 'in-agence-man'){
@@ -133,7 +132,7 @@ function apiMeet(id, elem){
                     buttonModal.style.display = true;
 
                     //On regarde si une rencontre n'a pas déjà été effectué entre les 2 personnes sélectionner
-                    if(infoWoman.meet.length > 0){
+                    if(infoWoman.meet.length > 0 && infoMan.meet.length > 0){
                         for (let i = 0; i < infoWoman.meet.length; i++){
                             if(infoWoman.meet[i].adherent_man.id == infoMan.adherent[0].id){
                                 alreadyMeet = true
@@ -143,6 +142,8 @@ function apiMeet(id, elem){
                                 alreadyMeet = false
                             }
                         }
+                    } else {
+                        alreadyMeet = false
                     }
 
                     buttonModal.addEventListener('click', function(ev){
@@ -202,7 +203,6 @@ function informationMeetWoman(recup, card, elem){
     }
 
     if (recup.meet.length > 0){
-        console.log(elem)
         let j = recup.meet.length - 1 ;
         while(j != -1){
             const row = document.createElement('tr')
@@ -325,7 +325,6 @@ function informationMeetMan(recup, card, elem){
     }
 
     if(recup.meet.length > 0){
-        console.log(elem)
         let j = recup.meet.length - 1 ;
         while(j != -1){
             const row = document.createElement('tr')
