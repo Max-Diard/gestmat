@@ -1,6 +1,6 @@
 
 // Function pour appeler l'api qui récupére l'adhérent sélectionner
-function apiMeet(id){
+function apiMeet(id, elem){
     const cardSelectedWoman = document.querySelector('.card-selected-woman')
     const cardSelectedMan = document.querySelector('.card-selected-man')
 
@@ -78,10 +78,11 @@ function apiMeet(id){
 
                     infoWoman = recup
 
-                    informationMeetWoman(recup, cardSelectedWoman);
+                    informationMeetWoman(recup, cardSelectedWoman, elem);
                 }
                 else {
                     const listClass = cardSelectedMan.classList
+                    console.log(listClass)
 
                     if(nameAgence != recup.adherent[0].agence.name){
                         if(listClass[1] === 'in-agence-man'){
@@ -115,7 +116,7 @@ function apiMeet(id){
                     }
                     infoMan = recup;
 
-                    informationMeetMan(recup, cardSelectedMan);
+                    informationMeetMan(recup, cardSelectedMan, elem);
 
                 }
                 if(loadingWomen && loadingMen){
@@ -191,7 +192,7 @@ function apiMeet(id){
 }
 
 // Function appeler dans la function 'apiMeet' ppour afficher les rencontres de l'adhérent sélectionner ici pour une femme
-function informationMeetWoman(recup, card){
+function informationMeetWoman(recup, card, elem){
     const divMeetWoman = document.querySelector('.woman-meeting');
 
     if(divMeetWoman.hasChildNodes()){
@@ -201,6 +202,7 @@ function informationMeetWoman(recup, card){
     }
 
     if (recup.meet.length > 0){
+        console.log(elem)
         let j = recup.meet.length - 1 ;
         while(j != -1){
             const row = document.createElement('tr')
@@ -313,7 +315,7 @@ function informationMeetWoman(recup, card){
 }
 
 // Function appeler dans la function 'apiMeet' ppour afficher les rencontres de l'adhérent sélectionner ici pour un homme
-function informationMeetMan(recup, card){
+function informationMeetMan(recup, card, elem){
     const divMeetMan = document.querySelector('.man-meeting');
 
     if(divMeetMan.hasChildNodes()){
@@ -323,6 +325,7 @@ function informationMeetMan(recup, card){
     }
 
     if(recup.meet.length > 0){
+        console.log(elem)
         let j = recup.meet.length - 1 ;
         while(j != -1){
             const row = document.createElement('tr')
@@ -393,7 +396,12 @@ function informationMeetMan(recup, card){
                         /* Read more about isConfirmed, isDenied below */
                         if (result.isConfirmed) {
                             removeMeet(idMeet)
-                            apiMeet(recup.adherent[0].id)
+                            recup.meet.forEach(s => {
+                                if (s.id === idMeet){
+                                    apiMeet(s.adherent_woman.id)
+                                    apiMeet(s.adherent_man.id)
+                                }
+                            })
                         }
                     })
                 }else{

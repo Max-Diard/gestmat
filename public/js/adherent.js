@@ -49,9 +49,8 @@ window.addEventListener("DOMContentLoaded", (event) => {
                 }
 
                 elem.parentNode.classList.add('active');
-
                 ev.preventDefault();
-                apiMeet(elem.getAttribute('data-id'));
+                apiMeet(elem.getAttribute('data-id'), elem.parentNode);
             })
         })
     }
