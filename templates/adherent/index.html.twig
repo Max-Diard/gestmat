@@ -1,7 +1,11 @@
 {% extends 'base.html.twig' %}
 {% block title %}GestMat - Liste d'adhérents {% endblock %}
+
 {% block body %}
 
+{% for message in app.flashes('noAgence') %}
+    <div class="alert-error-no-agence alert-error"></div>
+{% endfor %}
 <div id="adherents-list" class="container container-screen">
     <h1 class="title-adherents">Liste des adhérents</h1>
     {% for agence in agences %}

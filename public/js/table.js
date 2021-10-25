@@ -48,6 +48,7 @@ $(document).ready( function () {
             "emptyTable": "Pas encore de donées dans ce tableau"
         },
         initComplete: function () {
+            //Status
             var columnStatus = this.api().column(3);
 
             var selectStatus = $('<select class="filter"><option value="">État</option></select>')
@@ -67,6 +68,8 @@ $(document).ready( function () {
                     }
                 })
             })
+
+            //Agence
             var columnAgence = this.api().column(5);
 
             var selectAgence = $('<select class="filter"><option value="">Agence</option></select>')
@@ -86,6 +89,8 @@ $(document).ready( function () {
                     }
                 })
             })
+
+            //Fin de contrat
             var columnDate = this.api().column(4);
 
             var selectDate = $('<select class="filter"><option value="">Contrat</option></select>')
@@ -110,6 +115,17 @@ $(document).ready( function () {
                     })
                     columnDate.search(resultVal.join('|'), true, false, true).draw()
                 });
+
+            // Remplir le tableu avec les dates 'en cours'
+            let resultInProgress = [];
+            var dateNow = new Date(Date.now())
+            columnDate.data().toArray().forEach(s =>{
+                var d = new Date(s)
+                if (d > dateNow) {
+                    resultInProgress.push(s)
+                }
+            })
+            columnDate.search(resultInProgress.join('|'), true, false, true).draw();
         },
     });
 
@@ -124,6 +140,7 @@ $(document).ready( function () {
             "emptyTable": "Pas encore de donées dans ce tableau"
         },
         initComplete: function() {
+            // Status
             var columnStatus = this.api().column(3);
 
             var selectStatus = $('<select class="filter"><option value="">État</option></select>')
@@ -144,6 +161,8 @@ $(document).ready( function () {
                     }
                 })
             })
+
+            // Agence
             var columnAgence = this.api().column(5);
 
             var selectAgence = $('<select class="filter"><option value="">Agence</option></select>')
@@ -164,6 +183,8 @@ $(document).ready( function () {
                     }
                 })
             })
+
+            // Fin de contrat
             var columnDate = this.api().column(4);
 
             var selectDate = $('<select class="filter"><option value="">Contrat</option></select>')
@@ -188,6 +209,18 @@ $(document).ready( function () {
                     })
                     columnDate.search(resultVal.join('|'), true, false, true).draw()
                 });
+
+            // Remplir le tableu avec les dates 'en cours'
+            let resultInProgress = [];
+            var dateNow = new Date(Date.now())
+            columnDate.data().toArray().forEach(s =>{
+                var d = new Date(s)
+                if (d > dateNow) {
+                    resultInProgress.push(s)
+                }
+            })
+            columnDate.search(resultInProgress.join('|'), true, false, true).draw();
+
         },
 
     });

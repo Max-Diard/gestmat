@@ -76,7 +76,7 @@ class AdminController extends AbstractController
             // Si une image est envoyé alors on ajoute l'information en BDD
             if($picture){
                 $pictureExt = $picture->guessExtension();
-                $pictureName = md5(uniqid()) . '.' . $pictureExt;
+                $pictureName = md5(uniqid('', true)) . '.' . $pictureExt;
                 $picture->move($this->getParameter('agence_directory') . 'agence' . $agence->getId() . '/picture/', $pictureName);
                 $agence->setLinkPicture($pictureName);
             }
@@ -172,12 +172,12 @@ class AdminController extends AbstractController
     ]
     public function removeAgence(Agence $agence): Response
     {
-        $this->entityManager->remove($agence);
-        $this->entityManager->flush();
-
         unlink($this->getParameter('agence_directory') . 'agence' . $agence->getId() . '/picture/' . $agence->getLinkPicture());
         rmdir($this->getParameter('agence_directory') . 'agence' . $agence->getId() . '/picture/');
         rmdir($this->getParameter('agence_directory') . 'agence' . $agence->getId() );
+
+        $this->entityManager->remove($agence);
+        $this->entityManager->flush();
 
         return $this->redirectToRoute('admin_agence');
     }

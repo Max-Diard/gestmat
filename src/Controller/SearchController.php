@@ -39,25 +39,30 @@ class SearchController extends AbstractController
 //                    }
 //                }
             }
+            $adherentInProgress = [];
             $date = new \DateTimeImmutable('now');
-
-            foreach ($adherents as $boucle){
-                foreach ($boucle as $adherent){
-                    if ($adherent->getContractEndingAt() > $date){
-                        $adherentInProgress[] = $adherent;
-                    } else {
-                        $adherentFinish[] = $adherent;
+            if (!empty($adherents)){
+                foreach ($adherents as $boucle){
+                    foreach ($boucle as $adherent){
+                        if ($adherent->getContractEndingAt() > $date){
+                            $adherentInProgress[] = $adherent;
+                        } else {
+                            $adherentFinish[] = $adherent;
+                        }
                     }
-
                 }
+                $boucleAdherentInProgress[] = $adherentInProgress;
+            } else {
+                $boucleAdherentInProgress = '';
             }
+
+            return $this->render('search/index.html.twig', [
+                'adherents' => $boucleAdherentInProgress
+            ]);
+        } else {
+            $this->addFlash('noAgence', 'Vous n\'avez pas encore d\'agence associé à votre compte, merci de contacter l\'administrateur !');
+            return $this->redirectToRoute('adherent_all');
         }
-
-        $boucleAdherentInProgress[] = $adherentInProgress;
-
-        return $this->render('search/index.html.twig', [
-            'adherents' => $boucleAdherentInProgress
-        ]);
     }
 
     #[
@@ -68,14 +73,22 @@ class SearchController extends AbstractController
     {
         $agence = $this->getUser()->getAgence();
 
-        $otherAgences = $this->entityManager->getRepository(Agence::class)->findOtherAgence($agence);
+        if(count($this->getUser()->getAgence()) > 0 ){
+            $otherAgences = $this->entityManager->getRepository(Agence::class)->findOtherAgence($agence);
 
-        foreach ($otherAgences as $otherAgence){
-            $adherentOtherAgence[] = $this->entityManager->getRepository(Adherent::class)->findBy(['agence' => $otherAgence]);
+            foreach ($otherAgences as $otherAgence){
+                $adherentOtherAgence[] = $this->entityManager->getRepository(Adherent::class)->findBy(['agence' => $otherAgence]);
+            }
+
+            return $this->render('search/searchInterAgence.html.twig', [
+                'adherents' => $adherentOtherAgence
+            ]);
+        } else {
+            $this->addFlash(
+                'noAgence',
+                'Vous n\'avez pas encore d\'agence associé à votre compte, merci de contacter l\'administrateur !'
+            );
+            return $this->redirectToRoute('adherent_all');
         }
-
-        return $this->render('search/searchInterAgence.html.twig', [
-            'adherents' => $adherentOtherAgence
-        ]);
     }
 }

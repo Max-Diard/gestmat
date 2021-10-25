@@ -138,7 +138,6 @@ class ApiController extends AbstractController
             true
         );
 
-
         $meet = $this->entityManager->getRepository(Meet::class)->findBy(['id' => $data['id']]);
         $options = $this->entityManager->getRepository(AdherentOption::class)->findBy(['type' => 'status_meet']);
         $actions = $this->entityManager->getRepository(AdherentOption::class)->findBy(['type' => 'action_meet']);
@@ -220,10 +219,9 @@ class ApiController extends AbstractController
             true
         );
 
-        $meet = $this->entityManager->getRepository(Meet::class)->findBy(['id' => $data['id']]);
-        $adherents = $this->entityManager->getRepository(Adherent::class)->findAll();
+        $meets = $this->entityManager->getRepository(Meet::class)->findBy(['id' => $data['id']]);
 
-        $this->entityManager->remove($meet[0]);
+        $this->entityManager->remove($meets[0]);
         $this->entityManager->flush();
 
         return new JsonResponse(

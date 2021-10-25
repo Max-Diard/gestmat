@@ -36,7 +36,6 @@ class MeetController extends AbstractController
         $options = $this->entityManager->getRepository(AdherentOption::class)->findBy(['type' => 'status_meet']);
         $actions = $this->entityManager->getRepository(AdherentOption::class)->findBy(['type' => 'action_meet']);
 
-
         if(count($agenceUser) > 0){
             $meets = $this->meets($agenceUser);
             $trueMeet = $this->trueMeet($meets);
@@ -60,6 +59,8 @@ class MeetController extends AbstractController
     ]
     public function searchMeet(DateTimeImmutable $dateStart, DateTimeImmutable $dateEnd): Response
     {
+        if(count($this->getUser()->getAgence()) > 0){
+
         $options = $this->entityManager->getRepository(AdherentOption::class)->findBy(['type' => 'status_meet']);
         $actions = $this->entityManager->getRepository(AdherentOption::class)->findBy(['type' => 'action_meet']);
 
@@ -74,6 +75,7 @@ class MeetController extends AbstractController
         } else {
             $meets[] = $this->entityManager->getRepository(Meet::class)->findBy(['startedAt' => $dateStart]);
         }
+
         if(!empty($meets)){
             $trueMeet = $this->trueMeet($meets);
         } else {
@@ -87,6 +89,10 @@ class MeetController extends AbstractController
             'options'       => $options,
             'actions'       => $actions
         ]);
+        } else {
+            $this->addFlash('noAgence', 'Vous n\'avez pas encore d\'agence associé à votre compte, merci de contacter l\'administrateur !');
+            return $this->redirectToRoute('adherent_all');
+        }
     }
 
     //Page pour voir les pdfs de rencontres à tous les adhérents et vis à vis de leur préférence
@@ -117,6 +123,8 @@ class MeetController extends AbstractController
         } else {
             $trueMeet = [];
             $trueAgence = [];
+            $adherentPaper = [];
+            $adherentEmail = [];
         }
 
         return $this->render('meet/seeAllPdf.html.twig', [

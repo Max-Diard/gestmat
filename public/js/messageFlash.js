@@ -6,6 +6,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
     const alertAddOption = document.querySelector('.alert-add-option');
     const alertRemoveOption = document.querySelector('.alert-remove-option');
     const alertErrorRemoveOption = document.querySelector('.alert-error-remove-option');
+    const alertErrorNoAgence = document.querySelector('.alert-error-no-agence')
 
     if(alertNewAdherent){
         Swal.fire({
@@ -43,6 +44,14 @@ window.addEventListener("DOMContentLoaded", (event) => {
         Swal.fire({
             title: 'Opération impossible !',
             text: "L'option ne peux pas être supprimée car utilisée pour un adhérent !",
+            icon: 'error'
+        })
+    }
+
+    if(alertErrorNoAgence){
+        Swal.fire({
+            title: 'Pas d\'agence attribuée !',
+            text: 'Vous n\'avez pas encore d\'agence associée à votre compte, merci de contacter l\'administrateur !',
             icon: 'error'
         })
     }

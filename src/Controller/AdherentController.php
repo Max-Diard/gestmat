@@ -132,6 +132,7 @@ class AdherentController extends AbstractController
         } else {
             $womenAdherent = '';
             $menAdherent = '';
+            $meeting = "";
 //            $womenAdherentDroit = [];
 //            $menAdherentDroit = [];
         }
@@ -155,153 +156,159 @@ class AdherentController extends AbstractController
     public function adherentSingle(Adherent $adherent, Request $request): Response
     {
         // On regarde si l'user fait bien parti de l'agence de l'adhérent
-        $agenceAdherent = $adherent->getAgence();
         $userAgence = $this->getUser()->getAgence();
 
-        foreach ($userAgence as $idAgence) {
-            $agenceIdUser[] = $idAgence->getId();
-        }
+        if(count($userAgence) > 0){
 
-        // True ou false pour savoir si c'est l'user fait parti de l'agence
-        if(in_array($agenceAdherent->getId(), $agenceIdUser) ){
-            $trueAgence = true;
-        } else {
-            $trueAgence = false;
-        }
+            $agenceAdherent = $adherent->getAgence();
 
-        $form = $this->createForm(AdherentType::class, $adherent);
+            foreach ($userAgence as $idAgence) {
+                $agenceIdUser[] = $idAgence->getId();
+            }
 
-        // On récupére le nom des fichiers déjà existant
-        $linkInfo = $adherent->getLinkInformation();
-        $linkContract = $adherent->getLinkContract();
-        $linkPic = $adherent->getLinkPicture();
-        $linkAnnouncement = $adherent->getLinkPictureAnnouncement();
+            // True ou false pour savoir si c'est l'user fait parti de l'agence
+            if(in_array($agenceAdherent->getId(), $agenceIdUser) ){
+                $trueAgence = true;
+            } else {
+                $trueAgence = false;
+            }
 
-        //Affichage des meets
+            $form = $this->createForm(AdherentType::class, $adherent);
 
-        if ($adherent->getGenre()->getName() === 'Féminin'){
-            $genre = 'adherent_woman';
-        } else {
-            $genre = 'adherent_man';
-        }
+            // On récupére le nom des fichiers déjà existant
+            $linkInfo = $adherent->getLinkInformation();
+            $linkContract = $adherent->getLinkContract();
+            $linkPic = $adherent->getLinkPicture();
+            $linkAnnouncement = $adherent->getLinkPictureAnnouncement();
 
-        // On récupére les rencontres de l'adhérent
-        $meets = $this->entityManager->getRepository(Meet::class)->findBy([$genre => $adherent->getId()]);
+            //Affichage des meets
 
-        if(empty($meets)){
-            if($adherent->getStatusMeet()->getName() != 'En attente'){
-                $status = $this->entityManager->getRepository(AdherentOption::class)->findBy(['type' => 'status_meet']);
-                foreach($status as $stat){
-                    if($stat->getName() == "Disponible" ){
-                        $adherent->setStatusMeet($stat);
-                        $this->entityManager->persist($adherent);
-                        $this->entityManager->flush();
+            if ($adherent->getGenre()->getName() === 'Féminin'){
+                $genre = 'adherent_woman';
+            } else {
+                $genre = 'adherent_man';
+            }
+
+            // On récupére les rencontres de l'adhérent
+            $meets = $this->entityManager->getRepository(Meet::class)->findBy([$genre => $adherent->getId()]);
+
+            if(empty($meets)){
+                if($adherent->getStatusMeet()->getName() != 'En attente'){
+                    $status = $this->entityManager->getRepository(AdherentOption::class)->findBy(['type' => 'status_meet']);
+                    foreach($status as $stat){
+                        if($stat->getName() == "Disponible" ){
+                            $adherent->setStatusMeet($stat);
+                            $this->entityManager->persist($adherent);
+                            $this->entityManager->flush();
+                        }
                     }
                 }
             }
+
+            // On récupére les status meet pour ajouter dans le form de la modal
+            $options = $this->entityManager->getRepository(AdherentOption::class)->findBy(['type' => 'status_meet']);
+            $actions = $this->entityManager->getRepository(AdherentOption::class)->findBy(['type' => 'action_meet']);
+
+            $form->handleRequest($request);
+
+            // Envoi du formulaire
+            if($form->isSubmitted() && $form->isValid()){
+
+                $adherent = $form->getData();
+
+                // Gestion des fichiers
+                $fileInfo = $form->get('link_information')->getData();
+
+                // Si une image est envoyé alors on ajoute l'information en BDD
+                if($fileInfo){
+                    // Si l'adhérent à déjà une image on supprime cette dernière du dossier 'public'
+                    if ($linkInfo){
+                        unlink($this->getParameter('adherent_directory') . 'adherent' . $adherent->getId() . '/information/' . $linkInfo);
+                    }
+                    $fileInfoExt = $fileInfo->guessExtension();
+                    $fileInfoName = md5(uniqid('', true)) . '.' . $fileInfoExt;
+                    $fileInfo->move($this->getParameter('adherent_directory') . 'adherent' . $adherent->getId() . '/information/', $fileInfoName);
+                    $adherent->setLinkInformation($fileInfoName);
+                }
+                // On récupére le nom de l'image déjà existant et on lui renvoi
+                else {
+                    $adherent->setLinkInformation($linkInfo);
+                }
+
+                $fileContract = $form->get('link_contract')->getData();
+
+                // Si une image est envoyé alors on ajoute l'information en BDD
+                if($fileContract){
+                    // Si l'adhérent à déjà une image on supprime cette dernière du dossier 'public'
+                    if ($linkContract){
+                        unlink($this->getParameter('adherent_directory') . 'adherent' . $adherent->getId() . '/contract/' . $linkContract);
+                    }
+                    $fileContractExt = $fileContract->guessExtension();
+                    $fileContractName = md5(uniqid('', true)) . '.' . $fileContractExt;
+                    $fileContract->move($this->getParameter('adherent_directory') . 'adherent' . $adherent->getId() . '/contract/', $fileContractName);
+                    $adherent->setLinkContract($fileContractName);
+                }
+                // On récupére le nom de l'image déjà existant et on lui renvoi
+                else {
+                    $adherent->setLinkContract($linkContract);
+                }
+
+                $fileAnnouncement = $form->get('link_picture_announcement')->getData();
+
+                // Si une image est envoyé alors on ajoute l'information en BDD
+                if ($fileAnnouncement){
+                    // Si l'adhérent à déjà une image on supprime cette dernière du dossier 'public'
+                    if ($linkAnnouncement){
+                        unlink($this->getParameter('adherent_directory') . 'adherent' . $adherent->getId() . '/announcement/' . $linkAnnouncement);
+                    }
+                    $fileAnnouncementExt = $fileAnnouncement->guessExtension();
+                    $fileAnnouncementName = md5(uniqid('', true)) . '.' . $fileAnnouncementExt;
+                    $fileAnnouncement->move($this->getParameter('adherent_directory') . 'adherent' . $adherent->getId() . '/announcement/', $fileAnnouncementName);
+                    $adherent->setLinkPictureAnnouncement($fileAnnouncementName);
+                }
+                // On récupére le nom de l'image déjà existant et on lui renvoi
+                 else {
+                    $adherent->setLinkPictureAnnouncement($linkAnnouncement);
+                }
+
+                $filePic = $form->get('link_picture')->getData();
+
+                // Si une image est envoyé alors on ajoute l'information en BDD
+                if ($filePic){
+                    // Si l'adhérent à déjà une image on supprime cette dernière du dossier 'public'
+                    if ($linkPic){
+                        unlink($this->getParameter('adherent_directory') . 'adherent' . $adherent->getId() . '/picture/' . $linkPic);
+                    }
+                    $filePicExt = $filePic->guessExtension();
+                    $filePicName = md5(uniqid('', true)).'.'.$filePicExt;
+                    $filePic->move($this->getParameter('adherent_directory') . 'adherent' . $adherent->getId() . '/picture/', $filePicName);
+                    $adherent->setLinkPicture($filePicName);
+                }
+                // On récupére le nom de l'image déjà existant et on lui renvoi
+                else {
+                    $adherent->setLinkPicture($linkPic);
+                }
+
+                $this->entityManager->persist($adherent);
+                $this->entityManager->flush();
+
+                $this->addFlash('succesModifyAdherent', 'L\'adhérent(e) a bien été modifié(e)');
+
+                $this->redirectToRoute('adherent_single', ['id' => $adherent->getId()]);
+            }
+
+            return $this->render('adherent/singleAdherent.html.twig', [
+                'adherentProfile'   => $adherent,
+                'formAdherent'      => $form->createView(),
+                'trueAgence'        => $trueAgence,
+                'meets'             => $meets,
+                'options'           => $options,
+                'actions'           => $actions
+            ]);
+        } else {
+            $this->addFlash('noAgence', 'Vous n\'avez pas encore d\'agence associé à votre compte, merci de contacter l\'administrateur !');
+            return $this->redirectToRoute('adherent_all');
         }
-
-        // On récupére les status meet pour ajouter dans le form de la modal
-        $options = $this->entityManager->getRepository(AdherentOption::class)->findBy(['type' => 'status_meet']);
-        $actions = $this->entityManager->getRepository(AdherentOption::class)->findBy(['type' => 'action_meet']);
-
-        $form->handleRequest($request);
-
-        // Envoi du formulaire
-        if($form->isSubmitted() && $form->isValid()){
-
-
-            $adherent = $form->getData();
-
-            // Gestion des fichiers
-            $fileInfo = $form->get('link_information')->getData();
-
-            // Si une image est envoyé alors on ajoute l'information en BDD
-            if($fileInfo){
-                // Si l'adhérent à déjà une image on supprime cette dernière du dossier 'public'
-                if ($linkInfo){
-                    unlink($this->getParameter('adherent_directory') . 'adherent' . $adherent->getId() . '/information/' . $linkInfo);
-                }
-                $fileInfoExt = $fileInfo->guessExtension();
-                $fileInfoName = md5(uniqid()) . '.' . $fileInfoExt;
-                $fileInfo->move($this->getParameter('adherent_directory') . 'adherent' . $adherent->getId() . '/information/', $fileInfoName);
-                $adherent->setLinkInformation($fileInfoName);
-            }
-            // On récupére le nom de l'image déjà existant et on lui renvoi
-            else {
-                $adherent->setLinkInformation($linkInfo);
-            }
-
-            $fileContract = $form->get('link_contract')->getData();
-
-            // Si une image est envoyé alors on ajoute l'information en BDD
-            if($fileContract){
-                // Si l'adhérent à déjà une image on supprime cette dernière du dossier 'public'
-                if ($linkContract){
-                    unlink($this->getParameter('adherent_directory') . 'adherent' . $adherent->getId() . '/contract/' . $linkContract);
-                }
-                $fileContractExt = $fileContract->guessExtension();
-                $fileContractName = md5(uniqid()) . '.' . $fileContractExt;
-                $fileContract->move($this->getParameter('adherent_directory') . 'adherent' . $adherent->getId() . '/contract/', $fileContractName);
-                $adherent->setLinkContract($fileContractName);
-            }
-            // On récupére le nom de l'image déjà existant et on lui renvoi
-            else {
-                $adherent->setLinkContract($linkContract);
-            }
-
-            $fileAnnouncement = $form->get('link_picture_announcement')->getData();
-
-            // Si une image est envoyé alors on ajoute l'information en BDD
-            if ($fileAnnouncement){
-                // Si l'adhérent à déjà une image on supprime cette dernière du dossier 'public'
-                if ($linkAnnouncement){
-                    unlink($this->getParameter('adherent_directory') . 'adherent' . $adherent->getId() . '/announcement/' . $linkAnnouncement);
-                }
-                $fileAnnouncementExt = $fileAnnouncement->guessExtension();
-                $fileAnnouncementName = md5(uniqid()) . '.' . $fileAnnouncementExt;
-                $fileAnnouncement->move($this->getParameter('adherent_directory') . 'adherent' . $adherent->getId() . '/announcement/', $fileAnnouncementName);
-                $adherent->setLinkPictureAnnouncement($fileAnnouncementName);
-            }
-            // On récupére le nom de l'image déjà existant et on lui renvoi
-             else {
-                $adherent->setLinkPictureAnnouncement($linkAnnouncement);
-            }
-
-            $filePic = $form->get('link_picture')->getData();
-
-            // Si une image est envoyé alors on ajoute l'information en BDD
-            if ($filePic){
-                // Si l'adhérent à déjà une image on supprime cette dernière du dossier 'public'
-                if ($linkPic){
-                    unlink($this->getParameter('adherent_directory') . 'adherent' . $adherent->getId() . '/picture/' . $linkPic);
-                }
-                $filePicExt = $filePic->guessExtension();
-                $filePicName = md5(uniqid()).'.'.$filePicExt;
-                $filePic->move($this->getParameter('adherent_directory') . 'adherent' . $adherent->getId() . '/picture/', $filePicName);
-                $adherent->setLinkPicture($filePicName);
-            }
-            // On récupére le nom de l'image déjà existant et on lui renvoi
-            else {
-                $adherent->setLinkPicture($linkPic);
-            }
-
-            $this->entityManager->persist($adherent);
-            $this->entityManager->flush();
-
-            $this->addFlash('succesModifyAdherent', 'L\'adhérent(e) a bien été modifié(e)');
-
-            $this->redirectToRoute('adherent_single', ['id' => $adherent->getId()]);
-        }
-
-        return $this->render('adherent/singleAdherent.html.twig', [
-            'adherentProfile'   => $adherent,
-            'formAdherent'      => $form->createView(),
-            'trueAgence'        => $trueAgence,
-            'meets'             => $meets,
-            'options'           => $options,
-            'actions'           => $actions
-        ]);
     }
 
     //Page pour ajouter un adhérent
@@ -311,82 +318,84 @@ class AdherentController extends AbstractController
     ]
     public function addAdherent(Request $request): Response
     {
-        $user = $this->getUser();
+        $agences = $this->getUser()->getAgence();
 
-        $lastAdherent = $this->entityManager->getRepository(Adherent::class)->findByLastId();
-        $lastAdherent = $lastAdherent[0]->getId();
+        if (count($agences) > 0){
+            $lastAdherent = $this->entityManager->getRepository(Adherent::class)->findByLastId();
+            $lastAdherent = $lastAdherent[0]->getId();
 
-        if ($lastAdherent != ''){
-            $lastAdherent++;
-        } else{
-            $lastAdherent = 1;
+            if ($lastAdherent != ''){
+                $lastAdherent++;
+            } else{
+                $lastAdherent = 1;
+            }
+
+            $adherent = new Adherent();
+
+            $form = $this->createForm(AdherentType::class, $adherent, [
+                'agences' => $agences
+            ]);
+
+            $form->handleRequest($request);
+
+            if($form->isSubmitted() && $form->isValid()){
+                $adherent = $form->getData();
+
+                $adherent->setActive(true);
+
+                $fileInfo = $form->get('link_information')->getData();
+                // Si une image est envoyé alors on ajoute l'information en BDD
+                if($fileInfo){
+                    $fileInfoExt = $fileInfo->guessExtension();
+                    $fileInfoName = md5(uniqid('', true)) . '.' . $fileInfoExt;
+                    $fileInfo->move($this->getParameter('adherent_directory') . 'adherent' . $lastAdherent . '/information/', $fileInfoName);
+                    $adherent->setLinkInformation($fileInfoName);
+                }
+
+                $fileContract = $form->get('link_contract')->getData();
+                // Si une image est envoyé alors on ajoute l'information en BDD
+                if($fileContract){
+                    $fileContractExt = $fileContract->guessExtension();
+                    $fileContractName = md5(uniqid('', true)) . '.' . $fileContractExt;
+                    $fileContract->move($this->getParameter('adherent_directory') . 'adherent' . $lastAdherent . '/contract/', $fileContractName);
+                    $adherent->setLinkContract($fileContractName);
+                }
+
+                $fileAnnouncement = $form->get('link_picture_announcement')->getData();
+                // Si une image est envoyé alors on ajoute l'information en BDD
+                if($fileAnnouncement){
+                    $fileAnnouncementExt = $fileAnnouncement->guessExtension();
+                    $fileAnnouncementName = md5(uniqid('', true)) . '.' . $fileAnnouncementExt;
+                    $fileAnnouncement->move($this->getParameter('adherent_directory') . 'adherent' . $lastAdherent . '/announcement/', $fileAnnouncementName);
+                    $adherent->setLinkPictureAnnouncement($fileAnnouncementName);
+                }
+
+                $filePic = $form->get('link_picture')->getData();
+                // Si une image est envoyé alors on ajoute l'information en BDD
+                if($filePic){
+                    $filePicExt = $filePic->guessExtension();
+                    $filePicName = md5(uniqid('', true)).'.'.$filePicExt;
+                    $filePic->move($this->getParameter('adherent_directory') . 'adherent' . $lastAdherent . '/picture/', $filePicName);
+                    $adherent->setLinkPicture($filePicName);
+                }
+
+                $this->entityManager->persist($adherent);
+                $this->entityManager->flush();
+
+                $this->addFlash(
+                    'successNewAdherent',
+                    'Félicitations, vous avez créer un nouvel adhérent !'
+                );
+                return $this->redirectToRoute('adherent_single', ['id' => $adherent->getId()]);
+            }
+
+            return $this->render('adherent/singleAdherent.html.twig', [
+                'formAdherent' => $form->createView(),
+            ]);
+        } else {
+            $this->addFlash('noAgence', 'Vous n\'avez pas encore d\'agence associé à votre compte, merci de contacter l\'administrateur !');
+            return $this->redirectToRoute('adherent_all');
         }
-
-        $adherent = new Adherent();
-        $agences = $user->getAgence();
-
-        $form = $this->createForm(AdherentType::class, $adherent, [
-            'agences' => $agences
-        ]);
-
-        $form->handleRequest($request);
-
-        if($form->isSubmitted() && $form->isValid()){
-            $adherent = $form->getData();
-
-            $adherent->setActive(true);
-
-            $agence = $this->getUser();
-
-            $fileInfo = $form->get('link_information')->getData();
-            // Si une image est envoyé alors on ajoute l'information en BDD
-            if($fileInfo){
-                $fileInfoExt = $fileInfo->guessExtension();
-                $fileInfoName = md5(uniqid()) . '.' . $fileInfoExt;
-                $fileInfo->move($this->getParameter('adherent_directory') . 'adherent' . $lastAdherent . '/information/', $fileInfoName);
-                $adherent->setLinkInformation($fileInfoName);
-            }
-
-            $fileContract = $form->get('link_contract')->getData();
-            // Si une image est envoyé alors on ajoute l'information en BDD
-            if($fileContract){
-                $fileContractExt = $fileContract->guessExtension();
-                $fileContractName = md5(uniqid()) . '.' . $fileContractExt;
-                $fileContract->move($this->getParameter('adherent_directory') . 'adherent' . $lastAdherent . '/contract/', $fileContractName);
-                $adherent->setLinkContract($fileContractName);
-            }
-
-            $fileAnnouncement = $form->get('link_picture_announcement')->getData();
-            // Si une image est envoyé alors on ajoute l'information en BDD
-            if($fileAnnouncement){
-                $fileAnnouncementExt = $fileAnnouncement->guessExtension();
-                $fileAnnouncementName = md5(uniqid()) . '.' . $fileAnnouncementExt;
-                $fileAnnouncement->move($this->getParameter('adherent_directory') . 'adherent' . $lastAdherent . '/announcement/', $fileAnnouncementName);
-                $adherent->setLinkPictureAnnouncement($fileAnnouncementName);
-            }
-
-            $filePic = $form->get('link_picture')->getData();
-            // Si une image est envoyé alors on ajoute l'information en BDD
-            if($filePic){
-                $filePicExt = $filePic->guessExtension();
-                $filePicName = md5(uniqid()).'.'.$filePicExt;
-                $filePic->move($this->getParameter('adherent_directory') . 'adherent' . $lastAdherent . '/picture/', $filePicName);
-                $adherent->setLinkPicture($filePicName);
-            }
-            
-            $this->entityManager->persist($adherent);
-            $this->entityManager->flush();
-
-            $this->addFlash(
-                'successNewAdherent',
-                'Félicitations, vous avez créer un nouvel adhérent !'
-            );
-            return $this->redirectToRoute('adherent_single', ['id' => $adherent->getId()]);
-        }
-
-        return $this->render('adherent/singleAdherent.html.twig', [
-            'formAdherent' => $form->createView(),
-        ]);
     }
 
     //Page pour voir toutes les rencontres de l'adhérent sélectionné
@@ -396,22 +405,29 @@ class AdherentController extends AbstractController
     ]
     public function adherentMeetAll(Adherent $adherent): Response
     {
-        if($adherent->getGenre()->getName() == 'Féminin'){
-            $meets = $this->entityManager->getRepository(Meet::class)->findBy(['adherent_woman' => $adherent->getId()]);
+        if(count($this->getUser()->getAgence()) > 0) {
+
+            if($adherent->getGenre()->getName() == 'Féminin'){
+                $meets = $this->entityManager->getRepository(Meet::class)->findBy(['adherent_woman' => $adherent->getId()]);
+            } else {
+                $meets = $this->entityManager->getRepository(Meet::class)->findBy(['adherent_man' => $adherent->getId()]);
+            }
+
+            $options = $this->entityManager->getRepository(AdherentOption::class)->findBy(['type' => 'status_meet']);
+            $actions = $this->entityManager->getRepository(AdherentOption::class)->findBy(['type' => 'action_meet']);
+
+
+            return $this->render('adherent/allMeet.html.twig', [
+                'adherent'  => $adherent,
+                'meets'     => $meets,
+                'options'   => $options,
+                'actions'   => $actions
+            ]);
         } else {
-            $meets = $this->entityManager->getRepository(Meet::class)->findBy(['adherent_man' => $adherent->getId()]);
+            $this->addFlash('noAgence', 'Vous n\'avez pas encore d\'agence associé à votre compte, merci de contacter l\'administrateur !');
+            return $this->redirectToRoute('adherent_all');
         }
 
-        $options = $this->entityManager->getRepository(AdherentOption::class)->findBy(['type' => 'status_meet']);
-        $actions = $this->entityManager->getRepository(AdherentOption::class)->findBy(['type' => 'action_meet']);
-
-
-        return $this->render('adherent/allMeet.html.twig', [
-            'adherent'  => $adherent,
-            'meets'     => $meets,
-            'options'   => $options,
-            'actions'   => $actions
-        ]);
     }
 
     //Route pour télécharger la demande de témoignage
@@ -465,7 +481,7 @@ class AdherentController extends AbstractController
         foreach ($userAgences as $userAgence){
             $adherents = $userAgence->getAdherents();
             foreach ($adherents as $adherent){
-                if($adherent->getGenre()->getName() == 'Féminin'){
+                if($adherent->getGenre()->getName() === 'Féminin'){
                     $meets[] = $this->entityManager->getRepository(Meet::class)->findBy(['adherent_woman' => $adherent->getId()]);
                 } else {
                     $meets[] = $this->entityManager->getRepository(Meet::class)->findBy(['adherent_man' => $adherent->getId()]);
