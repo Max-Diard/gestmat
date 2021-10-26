@@ -22,16 +22,7 @@ function apiMeet(id, elem){
     buttonModal.style.display = false;
 
     //Loader
-    const loaderMeet = document.querySelector('body');
-
-    const divContainerLoader = document.createElement('div')
-    divContainerLoader.className = 'container-loader'
-    const divLoader = document.createElement('div');
-    divLoader.className = 'loader';
-
-    divContainerLoader.appendChild(divLoader)
-
-    loaderMeet.appendChild(divContainerLoader)
+    launchingLoader(true)
 
     const request = new XMLHttpRequest();
     request.open("GET", routeUrl + "api/adherent/" + id, true);
@@ -39,13 +30,13 @@ function apiMeet(id, elem){
         if (request.readyState === XMLHttpRequest.DONE) {
             if (request.status === 200) {
                 //Fin du loader
-                loaderMeet.removeChild(divContainerLoader)
-
+                launchingLoader(false)
                 const recup = JSON.parse(request.response);
-                if (recup.adherent[0].genre.name === 'Féminin'){
+                const recupAdherent = JSON.parse(request.response).adherent[0];
+                if (recupAdherent.genre.name === 'Féminin'){
                     const listClass = cardSelectedWoman.classList
 
-                    if(nameAgence != recup.adherent[0].agence.name){
+                    if(nameAgence != recupAdherent.agence.name){
                         if(listClass[1] === 'in-agence-woman'){
                             cardSelectedWoman.classList.remove('in-agence-woman')
                         }
@@ -57,14 +48,14 @@ function apiMeet(id, elem){
                         cardSelectedWoman.classList.add('in-agence-woman')
                     }
 
-                    lastnameWoman.textContent = recup.adherent[0].lastname;
-                    firstnameWoman.textContent = recup.adherent[0].firstname;
-                    yearWoman.textContent = recup.adherent[0].age;
-                    agenceWoman.textContent = recup.adherent[0].agence.name;
-                    meetWaitingWomen = recup.adherent[0].id
+                    lastnameWoman.textContent = recupAdherent.lastname;
+                    firstnameWoman.textContent = recupAdherent.firstname;
+                    yearWoman.textContent = recupAdherent.age;
+                    agenceWoman.textContent = recupAdherent.agence.name;
+                    meetWaitingWomen = recupAdherent.id
                     loadingWomen = true
 
-                    myParams.set('woman', recup.adherent[0].id)
+                    myParams.set('woman', recupAdherent.id)
                     newUrl = url.toString()
                     const womanUrl = newUrl.split('adherent')[1]
 
@@ -83,7 +74,7 @@ function apiMeet(id, elem){
                 else {
                     const listClass = cardSelectedMan.classList
 
-                    if(nameAgence != recup.adherent[0].agence.name){
+                    if(nameAgence != recupAdherent.agence.name){
                         if(listClass[1] === 'in-agence-man'){
                             cardSelectedMan.classList.remove('in-agence-man')
                         }
@@ -95,14 +86,14 @@ function apiMeet(id, elem){
                         cardSelectedMan.classList.add('in-agence-man')
                     }
 
-                    lastnameMan.textContent = recup.adherent[0].lastname;
-                    firstnameMan.textContent = recup.adherent[0].firstname;
-                    yearMan.textContent = recup.adherent[0].age;
-                    agenceMan.textContent = recup.adherent[0].agence.name;
-                    meetWaitingMen = recup.adherent[0].id
+                    lastnameMan.textContent = recupAdherent.lastname;
+                    firstnameMan.textContent = recupAdherent.firstname;
+                    yearMan.textContent = recupAdherent.age;
+                    agenceMan.textContent = recupAdherent.agence.name;
+                    meetWaitingMen = recupAdherent.id
                     loadingMen = true
 
-                    myParams.set('men', recup.adherent[0].id)
+                    myParams.set('men', recupAdherent.id)
                     newUrl = url.toString()
                     const manUrl = newUrl.split('adherent')[1]
 
@@ -177,11 +168,9 @@ function apiMeet(id, elem){
                             if (result.isConfirmed) {
                                 const inputDate = document.querySelector('#expiry-date')
                                 newMeet(meetWaitingWomen, meetWaitingMen, inputDate.value)
-                                apiMeet(meetWaitingWomen)
-                                apiMeet(meetWaitingMen)
+                                apiMeet(meetWaitingWomen, document.querySelector('#table-women tbody tr.active'))
+                                apiMeet(meetWaitingMen, document.querySelector('#table-men tbody tr.active'))
 
-                            } else if (result.isDenied) {
-                                Swal.fire("La rencontre n'a pas été effectuée !", '', 'info')
                             }
                         })
                     })
@@ -201,10 +190,16 @@ function informationMeetWoman(recup, card, elem){
             divMeetWoman.removeChild(divMeetWoman.lastChild)
         }
     }
-    var test = Object.values(elem.classList).includes('nomeet')
-    console.log(test)
+    let meetInClass = ''
+
+    if (elem){
+        meetInClass = Object.values(elem.classList).includes('nomeet')
+    }
 
     if (recup.meet.length > 0){
+        if(meetInClass === true){
+            elem.classList.remove('nomeet')
+        }
         let j = recup.meet.length - 1 ;
         while(j != -1){
             const row = document.createElement('tr')
@@ -275,8 +270,8 @@ function informationMeetWoman(recup, card, elem){
                             removeMeet(idMeet)
                             recup.meet.forEach(s => {
                                 if (s.id === idMeet){
-                                    apiMeet(s.adherent_woman.id)
-                                    apiMeet(s.adherent_man.id)
+                                    apiMeet(s.adherent_woman.id, document.querySelector('#table-women tbody tr.active'))
+                                    apiMeet(s.adherent_man.id, document.querySelector('#table-men tbody tr.active'))
                                 }
                             })
                         }
@@ -305,6 +300,9 @@ function informationMeetWoman(recup, card, elem){
             j--;
         }
     } else {
+        if(meetInClass === false){
+            elem.classList.add('nomeet')
+        }
         const row = document.createElement('tr')
 
         const noMeet = document.createElement('td')
@@ -325,8 +323,16 @@ function informationMeetMan(recup, card, elem){
             divMeetMan.removeChild(divMeetMan.lastChild)
         }
     }
+    let meetInClass = '';
+
+    if (elem){
+        meetInClass = Object.values(elem.classList).includes('nomeet')
+    }
 
     if(recup.meet.length > 0){
+        if(meetInClass === true){
+            elem.classList.remove('nomeet')
+        }
         let j = recup.meet.length - 1 ;
         while(j != -1){
             const row = document.createElement('tr')
@@ -399,8 +405,9 @@ function informationMeetMan(recup, card, elem){
                             removeMeet(idMeet)
                             recup.meet.forEach(s => {
                                 if (s.id === idMeet){
-                                    apiMeet(s.adherent_woman.id)
-                                    apiMeet(s.adherent_man.id)
+                                    console.log(elem)
+                                    apiMeet(s.adherent_woman.id, document.querySelector('#table-women tbody tr.active'))
+                                    apiMeet(s.adherent_man.id, document.querySelector('#table-men tbody tr.active'))
                                 }
                             })
                         }
@@ -426,10 +433,12 @@ function informationMeetMan(recup, card, elem){
             row.appendChild(cellDelete)
 
             divMeetMan.appendChild(row)
-
             j--;
         }
     } else {
+        if(meetInClass === false){
+            elem.classList.add('nomeet')
+        }
         const row = document.createElement('tr')
 
         const noMeet = document.createElement('td')
@@ -477,17 +486,7 @@ function informationMeet(id){
     modalAdherent.style.display = 'block'
 
     // Loader
-    const loaderMeet = document.querySelector('body');
-
-    const divContainerLoader = document.createElement('div')
-    divContainerLoader.className = 'container-loader'
-
-    const divLoader = document.createElement('div');
-    divLoader.className = 'loader';
-
-    divContainerLoader.appendChild(divLoader)
-
-    loaderMeet.appendChild(divContainerLoader)
+    launchingLoader(true)
 
     const request = new XMLHttpRequest();
     request.open("GET", routeUrl + "api/meet/" + id, true);
@@ -495,7 +494,7 @@ function informationMeet(id){
         if (request.readyState === XMLHttpRequest.DONE) {
             if (request.status === 200) {
                 // Fin du loader
-                loaderMeet.removeChild(divContainerLoader)
+                launchingLoader(false)
 
                 const recup = JSON.parse(request.response)[0];
 
@@ -630,4 +629,21 @@ function removeMeet(id){
         'id': id
     }))
     // window.reload;
+}
+
+function launchingLoader(bool){
+    const loaderMeet = document.querySelector('body');
+
+    if(bool){
+        const divContainerLoader = document.createElement('div')
+        divContainerLoader.className = 'container-loader'
+        const divLoader = document.createElement('div');
+        divLoader.className = 'loader';
+
+        divContainerLoader.appendChild(divLoader)
+
+        loaderMeet.appendChild(divContainerLoader)
+    } else {
+        loaderMeet.removeChild(loaderMeet.lastChild)
+    }
 }

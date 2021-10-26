@@ -11,7 +11,15 @@ window.addEventListener("DOMContentLoaded", (event) => {
         const startId = resultMan.indexOf('=')
         const idManInUrl = resultMan.slice(startId + 1)
 
-        apiMeet(idManInUrl)
+        rowTable.forEach(i => {
+            if(i.getAttribute('data-id') === idManInUrl){
+                i.parentNode.classList.add('active')
+            }
+        })
+
+        let elemParent = document.querySelector('#table-men tbody tr.active')
+
+        apiMeet(idManInUrl, elemParent)
     }
 
     if (url.hash.includes('woman')) {
@@ -23,12 +31,28 @@ window.addEventListener("DOMContentLoaded", (event) => {
             const startId = resultWoman.indexOf('=')
             const idWomanInUrl = resultWoman.slice(startId + 1)
 
-            apiMeet(idWomanInUrl)
+            rowTable.forEach(i => {
+                if(i.getAttribute('data-id') === idWomanInUrl){
+                    i.parentNode.classList.add('active')
+                }
+            })
+
+            let elemParent = document.querySelector('#table-women tbody tr.active')
+
+            apiMeet(idWomanInUrl, elemParent)
         } else {
             const startId = url.hash.indexOf('=')
             const idWomanInUrl = url.hash.slice(startId + 1)
 
-            apiMeet(idWomanInUrl)
+            rowTable.forEach(i => {
+                if(i.getAttribute('data-id') === idWomanInUrl){
+                    i.parentNode.classList.add('active')
+                }
+            })
+
+            let elemParent = document.querySelector('#table-women tbody tr.active')
+
+            apiMeet(idWomanInUrl, elemParent)
         }
     }
 
