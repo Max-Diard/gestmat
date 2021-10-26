@@ -126,10 +126,15 @@
 
             </div>
         </header>
+
     {% endif %}
         {% block body %}{% endblock %}
 
         {% block javascripts %}
+
+            <script>
+                var routeUrl = 'http://127.0.0.1:8000/';
+            </script>
             {# SweetAlert #}
                 <script src="{{ asset('js/plugin/sweetalert.js') }}"></script>
             {# Datatable #}

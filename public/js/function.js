@@ -34,7 +34,7 @@ function apiMeet(id, elem){
     loaderMeet.appendChild(divContainerLoader)
 
     const request = new XMLHttpRequest();
-    request.open("GET", "http://127.0.0.1:8000/api/adherent/" + id, true);
+    request.open("GET", routeUrl + "api/adherent/" + id, true);
     request.addEventListener('readystatechange', function(){
         if (request.readyState === XMLHttpRequest.DONE) {
             if (request.status === 200) {
@@ -488,7 +488,7 @@ function informationMeet(id){
     loaderMeet.appendChild(divContainerLoader)
 
     const request = new XMLHttpRequest();
-    request.open("GET", "http://127.0.0.1:8000/api/meet/" + id, true);
+    request.open("GET", routeUrl + "api/meet/" + id, true);
     request.addEventListener('readystatechange', function(){
         if (request.readyState === XMLHttpRequest.DONE) {
             if (request.status === 200) {
@@ -592,7 +592,7 @@ function updateMeet(
     commentsMan,
 ){
     const request = new XMLHttpRequest();
-    request.open('POST', 'http://127.0.0.1:8000/api/update_meet/', true)
+    request.open('POST', routeUrl + 'api/update_meet/', true)
     request.setRequestHeader("content-type", "application/json; charset=utf-8")
     request.send(JSON.stringify({
         'id': id,
@@ -610,7 +610,7 @@ function updateMeet(
 // Permet de créer une rencontre en Api
 function newMeet(woman, man, date){
     const request = new XMLHttpRequest();
-    request.open('POST', 'http://127.0.0.1:8000/api/new_meet/', true)
+    request.open('POST', routeUrl + 'api/new_meet/', true)
     request.setRequestHeader("content-type", "application/json; charset=utf-8")
     request.send(JSON.stringify({
         woman: woman,
@@ -622,7 +622,7 @@ function newMeet(woman, man, date){
 // Remove rencontre en api
 function removeMeet(id){
     const request = new XMLHttpRequest();
-    request.open('DELETE', 'http://127.0.0.1:8000/api/meet/delete/' + id, true)
+    request.open('DELETE', routeUrl + 'api/meet/delete/' + id, true)
     request.setRequestHeader("content-type", "application/json; charset=utf-8")
     request.send(JSON.stringify({
         'id': id
