@@ -1,6 +1,11 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+
+{% for message in app.flashes('successSendMail') %}
+    <div class="alert-success-send-mail alert-success"></div>
+{% endfor %}
+
 <div id="list-pdf" class="container container-screen">
 <h1>La liste des envois</h1>
     <div class="btns">

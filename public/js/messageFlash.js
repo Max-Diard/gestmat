@@ -9,6 +9,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
     const alertErrorNoAgence = document.querySelector('.alert-error-no-agence')
     const meetDeleteNoAgence = document.querySelectorAll('.meet-delete-no-agence')
     const meetMoreNoAgence = document.querySelectorAll('.meet-more-no-agence')
+    const successSendMail = document.querySelector('.alert-success-send-mail')
 
     if(alertNewAdherent){
         Swal.fire({
@@ -79,6 +80,14 @@ window.addEventListener("DOMContentLoaded", (event) => {
                     icon: 'info'
                 })
             })
+        })
+    }
+
+    if(successSendMail){
+        Swal.fire({
+            title: 'Email envoyé !',
+            text: "Les emails ont bien été envoyé !",
+            icon: 'success'
         })
     }
 });

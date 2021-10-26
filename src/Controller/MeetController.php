@@ -423,6 +423,7 @@ class MeetController extends AbstractController
                     $trueAgence = [];
                 }
             }
+            $this->addFlash('successSendMail', '');
             return $this->redirectToRoute('meet_send_date', ['dateStart' => $dateLinkStart, 'dateEnd' => $dateLinkEnd ]);
         }
     }

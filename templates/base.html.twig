@@ -16,7 +16,7 @@
     </head>
     <body>
     {% if app.user %}
-        <header>
+        <header data-url="{{ app.request.server.get("SYMFONY_APPLICATION_DEFAULT_ROUTE_URL") }}">
             <div class="btn-menu">
                 <div class="btn-opened">
                     <img src="{{asset('build/images/burger-opened.svg')}}" alt="Logo agence">
@@ -132,9 +132,6 @@
 
         {% block javascripts %}
 
-            <script>
-                var routeUrl = 'http://127.0.0.1:8000/';
-            </script>
             {# SweetAlert #}
                 <script src="{{ asset('js/plugin/sweetalert.js') }}"></script>
             {# Datatable #}
