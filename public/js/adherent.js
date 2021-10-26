@@ -17,9 +17,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
             }
         })
 
-        let elemParent = document.querySelector('#table-men tbody tr.active')
-
-        apiMeet(idManInUrl, elemParent)
+        apiMeet(idManInUrl, document.querySelector('#table-men tbody tr.active'))
     }
 
     if (url.hash.includes('woman')) {
@@ -37,9 +35,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
                 }
             })
 
-            let elemParent = document.querySelector('#table-women tbody tr.active')
-
-            apiMeet(idWomanInUrl, elemParent)
+            apiMeet(idWomanInUrl, document.querySelector('#table-women tbody tr.active'))
         } else {
             const startId = url.hash.indexOf('=')
             const idWomanInUrl = url.hash.slice(startId + 1)
@@ -50,9 +46,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
                 }
             })
 
-            let elemParent = document.querySelector('#table-women tbody tr.active')
-
-            apiMeet(idWomanInUrl, elemParent)
+            apiMeet(idWomanInUrl, document.querySelector('#table-women tbody tr.active'))
         }
     }
 
@@ -73,7 +67,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
                 }
 
                 elem.parentNode.classList.add('active');
-                ev.preventDefault();
+
                 apiMeet(elem.getAttribute('data-id'), elem.parentNode);
             })
         })

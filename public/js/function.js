@@ -4,17 +4,15 @@ function apiMeet(id, elem){
     const cardSelectedWoman = document.querySelector('.card-selected-woman')
     const cardSelectedMan = document.querySelector('.card-selected-man')
 
-    const nameAgence = document.querySelector('.name-agence-datatable').getAttribute('name-agence')
-
-    const lastnameWoman = document.querySelector('.thead-card-woman-lastname');
-    const firstnameWoman = document.querySelector('.thead-card-woman-firstname');
-    const yearWoman = document.querySelector('.thead-card-woman-years');
-    const agenceWoman = document.querySelector('.thead-card-woman-agence');
-
-    const lastnameMan = document.querySelector('.thead-card-man-lastname');
-    const firstnameMan = document.querySelector('.thead-card-man-firstname');
-    const yearMan = document.querySelector('.thead-card-man-years');
-    const agenceMan = document.querySelector('.thead-card-man-agence');
+    // const lastnameWoman = document.querySelector('.thead-card-woman-lastname');
+    // const firstnameWoman = document.querySelector('.thead-card-woman-firstname');
+    // const yearWoman = document.querySelector('.thead-card-woman-years');
+    // const agenceWoman = document.querySelector('.thead-card-woman-agence');
+    //
+    // const lastnameMan = document.querySelector('.thead-card-man-lastname');
+    // const firstnameMan = document.querySelector('.thead-card-man-firstname');
+    // const yearMan = document.querySelector('.thead-card-man-years');
+    // const agenceMan = document.querySelector('.thead-card-man-agence');
 
     const div = document.querySelector('.button-meet')
     div.innerHTML = '';
@@ -31,29 +29,12 @@ function apiMeet(id, elem){
             if (request.status === 200) {
                 //Fin du loader
                 launchingLoader(false)
+
                 const recup = JSON.parse(request.response);
                 const recupAdherent = JSON.parse(request.response).adherent[0];
+
                 if (recupAdherent.genre.name === 'Féminin'){
-                    const listClass = cardSelectedWoman.classList
-
-                    if(nameAgence != recupAdherent.agence.name){
-                        if(listClass[1] === 'in-agence-woman'){
-                            cardSelectedWoman.classList.remove('in-agence-woman')
-                        }
-                        cardSelectedWoman.classList.add('not-in-agence-woman')
-                    } else {
-                        if(listClass[1] === 'not-in-agence-woman'){
-                            cardSelectedWoman.classList.remove('not-in-agence-woman')
-                        }
-                        cardSelectedWoman.classList.add('in-agence-woman')
-                    }
-
-                    lastnameWoman.textContent = recupAdherent.lastname;
-                    firstnameWoman.textContent = recupAdherent.firstname;
-                    yearWoman.textContent = recupAdherent.age;
-                    agenceWoman.textContent = recupAdherent.agence.name;
-                    meetWaitingWomen = recupAdherent.id
-                    loadingWomen = true
+                    meetInfoHead(recupAdherent.genre.name, recupAdherent)
 
                     myParams.set('woman', recupAdherent.id)
                     newUrl = url.toString()
@@ -72,26 +53,7 @@ function apiMeet(id, elem){
                     informationMeetWoman(recup, cardSelectedWoman, elem);
                 }
                 else {
-                    const listClass = cardSelectedMan.classList
-
-                    if(nameAgence != recupAdherent.agence.name){
-                        if(listClass[1] === 'in-agence-man'){
-                            cardSelectedMan.classList.remove('in-agence-man')
-                        }
-                        cardSelectedMan.classList.add('not-in-agence-man')
-                    } else {
-                        if(listClass[1] === 'not-in-agence-man'){
-                            cardSelectedMan.classList.remove('not-in-agence-man')
-                        }
-                        cardSelectedMan.classList.add('in-agence-man')
-                    }
-
-                    lastnameMan.textContent = recupAdherent.lastname;
-                    firstnameMan.textContent = recupAdherent.firstname;
-                    yearMan.textContent = recupAdherent.age;
-                    agenceMan.textContent = recupAdherent.agence.name;
-                    meetWaitingMen = recupAdherent.id
-                    loadingMen = true
+                    meetInfoHead(recupAdherent.genre.name, recupAdherent)
 
                     myParams.set('men', recupAdherent.id)
                     newUrl = url.toString()
@@ -107,7 +69,6 @@ function apiMeet(id, elem){
                     infoMan = recup;
 
                     informationMeetMan(recup, cardSelectedMan, elem);
-
                 }
                 if(loadingWomen && loadingMen){
                     // On regarde si il n'y a pas un bouton d'affiché avant de l'afficher
@@ -119,6 +80,7 @@ function apiMeet(id, elem){
                     buttonModal.className = 'btn btn-little button-create-meet'
                     buttonModal.textContent = 'Créer une nouvelle rencontre'
                     buttonModal.href = '#'
+
                     div.appendChild(buttonModal)
                     buttonModal.style.display = true;
 
@@ -138,8 +100,6 @@ function apiMeet(id, elem){
                     }
 
                     buttonModal.addEventListener('click', function(ev){
-                        ev.preventDefault()
-
                         const today = new Date();
                         const dateToday = today.toISOString().split('T')[0];
 
@@ -170,7 +130,6 @@ function apiMeet(id, elem){
                                 newMeet(meetWaitingWomen, meetWaitingMen, inputDate.value)
                                 apiMeet(meetWaitingWomen, document.querySelector('#table-women tbody tr.active'))
                                 apiMeet(meetWaitingMen, document.querySelector('#table-men tbody tr.active'))
-
                             }
                         })
                     })
@@ -479,7 +438,6 @@ function informationMeet(id){
     const sendButton = document.querySelector('.send-form');
 
     closeModal.addEventListener('click', function (ev){
-        ev.preventDefault()
         modalAdherent.style.display = 'none'
     })
 
@@ -645,5 +603,63 @@ function launchingLoader(bool){
         loaderMeet.appendChild(divContainerLoader)
     } else {
         loaderMeet.removeChild(loaderMeet.lastChild)
+    }
+}
+
+function meetInfoHead(sexe, recupAdherent){
+    if (sexe === 'Féminin'){
+        adherentInAgence(sexe, recupAdherent)
+
+        lastnameWoman.textContent = recupAdherent.lastname;
+        firstnameWoman.textContent = recupAdherent.firstname;
+        yearWoman.textContent = recupAdherent.age;
+        agenceWoman.textContent = recupAdherent.agence.name;
+        meetWaitingWomen = recupAdherent.id
+        loadingWomen = true
+    } else {
+        adherentInAgence(sexe, recupAdherent)
+
+        lastnameMan.textContent = recupAdherent.lastname;
+        firstnameMan.textContent = recupAdherent.firstname;
+        yearMan.textContent = recupAdherent.age;
+        agenceMan.textContent = recupAdherent.agence.name;
+        meetWaitingMen = recupAdherent.id
+        loadingMen = true
+    }
+}
+
+function adherentInAgence (sexe, recupAdherent) {
+    const nameAgence = document.querySelector('.name-agence-datatable').getAttribute('name-agence')
+
+    if (sexe === 'Féminin'){
+        const cardSelectedWoman = document.querySelector('.card-selected-woman')
+        const listClass = cardSelectedWoman.classList
+
+        if(nameAgence !== recupAdherent.agence.name){
+            if(listClass[1] === 'in-agence-woman'){
+                cardSelectedWoman.classList.remove('in-agence-woman')
+            }
+            cardSelectedWoman.classList.add('not-in-agence-woman')
+        } else {
+            if(listClass[1] === 'not-in-agence-woman'){
+                cardSelectedWoman.classList.remove('not-in-agence-woman')
+            }
+            cardSelectedWoman.classList.add('in-agence-woman')
+        }
+    } else {
+        const cardSelectedMan = document.querySelector('.card-selected-man')
+        const listClass = cardSelectedMan.classList
+
+        if(nameAgence !== recupAdherent.agence.name){
+            if(listClass[1] === 'in-agence-man'){
+                cardSelectedMan.classList.remove('in-agence-man')
+            }
+            cardSelectedMan.classList.add('not-in-agence-man')
+        } else {
+            if(listClass[1] === 'not-in-agence-man'){
+                cardSelectedMan.classList.remove('not-in-agence-man')
+            }
+            cardSelectedMan.classList.add('in-agence-man')
+        }
     }
 }
