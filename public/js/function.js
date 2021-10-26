@@ -201,6 +201,8 @@ function informationMeetWoman(recup, card, elem){
             divMeetWoman.removeChild(divMeetWoman.lastChild)
         }
     }
+    var test = Object.values(elem.classList).includes('nomeet')
+    console.log(test)
 
     if (recup.meet.length > 0){
         let j = recup.meet.length - 1 ;
