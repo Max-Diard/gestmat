@@ -364,7 +364,6 @@ function informationMeetMan(recup, card, elem){
                             removeMeet(idMeet)
                             recup.meet.forEach(s => {
                                 if (s.id === idMeet){
-                                    console.log(elem)
                                     apiMeet(s.adherent_woman.id, document.querySelector('#table-women tbody tr.active'))
                                     apiMeet(s.adherent_man.id, document.querySelector('#table-men tbody tr.active'))
                                 }
