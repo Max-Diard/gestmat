@@ -445,7 +445,7 @@ class AdherentController extends AbstractController
 
         $agence = $this->entityManager->getRepository(Agence::class)->findBy(['id' => $adherent->getAgence()]);
 
-        $image = $request->server->filter('SYMFONY_DEFAULT_ROUTE_URL') . 'uploads/agence/agence' . $agence[0]->getId() . '/picture/'. $agence[0]->getLinkPicture();
+        $image = $request->server->filter('SYMFONY_APPLICATION_DEFAULT_ROUTE_URL') . 'uploads/agence/agence' . $agence[0]->getId() . '/picture/'. $agence[0]->getLinkPicture();
 
         $html = $this->renderView('file/pdfTestimony.html.twig', [
             'adherent' => $adherent,
