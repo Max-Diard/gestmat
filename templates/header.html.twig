@@ -1,4 +1,4 @@
-<header data-url="{{ app.request.server.get("SYMFONY_APPLICATION_DEFAULT_ROUTE_URL") }}">
+<header data-url="{{ app.request.getSchemeAndHttpHost() }}">
     <div class="btn-menu">
         <div class="btn-opened">
             <img src="{{asset('build/images/burger-opened.svg')}}" alt="Logo agence">
