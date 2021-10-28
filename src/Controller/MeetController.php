@@ -14,6 +14,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -223,7 +224,7 @@ class MeetController extends AbstractController
         $dompdf->render();
 
         $output = $dompdf->output();
-        $location = $this->getParameter('meet_directory') . $meet->getId() .  "/Rencontre-" . $adherent->getLastname() . '-' . $adherent->getFirstname() . '.file';
+        $location = $this->getParameter('meet_directory') . $meet->getId() .  "/rencontre-" . $adherent->getLastname() . '-' . $adherent->getFirstname() . '.pdf';
 
         if (!is_dir($this->getParameter('meet_directory'). $meet->getId() )) {
             mkdir($this->getParameter('meet_directory') . $meet->getId() .  "/", 0777, true);
@@ -233,7 +234,9 @@ class MeetController extends AbstractController
         $slug = $slugger->slug('rencontre-' . strtolower($adherent->getLastname()) .'-'. strtolower($adherent->getFirstname()));
 
         // Output the generated PDF to Browser (force download)
-        $dompdf->stream($slug , array('Attachment' => true));
+        return new BinaryFileResponse($location);
+
+//        $dompdf->stream($slug , array('Attachment' => true));
     }
 
     // Création des pdfs pour tous les adhérents qui ont une préférence de contact 'courrier'
@@ -286,7 +289,8 @@ class MeetController extends AbstractController
             $dateIncrement = date_diff($dateImmuStart, $dateImmuEnd)->days;
 
             if(count($agenceUser) > 0){
-                for($i = 0; $i < $dateIncrement; $i++){
+//                    dd($dateIncrement);
+                for($i = -1; $i < $dateIncrement; $i++){
                     $meets[] = $this->entityManager->getRepository(Meet::class)->findBy(['startedAt' => $dateImmuStart]);
 
                     $dateImmuStart = $dateImmuStart->add(new DateInterval('P1D'));
@@ -307,7 +311,6 @@ class MeetController extends AbstractController
                 }
             }
         }
-
         $dompdf->loadHtml($html);
 
         // (Optional) Setup the paper size and orientation 'portrait' or 'portrait'
@@ -316,20 +319,20 @@ class MeetController extends AbstractController
         // Render the HTML as PDF
         $dompdf->render();
 
-        $date = Date('m.d.Y');
+        $date = Date('d.m.Y');
         $slug = $slugger->slug('impression-du-' . $date);
 
         $output = $dompdf->output();
-        $location = $this->getParameter('meet_directory') .  "/" . $date . '/' . $slug . '.file';
+        $location = $this->getParameter('meet_directory') .  "/" . $date . '/' . $slug . '.pdf';
 
         if (!is_dir($this->getParameter('meet_directory'). $date )) {
             mkdir($this->getParameter('meet_directory') . $date .  "/", 0777, true);
         }
         file_put_contents($location, $output);
 
-
         // Output the generated PDF to Browser (force download)
-        $dompdf->stream($slug , array('Attachment' => true));
+        return new BinaryFileResponse($location);
+
     }
 
     // Création des pdfs pour tous les adhérents qui ont une préférence de contact 'email'

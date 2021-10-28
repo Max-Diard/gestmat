@@ -187,13 +187,10 @@ table.dataTable.no-footer{
 
 .search-inter-agence{
     position: relative;
-    h1{
-        margin-bottom: 6rem;
-    }
     .filter-button{
-        position: absolute;
-        top: 6%;
-        right: 50%;
+        display: flex;
+        justify-content: center;
+        margin: 2rem 0;
     }
 }
 .modal-filter{

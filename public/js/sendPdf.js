@@ -22,7 +22,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
                 denyButtonText: `Non`,
             }).then((result) => {
                 if (result.isConfirmed) {
-                    window.location = '/meet/send/paper';
+                    window.open('/meet/send/paper', '_blank');
                 }
             })
         })

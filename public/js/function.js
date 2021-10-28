@@ -591,7 +591,7 @@ function removeMeet(id){
 function launchingLoader(bool){
     const loaderMeet = document.querySelector('body');
 
-    if(bool){
+    if(bool === true){
         const divContainerLoader = document.createElement('div')
         divContainerLoader.className = 'container-loader'
         const divLoader = document.createElement('div');
@@ -601,7 +601,7 @@ function launchingLoader(bool){
 
         loaderMeet.appendChild(divContainerLoader)
     } else {
-        loaderMeet.removeChild(loaderMeet.lastChild)
+        loaderMeet.removeChild(document.querySelector('body .container-loader'))
     }
 }
 
@@ -628,13 +628,17 @@ function meetInfoHead(sexe, recupAdherent){
 }
 
 function adherentInAgence (sexe, recupAdherent) {
-    const nameAgence = document.querySelector('.name-agence-datatable').getAttribute('name-agence')
+    let nameAgence = document.querySelectorAll('.name-agence-datatable')
+    let arrayNameAgence = [];
+    [].forEach.call(nameAgence, function(elem){
+        arrayNameAgence.push(elem.getAttribute('name-agence'));
+    })
 
     if (sexe === 'Féminin'){
         const cardSelectedWoman = document.querySelector('.card-selected-woman')
         const listClass = cardSelectedWoman.classList
 
-        if(nameAgence !== recupAdherent.agence.name){
+        if(!arrayNameAgence.includes(recupAdherent.agence.name)){
             if(listClass[1] === 'in-agence-woman'){
                 cardSelectedWoman.classList.remove('in-agence-woman')
             }
@@ -649,7 +653,7 @@ function adherentInAgence (sexe, recupAdherent) {
         const cardSelectedMan = document.querySelector('.card-selected-man')
         const listClass = cardSelectedMan.classList
 
-        if(nameAgence !== recupAdherent.agence.name){
+        if(!arrayNameAgence.includes(recupAdherent.agence.name)){
             if(listClass[1] === 'in-agence-man'){
                 cardSelectedMan.classList.remove('in-agence-man')
             }

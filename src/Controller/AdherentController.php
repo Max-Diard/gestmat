@@ -18,6 +18,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
@@ -167,7 +168,7 @@ class AdherentController extends AbstractController
             }
 
             // True ou false pour savoir si c'est l'user fait parti de l'agence
-            if(in_array($agenceAdherent->getId(), $agenceIdUser) ){
+            if(in_array($agenceAdherent->getId(), $agenceIdUser, true)){
                 $trueAgence = true;
             } else {
                 $trueAgence = false;
@@ -193,10 +194,10 @@ class AdherentController extends AbstractController
             $meets = $this->entityManager->getRepository(Meet::class)->findBy([$genre => $adherent->getId()]);
 
             if(empty($meets)){
-                if($adherent->getStatusMeet()->getName() != 'En attente'){
+                if($adherent->getStatusMeet()->getName() !== 'En attente'){
                     $status = $this->entityManager->getRepository(AdherentOption::class)->findBy(['type' => 'status_meet']);
                     foreach($status as $stat){
-                        if($stat->getName() == "Disponible" ){
+                        if($stat->getName() === "Disponible" ){
                             $adherent->setStatusMeet($stat);
                             $this->entityManager->persist($adherent);
                             $this->entityManager->flush();
@@ -400,7 +401,7 @@ class AdherentController extends AbstractController
 
     //Page pour voir toutes les rencontres de l'adhérent sélectionné
     #[
-        Route('/adherent/profile/{id}/meet/all', name: 'adherent_profile_meet_all'),
+        Route('/adherent/profil/{id}/meet/all', name: 'adherent_profil_meet_all'),
         IsGranted('ROLE_USER')
     ]
     public function adherentMeetAll(Adherent $adherent): Response
@@ -432,7 +433,7 @@ class AdherentController extends AbstractController
 
     //Route pour télécharger la demande de témoignage
     #[
-        Route('/adherent/profile/{id}/testimony', name: 'adherent_testimony'),
+        Route('/adherent/profil/{id}/testimony', name: 'adherent_testimony'),
         IsGranted('ROLE_USER')
     ]
     public function testimonyAdherent(Adherent $adherent, Request $request, SluggerInterface $slugger)
@@ -462,11 +463,19 @@ class AdherentController extends AbstractController
 
         $slug = $slugger->slug("temoignage-" . strtolower($adherent->getLastname()) . '-' . strtolower($adherent->getFirstname()));
 
-        // Output the generated PDF to Browser (force download)
-        return $dompdf->stream($slug , [
-            'Attachment' => false
-        ]);
+        $output = $dompdf->output();
 
+        $location = $this->getParameter('testimony_directory') . $slug . '.pdf';
+
+        file_put_contents($location , $output);
+
+        // Output the generated PDF to Browser (force download)
+
+        return new BinaryFileResponse(($this->getParameter('testimony_directory') . $slug . '.pdf'));
+
+//        return $dompdf->stream($slug , [
+//            'Attachment' => false
+//        ]);
     }
 
     //Route pour exporter les adhérents

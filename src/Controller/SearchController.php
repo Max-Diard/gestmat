@@ -71,12 +71,16 @@ class SearchController extends AbstractController
     ]
     public function searchAllAgence(EntityManagerInterface $entityManager): Response
     {
-        $agence = $this->getUser()->getAgence();
+        $agences = $this->getUser()->getAgence();
 
-        if(count($this->getUser()->getAgence()) > 0 ){
-            $otherAgences = $this->entityManager->getRepository(Agence::class)->findOtherAgence($agence);
-
-            foreach ($otherAgences as $otherAgence){
+        if(count($agences) > 0 ){
+            $otherAgences = $this->entityManager->getRepository(Agence::class)->findAll();
+            foreach ($agences as $agence){
+                if(in_array($agence, $otherAgences, true)){
+                    unset($otherAgences[array_search($agence, $otherAgences, true)]);
+                }
+            }
+            foreach($otherAgences as $otherAgence){
                 $adherentOtherAgence[] = $this->entityManager->getRepository(Adherent::class)->findBy(['agence' => $otherAgence]);
             }
 

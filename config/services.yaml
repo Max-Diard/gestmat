@@ -7,6 +7,7 @@ parameters:
     adherent_directory: '%kernel.project_dir%/public/uploads/adherent/'
     agence_directory: '%kernel.project_dir%/public/uploads/agence/'
     meet_directory: '%kernel.project_dir%/public/meet/'
+    testimony_directory : '%kernel.project_dir%/public/testimony/'
 
 services:
     # default configuration for services in *this* file
