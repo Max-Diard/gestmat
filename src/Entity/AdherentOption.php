@@ -44,10 +44,10 @@ class AdherentOption
      */
     private $adhrents_status_meet;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Adherent::class, mappedBy="instruction")
-     */
-    private $instruction;
+//    /**
+//     * @ORM\OneToMany(targetEntity=Adherent::class, mappedBy="instruction")
+//     */
+//    private $instruction;
 
     /**
      * @ORM\OneToMany(targetEntity=Adherent::class, mappedBy="lodging")
@@ -83,11 +83,11 @@ class AdherentOption
      * @ORM\OneToMany(targetEntity=Adherent::class, mappedBy="preference_contact")
      */
     private $preference_contact;
-
-    /**
-     * @ORM\OneToMany(targetEntity=Adherent::class, mappedBy="search_instruction")
-     */
-    private $search_instruction;
+//
+//    /**
+//     * @ORM\OneToMany(targetEntity=Adherent::class, mappedBy="search_instruction")
+//     */
+//    private $search_instruction;
 
     /**
      * @ORM\OneToMany(targetEntity=Adherent::class, mappedBy="owner")
@@ -118,7 +118,7 @@ class AdherentOption
     {
         $this->adherents = new ArrayCollection();
         $this->adhrents_status_meet = new ArrayCollection();
-        $this->instruction = new ArrayCollection();
+//        $this->instruction = new ArrayCollection();
         $this->lodging = new ArrayCollection();
         $this->smoking = new ArrayCollection();
         $this->hair = new ArrayCollection();
@@ -126,7 +126,7 @@ class AdherentOption
         $this->eyes = new ArrayCollection();
         $this->genre = new ArrayCollection();
         $this->preference_contact = new ArrayCollection();
-        $this->search_instruction = new ArrayCollection();
+//        $this->search_instruction = new ArrayCollection();
         $this->owner = new ArrayCollection();
         $this->type_payment = new ArrayCollection();
         $this->status_meet_woman = new ArrayCollection();
@@ -228,35 +228,35 @@ class AdherentOption
         return $this;
     }
 
-    /**
-     * @return Collection|Adherent[]
-     */
-    public function getInstruction(): Collection
-    {
-        return $this->instruction;
-    }
+//    /**
+//     * @return Collection|Adherent[]
+//     */
+//    public function getInstruction(): Collection
+//    {
+//        return $this->instruction;
+//    }
 
-    public function addInstruction(Adherent $instruction): self
-    {
-        if (!$this->instruction->contains($instruction)) {
-            $this->instruction[] = $instruction;
-            $instruction->setInstruction($this);
-        }
-
-        return $this;
-    }
-
-    public function removeInstruction(Adherent $instruction): self
-    {
-        if ($this->instruction->removeElement($instruction)) {
-            // set the owning side to null (unless already changed)
-            if ($instruction->getInstruction() === $this) {
-                $instruction->setInstruction(null);
-            }
-        }
-
-        return $this;
-    }
+//    public function addInstruction(Adherent $instruction): self
+//    {
+//        if (!$this->instruction->contains($instruction)) {
+//            $this->instruction[] = $instruction;
+//            $instruction->setInstruction($this);
+//        }
+//
+//        return $this;
+//    }
+//
+//    public function removeInstruction(Adherent $instruction): self
+//    {
+//        if ($this->instruction->removeElement($instruction)) {
+//            // set the owning side to null (unless already changed)
+//            if ($instruction->getInstruction() === $this) {
+//                $instruction->setInstruction(null);
+//            }
+//        }
+//
+//        return $this;
+//    }
 
     /**
      * @return Collection|Adherent[]
@@ -467,36 +467,36 @@ class AdherentOption
 
         return $this;
     }
-
-    /**
-     * @return Collection|Adherent[]
-     */
-    public function getSearchInstruction(): Collection
-    {
-        return $this->search_instruction;
-    }
-
-    public function addSearchInstruction(Adherent $searchInstruction): self
-    {
-        if (!$this->search_instruction->contains($searchInstruction)) {
-            $this->search_instruction[] = $searchInstruction;
-            $searchInstruction->setSearchInstruction($this);
-        }
-
-        return $this;
-    }
-
-    public function removeSearchInstruction(Adherent $searchInstruction): self
-    {
-        if ($this->search_instruction->removeElement($searchInstruction)) {
-            // set the owning side to null (unless already changed)
-            if ($searchInstruction->getSearchInstruction() === $this) {
-                $searchInstruction->setSearchInstruction(null);
-            }
-        }
-
-        return $this;
-    }
+//
+//    /**
+//     * @return Collection|Adherent[]
+//     */
+//    public function getSearchInstruction(): Collection
+//    {
+//        return $this->search_instruction;
+//    }
+//
+//    public function addSearchInstruction(Adherent $searchInstruction): self
+//    {
+//        if (!$this->search_instruction->contains($searchInstruction)) {
+//            $this->search_instruction[] = $searchInstruction;
+//            $searchInstruction->setSearchInstruction($this);
+//        }
+//
+//        return $this;
+//    }
+//
+//    public function removeSearchInstruction(Adherent $searchInstruction): self
+//    {
+//        if ($this->search_instruction->removeElement($searchInstruction)) {
+//            // set the owning side to null (unless already changed)
+//            if ($searchInstruction->getSearchInstruction() === $this) {
+//                $searchInstruction->setSearchInstruction(null);
+//            }
+//        }
+//
+//        return $this;
+//    }
 
     /**
      * @return Collection|Adherent[]

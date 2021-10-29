@@ -58,6 +58,8 @@ class AdherentController extends AbstractController
                     $i + 1 => $menAdherent
                 ];
 
+
+
 //                $otherAgences = $this->entityManager->getRepository(Agence::class)->findOtherAgence($agences[$i]);
 //
 //                $womenAdherentDroit = [];
@@ -130,6 +132,8 @@ class AdherentController extends AbstractController
                     }
                 }
             }
+
+
         } else {
             $womenAdherent = '';
             $menAdherent = '';
@@ -216,6 +220,27 @@ class AdherentController extends AbstractController
             if($form->isSubmitted() && $form->isValid()){
 
                 $adherent = $form->getData();
+
+                // On vérifie si il n'y a pas de virgule
+                $size = $form->get('size')->getData();
+
+                if(str_contains($size, ',')) {
+                    $size = str_replace(',','.', $size);
+                }
+
+                $adherent->setSize($size);
+
+                // Récupération et changement du format du téléphone
+                $phoneMobile = $form->get('phone_mobile')->getData();
+                $adherent->setPhoneMobile($this->replaceTel($phoneMobile));
+
+                $phoneHome = $form->get('phone_home')->getData();
+                $adherent->setPhoneHome($this->replaceTel($phoneHome));
+
+                $phoneWork = $form->get('phone_work')->getData();
+                $adherent->setPhonework($this->replaceTel($phoneWork));
+
+//                dd($this->replaceTel($phoneHome), $this->replaceTel($phoneWork),$this->replaceTel($phoneMobile));
 
                 // Gestion des fichiers
                 $fileInfo = $form->get('link_information')->getData();
@@ -341,6 +366,23 @@ class AdherentController extends AbstractController
 
             if($form->isSubmitted() && $form->isValid()){
                 $adherent = $form->getData();
+
+                // On vérifie si il n'y a pas de virgule
+                $size = $form->get('size')->getData();
+                if(str_contains($size, ',')) {
+                    $size = str_replace(',','.', $size);
+                }
+                $adherent->setSize($size);
+
+                // Récupération et changement du format du téléphone
+                $phoneMobile = $form->get('phone_mobile')->getData();
+                $adherent->setPhoneMobile($this->replaceTel($phoneMobile));
+
+                $phoneHome = $form->get('phone_home')->getData();
+                $adherent->setPhoneHome($this->replaceTel($phoneHome));
+
+                $phoneWork = $form->get('phone_work')->getData();
+                $adherent->setPhonework($this->replaceTel($phoneWork));
 
                 $adherent->setActive(true);
 
@@ -513,5 +555,14 @@ class AdherentController extends AbstractController
 
         return $response;
 
+    }
+
+
+    private function replaceTel($tel){
+        if(strlen($tel) === 10){
+            return wordwrap($tel, 2 , ' ', 1);
+        }else{
+            return $tel;
+        }
     }
 }

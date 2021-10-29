@@ -15,10 +15,18 @@
         <h1>{{ adherentProfile.firstname }} {{ adherentProfile.lastname }}</h1>
         {% include('modal.html.twig') %}
     {% endif %}
+
     {{ form_start(formAdherent) }}
-        <div class="my-custom-class-for-errors">
-            {{ form_errors(formAdherent) }}
+    {% if not formAdherent.vars.valid %}
+        <div class="alert-form-error">
+            <p>Ces valeurs ne sont pas valide :</p>
+            <ul>
+                {% for erreur in formAdherent.vars.errors %}
+                    <li>{{ erreur.cause.parameters["{{ value }}"] }}</li>
+                {% endfor %}
+            </ul>
         </div>
+    {% endif %}
         <section class='header-adherent'>
             <div>
                 <div class="row-first">
@@ -134,15 +142,7 @@
                     <button class='open-tab' data-tab='tab-meet' type='button'>Rencontres</button>
                 </div>
                 <div class="tab-general tab">
-                    {% if trueAgence is defined %}
-                        {% if trueAgence == true %}
-                            {% include('adherent/part/partTabGeneral.html.twig') %}
-                        {% else %}
-                            <p class="no-true-agence">Vous n'avez accès à cette donnée.</p>
-                        {% endif %}
-                    {% else %}
-                        {% include('adherent/part/partTabGeneral.html.twig') %}
-                    {% endif %}
+                    {% include('adherent/part/partTabGeneral.html.twig') %}
                 </div>
                 <div class="tab-research no-tab tab">
                     {% include('adherent/part/partTabResearch.html.twig') %}

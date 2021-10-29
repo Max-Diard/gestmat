@@ -10,6 +10,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
     const meetDeleteNoAgence = document.querySelectorAll('.meet-delete-no-agence')
     const meetMoreNoAgence = document.querySelectorAll('.meet-more-no-agence')
     const successSendMail = document.querySelector('.alert-success-send-mail')
+    const alertForm = document.querySelector('.alert-form-error')
 
     if(alertNewAdherent){
         Swal.fire({
@@ -88,6 +89,14 @@ window.addEventListener("DOMContentLoaded", (event) => {
             title: 'Email envoyé !',
             text: "Les emails ont bien été envoyé !",
             icon: 'success'
+        })
+    }
+
+    if(alertForm){
+        Swal.fire({
+            title: 'Formulaire non enregistré !',
+            text: 'Une erreur s\'est produit dans le formulaire, merci de vérifier vos informations.',
+            icon: 'info'
         })
     }
 });

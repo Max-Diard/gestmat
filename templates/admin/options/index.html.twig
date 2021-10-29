@@ -86,14 +86,14 @@
                 {% endif %}
             {% endfor %}
         </div>
-        <div class="all-instruction">
-            <h2>Les différents diplômes</h2>
-            {% for option in options %}
-                {% if option.type == 'instruction' %}
-                    <p>{{ option.name }} <a href="{{ path('admin_option_ask_remove', {id : option.id}) }}"><img src="{{asset('build/images/delete.svg')}}" alt="Supprimer"></a></p>
-                {% endif %}
-            {% endfor %}
-        </div>
+{#        <div class="all-instruction">#}
+{#            <h2>Les différents diplômes</h2>#}
+{#            {% for option in options %}#}
+{#                {% if option.type == 'instruction' %}#}
+{#                    <p>{{ option.name }} <a href="{{ path('admin_option_ask_remove', {id : option.id}) }}"><img src="{{asset('build/images/delete.svg')}}" alt="Supprimer"></a></p>#}
+{#                {% endif %}#}
+{#            {% endfor %}#}
+{#        </div>#}
         <div class="all-smoking">
             <h2>Les différents types de fumeur</h2>
             {% for option in options %}

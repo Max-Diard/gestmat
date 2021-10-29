@@ -4,14 +4,29 @@
         {{ form_widget(formAdherent.zodiaque) }}
     </div>
     <br>
-    <div class="col col-adherent-address_street">
-        {{ form_label(formAdherent.address_street) }}
-        {{ form_widget(formAdherent.address_street) }}
-    </div>
-    <div class="col col-adherent-address_street2">
-        {{ form_label(formAdherent.address_street2) }}
-        {{ form_widget(formAdherent.address_street2) }}
-    </div>
+    {% if trueAgence is defined %}
+        {% if trueAgence == true %}
+            <div class="col col-adherent-address_street">
+                {{ form_label(formAdherent.address_street) }}
+                {{ form_widget(formAdherent.address_street) }}
+            </div>
+            <div class="col col-adherent-address_street2">
+                {{ form_label(formAdherent.address_street2) }}
+                {{ form_widget(formAdherent.address_street2) }}
+            </div>
+        {% else %}
+            <p class="no-true-agence">Vous n'avez accès à l'adresse de l'adhérent.</p>
+        {% endif %}
+    {% else %}
+        <div class="col col-adherent-address_street">
+            {{ form_label(formAdherent.address_street) }}
+            {{ form_widget(formAdherent.address_street) }}
+        </div>
+        <div class="col col-adherent-address_street2">
+            {{ form_label(formAdherent.address_street2) }}
+            {{ form_widget(formAdherent.address_street2) }}
+        </div>
+    {% endif %}
     <div class="col col-adherent-address_zip_postal">
         {{ form_label(formAdherent.address_zip_postal) }}
         {{ form_widget(formAdherent.address_zip_postal) }}
@@ -21,26 +36,53 @@
         {{ form_widget(formAdherent.address_town) }}
     </div>
     <br>
-    <div class="col col-adherent-phone_mobile">
-        {{ form_label(formAdherent.phone_mobile) }}
-        {{ form_widget(formAdherent.phone_mobile) }}
-    </div>
-    <div class="col col-adherent-phone_home">
-        {{ form_label(formAdherent.phone_home) }}
-        {{ form_widget(formAdherent.phone_home) }}
-    </div>
-    <div class="col col-adherent-phone_work">
-        {{ form_label(formAdherent.phone_work) }}
-        {{ form_widget(formAdherent.phone_work) }}
-    </div>
-    <div class="col col-adherent-phone_comments">
-        {{ form_label(formAdherent.phone_comments) }}
-        {{ form_widget(formAdherent.phone_comments) }}
-    </div>
-    <div class="col col-adherent-email">
-        {{ form_label(formAdherent.email) }}
-        {{ form_widget(formAdherent.email) }}
-    </div>
+    {% if trueAgence is defined %}
+        {% if trueAgence == true %}
+            <div class="col col-adherent-phone_mobile">
+                {{ form_label(formAdherent.phone_mobile) }}
+                {{ form_widget(formAdherent.phone_mobile) }}
+            </div>
+            <div class="col col-adherent-phone_home">
+                {{ form_label(formAdherent.phone_home) }}
+                {{ form_widget(formAdherent.phone_home) }}
+            </div>
+            <div class="col col-adherent-phone_work">
+                {{ form_label(formAdherent.phone_work) }}
+                {{ form_widget(formAdherent.phone_work) }}
+            </div>
+            <div class="col col-adherent-phone_comments">
+                {{ form_label(formAdherent.phone_comments) }}
+                {{ form_widget(formAdherent.phone_comments) }}
+            </div>
+            <div class="col col-adherent-email">
+                {{ form_label(formAdherent.email) }}
+                {{ form_widget(formAdherent.email) }}
+            </div>
+        {% else %}
+            <p class="no-true-agence">Vous n'avez accès au téléphone et à l'email de l'adhérent.</p>
+        {% endif %}
+    {% else %}
+        <div class="col col-adherent-phone_mobile">
+            {{ form_label(formAdherent.phone_mobile) }}
+            {{ form_widget(formAdherent.phone_mobile) }}
+        </div>
+        <div class="col col-adherent-phone_home">
+            {{ form_label(formAdherent.phone_home) }}
+            {{ form_widget(formAdherent.phone_home) }}
+        </div>
+        <div class="col col-adherent-phone_work">
+            {{ form_label(formAdherent.phone_work) }}
+            {{ form_widget(formAdherent.phone_work) }}
+        </div>
+        <div class="col col-adherent-phone_comments">
+            {{ form_label(formAdherent.phone_comments) }}
+            {{ form_widget(formAdherent.phone_comments) }}
+        </div>
+        <div class="col col-adherent-email">
+            {{ form_label(formAdherent.email) }}
+            {{ form_widget(formAdherent.email) }}
+        </div>
+    {% endif %}
 </div>
 <div class="row-general-second">
     <div class="col col-adherent-instruction">

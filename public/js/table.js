@@ -231,7 +231,7 @@ $(document).ready( function () {
         $(this).html('<input class="search-filter-text" type="text" placeholder="'+title+'" />');
     });
 
-    var tableSearch = $('#table-search').DataTable({
+    $('#table-search').DataTable({
         paging: false,
         "order": [[ 3, "asc" ]],
         "language": {
@@ -277,15 +277,22 @@ $(document).ready( function () {
                     }
                 });
             });
+            var idTrigger = document.querySelector('#selectTriggerSearchInterAgence')
 
             var columnGenre = this.api().column(0);
 
-            var selectGenre = $('<select class="filter"><option value="">Genre</option></select>')
-                .appendTo('#selectTriggerSearchInterAgence')
+            var divSelectGenre = document.createElement('div')
+
+            var selectGenre = $('<select class="filter"><option value="">Tous</option></select>')
+                .appendTo(divSelectGenre)
                 .on('change', function () {
                     var val = $(this).val();
                     columnGenre.search(val).draw()
                 });
+
+            selectGenre.before("<p>Genre :</p>");
+
+            idTrigger.appendChild(divSelectGenre)
 
             var officesGenre = [];
 
@@ -301,12 +308,18 @@ $(document).ready( function () {
 
             var columnTown = this.api().column(4);
 
-            var selectTown = $('<select class="filter"><option value="">Ville</option></select>')
-                .appendTo('#selectTriggerSearchInterAgence')
+            var divSelectTown = document.createElement('div')
+
+            var selectTown = $('<select class="filter"><option value="">Toutes</option></select>')
+                .appendTo(divSelectTown)
                 .on('change', function () {
                     var val = $(this).val();
                     columnTown.search(val).draw()
                 });
+
+            selectTown.before('<p>Ville :</p>')
+
+            idTrigger.appendChild(divSelectTown)
 
             var officesTown = [];
             columnTown.data().toArray().forEach(function (s) {
@@ -321,12 +334,18 @@ $(document).ready( function () {
 
             var columnStatusContract = this.api().column(8);
 
-            var selectStatusContract = $('<select class="filter"><option value="">Statut contrat</option></select>')
-                .appendTo('#selectTriggerSearchInterAgence')
+            var divSelectStatusContract = document.createElement('div')
+
+            var selectStatusContract = $('<select class="filter"><option value="">Tous</option></select>')
+                .appendTo(divSelectStatusContract)
                 .on('change', function () {
                     var val = $(this).val();
                     columnStatusContract.search(val).draw()
                 });
+
+            selectStatusContract.before('<p>Statut contrat : </p>')
+
+            idTrigger.appendChild(divSelectStatusContract)
 
             var officesStatusContract = [];
             columnStatusContract.data().toArray().forEach(function (s) {
@@ -341,12 +360,18 @@ $(document).ready( function () {
 
             var columnPosition = this.api().column(9);
 
-            var selectPosition = $('<select class="filter"><option value="">Position</option></select>')
-                .appendTo('#selectTriggerSearchInterAgence')
+            var divSelectPosition = document.createElement('div')
+
+            var selectPosition = $('<select class="filter"><option value="">Tous</option></select>')
+                .appendTo(divSelectPosition)
                 .on('change', function () {
                     var val = $(this).val();
                     columnPosition.search(val).draw()
                 });
+
+            selectPosition.before('<p>Position :</p>')
+
+            idTrigger.appendChild(divSelectPosition)
 
             var officesPosition = [];
             columnPosition.data().toArray().forEach(function (s) {
@@ -361,12 +386,18 @@ $(document).ready( function () {
 
             var columnAgence = this.api().column(10);
 
-            var selectAgence = $('<select class="filter"><option value="">Agence</option></select>')
-                .appendTo('#selectTriggerSearchInterAgence')
+            var divSelectAgence = document.createElement('div')
+
+            var selectAgence = $('<select class="filter"><option value="">Tous</option></select>')
+                .appendTo(divSelectAgence)
                 .on('change', function () {
                     var val = $(this).val();
                     columnAgence.search(val).draw()
                 });
+
+            selectAgence.before('<p>Agence :</p>')
+
+            idTrigger.appendChild(divSelectAgence)
 
             var officesAgence = [];
             columnAgence.data().toArray().forEach(function (s) {

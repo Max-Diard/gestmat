@@ -54,6 +54,9 @@ class AdherentType extends AbstractType
             ->add('phone_mobile', TelType::class, [
                 'label' => 'N° tél. portable',
                 'attr' => [
+                    'type' => 'number',
+                    'pattern' => '^0[0-9]([-. ]?\d{2}){4}[-. ]?$',
+                    'title' => '09 09 09 09 09 ou 0909090909',
                     'class' => 'phone_form'
                 ]
             ])
@@ -61,6 +64,9 @@ class AdherentType extends AbstractType
                 'label' => 'N° tél. fixe',
                 'required' => false,
                 'attr' => [
+                    'type' => 'number',
+                    'pattern' => '^0[0-9]([-. ]?\d{2}){4}[-. ]?$',
+                    'title' => '09 09 09 09 09 ou 0909090909',
                     'class' => 'phone_form'
                 ]
             ])
@@ -68,6 +74,9 @@ class AdherentType extends AbstractType
                 'label' => 'N° tél. travail',
                 'required' => false,
                 'attr' => [
+                    'type' => 'number',
+                    'pattern' => '^0[0-9]([-. ]?\d{2}){4}[-. ]?$',
+                    'title' => '09 09 09 09 09 ou 0909090909',
                     'class' => 'phone_form'
                 ]
             ])
@@ -78,8 +87,11 @@ class AdherentType extends AbstractType
             ->add('profession', TextType::class, [
                 'label' => 'Profession'
             ])
-            ->add('size', NumberType::class, [
-                'label' => 'Taille'
+            ->add('size', TextType::class, [
+                'label' => 'Taille',
+                'attr'=> [
+                    'step'=> ".01"
+                ]
             ])
             ->add('weight', NumberType::class, [
                 'label' => 'Poids'
@@ -143,7 +155,10 @@ class AdherentType extends AbstractType
             ->add('link_picture', FileType::class, [
                 'label' => 'Photo',
                 'required' => false,
-                'data_class' => null
+                'data_class' => null,
+                'attr' => [
+                    'accept' => ".png,.jpg,.jpeg"
+                ]
             ])
             ->add('link_contract', FileType::class, [
                 'label' => 'Contrat',
@@ -158,7 +173,10 @@ class AdherentType extends AbstractType
             ->add('link_picture_announcement', FileType::class, [
                 'label' => 'Photo Annonce',
                 'required' => false,
-                'data_class' => null
+                'data_class' => null,
+                'attr' => [
+                    'accept' => ".png,.jpg,.jpeg"
+                ]
             ])
             ->add('address_street', TextType::class, [
                 'label' => 'Adresse'
@@ -212,14 +230,18 @@ class AdherentType extends AbstractType
                     'Non' => false
                 ]
             ])
-            ->add('search_instruction', EntityType::class, [
-                'class' => AdherentOption::class,
-                'label' => 'Diplôme',
-                'query_builder' => function (EntityRepository $repository){
-                    return $repository->createQueryBuilder('s')
-                        ->andWhere('s.type = :val')
-                        ->setParameter('val', 'instruction');
-                },
+//            ->add('search_instruction', EntityType::class, [
+//                'class' => AdherentOption::class,
+//                'label' => 'Diplôme',
+//                'query_builder' => function (EntityRepository $repository){
+//                    return $repository->createQueryBuilder('s')
+//                        ->andWhere('s.type = :val')
+//                        ->setParameter('val', 'instruction');
+//                },
+//            ])
+            ->add('search_instruction', TextType::class, [
+                'label' => "Niveau d'étude",
+                'required' => false
             ])
             ->add('search_profession', TextType::class, [
                 'label' => 'Profession',
@@ -261,14 +283,17 @@ class AdherentType extends AbstractType
                         ->setParameter('val', 'status_meet');
                 },
             ])
-            ->add('instruction', EntityType::class, [
-                'class' => AdherentOption::class,
-                'label' => 'Diplôme',
-                'query_builder' => function (EntityRepository $repository){
-                    return $repository->createQueryBuilder('s')
-                        ->andWhere('s.type = :val')
-                        ->setParameter('val', 'instruction');
-                },
+//            ->add('instruction', EntityType::class, [
+//                'class' => AdherentOption::class,
+//                'label' => 'Diplôme',
+//                'query_builder' => function (EntityRepository $repository){
+//                    return $repository->createQueryBuilder('s')
+//                        ->andWhere('s.type = :val')
+//                        ->setParameter('val', 'instruction');
+//                },
+//            ])
+            ->add('instruction', TextType::class, [
+                'label' => 'Niveau d\'étude'
             ])
             ->add('lodging', EntityType::class, [
                 'class' => AdherentOption::class,
@@ -303,6 +328,7 @@ class AdherentType extends AbstractType
                 'query_builder' => function (EntityRepository $repository){
                     return $repository->createQueryBuilder('s')
                         ->andWhere('s.type = :val')
+                        ->orderBy('s.id' , 'desc')
                         ->setParameter('val', 'zodiaque');
                 },
             ])

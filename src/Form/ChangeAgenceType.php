@@ -30,7 +30,10 @@ class ChangeAgenceType extends AbstractType
             ->add('link_picture', FileType::class, [
                 'label' => 'Lien de votre image',
                 'required' => false,
-                'data_class' => null
+                'data_class' => null,
+                'attr' => [
+                    'accept' => ".png,.jpg,.jpeg"
+                ]
             ])
             ->add('address_street', TextType::class, [
                 'label' => 'Adresse'

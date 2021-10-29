@@ -31,7 +31,7 @@ class OptionsType extends AbstractType
                     'Type de fumeur'                    => 'smoking',
                     'Type de cheveux'                   => 'hair',
                     'Type d\'yeux'                      => 'eyes',
-                    'Type de diplôme'                   => 'instruction',
+//                    'Type de diplôme'                   => 'instruction',
                     'Sexe'                              => 'genre',
                     'Type de paiement'                  => 'type_payment',
                     'Préférence de contact'             => 'preference_contact',

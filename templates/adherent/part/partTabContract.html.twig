@@ -16,6 +16,7 @@
     <br>
     <div class="">
         <div class="col col-adherent-contract_amount">
+            {% set q = (formAdherent.contract_amount.vars.value) | number_format(2, ',', ' ') %}
             {{ form_label(formAdherent.contract_amount) }}
             {{ form_widget(formAdherent.contract_amount) }}
         </div>

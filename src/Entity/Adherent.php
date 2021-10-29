@@ -261,7 +261,7 @@ class Adherent implements Serializable
     private $status_meet;
 
     /**
-     * @ORM\ManyToOne(targetEntity=AdherentOption::class, inversedBy="instruction")
+     * @ORM\Column(type="string", length=255)
      */
     private $instruction;
 
@@ -302,7 +302,7 @@ class Adherent implements Serializable
     private $preference_contact;
 
     /**
-     * @ORM\ManyToOne(targetEntity=AdherentOption::class, inversedBy="search_instruction")
+     * @ORM\Column(type="string", length=255, nullable=false)
      */
     private $search_instruction;
 
@@ -931,12 +931,12 @@ class Adherent implements Serializable
         return $this;
     }
 
-    public function getInstruction(): ?AdherentOption
+    public function getInstruction(): ?string
     {
         return $this->instruction;
     }
 
-    public function setInstruction(?AdherentOption $instruction): self
+    public function setInstruction(?string $instruction): self
     {
         $this->instruction = $instruction;
 
@@ -1027,12 +1027,12 @@ class Adherent implements Serializable
         return $this;
     }
 
-    public function getSearchInstruction(): ?AdherentOption
+    public function getSearchInstruction(): ?string
     {
         return $this->search_instruction;
     }
 
-    public function setSearchInstruction(?AdherentOption $search_instruction): self
+    public function setSearchInstruction(?string $search_instruction): self
     {
         $this->search_instruction = $search_instruction;
 

@@ -42,7 +42,10 @@ class AgenceType extends AbstractType
                 'format' => 'dd-MM-yyyy',
             ])
             ->add('link_picture', FileType::class, [
-                'label' => 'Lien de votre image'
+                'label' => 'Lien de votre image',
+                'attr' => [
+                    'accept' => ".png,.jpg,.jpeg"
+                ]
             ])
             ->add('address_street', TextType::class, [
                 'label' => 'Adresse'
