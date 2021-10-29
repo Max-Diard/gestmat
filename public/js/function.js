@@ -666,3 +666,8 @@ function adherentInAgence (sexe, recupAdherent) {
         }
     }
 }
+
+// Function pour changer le format du téléphone
+function changeFormatTel(tel){
+    return tel.replace(/(\d\d(?!$))/g,"$1 ");
+}

@@ -41,6 +41,7 @@ $(document).ready( function () {
     $('#table-women').DataTable({
         paging: false,
         info: false,
+        "order": [[ 2, "asc" ]],
         "scrollX": false,
         "scrollY": "373px",
         "scrollCollapse": true,
@@ -133,6 +134,7 @@ $(document).ready( function () {
     $('#table-men').DataTable({
         paging: false,
         info: false,
+        "order": [[ 2, "asc" ]],
         "scrollX":        false,
         "scrollY":        "373px",
         "scrollCollapse": true,
@@ -231,6 +233,7 @@ $(document).ready( function () {
 
     var tableSearch = $('#table-search').DataTable({
         paging: false,
+        "order": [[ 3, "asc" ]],
         "language": {
             "emptyTable": "Pas encore de donées dans ce tableau"
         },
@@ -257,6 +260,7 @@ $(document).ready( function () {
 
     var tableSearchInterAgence = $('#table-search-inter-agence').DataTable({
         paging: false,
+        "order": [[ 3, "asc" ]],
         "language": {
             "emptyTable": "Pas encore de donées dans ce tableau"
         },
@@ -391,6 +395,7 @@ $(document).ready( function () {
         paging: false,
         info: false,
         searching: true,
+        "order": [[ 2, "asc" ]],
         "oLanguage": {
             "sSearch": "Votre recherche"
         },

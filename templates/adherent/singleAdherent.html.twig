@@ -32,13 +32,13 @@
                             {% endif %}
                         </div>
                     </div>
-                    <div class="col col-adherent-firstname">
-                        {{ form_label(formAdherent.firstname) }}
-                        {{ form_widget(formAdherent.firstname) }}
-                    </div>
                     <div class="col col-adherent-lastname">
                         {{ form_label(formAdherent.lastname) }}
                         {{ form_widget(formAdherent.lastname) }}
+                    </div>
+                    <div class="col col-adherent-firstname">
+                        {{ form_label(formAdherent.firstname) }}
+                        {{ form_widget(formAdherent.firstname) }}
                     </div>
                 </div>
                 <div class="row-second">
@@ -195,6 +195,8 @@
                 {{ form_end(formAdherent) }}
             {% endif %}
         {% else %}
+{#            {{ form_row(formAdherent.submit) }}#}
+
             {{ form_end(formAdherent) }}
         {% endif %}
     </div>

@@ -73,40 +73,4 @@ window.addEventListener("DOMContentLoaded", (event) => {
         })
     }
 
-//Pour la page single Adhérents
-    const meetMoreButton = document.querySelectorAll('.meet-more');
-    const meetDeleteButton = document.querySelectorAll('.meet-delete');
-
-    if (meetMoreButton) {
-        [].forEach.call(meetMoreButton, function (elem) {
-            elem.addEventListener('click', function (ev) {
-                ev.preventDefault()
-                informationMeet(elem.getAttribute('data-id'))
-            })
-        })
-    }
-
-    if (meetDeleteButton) {
-        [].forEach.call(meetDeleteButton, function (elem) {
-            elem.addEventListener('click', function (ev) {
-                ev.preventDefault()
-                Swal.fire({
-                    title: 'Vous voulez vraiment supprimer cette rencontre ?',
-                    showDenyButton: true,
-                    showCancelText: 'Non',
-                    confirmButtonText: 'Oui',
-                    confirmButtonOnClick: '#',
-                    denyButtonText: `Non`,
-                    icon: 'question'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        removeMeet(elem.getAttribute('data-id'))
-
-                    } else if (result.isDenied) {
-                        Swal.fire("La rencontre n'a pas été supprimée !", '', 'info')
-                    }
-                })
-            })
-        })
-    }
 })

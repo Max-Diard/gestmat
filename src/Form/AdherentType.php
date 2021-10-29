@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Adherent;
 use Doctrine\ORM\EntityRepository;
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -11,8 +12,6 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use App\Entity\AdherentOption;
 use App\Entity\Agence;
-use App\Entity\User;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -21,8 +20,7 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
-use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+
 
 class AdherentType extends AbstractType
 {
@@ -54,15 +52,24 @@ class AdherentType extends AbstractType
                 'required' => false
             ])
             ->add('phone_mobile', TelType::class, [
-                'label' => 'N° tél. portable'
+                'label' => 'N° tél. portable',
+                'attr' => [
+                    'class' => 'phone_form'
+                ]
             ])
             ->add('phone_home', TelType::class, [
                 'label' => 'N° tél. fixe',
-                'required' => false
+                'required' => false,
+                'attr' => [
+                    'class' => 'phone_form'
+                ]
             ])
             ->add('phone_work', TelType::class, [
                 'label' => 'N° tél. travail',
-                'required' => false
+                'required' => false,
+                'attr' => [
+                    'class' => 'phone_form'
+                ]
             ])
             ->add('phone_comments', TextType::class, [
                 'label' => 'Commentaires tél.',
@@ -98,18 +105,12 @@ class AdherentType extends AbstractType
                     'Non' => false
                 ]
             ])
-            ->add('announcement_presentation', TextareaType::class, [
-                'label' => 'Annonce Présentation',
-                'attr' => [
-                    'class' => 'ckeditor'
-                ]
+            ->add('announcement_presentation', CKEditorType::class, [
+                'label' => 'Annonce Fiche Présentation',
             ])
-            ->add('announcement_free', TextareaType::class, [
-                'label' => 'Annonce Présentation Gratuite',
+            ->add('announcement_free', CKEditorType::class, [
+                'label' => 'Annonce Site',
                 'required' => false,
-                'attr' => [
-                    'class' => 'ckeditor'
-                ]
             ])
             ->add('announcement_date_free', DateType::class, [
                 'label' => 'Date d\'annonce gratuite',
@@ -117,12 +118,9 @@ class AdherentType extends AbstractType
                 'format' => 'dd-MM-yyyy',
                 'years'=> range(date('Y') -10 , date('Y') + 50)
             ])
-            ->add('announcement_newspaper', TextareaType::class, [
-                'label' => 'Annonce Présentation Journal',
+            ->add('announcement_newspaper', CKEditorType::class, [
+                'label' => 'Annonce Journal',
                 'required' => false,
-                'attr' => [
-                    'class' => 'ckeditor'
-                ]
             ])
             ->add('announcement_date_newspaper', DateType::class, [
                 'label' => 'Date d\'annonce journal',
@@ -143,22 +141,22 @@ class AdherentType extends AbstractType
                 'label' => 'Email'
             ])
             ->add('link_picture', FileType::class, [
-                'label' => 'Lien photo de l\'adhérent(e)',
+                'label' => 'Photo',
                 'required' => false,
                 'data_class' => null
             ])
             ->add('link_contract', FileType::class, [
-                'label' => 'Lien contrat de l\'adhérent(e)',
+                'label' => 'Contrat',
                 'required' => false,
                 'data_class' => null
             ])
             ->add('link_information', FileType::class, [
-                'label' => 'Lien information de l\'adhérent(e)',
+                'label' => 'Fiche Renseignements',
                 'required' => false,
                 'data_class' => null
             ])
             ->add('link_picture_announcement', FileType::class, [
-                'label' => 'Lien photo annonce de l\'adhérent(e)',
+                'label' => 'Photo Annonce',
                 'required' => false,
                 'data_class' => null
             ])
@@ -231,7 +229,7 @@ class AdherentType extends AbstractType
                 'label' => 'Région',
                 'required' => false
             ])
-            ->add('search_more', TextAreaType::class, [
+            ->add('search_more', TextareaType::class, [
                 'label' => 'Autre',
                 'required' => false
             ])
@@ -351,14 +349,15 @@ class AdherentType extends AbstractType
                 'format' => 'dd-MM-yyyy'
             ])
             ->add('contract_amount', NumberType::class, [
-                'label' => 'Montant TTC'
+                'label' => 'Montant TTC',
+                'error_bubbling' => true,
+                'attr' => [
+                    'class' => 'amount_form'
+                ]
             ])
-            ->add('contract_comments', TextareaType::class, [
+            ->add('contract_comments', CKEditorType::class, [
                 'label' => 'Commentaires',
                 'required' => false,
-                'attr' => [
-                    'class' => 'ckeditor'
-                ]
             ])
             ->add('type_payment', EntityType::class, [
                 'class' => AdherentOption::class,

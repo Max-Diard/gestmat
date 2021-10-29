@@ -14,7 +14,7 @@
         {{ form_widget(formAdherent.contract_endingAt) }}
     </div>
     <br>
-    <div class="row-contract-second">
+    <div class="">
         <div class="col col-adherent-contract_amount">
             {{ form_label(formAdherent.contract_amount) }}
             {{ form_widget(formAdherent.contract_amount) }}
@@ -24,11 +24,10 @@
             {{ form_widget(formAdherent.type_payment) }}
         </div>
     </div>
-    <br>
-    <div class="row-contract-third">
-        <div class="col col-adherent-contract_comments">
-            {{ form_label(formAdherent.contract_comments) }}
-            {{ form_widget(formAdherent.contract_comments) }}
-        </div>
+</div>
+<div class="row-contract-second">
+    <div class="col col-adherent-contract_comments">
+        {{ form_label(formAdherent.contract_comments) }}
+        {{ form_widget(formAdherent.contract_comments) }}
     </div>
 </div>

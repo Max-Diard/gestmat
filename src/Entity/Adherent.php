@@ -369,6 +369,9 @@ class Adherent implements Serializable
     {
         $this->adherent_woman = new ArrayCollection();
         $this->adherent_man = new ArrayCollection();
+        $this->contract_date = new \DateTime();
+        $this->contract_startedAt = new \DateTime('now + 6 days');
+        $this->contract_endingAt = new \DateTime('now + 1 year');
     }
 
     public function getId(): ?int
