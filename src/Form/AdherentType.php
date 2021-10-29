@@ -241,7 +241,7 @@ class AdherentType extends AbstractType
 //            ])
             ->add('search_instruction', TextType::class, [
                 'label' => "Niveau d'étude",
-                'required' => false
+                'required' => true
             ])
             ->add('search_profession', TextType::class, [
                 'label' => 'Profession',
