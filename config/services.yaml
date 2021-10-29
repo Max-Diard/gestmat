@@ -8,6 +8,8 @@ parameters:
     agence_directory: '%kernel.project_dir%/public/uploads/agence/'
     meet_directory: '%kernel.project_dir%/public/meet/'
     testimony_directory : '%kernel.project_dir%/public/testimony/'
+    router.request_context.scheme: 'https'
+    asset.request_context.secure: true
 
 services:
     # default configuration for services in *this* file
