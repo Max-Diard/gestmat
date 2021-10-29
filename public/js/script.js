@@ -1,4 +1,5 @@
-const routeUrl = document.querySelector('header').getAttribute('data-url');
+// const routeUrl = document.querySelector('header').getAttribute('data-url');
+const routeUrl = 'https://lovexpert.3gk.ovh'
 
 // Pour créer le bouton de rencontre
 let loadingMen = false

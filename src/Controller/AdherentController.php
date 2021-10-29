@@ -488,7 +488,7 @@ class AdherentController extends AbstractController
 
         $agence = $this->entityManager->getRepository(Agence::class)->findBy(['id' => $adherent->getAgence()]);
 
-        $image = $request->getSchemeAndHttpHost() . 'uploads/agence/agence' . $agence[0]->getId() . '/picture/'. $agence[0]->getLinkPicture();
+        $image = 'uploads/agence/agence' . $agence[0]->getId() . '/picture/'. $agence[0]->getLinkPicture();
 
         $html = $this->renderView('file/pdfTestimony.html.twig', [
             'adherent' => $adherent,
