@@ -22,7 +22,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
                 denyButtonText: `Non`,
             }).then((result) => {
                 if (result.isConfirmed) {
-                    window.open(routeUrl + '/meet/send/paper', '_blank');
+                    window.open('/meet/send/paper', '_blank');
                 }
             })
         })
@@ -46,7 +46,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
                 denyButtonText: `Non`,
             }).then((result) => {
                 if (result.isConfirmed) {
-                    window.location = routeUrl + '/meet/send/email';
+                    window.location = '/meet/send/email';
                 }
             })
         })

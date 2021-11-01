@@ -29,15 +29,27 @@ class AdherentType extends AbstractType
         $agences = $options['agences'];
         $builder
             ->add('firstname', TextType::class, [
-                'label' => 'Prénom'
+                'label' => 'Prénom',
+                'required' => true,
+                'attr' => [
+                    'name_input' => 'Prénom'
+                ]
             ])
             ->add('lastname', TextType::class, [
-                'label' => 'Nom'
+                'label' => 'Nom',
+                'required' => true,
+                'attr' => [
+                    'name_input' => 'Nom'
+                ]
             ])
             ->add('birthdate', DateType::class, [
                 'label' => 'Date de naissance',
                 'years'=> range(date('Y'), date('Y') - 100),
-                'format' => 'dd-MM-yyyy'
+                'format' => 'dd-MM-yyyy',
+                'required' => true,
+                'attr' => [
+                    'name_input' => 'Date de naissance'
+                ]
             ])
             ->add('comments1', TextareaType::class, [
                 'label' => 'Commentaires',
@@ -53,11 +65,13 @@ class AdherentType extends AbstractType
             ])
             ->add('phone_mobile', TelType::class, [
                 'label' => 'N° tél. portable',
+                'required' => true,
                 'attr' => [
                     'type' => 'number',
                     'pattern' => '^0[0-9]([-. ]?\d{2}){4}[-. ]?$',
                     'title' => '09 09 09 09 09 ou 0909090909',
-                    'class' => 'phone_form'
+                    'class' => 'phone_form',
+                    'name_input' => 'N° tél. portable'
                 ]
             ])
             ->add('phone_home', TelType::class, [
@@ -85,16 +99,25 @@ class AdherentType extends AbstractType
                 'required' => false
             ])
             ->add('profession', TextType::class, [
-                'label' => 'Profession'
+                'label' => 'Profession',
+                'required' => true,
+                'attr' => [
+                    'name_input' => 'Profession'
+                ]
             ])
             ->add('size', TextType::class, [
                 'label' => 'Taille',
+                'required' => true,
                 'attr'=> [
-                    'step'=> ".01"
+                    'name_input' => 'Taille'
                 ]
             ])
             ->add('weight', NumberType::class, [
-                'label' => 'Poids'
+                'label' => 'Poids',
+                'required' => true,
+                'attr' => [
+                    'name_input' => 'Poids'
+                ]
             ])
             ->add('permis', ChoiceType::class, [
                 'label' => 'Permis', 
@@ -119,6 +142,10 @@ class AdherentType extends AbstractType
             ])
             ->add('announcement_presentation', CKEditorType::class, [
                 'label' => 'Annonce Fiche Présentation',
+                'required' => true,
+                'attr' => [
+                    'name_input' => 'Annonce Fiche Présentation'
+                ]
             ])
             ->add('announcement_free', CKEditorType::class, [
                 'label' => 'Annonce Site',
@@ -147,10 +174,14 @@ class AdherentType extends AbstractType
                     return $repository->createQueryBuilder('s')
                         ->andWhere('s.type = :val')
                         ->setParameter('val', 'owner');
-                },
+                }
             ])
             ->add('email', EmailType::class, [
-                'label' => 'Email'
+                'label' => 'Email',
+                'required' => true,
+                'attr' => [
+                    'name_input' => 'Email'
+                ]
             ])
             ->add('link_picture', FileType::class, [
                 'label' => 'Photo',
@@ -179,35 +210,71 @@ class AdherentType extends AbstractType
                 ]
             ])
             ->add('address_street', TextType::class, [
-                'label' => 'Adresse'
+                'label' => 'Adresse',
+                'required' => true,
+                'attr' => [
+                    'name_input' => 'Adresse'
+                ]
             ])
             ->add('address_street2', TextType::class, [
                 'label' => 'Adresse 2',
                 'required' => false
             ])
             ->add('address_zip_postal', NumberType::class ,[
-                'label' => 'Code postal'
+                'label' => 'Code postal',
+                'required' => true,
+                'attr' => [
+                    'name_input' => 'Code Postal'
+                ]
             ])
             ->add('address_town', TextType::class, [
-                'label' => 'Ville'
+                'label' => 'Ville',
+                'required' => true,
+                'attr' => [
+                    'name_input' => 'Ville'
+                ]
             ])
             ->add('child_girl', NumberType::class, [
-                'label' => 'Fille'
+                'label' => 'Fille',
+                'required' => true,
+                'attr' => [
+                    'name_input' => 'Fille'
+                ]
             ])
             ->add('child_boy', NumberType::class, [
-                'label' => 'Garçon'
+                'label' => 'Garçon',
+                'required' => true,
+                'attr' => [
+                    'name_input' => 'Garçon'
+                ]
             ])
             ->add('child_dependent_girl', NumberType::class, [
-                'label' => 'Fille à charge'
+                'label' => 'Fille à charge',
+                'required' => true,
+                'attr' => [
+                    'name_input' => 'Fille à charge'
+                ]
             ])
             ->add('child_dependent_boy', NumberType::class, [
-                'label' => 'Garçon à charge'
+                'label' => 'Garçon à charge',
+                'required' => true,
+                'attr' => [
+                    'name_input' => 'Garçon à charge'
+                ]
             ])
             ->add('search_age_min', NumberType::class, [
-                'label' => 'Âge minimum'
+                'label' => 'Âge minimum',
+                'required' => true,
+                'attr' => [
+                    'name_input' => 'Âge minimum'
+                ]
             ])
             ->add('search_age_max', NumberType::class, [
-                'label' => 'Âge maximum'
+                'label' => 'Âge maximum',
+                'required' => true,
+                'attr' => [
+                    'name_input' => 'Âge maximum'
+                ]
             ])
             ->add('search_single', ChoiceType::class, [
                 'label' => 'Recherche célibataire', 
@@ -230,18 +297,12 @@ class AdherentType extends AbstractType
                     'Non' => false
                 ]
             ])
-//            ->add('search_instruction', EntityType::class, [
-//                'class' => AdherentOption::class,
-//                'label' => 'Diplôme',
-//                'query_builder' => function (EntityRepository $repository){
-//                    return $repository->createQueryBuilder('s')
-//                        ->andWhere('s.type = :val')
-//                        ->setParameter('val', 'instruction');
-//                },
-//            ])
             ->add('search_instruction', TextType::class, [
                 'label' => "Niveau d'étude",
-                'required' => true
+                'required' => true,
+                'attr' => [
+                    'name_input' => 'Recherche Niveau d\'étude'
+                ]
             ])
             ->add('search_profession', TextType::class, [
                 'label' => 'Profession',
@@ -263,7 +324,11 @@ class AdherentType extends AbstractType
                 ]
             ])
             ->add('search_number_accept_children', NumberType::class, [
-                'label' => 'Nombre d\'enfants acceptés'
+                'label' => 'Nombre d\'enfants acceptés',
+                'required' => true,
+                'attr' => [
+                    'name_input' => 'Nombre d\'enfants acceptés'
+                ]
             ])
             ->add('status_matrimoniale', EntityType::class, [
                 'class' => AdherentOption::class,
@@ -283,17 +348,12 @@ class AdherentType extends AbstractType
                         ->setParameter('val', 'status_meet');
                 },
             ])
-//            ->add('instruction', EntityType::class, [
-//                'class' => AdherentOption::class,
-//                'label' => 'Diplôme',
-//                'query_builder' => function (EntityRepository $repository){
-//                    return $repository->createQueryBuilder('s')
-//                        ->andWhere('s.type = :val')
-//                        ->setParameter('val', 'instruction');
-//                },
-//            ])
             ->add('instruction', TextType::class, [
-                'label' => 'Niveau d\'étude'
+                'label' => 'Niveau d\'étude',
+                'required' => true,
+                'attr' => [
+                    'name_input' => 'Niveau d\'étude'
+                ]
             ])
             ->add('lodging', EntityType::class, [
                 'class' => AdherentOption::class,
@@ -377,7 +437,9 @@ class AdherentType extends AbstractType
             ->add('contract_amount', NumberType::class, [
                 'label' => 'Montant TTC',
                 'error_bubbling' => true,
+                'required' => true,
                 'attr' => [
+                    'name_input' => 'Montant TTC',
                     'class' => 'amount_form'
                 ]
             ])

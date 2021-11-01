@@ -16,33 +16,32 @@ window.addEventListener("DOMContentLoaded", (event) => {
         })
     }
 
-// Pour changer le format de téléphone à l'affichage
-//     const phoneForm = document.querySelectorAll('.phone_form')
-//
-//     if(phoneForm){
-//         [].forEach.call(phoneForm, function (elem) {
-//             if(elem.value){
-//                 if(elem.value.length === 10){
-//                     elem.value = changeFormatTel(elem.value)
-//                 }
-//             }
-//         })
-//     }
+// Pour créer une erreur si un champ required est pas remplie
+    const buttonSendForm = document.querySelector('#adherent_submit')
 
-// Pour changer le format du prix
-//     const amountForm = document.querySelector('.amount_form')
-//
-//     if(amountForm){
-//         amountForm.value = changeAmount(amountForm.value)
-//         console.log(amountForm.value)
-//     }
-//     function changeAmount(prix){
-//         let number = prix.length
-//         if(number > 3){
-//             return new Intl.NumberFormat().format(prix)
-//         }
-//     }
+    if(buttonSendForm){
+        buttonSendForm.addEventListener('click', (ev) => {
+                        const test = [];
+            [].forEach.call(document.querySelectorAll('input'), function(elem){
+                if(elem.getAttribute('required')){
+                    if(elem.value === ''){
+                        ev.preventDefault()
+                        test.push(elem.getAttribute('name_input'))
+                        let addHtml = ''
+                        for (let i = 0; i < test.length; i++){
+                            addHtml += '<li>' + test[i] + '</li>'
+                        }
 
+                        Swal.fire({
+                            title: 'Il manque des informations',
+                            html: 'Il manque des informations pour: <ul>' + addHtml + '</ul>',
+                            icon: 'info'
+                        })
+                    }
+                }
+            })
+        })
+    }
 //Pour le button meet de la page single Adhérents
     const meetMoreButton = document.querySelectorAll('.meet-more');
     const meetDeleteButton = document.querySelectorAll('.meet-delete');
