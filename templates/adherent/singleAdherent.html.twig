@@ -111,10 +111,10 @@
                 {% if adherentProfile.linkPicture != '' %}
                     <img class="image-adherent" src='{{ asset('uploads/adherent/adherent'~ adherentProfile.id ~'/picture/'~ adherentProfile.linkPicture) }}' alt="Image de l'adhérent"/>
                 {% else %}
-                    <img class="image-adherent" src='{{ asset('build/images/avatar.svg') }}' alt="Image de l'adhérent"/>
+                    <img class="image-adherent" src='{{ asset('build/images/avatar.jpg') }}' alt="Image de l'adhérent"/>
                 {% endif %}
             {% else %}
-                <img class="image-adherent" src='{{ asset('build/images/avatar.svg') }}' alt="Image de l'adhérent"/>
+                <img class="image-adherent" src='{{ asset('build/images/avatar.jpg') }}' alt="Image de l'adhérent"/>
             {% endif %}
             <div class='container-comments'>
                 <div class="col col-adherent-comments1">
