@@ -206,9 +206,9 @@ class MeetController extends AbstractController
 
         $agence = $adherent->getAgence()->getLinkPicture();
 
-//        $image = $request->getSchemeAndHttpHost() . '/uploads/agence/agence' . $adherent->getAgence()->getId() . '/picture/'. $agence;
+        $image = $request->getSchemeAndHttpHost() . '/uploads/agence/agence' . $adherent->getAgence()->getId() . '/picture/'. $agence;
 
-        $image = 'https://lovexpert.3gk.ovh/uploads/agence/agence' . $adherent->getAgence()->getId() . '/picture/'. $agence;
+//        $image = 'https://lovexpert.3gk.ovh/uploads/agence/agence' . $adherent->getAgence()->getId() . '/picture/'. $agence;
 
         $html = $this->renderView('file/pdfView.html.twig', [
             'adherent' => $adherent,
@@ -515,9 +515,9 @@ class MeetController extends AbstractController
 
             $agence = $adherentSend->getAgence()->getLinkPicture();
 
-//            $image = $request->getSchemeAndHttpHost() . '/uploads/agence/agence' . $adherentSend->getAgence()->getId() . '/picture/'. $agence;
+            $image = $request->getSchemeAndHttpHost() . '/uploads/agence/agence' . $adherentSend->getAgence()->getId() . '/picture/'. $agence;
 
-            $image = 'https://lovexpert.3gk.ovh/uploads/agence/agence' . $adherentSend->getAgence()->getId() . '/picture/'. $agence;
+//            $image = 'https://lovexpert.3gk.ovh/uploads/agence/agence' . $adherentSend->getAgence()->getId() . '/picture/'. $agence;
 
             $html .= $this->renderView('file/pdfView.html.twig', [
                 'adherent' => $adherentSend,
@@ -540,8 +540,8 @@ class MeetController extends AbstractController
 
         $agence = $adherent->getAgence()->getLinkPicture();
 
-//        $image = $request->getSchemeAndHttpHost() . '/uploads/agence/agence' . $adherent->getAgence()->getId() . '/picture/'. $agence;
-        $image = 'https://lovexpert.3gk.ovh/uploads/agence/agence' . $adherent->getAgence()->getId() . '/picture/'. $agence;
+        $image = $request->getSchemeAndHttpHost() . '/uploads/agence/agence' . $adherent->getAgence()->getId() . '/picture/'. $agence;
+//        $image = 'https://lovexpert.3gk.ovh/uploads/agence/agence' . $adherent->getAgence()->getId() . '/picture/'. $agence;
 
         $html .= $this->renderView('file/pdfView.html.twig', [
             'adherent' => $adherent,
