@@ -102,7 +102,7 @@ class AgenceController extends AbstractController
             $agence = $form->getData();
 
             $picture = $form->get('link_picture')->getData();
-            // Si une image est envoyé alors on ajoute l'information en BDD
+            // Si une image est envoyée alors on ajoute l'information en BDD
             if($picture){
                 if ($linkPic){
                     unlink($this->getParameter('agence_directory') . 'agence' . $agence->getId() . '/picture/' . $linkPic);
