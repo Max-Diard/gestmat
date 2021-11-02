@@ -214,7 +214,8 @@ class MeetController extends AbstractController
             'adherent' => $adherent,
             'meet' => $meet,
             'date' => $date,
-            'image' => $image
+            'image' => $image,
+            'idMeet' => $meet->getId()
         ]);
 
         $dompdf->loadHtml($html);
@@ -291,7 +292,6 @@ class MeetController extends AbstractController
             $dateIncrement = date_diff($dateImmuStart, $dateImmuEnd)->days;
 
             if(count($agenceUser) > 0){
-//                    dd($dateIncrement);
                 for($i = -1; $i < $dateIncrement; $i++){
                     $meets[] = $this->entityManager->getRepository(Meet::class)->findBy(['startedAt' => $dateImmuStart]);
 
@@ -523,7 +523,8 @@ class MeetController extends AbstractController
                 'adherent' => $adherentSend,
                 'meet' => $genre,
                 'date' => $date,
-                'image' => $image
+                'image' => $image,
+                'idMeet' => $meet->getId()
             ]);
         }
         return $html;
@@ -547,7 +548,8 @@ class MeetController extends AbstractController
             'adherent' => $adherent,
             'meet' => $genre,
             'date' => $date,
-            'image' => $image
+            'image' => $image,
+            'idMeet' => $meet->getId()
         ]);
 
         return $html;
