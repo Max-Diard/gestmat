@@ -28,7 +28,7 @@ class UserController extends AbstractController
 
     //Page pour voir son profil
     #[
-        Route('/profile', name: 'profile'),
+        Route('/profil', name: 'profil_user'),
         IsGranted('ROLE_USER')
     ]
     public function index(): Response

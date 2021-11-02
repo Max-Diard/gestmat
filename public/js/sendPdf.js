@@ -46,6 +46,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
                 denyButtonText: `Non`,
             }).then((result) => {
                 if (result.isConfirmed) {
+                    launchingLoader(true)
                     window.location = '/meet/send/email';
                 }
             })

@@ -16,24 +16,50 @@ window.addEventListener("DOMContentLoaded", (event) => {
         })
     }
 
+// Pour voir le fichier envoyé dans l'input
+    const allInputDocument = document.querySelectorAll('.tab-documents input')
+
+    if(allInputDocument){
+        [].forEach.call(allInputDocument, function(elem) {
+            elem.addEventListener('change', function (e){
+                if(e.target.files[0].size >= 1000000){
+                    Swal.fire({
+                        title: 'Erreur fichier !',
+                        text: 'Taille de l\'image trop grande, merci de choisir une autre image !',
+                        icon: 'error'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            e.target.value = '';
+                        }
+                    })
+                } else {
+                    Swal.fire({
+                        title: 'Fichier valide !',
+                        text: 'Le fichier prêt à être enregistrer !',
+                        icon: 'success'
+                    })
+                }
+            })
+        })
+    }
+
 // Pour créer une erreur si un champ required est pas remplie
     const buttonSendForm = document.querySelector('#adherent_submit')
 
     if(buttonSendForm){
         buttonSendForm.addEventListener('click', (ev) => {
-                        const test = [];
+            const arrayValueEmpty = [];
             [].forEach.call(document.querySelectorAll('input'), function(elem){
                 if(elem.getAttribute('required')){
                     if(elem.value === ''){
                         ev.preventDefault()
-                        test.push(elem.getAttribute('name_input'))
+                        arrayValueEmpty.push(elem.getAttribute('name_input'))
                         let addHtml = ''
-                        for (let i = 0; i < test.length; i++){
-                            addHtml += '<li>' + test[i] + '</li>'
+                        for (let i = 0; i < arrayValueEmpty.length; i++){
+                            addHtml += '<li>' + arrayValueEmpty[i] + '</li>'
                         }
-
                         Swal.fire({
-                            title: 'Il manque des informations',
+                            title: 'Formulaire non envoyée !',
                             html: 'Il manque des informations pour: <ul>' + addHtml + '</ul>',
                             icon: 'info'
                         })
@@ -42,6 +68,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
             })
         })
     }
+
 //Pour le button meet de la page single Adhérents
     const meetMoreButton = document.querySelectorAll('.meet-more');
     const meetDeleteButton = document.querySelectorAll('.meet-delete');
