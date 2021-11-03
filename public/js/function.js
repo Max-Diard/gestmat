@@ -4,16 +4,6 @@ function apiMeet(id, elem){
     const cardSelectedWoman = document.querySelector('.card-selected-woman')
     const cardSelectedMan = document.querySelector('.card-selected-man')
 
-    // const lastnameWoman = document.querySelector('.thead-card-woman-lastname');
-    // const firstnameWoman = document.querySelector('.thead-card-woman-firstname');
-    // const yearWoman = document.querySelector('.thead-card-woman-years');
-    // const agenceWoman = document.querySelector('.thead-card-woman-agence');
-    //
-    // const lastnameMan = document.querySelector('.thead-card-man-lastname');
-    // const firstnameMan = document.querySelector('.thead-card-man-firstname');
-    // const yearMan = document.querySelector('.thead-card-man-years');
-    // const agenceMan = document.querySelector('.thead-card-man-agence');
-
     const div = document.querySelector('.button-meet')
     div.innerHTML = '';
     const buttonModal = document.createElement('a');
@@ -28,7 +18,7 @@ function apiMeet(id, elem){
         if (request.readyState === XMLHttpRequest.DONE) {
             if (request.status === 200) {
                 //Fin du loader
-                launchingLoader(false)
+                launchingLoader(false);
 
                 const recup = JSON.parse(request.response);
                 const recupAdherent = JSON.parse(request.response).adherent[0];
@@ -100,42 +90,15 @@ function apiMeet(id, elem){
                     }
 
                     buttonModal.addEventListener('click', function(ev){
-                        const today = new Date();
-                        const dateToday = today.toISOString().split('T')[0];
-
-                        let test =  '<p>' + lastnameWoman.textContent + ' ' + firstnameWoman.textContent + ' et ' + lastnameMan.textContent + ' ' + firstnameMan.textContent + '?</p>' +
-                            '<input type="date" class="swal2-input" id="expiry-date" value="'+ dateToday + '" required>';
-
-                        if (alreadyMeet === true){
-                            test += '<p style="margin-top : 1em">Attention, une rencontre a déjà été éffectuée entre ces deux personnes !</p>';
-                        } else if(infoWoman.adherent[0].status_meet.name != 'Disponible' && infoMan.adherent[0].status_meet.name != 'Disponible'){
-                            test += '<p style="margin-top : 1em">Attention, ces deux personnes ne sont pas disponible pour le moment !</p>';
-                        } else if(infoWoman.adherent[0].status_meet.name != 'Disponible') {
-                            test += '<p style="margin-top : 1em">Attention, ' + lastnameWoman.textContent + ' ' + firstnameWoman.textContent + ' n\'est pas disponible pour le moment !</p>';
-                        } else if(infoMan.adherent[0].status_meet.name != 'Disponible') {
-                            test += '<p style="margin-top : 1em">Attention, ' + lastnameMan.textContent + ' ' + firstnameMan.textContent + ' n\'est pas disponible pour le moment !</p>';
-                        }
-
-                        Swal.fire({
-                            title: 'Vous voulez créer une rencontre entre :',
-                            showDenyButton: true,
-                            confirmButtonText: 'Oui',
-                            denyButtonText: `Non`,
-                            icon: 'question',
-                            html: test
-
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-                                const inputDate = document.querySelector('#expiry-date')
-                                newMeet(meetWaitingWomen, meetWaitingMen, inputDate.value)
-                                apiMeet(meetWaitingWomen, document.querySelector('#table-women tbody tr.active'))
-                                apiMeet(meetWaitingMen, document.querySelector('#table-men tbody tr.active'))
-                            }
-                        })
+                        verifDisponibilityAdherent()
                     })
                 }
             }
+            else{
+                launchingLoader(false)
+            }
         }
+
     })
     request.send();
 }
@@ -477,6 +440,8 @@ function informationMeet(id){
                 womanLinkPdf.href = '/meet/file/' + recup.adherent_woman.id + '-' + recup.adherent_man.id
                 womanLinkPdf.target = '_blank'
 
+                modalAdherentInAgence('Féminin', recup.adherent_woman.agence.name)
+
                 //Information de la rencontre général
                 const startedAt = new Date(recup.startedAt)
                 dateMeet.textContent = new Intl.DateTimeFormat('fr-FR').format(startedAt)
@@ -504,6 +469,8 @@ function informationMeet(id){
                 manLinkPdf.href = '/meet/file/' + recup.adherent_man.id + '-' + recup.adherent_woman.id
                 manLinkPdf.target = '_blank'
 
+                modalAdherentInAgence('Masculin', recup.adherent_man.agence.name)
+
                 sendButton.href = '/api/update_meet/'
 
                 sendButton.addEventListener('click', function(ev){
@@ -522,7 +489,7 @@ function informationMeet(id){
                     )
                     Swal.fire(
                         'Information Envoyé!',
-                        'Les imformations de la rencontre ont bien était envoyé!',
+                        'Les informations de la rencontre ont bien était envoyé !',
                         'success',
                     ).then((result) => {
                         if (result.isConfirmed){
@@ -588,6 +555,7 @@ function removeMeet(id){
     // window.reload;
 }
 
+//Function pour activer le loader
 function launchingLoader(bool){
     const loaderMeet = document.querySelector('body');
 
@@ -605,6 +573,7 @@ function launchingLoader(bool){
     }
 }
 
+// Function pour remplir les informations des rencontres de l'adhérent sélectionné
 function meetInfoHead(sexe, recupAdherent){
     if (sexe === 'Féminin'){
         adherentInAgence(sexe, recupAdherent)
@@ -613,6 +582,7 @@ function meetInfoHead(sexe, recupAdherent){
         firstnameWoman.textContent = recupAdherent.firstname;
         yearWoman.textContent = recupAdherent.age;
         agenceWoman.textContent = recupAdherent.agence.name;
+
         meetWaitingWomen = recupAdherent.id
         loadingWomen = true
     } else {
@@ -622,18 +592,14 @@ function meetInfoHead(sexe, recupAdherent){
         firstnameMan.textContent = recupAdherent.firstname;
         yearMan.textContent = recupAdherent.age;
         agenceMan.textContent = recupAdherent.agence.name;
+
         meetWaitingMen = recupAdherent.id
         loadingMen = true
     }
 }
 
+// Function pour voir si l'adhérent est dans l'agence
 function adherentInAgence (sexe, recupAdherent) {
-    let nameAgence = document.querySelectorAll('.name-agence-datatable')
-    let arrayNameAgence = [];
-    [].forEach.call(nameAgence, function(elem){
-        arrayNameAgence.push(elem.getAttribute('name-agence'));
-    })
-
     if (sexe === 'Féminin'){
         const cardSelectedWoman = document.querySelector('.card-selected-woman')
         const listClass = cardSelectedWoman.classList
@@ -667,7 +633,105 @@ function adherentInAgence (sexe, recupAdherent) {
     }
 }
 
-// Function pour changer le format du téléphone
-function changeFormatTel(tel){
-    return tel.replace(/(\d\d(?!$))/g,"$1 ");
+// Function pour vérifier la disponibilité de l'adhérent
+function verifDisponibilityAdherent(){
+    const today = new Date();
+    const dateToday = today.toISOString().split('T')[0];
+
+    let test =  '<p>' + lastnameWoman.textContent + ' ' + firstnameWoman.textContent + ' et ' + lastnameMan.textContent + ' ' + firstnameMan.textContent + '?</p>' +
+        '<input type="date" class="swal2-input" id="expiry-date" value="'+ dateToday + '" required>';
+
+    if (alreadyMeet === true){
+        test += '<p style="margin-top : 1em">Attention, une rencontre a déjà été éffectuée entre ces deux personnes !</p>';
+    } else if(infoWoman.adherent[0].status_meet.name != 'Disponible' && infoMan.adherent[0].status_meet.name != 'Disponible'){
+        test += '<p style="margin-top : 1em">Attention, ces deux personnes ne sont pas disponible pour le moment !</p>';
+    } else if(infoWoman.adherent[0].status_meet.name != 'Disponible') {
+        test += '<p style="margin-top : 1em">Attention, ' + lastnameWoman.textContent + ' ' + firstnameWoman.textContent + ' n\'est pas disponible pour le moment !</p>';
+    } else if(infoMan.adherent[0].status_meet.name != 'Disponible') {
+        test += '<p style="margin-top : 1em">Attention, ' + lastnameMan.textContent + ' ' + firstnameMan.textContent + ' n\'est pas disponible pour le moment !</p>';
+    }
+
+    Swal.fire({
+        title: 'Vous voulez créer une rencontre entre :',
+        showDenyButton: true,
+        confirmButtonText: 'Oui',
+        denyButtonText: `Non`,
+        icon: 'question',
+        html: test
+
+    }).then((result) => {
+        if (result.isConfirmed) {
+            const inputDate = document.querySelector('#expiry-date')
+            newMeet(meetWaitingWomen, meetWaitingMen, inputDate.value)
+            apiMeet(meetWaitingWomen, document.querySelector('#table-women tbody tr.active'))
+            apiMeet(meetWaitingMen, document.querySelector('#table-men tbody tr.active'))
+        }
+    })
+}
+
+// Function pour voir si l'adhérent dans la modal appartient à l'agence de l'user
+function modalAdherentInAgence(sexe, agence){
+    if(sexe === 'Féminin'){
+        const meetWoman = document.querySelector('.meet-woman');
+        const input = document.querySelector('.meet-woman input')
+        const textArea = document.querySelector('.meet-woman textarea')
+        const link = document.querySelector('.meet-woman a')
+        const select = document.querySelectorAll('.meet-woman select')
+
+        if(!arrayNameAgence.includes(agence)){
+            meetWoman.classList.add('not-in-agence-woman')
+
+            input.setAttribute('disabled', 'disabled')
+            textArea.setAttribute('disabled', 'disabled')
+            link.setAttribute('hidden', '')
+            select.forEach(e => {
+                e.setAttribute('disabled', 'disabled')
+            })
+        }else {
+            const arrayClassList = []
+            meetWoman.classList.forEach(e => {
+                arrayClassList.push(e)
+            })
+            if(arrayClassList.includes('not-in-agence-woman')){
+                meetWoman.classList.remove('not-in-agence-woman')
+                input.removeAttribute('disabled')
+                textArea.removeAttribute('disabled')
+                link.removeAttribute('hidden')
+                select.forEach(e => {
+                    e.removeAttribute('disabled')
+                })
+            }
+        }
+    } else {
+        const meetMan = document.querySelector('.meet-man');
+        const input = document.querySelector('.meet-man input')
+        const textArea = document.querySelector('.meet-man textarea')
+        const link = document.querySelector('.meet-man a')
+        const select = document.querySelectorAll('.meet-man select')
+
+        if(!arrayNameAgence.includes(agence)){
+            meetMan.classList.add('not-in-agence-man')
+
+            input.setAttribute('disabled', 'disabled')
+            textArea.setAttribute('disabled', 'disabled')
+            link.setAttribute('hidden', '')
+            select.forEach(e => {
+                e.setAttribute('disabled', 'disabled')
+            })
+        } else {
+            const arrayClassList = []
+            meetMan.classList.forEach(e => {
+                arrayClassList.push(e)
+            })
+            if(arrayClassList.includes('not-in-agence-man')){
+                meetMan.classList.remove('not-in-agence-man')
+                input.removeAttribute('disabled')
+                textArea.removeAttribute('disabled')
+                link.removeAttribute('hidden')
+                select.forEach(e => {
+                    e.removeAttribute('disabled')
+                })
+            }
+        }
+    }
 }

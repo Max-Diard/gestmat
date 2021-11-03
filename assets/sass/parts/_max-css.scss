@@ -147,11 +147,26 @@ label{
 
 .modal-meet-text{
     display: flex;
-}
-
-.meet-woman,
-.meet-man{
-    margin: 0 2rem;
+    .meet-woman,
+    .meet-man{
+        margin: 0 2rem;
+    }
+    .not-in-agence-woman,
+    .not-in-agence-man{
+        position: relative;
+        &:after {
+            content:"Rencontre inter-agence !";
+            color: red;
+            text-align: center;
+        }
+    }
+    //.not-in-agence-man{
+    //    position: relative;
+    //    &:before {
+    //        content:"Rencontre inter-agence !";
+    //        color: red;
+    //    }
+    //}
 }
 
 .meet-info-general {

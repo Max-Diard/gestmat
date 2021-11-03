@@ -4,6 +4,7 @@ const routeUrl = document.querySelector('header').getAttribute('data-url');
 let loadingMen = false
 let loadingWomen = false
 
+// Récupérer l'id de l'adhérent
 let meetWaitingWomen = '';
 let meetWaitingMen = '';
 
@@ -16,7 +17,12 @@ let alreadyMeet = false;
 const url = new URL(window.location)
 let myParams = url.searchParams
 
-
+// Récupérer les agences de l'utilisateur
+let nameAgence = document.querySelectorAll('.name-agence-datatable');
+let arrayNameAgence = [];
+[].forEach.call(nameAgence, function(elem){
+    arrayNameAgence.push(elem.getAttribute('name-agence'));
+})
 
 const lastnameWoman = document.querySelector('.thead-card-woman-lastname');
 const firstnameWoman = document.querySelector('.thead-card-woman-firstname');
