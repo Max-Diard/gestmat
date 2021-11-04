@@ -1,6 +1,19 @@
 <h1>Bonjour {{ adherent.lastname }} {{ adherent.firstname }}</h1>
 
-<p>
+<div>
+    <p>Vous trouverez en pièce jointes un PDF concernant une rencontre que vous avez effectuée au sein de notre agence.<br/>
+    Merci de bien vouloir nous le renvoyer dans les plus brefs délais.</p>
+    <br/>
+    <p>Cordialement</p>
+</div>
 
-
-</p>
+<div>
+    <p>{{ adherent.agence.name }}<br/>
+    {{ adherent.agence.addressStreet }}
+    {% if adherent.agence.addressStreet2 != '' %}
+        {{ adherent.agence.addressStreet2 }}<br/>
+    {% endif %}
+    {{ adherent.agence.addressZipPostal }} {{ adherent.agence.addressTown }}<br/>
+    {{ adherent.agence.email }}<br/>
+    {{ adherent.agence.phoneNumber }}</p>
+</div>

@@ -12,13 +12,14 @@ use Dompdf\Dompdf;
 use Dompdf\Options;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Component\Mime\Email;
 
 class MeetController extends AbstractController
 {
@@ -208,11 +209,9 @@ class MeetController extends AbstractController
 
         $image = $request->getSchemeAndHttpHost() . '/uploads/agence/agence' . $adherent->getAgence()->getId() . '/picture/'. $agence;
 
-//        $image = 'https://lovexpert.3gk.ovh/uploads/agence/agence' . $adherent->getAgence()->getId() . '/picture/'. $agence;
-
         $html = $this->renderView('file/pdfView.html.twig', [
             'adherent' => $adherent,
-            'meet' => $meet,
+            'meetAdherent' => $meet,
             'date' => $date,
             'image' => $image,
             'idMeet' => $meet->getId()
@@ -272,7 +271,9 @@ class MeetController extends AbstractController
                 foreach ($trueMeet as $meet) {
                     $adherentPaper = $this->adherentPaper($meet, $agenceUser);
                     if(!empty($adherentPaper)){
-                        $html .= $this->renderHtml($adherentPaper, $meet, $request, $date);
+                        foreach ($adherentPaper as $adherent){
+                            $html .= $this->renderHtml($adherent, $meet, $request, $date);
+                        }
                     }
                 }
             } else {
@@ -304,7 +305,9 @@ class MeetController extends AbstractController
                         $adherentPaper = $this->adherentPaper($meet, $agenceUser);
 
                         if(!empty($adherentPaper)){
-                            $html .= $this->renderHtml($adherentPaper, $meet, $request, $date);
+                            foreach ($adherentPaper as $adherent){
+                                $html .= $this->renderHtml($adherent, $meet, $request, $date);
+                            }
                         }
                     }
                 } else {
@@ -338,11 +341,15 @@ class MeetController extends AbstractController
     }
 
     // Création des pdfs pour tous les adhérents qui ont une préférence de contact 'email'
+
+    /**
+     * @throws \Symfony\Component\Mailer\Exception\TransportExceptionInterface
+     */
     #[
         Route('/meet/send/email', name: 'meet_search_email'),
         IsGranted('ROLE_USER')
     ]
-    public function sendAllMeetEmail(Request $request, \Swift_Mailer $mailer,): Response
+    public function sendAllMeetEmail(Request $request, MailerInterface $mailer): Response
     {
         $lien = $request->server->get('HTTP_REFERER');
 
@@ -370,7 +377,7 @@ class MeetController extends AbstractController
 
                             $dompdf = new Dompdf($pdf);
 
-                            $html = $this->renderHtmlEmail($adherent, $meet, $request, $date);
+                            $html = $this->renderHtml($adherent, $meet, $request, $date);
 
                             $message = $this->preparationSendEmail($dompdf, $html, $number, $adherent);
 
@@ -415,7 +422,7 @@ class MeetController extends AbstractController
 
                                 $dompdf = new Dompdf($pdf);
 
-                                $html = $this->renderHtmlEmail($adherent, $meet, $request, $date);
+                                $html = $this->renderHtml($adherent, $meet, $request, $date);
 
                                 $message = $this->preparationSendEmail($dompdf, $html, $number, $adherent);
 
@@ -503,50 +510,22 @@ class MeetController extends AbstractController
         return $adherentMail;
     }
 
-    private function renderHtml($adherentPaper, $meet, $request, $date)
-    {
-        $html= '';
-        foreach ($adherentPaper as $adherentSend){
-            if($adherentSend->getGenre()->getName() === 'Féminin'){
-                $genre = $meet->getAdherentMan();
-            } else {
-                $genre = $meet->getAdherentWoman();
-            }
-
-            $agence = $adherentSend->getAgence()->getLinkPicture();
-
-            $image = $request->getSchemeAndHttpHost() . '/uploads/agence/agence' . $adherentSend->getAgence()->getId() . '/picture/'. $agence;
-
-//            $image = 'https://lovexpert.3gk.ovh/uploads/agence/agence' . $adherentSend->getAgence()->getId() . '/picture/'. $agence;
-
-            $html .= $this->renderView('file/pdfView.html.twig', [
-                'adherent' => $adherentSend,
-                'meet' => $genre,
-                'date' => $date,
-                'image' => $image,
-                'idMeet' => $meet->getId()
-            ]);
-        }
-        return $html;
-    }
-
-    private function renderHtmlEmail($adherent, $meet, $request, $date)
+    private function renderHtml($adherent, $meet, $request, $date)
     {
         $html= '';
         if($adherent->getGenre()->getName() === 'Féminin'){
-            $genre = $meet->getAdherentMan();
+            $genreAdherent = $meet->getAdherentMan();
         } else {
-            $genre = $meet->getAdherentWoman();
+            $genreAdherent = $meet->getAdherentWoman();
         }
 
         $agence = $adherent->getAgence()->getLinkPicture();
 
         $image = $request->getSchemeAndHttpHost() . '/uploads/agence/agence' . $adherent->getAgence()->getId() . '/picture/'. $agence;
-//        $image = 'https://lovexpert.3gk.ovh/uploads/agence/agence' . $adherent->getAgence()->getId() . '/picture/'. $agence;
 
         $html .= $this->renderView('file/pdfView.html.twig', [
             'adherent' => $adherent,
-            'meet' => $genre,
+            'meetAdherent' => $genreAdherent,
             'date' => $date,
             'image' => $image,
             'idMeet' => $meet->getId()
@@ -581,7 +560,7 @@ class MeetController extends AbstractController
         return $adherent;
     }
 
-    private function preparationSendEmail($dompdf, $html, $number, $adherent)
+    private function preparationSendEmail($dompdf, $html, $number, $adherent): Email
     {
         $dompdf->loadHtml($html);
 
@@ -596,7 +575,7 @@ class MeetController extends AbstractController
         $slug = $this->slugger->slug('email-'. $number . '-du-' . $date);
         $output = $dompdf->output();
 
-        $location = $this->getParameter('meet_directory') . $date . '/' . $slug . '.file';
+        $location = $this->getParameter('meet_directory') . $date . '/' . $slug . '.pdf';
 
         if (!is_dir($this->getParameter('meet_directory'). $date )) {
             mkdir($this->getParameter('meet_directory') . $date .  "/", 0777, true);
@@ -604,24 +583,21 @@ class MeetController extends AbstractController
 
         file_put_contents($location, $output);
 
-        $message = new \Swift_Message();
-
-        $userMail = $this->getUser()->getEmail();
+        $message = new Email();
 
         $message
-            //Encoder en UTF-8 ne fonctionne pas ! En iso-8859-2 non plus mais moins d'ajout de code dans l'email
-            ->setSubject('Envoi de rencontre')
-            ->setCharset('utf-8')
-            ->setFrom('ne_pas_repondre@loveexpert.com')
-            ->setTo($adherent->getEmail()) //$adherent->getEmail()
-            ->setReplyTo($adherent->getAgence()->getEmail()) //$userMail)
-            ->setBody(
+            ->subject('Récapitulatif de votre rencontre.')
+            ->from('ne_pas_repondre@lovexpert.3gk.ovh')
+            ->to($adherent->getEmail())
+            ->bcc($adherent->getAgence()->getEmail())
+            ->text('Sending emails is fun again!')
+            ->html(
                 $this->renderView('email/sendPdf.html.twig',[
                     'adherent' => $adherent
                 ]),
                 'text/html', 'utf-8'
             )
-            ->attach(\Swift_Attachment::fromPath($location));
+            ->attachFromPath($location);
 
         return $message;
     }

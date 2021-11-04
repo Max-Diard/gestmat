@@ -119,17 +119,17 @@
         </p>
     </div>
     <div class="">
-        <p class="info-meet-name">Nom de la personne sélectionné<span>:</span>{{ meet.firstname }} {{ meet.lastname }}</p>
-        <p class="info-meet-age">Âge<span>:</span>{{ meet.getAge() }}</p>
-        <p class="info-meet-phone">Numéro de téléphone<span>:</span>{{ meet.phoneMobile }}</p>
-        <p class="info-meet-agence">Agence <span>:</span>{{ meet.agence.name }}</p>
+        <p class="info-meet-name">Nom de la personne sélectionné<span>:</span>{{ meetAdherent.firstname }} {{ meetAdherent.lastname }}</p>
+        <p class="info-meet-age">Âge<span>:</span>{{ meetAdherent.getAge() }}</p>
+        <p class="info-meet-phone">Numéro de téléphone<span>:</span>{{ meetAdherent.phoneMobile }}</p>
+        <p class="info-meet-agence">Agence <span>:</span>{{ meetAdherent.agence.name }}</p>
     </div>
     <div class="">
-        <p class="info-meet-all">{{ meet.profession }}, {{ meet.statusMatrimoniale }}, {{ meet.size }}, Yeux: {{ meet.eyes }}, Cheveux: {{ meet.hair }}</p>
+        <p class="info-meet-all">{{ meetAdherent.profession }}, {{ meetAdherent.statusMatrimoniale }}, {{ meetAdherent.size }}, Yeux: {{ meetAdherent.eyes }}, Cheveux: {{ meetAdherent.hair }}</p>
     </div>
     <div class="">
         <h2 class="title-information">Renseignements sur cette personne :</h2>
-        <p>{{ meet.announcementPresentation }}</p>
+        <p>{{ meetAdherent.announcementPresentation }}</p>
     </div>
     <div class="">
         <h2 class="title-result-meet">Résultat de la rencontre, vos commentaires :</h2>

@@ -300,9 +300,6 @@
     "sonata-project/exporter": {
         "version": "2.8.0"
     },
-    "swiftmailer/swiftmailer": {
-        "version": "v6.3.0"
-    },
     "symfony/asset": {
         "version": "v5.3.4"
     },
@@ -578,6 +575,15 @@
     "symfony/security-http": {
         "version": "v5.3.7"
     },
+    "symfony/sendinblue-mailer": {
+        "version": "5.3",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "5.2",
+            "ref": "ae1cf494ce06b9a4578a8445c610402a1676ee8d"
+        }
+    },
     "symfony/serializer": {
         "version": "v5.3.4"
     },
@@ -589,20 +595,6 @@
     },
     "symfony/string": {
         "version": "v5.3.7"
-    },
-    "symfony/swiftmailer-bundle": {
-        "version": "2.5",
-        "recipe": {
-            "repo": "github.com/symfony/recipes",
-            "branch": "master",
-            "version": "2.5",
-            "ref": "f0b2fccdca2dfd97dc2fd5ad216d5e27c4f895ac"
-        },
-        "files": [
-            "config/packages/dev/swiftmailer.yaml",
-            "config/packages/swiftmailer.yaml",
-            "config/packages/test/swiftmailer.yaml"
-        ]
     },
     "symfony/translation": {
         "version": "5.3",
