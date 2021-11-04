@@ -400,3 +400,90 @@ label{
     padding: 10rem;
     text-align: center;
 }
+
+// Page pour modifier agence
+#admin-modify-agence{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    h1{
+        margin-bottom: 10rem;
+    }
+    form{
+        font-size: 1.6rem;
+        label{
+            width: 19rem;
+            display: inline-block;
+            text-align: end;
+        }
+        input{
+            border: none;
+            padding: .5rem;
+            background-color: $color__grey;
+            color: $color__purple;
+            &:focus{
+                border: none;
+                outline: none;
+            }
+        }
+        #change_agence{
+            label{
+                width: 15.7rem;
+            }
+        }
+        #admin_agence{
+            > div{
+                display: flex;
+                align-items: center;
+            }
+            div + div{
+                margin-top: 1rem;
+            }
+            select{
+                background-color: $color__grey;
+                padding: .5rem;
+                border: none;
+                color: $color__purple;
+            }
+            button{
+                margin: 0 auto;
+                margin-top: 4rem;
+                cursor: pointer;
+                font-weight: bold;
+                font-size: 1.4rem;
+                text-transform: uppercase;
+                color: white;
+                background-color: $color__pink;
+                padding: 1.8rem 3rem 1.5rem 3rem;
+                align-self: center;
+                border: none;
+                border-radius: .5rem;
+                position: relative;
+                transition: all .2s ease-in-out;
+                right: 0rem;
+                bottom: 0rem;
+                &::before{
+                    content: "";
+                    display: block;
+                    position: absolute;
+                    width: 100%;
+                    height: 100%;
+                    right: -.5rem;
+                    bottom: -.5rem;
+                    border-radius: .5rem;
+                    background-color: $color__purple;
+                    z-index: -1;
+                    transition: all .2s ease-in-out;
+                }
+                &:hover, &:focus{
+                    right: -.5rem;
+                    bottom: -.5rem;
+                    &::before{
+                        right: 0rem;
+                        bottom: 0rem;
+                    }
+                }
+            }
+        }
+    }
+}

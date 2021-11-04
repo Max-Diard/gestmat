@@ -9,7 +9,7 @@
     </div>
     <div class="languette-menu">
         <div class="languette-menu_logo">
-            {% if app.user.agence %}
+            {% if app.user.agence|length > 0 %}
                 <img src="{{asset('uploads/agence/agence'~ app.user.agence[0].id ~'/picture/'~ app.user.agence[0].linkPicture)}}" alt="">
             {% else %}
                 <img src="{{asset('build/images/logo-agence.png')}}" alt="">

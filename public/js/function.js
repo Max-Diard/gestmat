@@ -88,8 +88,8 @@ function apiMeet(id, elem){
                     } else {
                         alreadyMeet = false
                     }
-
                     buttonModal.addEventListener('click', function(ev){
+                        ev.preventDefault()
                         verifDisponibilityAdherent()
                     })
                 }
@@ -98,7 +98,6 @@ function apiMeet(id, elem){
                 launchingLoader(false)
             }
         }
-
     })
     request.send();
 }
@@ -658,13 +657,15 @@ function verifDisponibilityAdherent(){
         denyButtonText: `Non`,
         icon: 'question',
         html: test
-
     }).then((result) => {
         if (result.isConfirmed) {
+            launchingLoader(true)
             const inputDate = document.querySelector('#expiry-date')
-            newMeet(meetWaitingWomen, meetWaitingMen, inputDate.value)
-            apiMeet(meetWaitingWomen, document.querySelector('#table-women tbody tr.active'))
-            apiMeet(meetWaitingMen, document.querySelector('#table-men tbody tr.active'))
+            newMeet(meetWaitingWomen, meetWaitingMen, inputDate.value);
+            // 2 possibilité : 1=
+            setInterval(()=>{
+                location.reload();
+            }, 1000)
         }
     })
 }

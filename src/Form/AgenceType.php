@@ -51,7 +51,7 @@ class AgenceType extends AbstractType
                 'label' => 'Adresse'
             ])
             ->add('address_street2', TextType::class, [
-                'label' => 'Suite addresse',
+                'label' => 'Suite adresse',
                 'required' => false
             ])
             ->add('address_zip_postal', NumberType::class, [

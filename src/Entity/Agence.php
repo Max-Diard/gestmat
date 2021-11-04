@@ -96,7 +96,7 @@ class Agence
         $this->droit_agence = new ArrayCollection();
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return $this->getName();
     }

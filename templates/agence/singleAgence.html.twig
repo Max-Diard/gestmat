@@ -4,9 +4,6 @@
 <div id="single-agence" class="container container-screen">
 
     <h1 class="title-adherents">{{ agence.name }}</h1>
-{#    <div class="return-link">#}
-{#        <a class="link-sm" href="{{ path('profile') }}">Retour</a>#}
-{#    </div>#}
 <img class="img-agence" src='{{ asset('uploads/agence/agence'~ agence.id ~'/picture/'~ agence.linkPicture) }}' alt="Image de l'agence" />
 
     <div class="content">
@@ -43,6 +40,10 @@
             </p>
         {% endif %} #}
     </div>
-    <a class="btn btn-little" href="{{ path('agence_modify', {id: agence.id}) }}">Modifier l'agence</a>
+    {% if app.user.roles[0] == 'ROLE_ADMIN' %}
+        <a class="btn btn-little" href="{{ path('admin_agence_modify', {id: agence.id}) }}">Modifier l'agence</a>
+    {% else %}
+        <a class="btn btn-little" href="{{ path('agence_modify', {id: agence.id}) }}">Modifier l'agence</a>
+    {% endif %}
 </div>
 {% endblock %}

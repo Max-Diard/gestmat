@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div id="admin-modify-agence" class="container container-screen">
+        <h1 class="title-modify-agence">Modifier l'agence {{ agence.name }}</h1>
+        <img class="img-agence" src='{{ asset('uploads/agence/agence'~ agence.id ~'/picture/'~ agence.linkPicture) }}' alt="Image de l'agence" />
+        {{form(form)}}
+
+    </div>
+
+{% endblock %}

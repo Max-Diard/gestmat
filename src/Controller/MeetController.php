@@ -570,7 +570,7 @@ class MeetController extends AbstractController
         // Render the HTML as PDF
         $dompdf->render();
 
-        $date = Date('m.d.Y');
+        $date = Date('d.m.Y');
 
         $slug = $this->slugger->slug('email-'. $number . '-du-' . $date);
         $output = $dompdf->output();
