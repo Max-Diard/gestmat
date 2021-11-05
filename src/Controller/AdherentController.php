@@ -16,6 +16,7 @@ use Dompdf\Options;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
@@ -25,6 +26,7 @@ use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Component\Form\FormError;
 
 class AdherentController extends AbstractController
 {
@@ -364,15 +366,24 @@ class AdherentController extends AbstractController
 
             $form->handleRequest($request);
 
-            if($form->isSubmitted() && $form->isValid()){
-                $adherent = $form->getData();
-
+            // On vérifie le formulaire
+            if($form->isSubmitted()){
                 // On vérifie si il n'y a pas de virgule
                 $size = $form->get('size')->getData();
+
                 if(str_contains($size, ',')) {
                     $size = str_replace(',','.', $size);
+                    $form->remove('size');
+                    $form->add('size', $size);
                 }
-                $adherent->setSize($size);
+                // On vérifie si le champ de la présentation de l'adhérent est remplie
+                if($form->get('announcement_presentation')->getData() === null){
+                    $form->get('announcement_presentation')->addError(new FormError('Merci de bien vouloir remplir la présentation de l\'adhérent !'));
+                }
+            }
+
+            if($form->isSubmitted() && $form->isValid()){
+                $adherent = $form->getData();
 
                 // Récupération et changement du format du téléphone
                 $phoneMobile = $form->get('phone_mobile')->getData();
@@ -556,7 +567,6 @@ class AdherentController extends AbstractController
         return $response;
 
     }
-
 
     private function replaceTel($tel){
         if(strlen($tel) === 10){

@@ -3,8 +3,45 @@
 {% block body %}
 <div id="new-user" class="container container-screen">
     <h1 class="title-adherent">Nouvel utilisateur</h1>
-    {{form(form)}}
+    {{ form_start(form) }}
+    <div id="user">
+        <div>
+            {{ form_label(form.email) }}
+            {{ form_widget(form.email) }}
+        </div>
 
+        {% for passwordField in form.password %}
+            <div>
+                {{ form_label(passwordField) }}
+                {{ form_widget(passwordField) }}
+            </div>
+        {% endfor %}
+
+        <div>
+            {{ form_label(form.firstname) }}
+            {{ form_widget(form.firstname) }}
+        </div>
+
+        <div>
+            {{ form_label(form.lastname) }}
+            {{ form_widget(form.lastname) }}
+        </div>
+
+        <div>
+            {{ form_row(form.submit) }}
+        </div>
+
+        <div class="error-display-form">
+            {{ form_errors(form.email) }}
+            {{ form_errors(form.firstname) }}
+            {{ form_errors(form.lastname) }}
+            {% for passwordField in form.password %}
+                {{ form_errors(passwordField) }}
+            {% endfor %}
+        </div>
+
+    </div>
+    {{ form_end(form) }}
 </div>
 
 {% endblock %}

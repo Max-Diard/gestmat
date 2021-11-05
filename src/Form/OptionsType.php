@@ -2,7 +2,7 @@
 
 namespace App\Form;
 
-use App\Entity\Adherent;
+use App\Entity\Adhrent;
 use App\Entity\AdherentOption;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;

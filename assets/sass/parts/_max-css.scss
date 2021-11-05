@@ -89,6 +89,16 @@ label{
     margin-top: 1rem;
     margin-bottom: 1rem;
 }
+
+.error-display-form{
+    ul{
+        list-style-type: none;
+        li{
+            color: red;
+            text-align: center;
+        }
+    }
+}
 /* Page info adhérent */
 /* Pour onglet Javascript */
 .tab {
@@ -149,6 +159,7 @@ label{
     display: flex;
     .meet-woman,
     .meet-man{
+        max-width: 35%;
         margin: 0 2rem;
     }
     .not-in-agence-woman,

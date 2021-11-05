@@ -9,6 +9,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use phpDocumentor\Reflection\DocBlock\Serializer;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=AdherentRepository::class)
@@ -60,16 +61,28 @@ class Adherent implements Serializable
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Regex(
+     *     pattern = "/^(?:(?:\+|00)33[\s.-]{0,3}(?:\(0\)[\s.-]{0,3})?|0)[1-9](?:(?:[\s.-]?\d{2}){4}|\d{2}(?:[\s.-]?\d{3}){2})$/",
+     *     message = "La valeur pour le ""Numéro de téléphone mobile"" n'est pas valide"
+     * )
      */
     private $phone_mobile;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\Regex(
+     *     pattern = "/^(?:(?:\+|00)33[\s.-]{0,3}(?:\(0\)[\s.-]{0,3})?|0)[1-9](?:(?:[\s.-]?\d{2}){4}|\d{2}(?:[\s.-]?\d{3}){2})$/",
+     *     message = "La valeur pour le ""Numéro de téléphone fixe"" n'est pas valide"
+     * )
      */
     private $phone_home;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\Regex(
+     *     pattern = "/^(?:(?:\+|00)33[\s.-]{0,3}(?:\(0\)[\s.-]{0,3})?|0)[1-9](?:(?:[\s.-]?\d{2}){4}|\d{2}(?:[\s.-]?\d{3}){2})$/",
+     *     message = "La valeur pour le ""Numéro de téléphone travail"" n'est pas valide"
+     * )
      */
     private $phone_work;
 
@@ -85,11 +98,22 @@ class Adherent implements Serializable
 
     /**
      * @ORM\Column(type="decimal", precision=3, scale=2)
+     * @Assert\Regex(
+     *     pattern = "/\d[+-]?([0-9]*[.|,])?[0-9]+/",
+     *     message = "La valeur pour la ""Taille"" n'est pas valide"
+     * )
      */
     private $size;
 
     /**
-     * @ORM\Column(type="decimal", precision=3, scale=0)
+     * @ORM\Column(type="decimal", precision=3, scale=0, nullable=true)
+     * @Assert\Length(
+     *     min=1,
+     *     max=3,
+     *     minMessage= "La valeur pour le ""Poids"" n'est pas valide",
+     *     maxMessage= "La valeur pour le ""Poids"" n'est pas valide",
+     *     exactMessage = "La valeur pour le ""Poids"" n'est pas valide"
+     * )
      */
     private $weight;
 
@@ -134,7 +158,11 @@ class Adherent implements Serializable
     private $announcement_date_newspaper;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\Regex(
+     *     pattern = "/^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/",
+     *     message = "La valeur ""Email"" n'est pas valide"
+     * )
      */
     private $email;
 
@@ -261,7 +289,7 @@ class Adherent implements Serializable
     private $status_meet;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $instruction;
 
@@ -302,7 +330,7 @@ class Adherent implements Serializable
     private $preference_contact;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=false)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $search_instruction;
 

@@ -1,4 +1,2 @@
-twig:
-  number_format:
-    decimals: 2
-    decimal_point: '.'
+fos_ck_editor:
+  input_sync: true

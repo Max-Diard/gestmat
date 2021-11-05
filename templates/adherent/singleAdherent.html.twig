@@ -15,189 +15,181 @@
         <h1>{{ adherentProfile.firstname }} {{ adherentProfile.lastname }}</h1>
         {% include('modal.html.twig') %}
     {% endif %}
-
     {{ form_start(formAdherent) }}
-    {% if not formAdherent.vars.valid %}
-        <div class="alert-form-error">
-            <p>Ces valeurs ne sont pas valide :</p>
-            <ul>
-                {% for erreur in formAdherent.vars.errors %}
-                    <li>{{ erreur.cause.parameters["{{ value }}"] }}</li>
-                {% endfor %}
-            </ul>
-        </div>
-    {% endif %}
-        <section class='header-adherent'>
-            <div>
-                <div class="row-first">
-                    <div class="col col-adherent-number">
-                        <label for="">Numéro Adhérent</label>
-                        <div class='id-adhérent'>
-                            {% if adherentProfile is defined %}
-                                {{ adherentProfile.id }}
-                            {% else %}
-                                (Automatique)
-                            {% endif %}
-                        </div>
-                    </div>
-                    <div class="col col-adherent-lastname">
-                        {{ form_label(formAdherent.lastname) }}
-                        {{ form_widget(formAdherent.lastname) }}
-                    </div>
-                    <div class="col col-adherent-firstname">
-                        {{ form_label(formAdherent.firstname) }}
-                        {{ form_widget(formAdherent.firstname) }}
-                    </div>
-                </div>
-                <div class="row-second">
-                    <div class="col col-adherent-genre">
-                        {{ form_label(formAdherent.genre) }}
-                        {{ form_widget(formAdherent.genre) }}
-                    </div>
-                    <div class="col col-adherent-status-contract">
-                        <label for="">État du contrat</label>
-                        <div class="status-contract">
-                            {% if adherentProfile is defined %}
-                                {% if adherentProfile.contractStartedAt < date('now') and adherentProfile.contractEndingAt > date('now') %}
-                                    En Cours
-                                {% else %}
-                                    Fini
-                                {% endif %}
-                            {% else %}
-                                (Automatique)
-                            {% endif %}
-                        </div>
-                    </div>
-                    <div class="col col-adherent-agence">
-                        {{ form_label(formAdherent.agence) }}
-                        {{ form_widget(formAdherent.agence) }}
-                    </div>
-                </div>
-                <div class="row-third">
-                    <div class="col col-adherent-birthdate">
-                        {{ form_label(formAdherent.birthdate) }}
-                        {{ form_widget(formAdherent.birthdate) }}
-                    </div>
-                    <div class="col col-adherent-age">
-                        <label for="">Âge</label>
-                        <div class="age">
-                            {% if adherentProfile is defined %}
-                                {{ adherentProfile.getAge() }}
-                            {% else %}
-                                (Automatique)
-                            {% endif %}
-                        </div>
-                    </div>
-                    <div class="col col-adherent-status-meet">
-                        {{ form_label(formAdherent.status_meet) }}
-                        {{ form_widget(formAdherent.status_meet) }}
-                    </div>
-                    <div class="col col-adherent-last-meet">
-                        <label for="">Dernière Rencontre</label>
-                        {% if meets is defined %}
-                            {% if meets is not empty %}
-                                {% set lastmeet = meets|last %}
-                                <div class="last-meet">{{ lastmeet.startedAt|date('d/m/Y') }}</div>
-                            {% else %}
-                                <div class="last-meet">"Aucune rencontre"</div>
-                            {% endif %}
+    <section class='header-adherent'>
+        <div>
+            <div class="row-first">
+                <div class="col col-adherent-number">
+                    <label for="">Numéro Adhérent</label>
+                    <div class='id-adhérent'>
+                        {% if adherentProfile is defined %}
+                            {{ adherentProfile.id }}
                         {% else %}
-                                <div class="last-meet">(Automatique)</div>
+                            (Automatique)
                         {% endif %}
                     </div>
                 </div>
+                <div class="col col-adherent-lastname">
+                    {{ form_label(formAdherent.lastname) }}
+                    {{ form_widget(formAdherent.lastname) }}
+                </div>
+                <div class="col col-adherent-firstname">
+                    {{ form_label(formAdherent.firstname) }}
+                    {{ form_widget(formAdherent.firstname) }}
+                </div>
             </div>
-            {% if adherentProfile is defined %}
-                {% if adherentProfile.linkPicture != '' %}
-                    <img class="image-adherent" src='{{ asset('uploads/adherent/adherent'~ adherentProfile.id ~'/picture/'~ adherentProfile.linkPicture) }}' alt="Image de l'adhérent"/>
-                {% else %}
-                    <img class="image-adherent" src='{{ asset('build/images/avatar.jpg') }}' alt="Image de l'adhérent"/>
-                {% endif %}
+            <div class="row-second">
+                <div class="col col-adherent-genre">
+                    {{ form_label(formAdherent.genre) }}
+                    {{ form_widget(formAdherent.genre) }}
+                </div>
+                <div class="col col-adherent-status-contract">
+                    <label for="">État du contrat</label>
+                    <div class="status-contract">
+                        {% if adherentProfile is defined %}
+                            {% if adherentProfile.contractStartedAt < date('now') and adherentProfile.contractEndingAt > date('now') %}
+                                En Cours
+                            {% else %}
+                                Fini
+                            {% endif %}
+                        {% else %}
+                            (Automatique)
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="col col-adherent-agence">
+                    {{ form_label(formAdherent.agence) }}
+                    {{ form_widget(formAdherent.agence) }}
+                </div>
+            </div>
+            <div class="row-third">
+                <div class="col col-adherent-birthdate">
+                    {{ form_label(formAdherent.birthdate) }}
+                    {{ form_widget(formAdherent.birthdate) }}
+                </div>
+                <div class="col col-adherent-age">
+                    <label for="">Âge</label>
+                    <div class="age">
+                        {% if adherentProfile is defined %}
+                            {{ adherentProfile.getAge() }}
+                        {% else %}
+                            (Automatique)
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="col col-adherent-status-meet">
+                    {{ form_label(formAdherent.status_meet) }}
+                    {{ form_widget(formAdherent.status_meet) }}
+                </div>
+                <div class="col col-adherent-last-meet">
+                    <label for="">Dernière Rencontre</label>
+                    {% if meets is defined %}
+                        {% if meets is not empty %}
+                            {% set lastmeet = meets|last %}
+                            <div class="last-meet">{{ lastmeet.startedAt|date('d/m/Y') }}</div>
+                        {% else %}
+                            <div class="last-meet">"Aucune rencontre"</div>
+                        {% endif %}
+                    {% else %}
+                            <div class="last-meet">(Automatique)</div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% if adherentProfile is defined %}
+            {% if adherentProfile.linkPicture != '' %}
+                <img class="image-adherent" src='{{ asset('uploads/adherent/adherent'~ adherentProfile.id ~'/picture/'~ adherentProfile.linkPicture) }}' alt="Image de l'adhérent"/>
             {% else %}
                 <img class="image-adherent" src='{{ asset('build/images/avatar.jpg') }}' alt="Image de l'adhérent"/>
             {% endif %}
-            <div class='container-comments'>
-                <div class="col col-adherent-comments1">
-                    {{ form_label(formAdherent.comments1) }}
-                    {{ form_widget(formAdherent.comments1) }}
-                </div>
-                <div class="col col-adherent-comments2">
-                    {# {{ form_label(formAdherent.comments2) }} #}
-                    {{ form_widget(formAdherent.comments2) }}
-                </div>
-                <div class="col col-adherent-comments3">
-                    {# {{ form_label(formAdherent.comments3) }} #}
-                    {{ form_widget(formAdherent.comments3) }}
-                </div>
+        {% else %}
+            <img class="image-adherent" src='{{ asset('build/images/avatar.jpg') }}' alt="Image de l'adhérent"/>
+        {% endif %}
+        <div class='container-comments'>
+            <div class="col col-adherent-comments1">
+                {{ form_label(formAdherent.comments1) }}
+                {{ form_widget(formAdherent.comments1) }}
             </div>
-        </section>
-        <section class='body-adherent'>
-            <div class="container-general">
-                <div class="onglets">
-                    <button class='open-tab' data-tab='tab-general' type='button'>Général</button>
-                    <button class='open-tab' data-tab='tab-research' type='button'>Recherche</button>
-                    <button class='open-tab' data-tab='tab-announcement' type='button'>Annonces</button>
-                    <button class='open-tab' data-tab='tab-contract' type='button'>Contrat</button>
-                    <button class='open-tab' data-tab='tab-documents' type='button'>Documents</button>
-                    <button class='open-tab' data-tab='tab-meet' type='button'>Rencontres</button>
-                </div>
-                <div class="tab-general tab">
-                    {% include('adherent/part/partTabGeneral.html.twig') %}
-                </div>
-                <div class="tab-research no-tab tab">
-                    {% include('adherent/part/partTabResearch.html.twig') %}
-                </div>
-                <div class="tab-announcement no-tab tab">
-                    {% if trueAgence is defined %}
-                        {% if trueAgence == true %}
-                            {% include('adherent/part/partTabAnnouncement.html.twig') %}
-                        {% else %}
-                            <p class="no-true-agence">Vous n'avez accès à cette donnée.</p>
-                        {% endif %}
-                    {% else %}
+            <div class="col col-adherent-comments2">
+                {# {{ form_label(formAdherent.comments2) }} #}
+                {{ form_widget(formAdherent.comments2) }}
+            </div>
+            <div class="col col-adherent-comments3">
+                {# {{ form_label(formAdherent.comments3) }} #}
+                {{ form_widget(formAdherent.comments3) }}
+            </div>
+        </div>
+    </section>
+    <section class='body-adherent'>
+        <div class="container-general">
+            <div class="onglets">
+                <button class='open-tab' data-tab='tab-general' type='button'>Général</button>
+                <button class='open-tab' data-tab='tab-research' type='button'>Recherche</button>
+                <button class='open-tab' data-tab='tab-announcement' type='button'>Annonces</button>
+                <button class='open-tab' data-tab='tab-contract' type='button'>Contrat</button>
+                <button class='open-tab' data-tab='tab-documents' type='button'>Documents</button>
+                <button class='open-tab' data-tab='tab-meet' type='button'>Rencontres</button>
+            </div>
+            <div class="tab-general tab">
+                {% include('adherent/part/partTabGeneral.html.twig') %}
+            </div>
+            <div class="tab-research no-tab tab">
+                {% include('adherent/part/partTabResearch.html.twig') %}
+            </div>
+            <div class="tab-announcement no-tab tab">
+                {% if trueAgence is defined %}
+                    {% if trueAgence == true %}
                         {% include('adherent/part/partTabAnnouncement.html.twig') %}
-                    {% endif %}
-                </div>
-                <div class="tab-contract no-tab tab">
-                    {% if trueAgence is defined %}
-                        {% if trueAgence == true %}
-                            {% include('adherent/part/partTabContract.html.twig') %}
-                        {% else %}
-                            <p class="no-true-agence">Vous n'avez accès à cette donnée.</p>
-                        {% endif %}
                     {% else %}
-                        {% include('adherent/part/partTabContract.html.twig') %}
+                        <p class="no-true-agence">Vous n'avez accès à cette donnée.</p>
                     {% endif %}
-                </div>
-                <div class="tab-documents no-tab tab">
-                    {% if trueAgence is defined %}
-                        {% if trueAgence == true %}
-                            {% include('adherent/part/partTabDocuments.html.twig') %}
-                        {% else %}
-                            <p class="no-true-agence">Vous n'avez accès à cette donnée.</p>
-                        {% endif %}
-                    {% else %}
-                        {% include('adherent/part/partTabDocuments.html.twig') %}
-                    {% endif %}
-                </div>
-                <div class="tab-meet no-tab tab">
-                    {% include('adherent/part/partTabMeet.html.twig') %}
-                </div>
+                {% else %}
+                    {% include('adherent/part/partTabAnnouncement.html.twig') %}
+                {% endif %}
             </div>
-        </section>
+            <div class="tab-contract no-tab tab">
+                {% if trueAgence is defined %}
+                    {% if trueAgence == true %}
+                        {% include('adherent/part/partTabContract.html.twig') %}
+                    {% else %}
+                        <p class="no-true-agence">Vous n'avez accès à cette donnée.</p>
+                    {% endif %}
+                {% else %}
+                    {% include('adherent/part/partTabContract.html.twig') %}
+                {% endif %}
+            </div>
+            <div class="tab-documents no-tab tab">
+                {% if trueAgence is defined %}
+                    {% if trueAgence == true %}
+                        {% include('adherent/part/partTabDocuments.html.twig') %}
+                    {% else %}
+                        <p class="no-true-agence">Vous n'avez accès à cette donnée.</p>
+                    {% endif %}
+                {% else %}
+                    {% include('adherent/part/partTabDocuments.html.twig') %}
+                {% endif %}
+            </div>
+            <div class="tab-meet no-tab tab">
+                {% include('adherent/part/partTabMeet.html.twig') %}
+            </div>
+            <div class="error-display-form">
+                {% include('adherent/part/partErrorForm.html.twig') %}
+            </div>
+        </div>
+    </section>
+    <div>
         {% if trueAgence is defined %}
             {% if trueAgence == true %}
                 {{ form_row(formAdherent.submit) }}
-            {% endif %}
-            {% if trueAgence == false %}
-                {{ form_end(formAdherent, {render_rest: false}) }}
-            {% else %}
                 {{ form_end(formAdherent) }}
+            {% elseif trueAgence == false %}
+                {{ form_end(formAdherent, {render_rest: false}) }}
             {% endif %}
         {% else %}
-{#            {{ form_row(formAdherent.submit) }}#}
-
+            {{ form_row(formAdherent.submit) }}
             {{ form_end(formAdherent) }}
         {% endif %}
     </div>
+</div>
+
 {% endblock %}

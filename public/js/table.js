@@ -233,6 +233,7 @@ $(document).ready( function () {
 
     $('#table-search').DataTable({
         paging: false,
+        // responsive: true,
         "order": [[ 3, "asc" ]],
         "language": {
             "emptyTable": "Pas encore de donées dans ce tableau"
@@ -426,7 +427,7 @@ $(document).ready( function () {
         paging: false,
         info: false,
         searching: true,
-        "order": [[ 2, "asc" ]],
+        "order": [[ 0, "desc" ]],
         "oLanguage": {
             "sSearch": "Votre recherche"
         },

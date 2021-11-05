@@ -8,9 +8,6 @@
 {% endfor %}
 <div id="adherents-list" class="container container-screen">
     <h1 class="title-adherents">Liste des adhérents</h1>
-    {% for agence in agences %}
-        <input class="name-agence-datatable" name-agence="{{ agence.name }}" hidden/>
-    {% endfor %}
     {#    Modal pour voir les info de la rencontre #}
     {% include('modal.html.twig') %}
 

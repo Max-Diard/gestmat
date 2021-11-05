@@ -6,6 +6,7 @@ use App\Entity\Adherent;
 use Doctrine\ORM\EntityRepository;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -31,6 +32,7 @@ class AdherentType extends AbstractType
             ->add('firstname', TextType::class, [
                 'label' => 'Prénom',
                 'required' => true,
+                'invalid_message' => 'La valeur pour le "Prénom" n\'est pas valide',
                 'attr' => [
                     'name_input' => 'Prénom'
                 ]
@@ -38,6 +40,7 @@ class AdherentType extends AbstractType
             ->add('lastname', TextType::class, [
                 'label' => 'Nom',
                 'required' => true,
+                'invalid_message' => 'La valeur pour le "Nom" n\'est pas valide',
                 'attr' => [
                     'name_input' => 'Nom'
                 ]
@@ -47,6 +50,7 @@ class AdherentType extends AbstractType
                 'years'=> range(date('Y'), date('Y') - 100),
                 'format' => 'dd-MM-yyyy',
                 'required' => true,
+                'invalid_message' => 'La valeur pour la "Date de naissance" n\'est pas valide',
                 'attr' => [
                     'name_input' => 'Date de naissance'
                 ]
@@ -66,32 +70,29 @@ class AdherentType extends AbstractType
             ->add('phone_mobile', TelType::class, [
                 'label' => 'N° tél. portable',
                 'required' => true,
+                'invalid_message' => 'La valeur pour le "Numéro de téléphone portable" n\'est pas valide',
                 'attr' => [
                     'type' => 'number',
-                    'pattern' => '^0[0-9]([-. ]?\d{2}){4}[-. ]?$',
-                    'title' => '09 09 09 09 09 ou 0909090909',
                     'class' => 'phone_form',
-                    'name_input' => 'N° tél. portable'
+                    'name_input' => 'Général: N° tél. portable'
                 ]
             ])
             ->add('phone_home', TelType::class, [
                 'label' => 'N° tél. fixe',
                 'required' => false,
+                'invalid_message' => 'La valeur pour le "Numéro de téléphone fixe" n\'est pas valide',
                 'attr' => [
                     'type' => 'number',
-                    'pattern' => '^0[0-9]([-. ]?\d{2}){4}[-. ]?$',
-                    'title' => '09 09 09 09 09 ou 0909090909',
                     'class' => 'phone_form'
                 ]
             ])
             ->add('phone_work', TelType::class, [
                 'label' => 'N° tél. travail',
                 'required' => false,
+                'invalid_message' => 'La valeur pour le "Numéro de téléphone de travail" n\'est pas valide',
                 'attr' => [
                     'type' => 'number',
-                    'pattern' => '^0[0-9]([-. ]?\d{2}){4}[-. ]?$',
-                    'title' => '09 09 09 09 09 ou 0909090909',
-                    'class' => 'phone_form'
+                    'class' => 'phone_form',
                 ]
             ])
             ->add('phone_comments', TextType::class, [
@@ -100,23 +101,26 @@ class AdherentType extends AbstractType
             ])
             ->add('profession', TextType::class, [
                 'label' => 'Profession',
+                'invalid_message' => 'La valeur pour la "Profession" n\'est pas valide',
                 'required' => true,
                 'attr' => [
-                    'name_input' => 'Profession'
+                    'name_input' => 'Général: Profession'
                 ]
             ])
             ->add('size', TextType::class, [
                 'label' => 'Taille',
+                'invalid_message' => 'La valeur pour la "Taille" n\'est pas valide',
                 'required' => true,
                 'attr'=> [
-                    'name_input' => 'Taille'
+                    'name_input' => 'Général: Taille'
                 ]
             ])
             ->add('weight', NumberType::class, [
                 'label' => 'Poids',
-                'required' => true,
+                'invalid_message' => 'La valeur pour le "Poids" n\'est pas valide',
+                'required' => false,
                 'attr' => [
-                    'name_input' => 'Poids'
+                    'name_input' => 'Général: Poids'
                 ]
             ])
             ->add('permis', ChoiceType::class, [
@@ -143,8 +147,10 @@ class AdherentType extends AbstractType
             ->add('announcement_presentation', CKEditorType::class, [
                 'label' => 'Annonce Fiche Présentation',
                 'required' => true,
+                'input_sync' => true,
                 'attr' => [
-                    'name_input' => 'Annonce Fiche Présentation'
+                    'required' => true,
+                    'name_input' => 'Annonce: Annonce Fiche Présentation'
                 ]
             ])
             ->add('announcement_free', CKEditorType::class, [
@@ -178,9 +184,10 @@ class AdherentType extends AbstractType
             ])
             ->add('email', EmailType::class, [
                 'label' => 'Email',
-                'required' => true,
+                'invalid_message' => 'La valeur pour "L\'email" n\'est pas valide',
+                'required' => false,
                 'attr' => [
-                    'name_input' => 'Email'
+                    'name_input' => 'Général: Email'
                 ]
             ])
             ->add('link_picture', FileType::class, [
@@ -211,9 +218,10 @@ class AdherentType extends AbstractType
             ])
             ->add('address_street', TextType::class, [
                 'label' => 'Adresse',
+                'invalid_message' => 'La valeur pour "L\'adresse" n\'est pas valide',
                 'required' => true,
                 'attr' => [
-                    'name_input' => 'Adresse'
+                    'name_input' => 'Général: Adresse'
                 ]
             ])
             ->add('address_street2', TextType::class, [
@@ -222,58 +230,74 @@ class AdherentType extends AbstractType
             ])
             ->add('address_zip_postal', NumberType::class ,[
                 'label' => 'Code postal',
+                'invalid_message' => 'La valeur pour le "Code postal" n\'est pas valide',
                 'required' => true,
                 'attr' => [
-                    'name_input' => 'Code Postal'
+                    'name_input' => 'Général: Code Postal'
                 ]
             ])
             ->add('address_town', TextType::class, [
                 'label' => 'Ville',
+                'invalid_message' => 'La valeur pour la "Ville" n\'est pas valide',
                 'required' => true,
                 'attr' => [
-                    'name_input' => 'Ville'
+                    'name_input' => 'Général: Ville'
                 ]
             ])
-            ->add('child_girl', NumberType::class, [
+            ->add('child_girl', IntegerType::class, [
                 'label' => 'Fille',
+                'invalid_message' => 'La valeur pour "Fille" n\'est pas valide',
                 'required' => true,
                 'attr' => [
-                    'name_input' => 'Fille'
+                    'min' => '0',
+                    'max' => '20',
+                    'name_input' => 'Général: Fille'
                 ]
             ])
-            ->add('child_boy', NumberType::class, [
+            ->add('child_boy', IntegerType::class, [
                 'label' => 'Garçon',
+                'invalid_message' => 'La valeur pour "Garçon" n\'est pas valide',
                 'required' => true,
                 'attr' => [
-                    'name_input' => 'Garçon'
+                    'min' => '0',
+                    'max' => '20',
+                    'name_input' => 'Général: Garçon'
                 ]
             ])
-            ->add('child_dependent_girl', NumberType::class, [
+            ->add('child_dependent_girl', IntegerType::class, [
                 'label' => 'Fille à charge',
+                'invalid_message' => 'La valeur pour "Fille à charge" n\'est pas valide',
                 'required' => true,
                 'attr' => [
-                    'name_input' => 'Fille à charge'
+                    'min' => '0',
+                    'max' => '20',
+                    'name_input' => 'Général: Fille à charge'
                 ]
             ])
-            ->add('child_dependent_boy', NumberType::class, [
+            ->add('child_dependent_boy', IntegerType::class, [
                 'label' => 'Garçon à charge',
+                'invalid_message' => 'La valeur pour "Garçon à charge" n\'est pas valide',
                 'required' => true,
                 'attr' => [
-                    'name_input' => 'Garçon à charge'
+                    'min' => '0',
+                    'max' => '20',
+                    'name_input' => 'Général: Garçon à charge'
                 ]
             ])
             ->add('search_age_min', NumberType::class, [
                 'label' => 'Âge minimum',
+                'invalid_message' => 'La valeur pour la "Recherche de l\'âge minimum" n\'est pas valide',
                 'required' => true,
                 'attr' => [
-                    'name_input' => 'Âge minimum'
+                    'name_input' => 'Recherche: Âge minimum'
                 ]
             ])
             ->add('search_age_max', NumberType::class, [
                 'label' => 'Âge maximum',
+                'invalid_message' => 'La valeur pour la "Recherche de l\'âge maximum" n\'est pas valide',
                 'required' => true,
                 'attr' => [
-                    'name_input' => 'Âge maximum'
+                    'name_input' => 'Recherhce: Âge maximum'
                 ]
             ])
             ->add('search_single', ChoiceType::class, [
@@ -299,17 +323,20 @@ class AdherentType extends AbstractType
             ])
             ->add('search_instruction', TextType::class, [
                 'label' => "Niveau d'étude",
-                'required' => true,
+                'required' => false,
+                'invalid_message' => 'La valeur pour la "Recherche du Niveau d\'étude" n\'est pas valide',
                 'attr' => [
-                    'name_input' => 'Recherche Niveau d\'étude'
+                    'name_input' => 'Recherche: Niveau d\'étude'
                 ]
             ])
             ->add('search_profession', TextType::class, [
                 'label' => 'Profession',
+                'invalid_message' => 'La valeur pour la "Recherche de la Profession" n\'est pas valide',
                 'required' => false
             ])
             ->add('search_region', TextType::class, [
                 'label' => 'Région',
+                'invalid_message' => 'La valeur pour la "Recherche de la Région" n\'est pas valide',
                 'required' => false
             ])
             ->add('search_more', TextareaType::class, [
@@ -317,17 +344,20 @@ class AdherentType extends AbstractType
                 'required' => false
             ])
             ->add('search_accept_children', ChoiceType::class, [
-                'label' => 'Accepte les enfants', 
+                'label' => 'Accepte les enfants',
                 'choices' => [
                     'Oui' => true,
                     'Non' => false
                 ]
             ])
-            ->add('search_number_accept_children', NumberType::class, [
+            ->add('search_number_accept_children', IntegerType::class, [
                 'label' => 'Nombre d\'enfants acceptés',
+                'invalid_message' => 'La valeur pour la "Recherche du nombre d\'enfants acceptés" n\'est pas valide',
                 'required' => true,
                 'attr' => [
-                    'name_input' => 'Nombre d\'enfants acceptés'
+                    'min' => '0',
+                    'max' => '20',
+                    'name_input' => 'Recherche: Nombre d\'enfants acceptés'
                 ]
             ])
             ->add('status_matrimoniale', EntityType::class, [
@@ -350,9 +380,10 @@ class AdherentType extends AbstractType
             ])
             ->add('instruction', TextType::class, [
                 'label' => 'Niveau d\'étude',
-                'required' => true,
+                'required' => false,
+                'invalid_message' => 'La valeur pour le "Niveau d\'étude" n\'est pas valide',
                 'attr' => [
-                    'name_input' => 'Niveau d\'étude'
+                    'name_input' => 'Général: Niveau d\'étude'
                 ]
             ])
             ->add('lodging', EntityType::class, [
@@ -436,10 +467,10 @@ class AdherentType extends AbstractType
             ])
             ->add('contract_amount', NumberType::class, [
                 'label' => 'Montant TTC',
-                'error_bubbling' => true,
+                'invalid_message' => 'La valeur pour "Le montant TTC" n\'est pas valide',
                 'required' => true,
                 'attr' => [
-                    'name_input' => 'Montant TTC',
+                    'name_input' => 'Contrat: Montant TTC',
                     'class' => 'amount_form'
                 ]
             ])

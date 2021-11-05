@@ -54,6 +54,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
                     if(elem.value === ''){
                         ev.preventDefault()
                         arrayValueEmpty.push(elem.getAttribute('name_input'))
+                        console.log(arrayValueEmpty)
                         let addHtml = ''
                         for (let i = 0; i < arrayValueEmpty.length; i++){
                             addHtml += '<li>' + arrayValueEmpty[i] + '</li>'
@@ -66,6 +67,17 @@ window.addEventListener("DOMContentLoaded", (event) => {
                     }
                 }
             })
+        })
+    }
+
+//Pour afficher les erreurs invalides du formulaire
+    const errorFormDisplay = document.querySelector('.error-form-display')
+
+    if(errorFormDisplay){
+        const colError = document.querySelectorAll('.col ul');
+        [].forEach.call(colError, (elem) => {
+            let test = elem.parentNode.childNodes
+                console.log(test)
         })
     }
 

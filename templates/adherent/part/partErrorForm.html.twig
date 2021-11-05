@@ -1,0 +1,31 @@
+<ul>
+    <li>
+        {{ form_errors(formAdherent.lastname) }}
+        {{ form_errors(formAdherent.firstname) }}
+        {#        Général       #}
+        {{ form_errors(formAdherent.address_street) }}
+        {{ form_errors(formAdherent.address_street2) }}
+        {{ form_errors(formAdherent.address_zip_postal) }}
+        {{ form_errors(formAdherent.address_town) }}
+        {{ form_errors(formAdherent.phone_mobile) }}
+        {{ form_errors(formAdherent.phone_home) }}
+        {{ form_errors(formAdherent.phone_work) }}
+        {{ form_errors(formAdherent.email) }}
+        {{ form_errors(formAdherent.size) }}
+        {{ form_errors(formAdherent.weight) }}
+        {{ form_errors(formAdherent.child_girl) }}
+        {{ form_errors(formAdherent.child_boy) }}
+        {{ form_errors(formAdherent.child_dependent_girl) }}
+        {{ form_errors(formAdherent.child_dependent_boy) }}
+        {#        Recherche       #}
+        {{ form_errors(formAdherent.search_age_min) }}
+        {{ form_errors(formAdherent.search_age_max) }}
+        {{ form_errors(formAdherent.search_number_accept_children) }}
+        {#        Annonce       #}
+        {{ form_errors(formAdherent.announcement_presentation) }}
+        {{ form_errors(formAdherent.announcement_free) }}
+        {{ form_errors(formAdherent.announcement_newspaper) }}
+        {#        Contrat       #}
+        {{ form_errors(formAdherent.contract_amount) }}
+    </li>
+</ul>

@@ -10,6 +10,7 @@
             <link rel="icon" type="image/png" sizes="32x32" href="{{asset('build/images/favicon/favicon-32x32.png')}}">
             <link rel="icon" type="image/png" sizes="16x16" href="{{asset('build/images/favicon/favicon-16x16.png')}}">
             <link rel="manifest" crossorigin="use-credentials" href="{{asset('build/images/favicon/site.webmanifest')}}">
+{#            <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.dataTables.min.css">#}
             {{ encore_entry_link_tags('app') }}
         {% endblock %}
 
@@ -36,6 +37,7 @@
             <script src="{{ asset('js/meet.js') }}"></script>
             <script src="{{ asset('js/messageFlash.js') }}"></script>
             <script src="{{ asset('js/sendPdf.js') }}"></script>
+{#            <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>#}
 
             {{ encore_entry_script_tags('app') }}
         {% endblock %}

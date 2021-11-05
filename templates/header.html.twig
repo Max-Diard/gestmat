@@ -1,4 +1,8 @@
 <header data-url="{{ url('app_login') }}">
+
+    {% for agence in app.user.agence %}
+        <input class="name-agence-datatable" name-agence="{{ agence.name }}" hidden/>
+    {% endfor %}
     <div class="btn-menu">
         <div class="btn-opened">
             <img src="{{asset('build/images/burger-opened.svg')}}" alt="Logo agence">
