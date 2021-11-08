@@ -146,7 +146,9 @@ class AdherentController extends AbstractController
                 $trueAgence = false;
             }
 
-            $form = $this->createForm(AdherentType::class, $adherent);
+            $form = $this->createForm(AdherentType::class, $adherent, [
+                'agences' => $userAgence
+            ]);
 
             // On récupére le nom des fichiers déjà existant
             $linkInfo = $adherent->getLinkInformation();
@@ -155,7 +157,6 @@ class AdherentController extends AbstractController
             $linkAnnouncement = $adherent->getLinkPictureAnnouncement();
 
             //Affichage des meets
-
             if ($adherent->getGenre()->getName() === 'Féminin'){
                 $genre = 'adherent_woman';
             } else {
@@ -182,19 +183,29 @@ class AdherentController extends AbstractController
             $options = $this->entityManager->getRepository(AdherentOption::class)->findBy(['type' => 'status_meet']);
             $actions = $this->entityManager->getRepository(AdherentOption::class)->findBy(['type' => 'action_meet']);
 
+//            dd($form->get('announcement_presentation')->getData());
+//            dd($form->getErrors());
+
             $form->handleRequest($request);
 
-            // Envoi du formulaire
-            if($form->isSubmitted() && $form->isValid()){
-
-                $adherent = $form->getData();
-
-                // On vérifie si il n'y a pas de virgule
+            // On vérifie le formulaire
+            if($form->isSubmitted()){
+                // On vérifie s'il n'y a pas de virgule
                 $size = $form->get('size')->getData();
 
                 if(str_contains($size, ',')) {
                     $size = str_replace(',','.', $size);
                 }
+                // On vérifie si le champ de la présentation de l'adhérent est remplie
+                if($form->get('announcement_presentation')->getData() === ''){
+                    $form->get('announcement_presentation')->addError(new FormError('Merci de bien vouloir remplir la présentation de l\'adhérent !'));
+                }
+            }
+
+            // Envoi du formulaire
+            if($form->isSubmitted() && $form->isValid()){
+
+                $adherent = $form->getData();
 
                 $adherent->setSize($size);
 
@@ -305,18 +316,19 @@ class AdherentController extends AbstractController
                 'agences' => $agences
             ]);
 
+
             $form->handleRequest($request);
 
             // On vérifie le formulaire
             if($form->isSubmitted()){
-                // On vérifie si il n'y a pas de virgule
+                // On vérifie s'il n'y a pas de virgule
                 $size = $form->get('size')->getData();
 
                 if(str_contains($size, ',')) {
                     $size = str_replace(',','.', $size);
                 }
                 // On vérifie si le champ de la présentation de l'adhérent est remplie
-                if($form->get('announcement_presentation')->getData() === null){
+                if($form->get('announcement_presentation')->getData() === ''){
                     $form->get('announcement_presentation')->addError(new FormError('Merci de bien vouloir remplir la présentation de l\'adhérent !'));
                 }
             }

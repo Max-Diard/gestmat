@@ -148,6 +148,7 @@ class AdherentType extends AbstractType
                 'label' => 'Annonce Fiche Présentation',
                 'required' => true,
                 'input_sync' => true,
+                'empty_data' => '',
                 'attr' => [
                     'required' => true,
                     'name_input' => 'Annonce: Annonce Fiche Présentation'

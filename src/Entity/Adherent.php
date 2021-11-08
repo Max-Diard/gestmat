@@ -133,9 +133,9 @@ class Adherent implements Serializable
     private $announcement_publish;
 
     /**
-     * @ORM\Column(type="text")
+     * @ORM\Column(type="text", nullable=false)
      */
-    private $announcement_presentation;
+    private $announcement_presentation = '';
 
     /**
      * @ORM\Column(type="text", nullable=true)
