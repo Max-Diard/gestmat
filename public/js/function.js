@@ -161,7 +161,7 @@ function informationMeetWoman(recup, card, elem){
                     informationMeet(idMeet)
                 } else {
                     Swal.fire({
-                        title: 'Donnés non disponible',
+                        title: 'Données non disponibles',
                         text: 'Vous n\'avez pas accès à cette donnée !',
                         icon: 'info'
                     })

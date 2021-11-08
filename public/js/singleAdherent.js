@@ -60,8 +60,8 @@ window.addEventListener("DOMContentLoaded", (event) => {
                             addHtml += '<li>' + arrayValueEmpty[i] + '</li>'
                         }
                         Swal.fire({
-                            title: 'Formulaire non envoyée !',
-                            html: 'Il manque des informations pour: <ul>' + addHtml + '</ul>',
+                            title: 'Formulaire non envoyé !',
+                            html: 'Il manque des informations pour : <ul>' + addHtml + '</ul>',
                             icon: 'info'
                         })
                     }

@@ -46,7 +46,7 @@ $(document).ready( function () {
         "scrollY": "373px",
         "scrollCollapse": true,
         "language": {
-            "emptyTable": "Pas encore de donées dans ce tableau"
+            "emptyTable": "Pas encore de données dans ce tableau"
         },
         initComplete: function () {
             //Status
@@ -139,7 +139,7 @@ $(document).ready( function () {
         "scrollY":        "373px",
         "scrollCollapse": true,
         "language": {
-            "emptyTable": "Pas encore de donées dans ce tableau"
+            "emptyTable": "Pas encore de données dans ce tableau"
         },
         initComplete: function() {
             // Status
@@ -236,7 +236,7 @@ $(document).ready( function () {
         // responsive: true,
         "order": [[ 3, "asc" ]],
         "language": {
-            "emptyTable": "Pas encore de donées dans ce tableau"
+            "emptyTable": "Pas encore de données dans ce tableau"
         },
         initComplete: function () {
             // Apply the search
@@ -263,7 +263,7 @@ $(document).ready( function () {
         paging: false,
         "order": [[ 3, "asc" ]],
         "language": {
-            "emptyTable": "Pas encore de donées dans ce tableau"
+            "emptyTable": "Pas encore de données dans ce tableau"
         },
         "bAutoWidth": true,
         initComplete: function () {
@@ -442,7 +442,7 @@ $(document).ready( function () {
         searching: false,
         info: false,
         "language": {
-            "emptyTable": "Pas encore de donées dans ce tableau"
+            "emptyTable": "Pas encore de données dans ce tableau"
         }
     });
 
@@ -452,7 +452,7 @@ $(document).ready( function () {
         searching: false,
         info: false,
         "language": {
-            "emptyTable": "Pas encore de donées dans ce tableau"
+            "emptyTable": "Pas encore de données dans ce tableau"
         }
     });
 } );
