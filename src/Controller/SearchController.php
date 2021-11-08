@@ -80,6 +80,7 @@ class SearchController extends AbstractController
                     unset($otherAgences[array_search($agence, $otherAgences, true)]);
                 }
             }
+            $adherentOtherAgence = [];
             foreach($otherAgences as $otherAgence){
                 $adherentOtherAgence[] = $this->entityManager->getRepository(Adherent::class)->findBy(['agence' => $otherAgence]);
             }
