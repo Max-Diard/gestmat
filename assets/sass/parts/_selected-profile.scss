@@ -46,11 +46,13 @@
             > div{
                 &:first-child{
                     width: 85%;
-                    > div + div{
-                        margin-top: 1rem;
-                    }
+                    display: flex;
+                    justify-content: space-between;
                 }
-                .row-first, .row-second, .row-third {
+                .col-first, .col-second, .col-third, .col-fourth {
+                    display: flex;
+                    flex-direction: column;
+                    gap: .9rem;
                     justify-content: start;
                     align-items: start;
                     justify-content: space-between;
@@ -61,11 +63,27 @@
                         label{
                             white-space: nowrap;
                             line-height: 1.3em;
+                            text-align: end;
                         }
                         input{
                             width: 12rem;
                             padding: 0.2rem;
                         }
+                    }
+                }
+                .col-first{
+                    label{
+                        width: 11.5rem;
+                    }
+                }
+                .col-third{
+                    label{
+                        width: 9.2rem;
+                    }
+                }
+                .col-fourth{
+                    label{
+                        width: 11.9rem;
                     }
                 }
             }
@@ -104,28 +122,29 @@
             margin-top: 6rem;
             .container-general{
                 width: 100%;
-                border: .2rem solid $color__purple;
                 padding: 1.2rem;
-                background-color: $color__grey_light;
+                background-color: white;
+                border-radius: 0 1rem 1rem 1rem;
+                box-shadow: $shad;
                 position: relative;
                 .onglets{
                     position: absolute;
-                    top: -3.8rem;
-                    left: -.22rem;
+                    top: -3.7rem;
+                    left: 0;
                     button{
                         font-weight: bold;
                         font-size: 1.4rem;
                         text-transform: uppercase;
                         color: white;
-                        background-color: $color__purple;
+                        background-color: $color__grey_dark;
                         border: none;
                         padding: 1rem;
-                        border: .2rem solid $color__purple;
                         border-bottom: none;
                         cursor: pointer;
+                        border-radius: .3rem .3rem 0 0;
+                        margin-right: 2rem;
                         &:hover, &:focus{
-                            background-color: $color__grey_light;
-                            color: $color__purple;
+                            background-color: $color__purple;
                         }
                     }
                 }

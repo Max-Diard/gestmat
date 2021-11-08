@@ -74,6 +74,11 @@ h1{
     }
 }
 
+.center{
+    text-align: center;
+    margin-top: 3rem;
+}
+
 #adherents-list .dataTables_filter{
     border: 0;
     clip: rect(1px, 1px, 1px, 1px);
@@ -137,13 +142,13 @@ table.dataTable tbody tr{
     background-color: $color__grey_light;
     transition: all .3s ease-in-out;
     &:hover, &:focus{
-        background-color: $color__purple_hover;
+        background-color: grey;
         color: white;
     }
     &.dispo{
         background-color: $color__grey;
         &:hover, &:focus{
-            background-color: $color__purple_hover;
+            background-color: grey;
             color: white;
         }
     }
@@ -159,12 +164,12 @@ table.dataTable tbody tr{
             }
         }
         &:hover, &:focus{
-            background-color: $color__purple_hover;
+            background-color: grey;
             color: white;
         }
     }
     &.active{
-        background-color: $color__purple_hover;
+        background-color: grey;
         color: white;
     }
 }

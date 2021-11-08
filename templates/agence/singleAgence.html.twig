@@ -39,11 +39,14 @@
             {% endfor %}
             </p>
         {% endif %} #}
-    </div>
-    {% if app.user.roles[0] == 'ROLE_ADMIN' %}
+        <div class="center">
+         {% if app.user.roles[0] == 'ROLE_ADMIN' %}
         <a class="btn btn-little" href="{{ path('admin_agence_modify', {id: agence.id}) }}">Modifier l'agence</a>
     {% else %}
         <a class="btn btn-little" href="{{ path('agence_modify', {id: agence.id}) }}">Modifier l'agence</a>
     {% endif %}
+    </div>
+    </div>
+   
 </div>
 {% endblock %}

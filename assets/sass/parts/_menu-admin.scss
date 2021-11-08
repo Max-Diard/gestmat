@@ -13,18 +13,18 @@
         gap: 4rem;
         max-width: 70rem;
         > a{
-            background-color: $color__pink;
+            background-color: $color__purple;
             border-radius: .5rem;
             width: 20.6rem;
             padding-top: 2.5rem;
             padding-bottom: 2.5rem;
             text-align: center;
-            border: .2rem solid $color__pink;
+            border: .2rem solid $color__purple;
             color: white;
             font-size: 1.8rem;
             &:hover, &:focus{
                 background-color: white;
-                color: $color__pink;
+                color: $color__purple;
             }
         }
     }
@@ -77,6 +77,10 @@
     }
     .content{
         margin-bottom: 4rem;
+        padding: 3rem;
+        border-radius: 1rem;
+        background-color: white;
+        box-shadow: $shad;
         p{
             font-size: 1.6rem;
             span{
@@ -146,6 +150,10 @@
     }
     form{
         font-size: 1.6rem;
+        border-radius: 1rem;
+        background-color: white;
+        box-shadow: $shad;
+        padding: 3rem;
         label{
             width: 19rem;
             display: inline-block;
@@ -198,38 +206,34 @@
                 button{
                     cursor: pointer;
                     font-weight: bold;
-                    font-size: 2rem;
+                    font-size: 1.8rem;
                     text-transform: uppercase;
                     color: white;
-                    background-color: $color__pink;
-                    padding: 1.8rem 3rem 1.5rem 3rem;
+                    background-color: $color__grey_dark;
+                    border: .15rem solid $color__grey_dark;
+                    padding: .8rem 2.3rem;
                     align-self: center;
-                    border: none;
                     border-radius: .5rem;
                     position: relative;
                     transition: all .2s ease-in-out;
                     right: 0rem;
                     bottom: 0rem;
-                    &::before{
-                        content: "";
-                        display: block;
-                        position: absolute;
-                        width: 100%;
-                        height: 100%;
-                        right: -.5rem;
-                        bottom: -.5rem;
-                        border-radius: .5rem;
-                        background-color: $color__purple;
-                        z-index: -1;
-                        transition: all .2s ease-in-out;
-                    }
+                    // &::before{
+                    //     content: "";
+                    //     display: block;
+                    //     position: absolute;
+                    //     width: 100%;
+                    //     height: 100%;
+                    //     right: -.5rem;
+                    //     bottom: -.5rem;
+                    //     border-radius: .5rem;
+                    //     background-color: $color__purple;
+                    //     z-index: -1;
+                    //     transition: all .2s ease-in-out;
+                    // }
                     &:hover, &:focus{
-                        right: -.5rem;
-                        bottom: -.5rem;
-                        &::before{
-                            right: 0rem;
-                            bottom: 0rem;
-                        }
+                        background-color: white;
+                        color: $color__grey_dark;
                     }
                 }
             }
@@ -251,42 +255,26 @@
             color: $color__purple;
         }
         button{
-            margin: 0 auto;
-            margin-top: 4rem;
             cursor: pointer;
             font-weight: bold;
-            font-size: 1.4rem;
+            font-size: 1.8rem;
             text-transform: uppercase;
             color: white;
-            background-color: $color__pink;
-            padding: 1.8rem 3rem 1.5rem 3rem;
+            background-color: $color__grey_dark;
+            border: .15rem solid $color__grey_dark;
+            padding: .8rem 2.3rem;
             align-self: center;
-            border: none;
             border-radius: .5rem;
             position: relative;
             transition: all .2s ease-in-out;
             right: 0rem;
             bottom: 0rem;
-            &::before{
-                content: "";
-                display: block;
-                position: absolute;
-                width: 100%;
-                height: 100%;
-                right: -.5rem;
-                bottom: -.5rem;
-                border-radius: .5rem;
-                background-color: $color__purple;
-                z-index: -1;
-                transition: all .2s ease-in-out;
-            }
+            margin-top: 3rem;
+            margin-left: auto;
+            margin-right: auto;
             &:hover, &:focus{
-                right: -.5rem;
-                bottom: -.5rem;
-                &::before{
-                    right: 0rem;
-                    bottom: 0rem;
-                }
+                background-color: white;
+                color: $color__grey_dark;
             }
         }
     }
@@ -313,35 +301,18 @@
             font-size: 1.2rem;
             text-transform: uppercase;
             color: white;
-            background-color: $color__pink;
-            padding: 1rem 1.5rem .8rem 1.5rem;
+            background-color: $color__grey_dark;
+            padding: .5rem 1.5rem .5rem 1.5rem;
             align-self: center;
-            border: none;
+            border: .1rem solid $color__grey_dark;
             border-radius: .3rem;
             position: relative;
             transition: all .2s ease-in-out;
             right: 0rem;
             bottom: 0rem;
-            &::before{
-                content: "";
-                display: block;
-                position: absolute;
-                width: 100%;
-                height: 100%;
-                right: -.3rem;
-                bottom: -.3rem;
-                border-radius: .5rem;
-                background-color: $color__purple;
-                z-index: -1;
-                transition: all .2s ease-in-out;
-            }
             &:hover, &:focus{
-                right: -.3rem;
-                bottom: -.3rem;
-                &::before{
-                    right: 0rem;
-                    bottom: 0rem;
-                }
+                background-color: white;
+                color: $color__grey_dark;
             }
         }
     }

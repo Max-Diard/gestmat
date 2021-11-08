@@ -372,7 +372,7 @@ class AdherentType extends AbstractType
             ])
             ->add('status_meet', EntityType::class, [
                 'class' => AdherentOption::class,
-                'label' => 'Status Relation',
+                'label' => 'Statut Relation',
                 'query_builder' => function (EntityRepository $repository){
                     return $repository->createQueryBuilder('s')
                         ->andWhere('s.type = :val')

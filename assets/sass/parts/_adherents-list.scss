@@ -55,7 +55,8 @@
     .card-selected{
         margin-top: 5rem;
             .in-agence-woman, .in-agence-man{
-                background-color: $color__grey_light;
+                background-color: white;
+                box-shadow: $shad;
             }
             .not-in-agence-woman{
                 background-color: $color__pink_extralight;
@@ -65,7 +66,9 @@
                     position: absolute;
                     top: 2px;
                     left: 7px;
-                    color: red;
+                    color: grey;
+                    padding: .5rem;
+                    font-style: italic;
                 }
             }
             .not-in-agence-man{
@@ -76,12 +79,14 @@
                     position: absolute;
                     top: 2px;
                     left: 7px;
-                    color: red;
+                    color: grey;
+                    padding: 1rem .5rem;
+                    font-style: italic;
                 }
             }
         .card-selected-woman, .card-selected-man{
-            //background-color: $color__grey_light;
-            border: .4rem solid $color__pink_extralight;
+            background-color: white;
+            box-shadow: $shad;
             border-radius: 2rem;
             width: 49%;
             padding: 2rem 1.1rem;
@@ -99,19 +104,8 @@
                 width: 100%;
             }
         }
-        .card-selected-man{
-            border: .4rem solid $color__green;
-            // margin-left: 0.5rem;
-            // @include rwd(1510){
-            //     margin-left: 0;
-            // }
-        }
-        .card-selected-woman{
-            // margin-right: 0.5rem;
-            // @include rwd(1510){
-            //     margin-right: 0;
-            // }
-        }
+
+
         .info-adherent-woman-picked, .table-card-woman > .thead-adherent, .table-card-man > .thead-adherent{
             font-weight: bold;
             font-size: 1.6rem;

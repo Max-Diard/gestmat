@@ -18,7 +18,7 @@
     {{ form_start(formAdherent) }}
     <section class='header-adherent'>
         <div>
-            <div class="row-first">
+            <div class="col-first">
                 <div class="col col-adherent-number">
                     <label for="">Numéro Adhérent</label>
                     <div class='id-adhérent'>
@@ -29,19 +29,31 @@
                         {% endif %}
                     </div>
                 </div>
-                <div class="col col-adherent-lastname">
-                    {{ form_label(formAdherent.lastname) }}
-                    {{ form_widget(formAdherent.lastname) }}
-                </div>
-                <div class="col col-adherent-firstname">
-                    {{ form_label(formAdherent.firstname) }}
-                    {{ form_widget(formAdherent.firstname) }}
-                </div>
-            </div>
-            <div class="row-second">
                 <div class="col col-adherent-genre">
                     {{ form_label(formAdherent.genre) }}
                     {{ form_widget(formAdherent.genre) }}
+                </div>
+               <div class="col col-adherent-birthdate">
+                    {{ form_label(formAdherent.birthdate) }}
+                    {{ form_widget(formAdherent.birthdate) }}
+                </div>
+            </div>
+            <div class="col-second">
+                <div class="col col-adherent-age">
+                    <label for="">Âge</label>
+                    <div class="age">
+                        {% if adherentProfile is defined %}
+                            {{ adherentProfile.getAge() }}
+                        {% else %}
+                            (Automatique)
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="col-third">
+             <div class="col col-adherent-lastname">
+                    {{ form_label(formAdherent.lastname) }}
+                    {{ form_widget(formAdherent.lastname) }}
                 </div>
                 <div class="col col-adherent-status-contract">
                     <label for="">État du contrat</label>
@@ -57,29 +69,19 @@
                         {% endif %}
                     </div>
                 </div>
-                <div class="col col-adherent-agence">
-                    {{ form_label(formAdherent.agence) }}
-                    {{ form_widget(formAdherent.agence) }}
-                </div>
-            </div>
-            <div class="row-third">
-                <div class="col col-adherent-birthdate">
-                    {{ form_label(formAdherent.birthdate) }}
-                    {{ form_widget(formAdherent.birthdate) }}
-                </div>
-                <div class="col col-adherent-age">
-                    <label for="">Âge</label>
-                    <div class="age">
-                        {% if adherentProfile is defined %}
-                            {{ adherentProfile.getAge() }}
-                        {% else %}
-                            (Automatique)
-                        {% endif %}
-                    </div>
-                </div>
-                <div class="col col-adherent-status-meet">
+                 <div class="col col-adherent-status-meet">
                     {{ form_label(formAdherent.status_meet) }}
                     {{ form_widget(formAdherent.status_meet) }}
+                </div>
+            </div>
+            <div class="col-fourth">
+                <div class="col col-adherent-firstname">
+                    {{ form_label(formAdherent.firstname) }}
+                    {{ form_widget(formAdherent.firstname) }}
+                </div>
+                   <div class="col col-adherent-agence">
+                    {{ form_label(formAdherent.agence) }}
+                    {{ form_widget(formAdherent.agence) }}
                 </div>
                 <div class="col col-adherent-last-meet">
                     <label for="">Dernière Rencontre</label>
@@ -88,7 +90,7 @@
                             {% set lastmeet = meets|last %}
                             <div class="last-meet">{{ lastmeet.startedAt|date('d/m/Y') }}</div>
                         {% else %}
-                            <div class="last-meet">"Aucune rencontre"</div>
+                            <div class="last-meet">Aucune rencontre</div>
                         {% endif %}
                     {% else %}
                             <div class="last-meet">(Automatique)</div>
