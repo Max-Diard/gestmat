@@ -494,7 +494,7 @@ class AdherentController extends AbstractController
 
     }
 
-    private function replaceTel($tel): string
+    private function replaceTel($tel)
     {
         if(strlen($tel) === 10){
             return wordwrap($tel, 2 , ' ', 1);
