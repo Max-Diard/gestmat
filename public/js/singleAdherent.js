@@ -35,7 +35,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
                 } else {
                     Swal.fire({
                         title: 'Fichier valide !',
-                        text: 'Le fichier prêt à être enregistrer !',
+                        text: 'Le fichier est prêt à être enregistrer !',
                         icon: 'success'
                     })
                 }

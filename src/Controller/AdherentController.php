@@ -13,17 +13,12 @@ use App\Form\SearchType;
 use Doctrine\ORM\EntityManagerInterface;
 use Dompdf\Dompdf;
 use Dompdf\Options;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Config\Definition\Exception\Exception;
-use Symfony\Component\DependencyInjection\Container;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
-use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\Form\FormError;
@@ -49,7 +44,7 @@ class AdherentController extends AbstractController
 
         //Si l'utilisateur connecté à plus d'une agence, on itére dessus
         if (count($agences) > 0){
-            for($i = 0; $i < count($agences); $i++){
+            for($i = 0, $iMax = count($agences); $i < $iMax; $i++){
                 $agence = $agences[$i]->getId();
                 
                 $womenAdherent[] = $this->entityManager->getRepository(Adherent::class)->findByGenreAgences('Féminin', $agence);
@@ -61,7 +56,7 @@ class AdherentController extends AbstractController
                 ];
 
 
-
+                    // DROIT AGENCE
 //                $otherAgences = $this->entityManager->getRepository(Agence::class)->findOtherAgence($agences[$i]);
 //
 //                $womenAdherentDroit = [];
@@ -98,37 +93,8 @@ class AdherentController extends AbstractController
                             if (empty($haveMeet)){
                                 $haveMeet = $this->entityManager->getRepository(Meet::class)->findBy(['adherent_woman' => $adherent->getId()]);
                             }
-                            //Si il n'y a l'id de l'adhérent du côté femme et homme alors on défini sont statut sur disponible
-//                            if (empty($haveMeet)){
-//                                // On regarde si la personne n'est pas en attente pour ne pas lui changer le statut
-//                                if($adherent->getStatusMeet()->getName() != 'En attente'){
-//                                    $dispo = $this->entityManager->getRepository(AdherentOption::class)->findBy(['type' => 'status_meet', 'name' => 'Disponible']);
-//                                    $adherent->setStatusMeet($dispo[0]);
-//
-//                                    $this->entityManager->persist($adherent);
-//                                    $this->entityManager->flush();
-//                                }
-//                            }
                             if(!empty($haveMeet)){
                                 $meeting[] = $adherent->getId();
-
-                                //Pour modifier si tu le status meet pour l'adhérent
-                                $dates = [];
-                                foreach ($haveMeet as $m){
-                                    $dates[] = ($m->getStartedAt());
-                                }
-//                                $dateLastMeet = $dates[count($dates) -1]->format('Y-m-d');
-//                                $today = date('Y-m-d');
-//
-//                                if ($dateLastMeet >= $today){
-//                                    $inMeet = $this->entityManager->getRepository(AdherentOption::class)->findBy(['type' => 'status_meet', 'name' => 'En rencontre']);
-//                                    $adherent->setStatusMeet($inMeet[0]);
-//                                } else {
-//                                    $dispo = $this->entityManager->getRepository(AdherentOption::class)->findBy(['type' => 'status_meet', 'name' => 'Disponible']);
-//                                    $adherent->setStatusMeet($dispo[0]);
-//                                }
-//                                $this->entityManager->persist($adherent);
-//                                $this->entityManager->flush();
                             }
                         }
                     }
@@ -242,7 +208,6 @@ class AdherentController extends AbstractController
                 $phoneWork = $form->get('phone_work')->getData();
                 $adherent->setPhonework($this->replaceTel($phoneWork));
 
-//                dd($this->replaceTel($phoneHome), $this->replaceTel($phoneWork),$this->replaceTel($phoneMobile));
 
                 // Gestion des fichiers
                 $fileInfo = $form->get('link_information')->getData();
@@ -250,13 +215,7 @@ class AdherentController extends AbstractController
                 // Si une image est envoyé alors on ajoute l'information en BDD
                 if($fileInfo){
                     // Si l'adhérent à déjà une image on supprime cette dernière du dossier 'public'
-                    if ($linkInfo){
-                        unlink($this->getParameter('adherent_directory') . 'adherent' . $adherent->getId() . '/information/' . $linkInfo);
-                    }
-                    $fileInfoExt = $fileInfo->guessExtension();
-                    $fileInfoName = md5(uniqid('', true)) . '.' . $fileInfoExt;
-                    $fileInfo->move($this->getParameter('adherent_directory') . 'adherent' . $adherent->getId() . '/information/', $fileInfoName);
-                    $adherent->setLinkInformation($fileInfoName);
+                    $this->moveLinkFile($fileInfo, 'information', $adherent->getId(), $adherent, $linkInfo);
                 }
                 // On récupére le nom de l'image déjà existant et on lui renvoi
                 else {
@@ -268,13 +227,7 @@ class AdherentController extends AbstractController
                 // Si une image est envoyé alors on ajoute l'information en BDD
                 if($fileContract){
                     // Si l'adhérent à déjà une image on supprime cette dernière du dossier 'public'
-                    if ($linkContract){
-                        unlink($this->getParameter('adherent_directory') . 'adherent' . $adherent->getId() . '/contract/' . $linkContract);
-                    }
-                    $fileContractExt = $fileContract->guessExtension();
-                    $fileContractName = md5(uniqid('', true)) . '.' . $fileContractExt;
-                    $fileContract->move($this->getParameter('adherent_directory') . 'adherent' . $adherent->getId() . '/contract/', $fileContractName);
-                    $adherent->setLinkContract($fileContractName);
+                    $this->moveLinkFile($fileContract, 'contract', $adherent->getId(), $adherent, $linkContract);
                 }
                 // On récupére le nom de l'image déjà existant et on lui renvoi
                 else {
@@ -286,13 +239,7 @@ class AdherentController extends AbstractController
                 // Si une image est envoyé alors on ajoute l'information en BDD
                 if ($fileAnnouncement){
                     // Si l'adhérent à déjà une image on supprime cette dernière du dossier 'public'
-                    if ($linkAnnouncement){
-                        unlink($this->getParameter('adherent_directory') . 'adherent' . $adherent->getId() . '/announcement/' . $linkAnnouncement);
-                    }
-                    $fileAnnouncementExt = $fileAnnouncement->guessExtension();
-                    $fileAnnouncementName = md5(uniqid('', true)) . '.' . $fileAnnouncementExt;
-                    $fileAnnouncement->move($this->getParameter('adherent_directory') . 'adherent' . $adherent->getId() . '/announcement/', $fileAnnouncementName);
-                    $adherent->setLinkPictureAnnouncement($fileAnnouncementName);
+                    $this->moveLinkFile($fileAnnouncement, 'announcement', $adherent->getId(), $adherent,$linkAnnouncement);
                 }
                 // On récupére le nom de l'image déjà existant et on lui renvoi
                  else {
@@ -304,13 +251,7 @@ class AdherentController extends AbstractController
                 // Si une image est envoyé alors on ajoute l'information en BDD
                 if ($filePic){
                     // Si l'adhérent à déjà une image on supprime cette dernière du dossier 'public'
-                    if ($linkPic){
-                        unlink($this->getParameter('adherent_directory') . 'adherent' . $adherent->getId() . '/picture/' . $linkPic);
-                    }
-                    $filePicExt = $filePic->guessExtension();
-                    $filePicName = md5(uniqid('', true)).'.'.$filePicExt;
-                    $filePic->move($this->getParameter('adherent_directory') . 'adherent' . $adherent->getId() . '/picture/', $filePicName);
-                    $adherent->setLinkPicture($filePicName);
+                    $this->moveLinkFile($filePic, 'picture', $adherent->getId(), $adherent, $linkPic);
                 }
                 // On récupére le nom de l'image déjà existant et on lui renvoi
                 else {
@@ -352,7 +293,7 @@ class AdherentController extends AbstractController
             $lastAdherent = $this->entityManager->getRepository(Adherent::class)->findByLastId();
             $lastAdherent = $lastAdherent[0]->getId();
 
-            if ($lastAdherent != ''){
+            if ($lastAdherent !== ''){
                 $lastAdherent++;
             } else{
                 $lastAdherent = 1;
@@ -373,8 +314,6 @@ class AdherentController extends AbstractController
 
                 if(str_contains($size, ',')) {
                     $size = str_replace(',','.', $size);
-                    $form->remove('size');
-                    $form->add('size', $size);
                 }
                 // On vérifie si le champ de la présentation de l'adhérent est remplie
                 if($form->get('announcement_presentation')->getData() === null){
@@ -384,6 +323,8 @@ class AdherentController extends AbstractController
 
             if($form->isSubmitted() && $form->isValid()){
                 $adherent = $form->getData();
+
+                $adherent->setSize($size);
 
                 // Récupération et changement du format du téléphone
                 $phoneMobile = $form->get('phone_mobile')->getData();
@@ -400,37 +341,25 @@ class AdherentController extends AbstractController
                 $fileInfo = $form->get('link_information')->getData();
                 // Si une image est envoyé alors on ajoute l'information en BDD
                 if($fileInfo){
-                    $fileInfoExt = $fileInfo->guessExtension();
-                    $fileInfoName = md5(uniqid('', true)) . '.' . $fileInfoExt;
-                    $fileInfo->move($this->getParameter('adherent_directory') . 'adherent' . $lastAdherent . '/information/', $fileInfoName);
-                    $adherent->setLinkInformation($fileInfoName);
+                    $this->moveLinkFile($fileInfo, 'information' ,$lastAdherent, $adherent);
                 }
 
                 $fileContract = $form->get('link_contract')->getData();
                 // Si une image est envoyé alors on ajoute l'information en BDD
                 if($fileContract){
-                    $fileContractExt = $fileContract->guessExtension();
-                    $fileContractName = md5(uniqid('', true)) . '.' . $fileContractExt;
-                    $fileContract->move($this->getParameter('adherent_directory') . 'adherent' . $lastAdherent . '/contract/', $fileContractName);
-                    $adherent->setLinkContract($fileContractName);
+                    $this->moveLinkFile($fileContract, 'contract', $lastAdherent, $adherent,);
                 }
 
                 $fileAnnouncement = $form->get('link_picture_announcement')->getData();
                 // Si une image est envoyé alors on ajoute l'information en BDD
                 if($fileAnnouncement){
-                    $fileAnnouncementExt = $fileAnnouncement->guessExtension();
-                    $fileAnnouncementName = md5(uniqid('', true)) . '.' . $fileAnnouncementExt;
-                    $fileAnnouncement->move($this->getParameter('adherent_directory') . 'adherent' . $lastAdherent . '/announcement/', $fileAnnouncementName);
-                    $adherent->setLinkPictureAnnouncement($fileAnnouncementName);
+                    $this->moveLinkFile($fileAnnouncement, 'announcement', $lastAdherent, $adherent);
                 }
 
                 $filePic = $form->get('link_picture')->getData();
                 // Si une image est envoyé alors on ajoute l'information en BDD
                 if($filePic){
-                    $filePicExt = $filePic->guessExtension();
-                    $filePicName = md5(uniqid('', true)).'.'.$filePicExt;
-                    $filePic->move($this->getParameter('adherent_directory') . 'adherent' . $lastAdherent . '/picture/', $filePicName);
-                    $adherent->setLinkPicture($filePicName);
+                    $this->moveLinkFile($filePic, 'picture', $lastAdherent, $adherent);
                 }
 
                 $this->entityManager->persist($adherent);
@@ -526,9 +455,6 @@ class AdherentController extends AbstractController
 
         return new BinaryFileResponse(($this->getParameter('testimony_directory') . $slug . '.pdf'));
 
-//        return $dompdf->stream($slug , [
-//            'Attachment' => false
-//        ]);
     }
 
     //Route pour exporter les adhérents
@@ -568,11 +494,37 @@ class AdherentController extends AbstractController
 
     }
 
-    private function replaceTel($tel){
+    private function replaceTel($tel): string
+    {
         if(strlen($tel) === 10){
             return wordwrap($tel, 2 , ' ', 1);
         }else{
             return $tel;
+        }
+    }
+
+    private function moveLinkFile($file, $typeFile, $adherentId, $adherent, $fileActually = null): void
+    {
+
+        if($fileActually !== null){
+            unlink($this->getParameter('adherent_directory') . 'adherent' . $adherentId . '/'. $typeFile . '/' . $fileActually);
+        }
+
+        $fileExt = $file->guessExtension();
+        $fileName = md5(uniqid('', true)) . '.' . $fileExt;
+        $file->move($this->getParameter('adherent_directory') . 'adherent' . $adherentId . '/'. $typeFile . '/', $fileName);
+
+        if($typeFile === 'information'){
+            $adherent->setLinkInformation($fileName);
+        }
+        if($typeFile === 'contract'){
+            $adherent->setLinkContract($fileName);
+        }
+        if($typeFile === 'announcement'){
+            $adherent->setLinkPictureAnnouncement($fileName);
+        }
+        if($typeFile === 'picture'){
+            $adherent->setLinkPicture($fileName);
         }
     }
 }

@@ -47,7 +47,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
     if(alertErrorRemoveOption){
         Swal.fire({
             title: 'Opération impossible !',
-            text: "L'option ne peux pas être supprimée car utilisée pour un adhérent !",
+            text: "L'option ne peut pas être supprimée car utilisée pour un adhérent !",
             icon: 'error'
         })
     }
