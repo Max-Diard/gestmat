@@ -6,8 +6,12 @@ $color__purple_black: #602C4B;
 $color__purple_hover: #A38999;
 $color__purple: #A00055;
 $color__grey: #E7E7E7;
+$color__grey_dark: #333333;
 $color__grey_light: #FBFBFB;
 $color__green: #E0EEE8;
 
 // FONTS
-$font: 'Josefin Sans', 'Arial', sans-serif;
+$font: 'Roboto', 'Arial', sans-serif;
+
+// EFFECTS
+$shad : 0px 4px 14px rgba(0, 0, 0, 0.15);

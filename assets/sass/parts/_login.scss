@@ -2,36 +2,51 @@
 .section-register{
     flex-direction: column;
     .container-fluid{
-        max-width: 36rem;
+       padding: 3.5rem;
+       background-color: white;
+       box-shadow: $shad;
+       border-radius: 1rem;
         .logo-title{
             margin-bottom: 6rem;
+            text-align: center;
+            h1{
+                text-transform: uppercase;
+                color: $color__purple;
+                font-size: 5.2rem;
+                line-height: 1.1em;
+            }
         }
         .form-register{
+            width: 35rem;
             .form-control{
                 margin-bottom: 2rem;
-                border: .2rem solid $color__pink_extralight;
+                border: .2rem solid $color__grey;
                 border-radius: .5rem;
                 padding: 1rem;
-                font-size: 1.8rem;
+                font-size: 1.6rem;
                 color: $color__purple;
                 &::placeholder{
-                    color: $color__purple;
                     opacity: 1;
+                    color: $color__grey_dark;
                 }
                 &:focus{
                     outline: none;
-                    border: .2rem solid $color__pink_light;
+                    border: .2rem solid $color__purple;
                 }
             }
             .btn{
-                margin-top: 6rem;
+                margin-top: 4rem;
             }
             .link-password{
                 text-align: center;
                 font-weight: bold;
-                color: $color__pink_light;
+                color: $color__grey_dark;
                 text-decoration: underline;
                 margin-top: 1.5rem;
+            }
+            .alert{
+                color: $color__pink;
+                font-style: italic;
             }
         }
     }

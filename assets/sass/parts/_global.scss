@@ -2,7 +2,7 @@ body{
     font-family: $font;
     font-size: 1.4rem;
     font-weight: normal;
-    color: $color__purple_black;
+    color: $color__grey_dark;
     line-height: 1.2em;
 }
 
@@ -17,38 +17,34 @@ h1{
 .btn, #adherent_submit, #user_agence_submit, .send-form, #change_profile_submit, #change_password_submit{
     cursor: pointer;
     font-weight: bold;
-    font-size: 2rem;
+    font-size: 1.8rem;
     text-transform: uppercase;
     color: white;
-    background-color: $color__pink;
-    padding: 1.8rem 3rem 1.5rem 3rem;
+    background-color: $color__grey_dark;
+    border: .15rem solid $color__grey_dark;
+    padding: .8rem 2.3rem;
     align-self: center;
-    border: none;
     border-radius: .5rem;
     position: relative;
     transition: all .2s ease-in-out;
     right: 0rem;
     bottom: 0rem;
-    &::before{
-        content: "";
-        display: block;
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        right: -.5rem;
-        bottom: -.5rem;
-        border-radius: .5rem;
-        background-color: $color__purple;
-        z-index: -1;
-        transition: all .2s ease-in-out;
-    }
+    // &::before{
+    //     content: "";
+    //     display: block;
+    //     position: absolute;
+    //     width: 100%;
+    //     height: 100%;
+    //     right: -.5rem;
+    //     bottom: -.5rem;
+    //     border-radius: .5rem;
+    //     background-color: $color__purple;
+    //     z-index: -1;
+    //     transition: all .2s ease-in-out;
+    // }
     &:hover, &:focus{
-        right: -.5rem;
-        bottom: -.5rem;
-        &::before{
-            right: 0rem;
-            bottom: 0rem;
-        }
+        background-color: white;
+        color: $color__grey_dark;
     }
     &.btn-little{
         font-size: 1.4rem;
