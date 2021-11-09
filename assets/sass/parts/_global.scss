@@ -225,6 +225,8 @@ table.dataTable.no-footer{
             display: flex;
             flex-direction: column;
             margin-top: 1rem;
+            margin-left: 0.5rem;
+            margin-right: 0.5rem;
             align-items: center;
             .year-min,
             .year-max,
@@ -250,18 +252,20 @@ table.dataTable.no-footer{
     #selectTriggerSearchInterAgence{
         display: flex;
         justify-content: center;
+        margin-top: 1rem;
         div{
             margin-top: 1rem;
-            margin-right: 1rem;
         }
         .filter{
-            margin-top: 1rem;
-            margin-right: 1rem;
+            margin-top: .5rem;
             background-color: $color__grey;
             color: $color__purple;
             padding: 5px;
             border: none;
             border-radius: 3px;
+        }
+        div + div{
+            margin-left: 1.5rem;
         }
     }
     label{
@@ -345,6 +349,10 @@ input{
         background-color: $color__grey;
         color: $color__purple_black;
     }
+    .search-filter-text{
+        background-color: transparent !important;
+        text-align: center;
+    }
 }
 
 .dataTables_wrapper.no-footer .dataTables_scrollBody {
@@ -368,6 +376,7 @@ input{
             left: 50%;
             transform: translate(-50%, -50%);
             border-radius: 2rem;
+            box-shadow: $shad;
             // border: .4rem solid $color__pink_light;
             form{
                 padding: 4rem;
@@ -496,6 +505,10 @@ input{
         margin-bottom: 2rem;
     }
     .content{
+        background-color: white;
+        border-radius: 1rem;
+        box-shadow: $shad;
+        padding: 3rem;
         p+p{
             margin-top: 1rem;
         }
@@ -504,6 +517,7 @@ input{
         }
         span{
             font-weight: bold;
+            font-size: 1.6rem;
         }
     }
 }
@@ -573,5 +587,9 @@ input{
             }
         }
     }
+}
+
+.dataTables_info{
+    font-style: italic;
 }
 
