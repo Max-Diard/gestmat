@@ -65,7 +65,6 @@ class ApiController extends AbstractController
         ];
 
         return $this->json($adherentApi, 200, [], ['groups' => 'adherent:read']);
-
     }
 
     //Api en get pour récupérer la rencontre sélectionner

@@ -89,6 +89,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
         [].forEach.call(meetMoreButton, function (elem) {
             elem.addEventListener('click', function (ev) {
                 ev.preventDefault()
+                console.log(elem)
                 informationMeet(elem.getAttribute('data-id'))
             })
         })

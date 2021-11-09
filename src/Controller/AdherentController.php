@@ -438,9 +438,9 @@ class AdherentController extends AbstractController
 
         $dompdf = new Dompdf($pdf);
 
-        $agence = $this->entityManager->getRepository(Agence::class)->findBy(['id' => $adherent->getAgence()]);
+        $agence = $adherent->getAgence();
 
-        $image = 'uploads/agence/agence' . $agence[0]->getId() . '/picture/'. $agence[0]->getLinkPicture();
+        $image = $request->getSchemeAndHttpHost() . '/uploads/agence/agence' . $agence->getId() . '/picture/'. $agence->getLinkPicture();
 
         $html = $this->renderView('file/pdfTestimony.html.twig', [
             'adherent' => $adherent,
@@ -458,6 +458,12 @@ class AdherentController extends AbstractController
         $slug = $slugger->slug("temoignage-" . strtolower($adherent->getLastname()) . '-' . strtolower($adherent->getFirstname()));
 
         $output = $dompdf->output();
+
+        if(!is_dir($this->getParameter('testimony_directory'))){
+            if (!mkdir($concurrentDirectory = $this->getParameter('testimony_directory')) && !is_dir($concurrentDirectory)) {
+                throw new \RuntimeException(sprintf('Directory "%s" was not created', $concurrentDirectory));
+            }
+        }
 
         $location = $this->getParameter('testimony_directory') . $slug . '.pdf';
 

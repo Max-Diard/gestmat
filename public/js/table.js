@@ -236,7 +236,8 @@ $(document).ready( function () {
         // responsive: true,
         "order": [[ 3, "asc" ]],
         "language": {
-            "emptyTable": "Pas encore de données dans ce tableau"
+            "emptyTable": "Pas encore de données dans ce tableau",
+            "info": "",
         },
         initComplete: function () {
             // Apply the search
@@ -254,16 +255,23 @@ $(document).ready( function () {
     });
 
 //Tableau pour la recherche inter-agence
-    $('#table-search-inter-agence thead td').each(function () {
-        var title = $(this).text();
-        $(this).html('<input class="search-filter-text" type="text" placeholder="'+title+'" />');
-    });
-
+//     $('#table-search-inter-agence thead td').append('<tbody></tbody>').each(function () {
+//         var title = $(this).text();
+//         $(this).html('<input class="search-filter-text" type="text" placeholder="'+title+'" />');
+//     });
+    function filterColumn ( i ) {
+        $('#example').DataTable().column( i ).search(
+            $('#col'+i+'_filter').val(),
+            $('#col'+i+'_regex').prop('checked'),
+            $('#col'+i+'_smart').prop('checked')
+        ).draw();
+    }
     var tableSearchInterAgence = $('#table-search-inter-agence').DataTable({
         paging: false,
         "order": [[ 3, "asc" ]],
         "language": {
-            "emptyTable": "Pas encore de données dans ce tableau"
+            "emptyTable": "Pas encore de données dans ce tableau",
+            "info": "",
         },
         "bAutoWidth": true,
         initComplete: function () {
