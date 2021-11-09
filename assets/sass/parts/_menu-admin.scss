@@ -359,10 +359,10 @@
     flex-direction: column;
     align-items: center;
     form, .pop-up{
-        border: .2rem solid $color__pink_light;
         border-radius: 1rem;
         padding: 2rem;
         margin-top: 10rem;
+        box-shadow: $shad;
         p{
             text-align: center;
             font-size: 1.6rem;
@@ -380,6 +380,9 @@
             margin-top: 2rem;
             a{
                 font-size: 1.6rem;
+                &:nth-child(1){
+                    margin-left: 2rem;
+                }
             }
         }
         label{

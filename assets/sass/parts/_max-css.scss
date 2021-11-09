@@ -352,8 +352,23 @@ label{
 .search-input-meet {
     text-align: center;
     margin: 1rem;
+    margin-top: 2.5rem;
     input{
         color: $color__purple;
+    }
+    h2{
+        margin-bottom: 1rem;
+    }
+    a{
+        margin-left: 0.5rem;
+        border-radius: 50%;
+        border: .2rem solid $color__purple;
+        color: $color__purple;
+        padding: .5rem;
+        &:hover, &:focus{
+            background-color: $color__purple;
+            color: white;
+        }
     }
 }
 
@@ -436,6 +451,10 @@ label{
             }
         }
         #admin_agence{
+            background-color: white;
+            border-radius: 1rem;
+            box-shadow: $shad;
+            padding: 3rem;
             > div{
                 display: flex;
                 align-items: center;
@@ -451,41 +470,24 @@ label{
             }
             button{
                 margin: 0 auto;
-                margin-top: 4rem;
+                margin-top: 3rem;
                 cursor: pointer;
                 font-weight: bold;
-                font-size: 1.4rem;
+                font-size: 1.8rem;
                 text-transform: uppercase;
                 color: white;
-                background-color: $color__pink;
-                padding: 1.8rem 3rem 1.5rem 3rem;
+                background-color: $color__grey_dark;
+                border: .15rem solid $color__grey_dark;
+                padding: .8rem 2.3rem;
                 align-self: center;
-                border: none;
                 border-radius: .5rem;
                 position: relative;
                 transition: all .2s ease-in-out;
                 right: 0rem;
                 bottom: 0rem;
-                &::before{
-                    content: "";
-                    display: block;
-                    position: absolute;
-                    width: 100%;
-                    height: 100%;
-                    right: -.5rem;
-                    bottom: -.5rem;
-                    border-radius: .5rem;
-                    background-color: $color__purple;
-                    z-index: -1;
-                    transition: all .2s ease-in-out;
-                }
                 &:hover, &:focus{
-                    right: -.5rem;
-                    bottom: -.5rem;
-                    &::before{
-                        right: 0rem;
-                        bottom: 0rem;
-                    }
+                    background-color: white;
+                    color: $color__grey_dark;
                 }
             }
         }
