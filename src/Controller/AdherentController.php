@@ -4,13 +4,8 @@ namespace App\Controller;
 
 use App\Entity\Adherent;
 use App\Entity\AdherentOption;
-use App\Entity\Agence;
 use App\Entity\Meet;
-use App\Entity\Search;
 use App\Form\AdherentType;
-use App\Form\MeetType;
-use App\Form\SearchType;
-use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Dompdf\Dompdf;
 use Dompdf\Options;
@@ -152,6 +147,17 @@ class AdherentController extends AbstractController
                 'agences' => $userAgence
             ]);
 
+            // Gestion de l'affichage du numéro de téléphone
+            if ($form->get('phone_mobile')->getData()){
+                $form->get('phone_mobile')->setData($this->replaceTel($adherent->getPhoneMobile()));
+            }
+            if ($form->get('phone_home')->getData()){
+                $form->get('phone_home')->setData($this->replaceTel($adherent->getPhoneHome()));
+            }
+            if ($form->get('phone_work')->getData()){
+                $form->get('phone_work')->setData($this->replaceTel($adherent->getPhoneWork()));
+            }
+
             // On récupére le nom des fichiers déjà existant
             $linkInfo = $adherent->getLinkInformation();
             $linkContract = $adherent->getLinkContract();
@@ -185,9 +191,6 @@ class AdherentController extends AbstractController
             $options = $this->entityManager->getRepository(AdherentOption::class)->findBy(['type' => 'status_meet']);
             $actions = $this->entityManager->getRepository(AdherentOption::class)->findBy(['type' => 'action_meet']);
 
-//            dd($form->get('announcement_presentation')->getData());
-//            dd($form->getErrors());
-
             $form->handleRequest($request);
 
             // On vérifie le formulaire
@@ -212,15 +215,18 @@ class AdherentController extends AbstractController
                 $adherent->setSize($size);
 
                 // Récupération et changement du format du téléphone
-                $phoneMobile = $form->get('phone_mobile')->getData();
-                $adherent->setPhoneMobile($this->replaceTel($phoneMobile));
-
-                $phoneHome = $form->get('phone_home')->getData();
-                $adherent->setPhoneHome($this->replaceTel($phoneHome));
-
-                $phoneWork = $form->get('phone_work')->getData();
-                $adherent->setPhonework($this->replaceTel($phoneWork));
-
+                if(strlen($form->get('phone_mobile')->getData()) > 10){
+                    $tel = str_replace(" ", "", $form->get('phone_mobile')->getData());
+                    $adherent->setPhoneMobile($tel);
+                }
+                if(strlen($form->get('phone_home')->getData()) > 10){
+                    $tel = str_replace(" ", "", $form->get('phone_home')->getData());
+                    $adherent->setPhoneHome($tel);
+                }
+                if(strlen($form->get('phone_work')->getData()) > 10){
+                    $tel = str_replace(" ", "", $form->get('phone_work')->getData());
+                    $adherent->setPhoneWork($tel);
+                }
 
                 // Gestion des fichiers
                 $fileInfo = $form->get('link_information')->getData();
@@ -341,14 +347,18 @@ class AdherentController extends AbstractController
                 $adherent->setSize($size);
 
                 // Récupération et changement du format du téléphone
-                $phoneMobile = $form->get('phone_mobile')->getData();
-                $adherent->setPhoneMobile($this->replaceTel($phoneMobile));
-
-                $phoneHome = $form->get('phone_home')->getData();
-                $adherent->setPhoneHome($this->replaceTel($phoneHome));
-
-                $phoneWork = $form->get('phone_work')->getData();
-                $adherent->setPhonework($this->replaceTel($phoneWork));
+                if(strlen($form->get('phone_mobile')->getData()) > 10){
+                    $tel = str_replace(" ", "", $form->get('phone_mobile')->getData());
+                    $adherent->setPhoneMobile($tel);
+                }
+                if(strlen($form->get('phone_home')->getData()) > 10){
+                    $tel = str_replace(" ", "", $form->get('phone_home')->getData());
+                    $adherent->setPhoneHome($tel);
+                }
+                if(strlen($form->get('phone_work')->getData()) > 10){
+                    $tel = str_replace(" ", "", $form->get('phone_work')->getData());
+                    $adherent->setPhoneWork($tel);
+                }
 
                 $adherent->setActive(true);
 
@@ -502,6 +512,7 @@ class AdherentController extends AbstractController
                 $adherentcsv[] = $adherent;
             }
         }
+
         $csv = $this->renderView('file/template.csv.twig', [
                 'adherents' => $adherentcsv,
                 'meets' => $meets
@@ -578,18 +589,16 @@ class AdherentController extends AbstractController
 
     }
 
-    private function replaceTel($tel)
+    private function replaceTel(string $tel): string
     {
-        if(strlen($tel) === 10){
-            return wordwrap($tel, 2 , ' ', 1);
-        }else{
-            return $tel;
+        if(str_contains($tel,'+33')){
+            $tel = str_replace(["+33 ", "+33"], "0", $tel);
         }
+        return wordwrap($tel, 2 , ' ', 1);
     }
 
     private function moveLinkFile($file, $typeFile, $adherentId, $adherent, $fileActually = null): void
     {
-
         if($fileActually !== null){
             unlink($this->getParameter('adherent_directory') . 'adherent' . $adherentId . '/'. $typeFile . '/' . $fileActually);
         }

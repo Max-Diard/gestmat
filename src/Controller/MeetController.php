@@ -197,6 +197,7 @@ class MeetController extends AbstractController
     ]
     public function seePdfAdherent(Adherent $adherent, Adherent $meet, Request $request, SluggerInterface $slugger)
     {
+        // A refractoriser avec la function 'testimonyAdherent' dans AdherentController
         $date = new DateTimeImmutable('now');
 
         $pdf = new Options();

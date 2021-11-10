@@ -5,6 +5,9 @@
 {% block body %}
 <div id="list-users" class="container container-screen">
     <h1 class="title-adherents">Tous les utilisateurs</h1>
+    <div class="link-button">
+        <a class="btn btn-little" href="{{ path('admin_user_new') }}">Ajouter un utilisateur</a>
+    </div>
     <table id="table-user" class="table-user">
         <thead>
             <tr>

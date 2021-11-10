@@ -64,6 +64,16 @@ window.addEventListener("DOMContentLoaded", (event) => {
                             html: 'Il manque des informations pour : <ul>' + addHtml + '</ul>',
                             icon: 'info'
                         })
+                    } else if (document.getElementById('adherent_email') !== ''){
+                        const regexEmail = new RegExp("^([a-zA-Z0-9\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$");
+                        const emailValue = document.getElementById('adherent_email').value
+                        if(!regexEmail.test(emailValue)){
+                            Swal.fire({
+                                title: 'Formulaire non envoyé !',
+                                html: 'Merci de rentrer un email valide !',
+                                icon: 'info'
+                            })
+                        }
                     }
                 }
             })

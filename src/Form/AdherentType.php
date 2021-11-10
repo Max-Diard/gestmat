@@ -285,19 +285,23 @@ class AdherentType extends AbstractType
                     'name_input' => 'Général : Garçon à charge'
                 ]
             ])
-            ->add('search_age_min', NumberType::class, [
+            ->add('search_age_min', IntegerType::class, [
                 'label' => 'Âge minimum',
                 'invalid_message' => 'La valeur pour la "Recherche de l\'âge minimum" n\'est pas valide',
                 'required' => true,
                 'attr' => [
+                    'min' => '0',
+                    'max' => '100',
                     'name_input' => 'Recherche : Âge minimum'
                 ]
             ])
-            ->add('search_age_max', NumberType::class, [
+            ->add('search_age_max', IntegerType::class, [
                 'label' => 'Âge maximum',
                 'invalid_message' => 'La valeur pour la "Recherche de l\'âge maximum" n\'est pas valide',
                 'required' => true,
                 'attr' => [
+                    'min' => '0',
+                    'max' => '100',
                     'name_input' => 'Recherche : Âge maximum'
                 ]
             ])

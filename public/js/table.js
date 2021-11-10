@@ -46,7 +46,11 @@ $(document).ready( function () {
         "scrollY": "373px",
         "scrollCollapse": true,
         "language": {
-            "emptyTable": "Pas encore de données dans ce tableau"
+            "emptyTable": "Pas encore de données dans ce tableau",
+            "info": "",
+            'infoEmpty': '',
+            "infoFiltered": '',
+            "zeroRecords": "Aucune donnée correspondante trouvée",
         },
         initComplete: function () {
             //Status
@@ -139,7 +143,11 @@ $(document).ready( function () {
         "scrollY":        "373px",
         "scrollCollapse": true,
         "language": {
-            "emptyTable": "Pas encore de données dans ce tableau"
+            "emptyTable": "Pas encore de données dans ce tableau",
+            "info": "",
+            'infoEmpty': '',
+            "infoFiltered": '',
+            "zeroRecords": "Aucune donnée correspondante trouvée",
         },
         initComplete: function() {
             // Status
@@ -238,6 +246,9 @@ $(document).ready( function () {
         "language": {
             "emptyTable": "Pas encore de données dans ce tableau",
             "info": "",
+            'infoEmpty': '',
+            "infoFiltered": '',
+            "zeroRecords": "Aucune donnée correspondante trouvée",
         },
         initComplete: function () {
             // Apply the search
@@ -272,6 +283,9 @@ $(document).ready( function () {
         "language": {
             "emptyTable": "Pas encore de données dans ce tableau",
             "info": "",
+            'infoEmpty': '',
+            "infoFiltered": '',
+            "zeroRecords": "Aucune donnée correspondante trouvée",
         },
         "bAutoWidth": true,
         initComplete: function () {
@@ -440,8 +454,12 @@ $(document).ready( function () {
             "sSearch": "Votre recherche"
         },
         "language": {
-            "emptyTable": "Pas encore de rencontre pendant cette période"
-        }
+            "emptyTable": "Pas encore de données dans ce tableau",
+            "info": "",
+            'infoEmpty': '',
+            "infoFiltered": '',
+            "zeroRecords": "Aucune donnée correspondante trouvée",
+        },
     });
 
 //Tableau pour la liste des agences
@@ -450,8 +468,12 @@ $(document).ready( function () {
         searching: false,
         info: false,
         "language": {
-            "emptyTable": "Pas encore de données dans ce tableau"
-        }
+            "emptyTable": "Pas encore de données dans ce tableau",
+            "info": "",
+            'infoEmpty': '',
+            "infoFiltered": '',
+            "zeroRecords": "Aucune donnée correspondante trouvée",
+        },
     });
 
 //Tableau pour la liste des utilisateurs
@@ -460,7 +482,11 @@ $(document).ready( function () {
         searching: false,
         info: false,
         "language": {
-            "emptyTable": "Pas encore de données dans ce tableau"
-        }
+            "emptyTable": "Pas encore de données dans ce tableau",
+            "info": "",
+            'infoEmpty': '',
+            "infoFiltered": '',
+            "zeroRecords": "Aucune donnée correspondante trouvée",
+        },
     });
 } );
