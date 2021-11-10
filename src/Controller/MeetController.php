@@ -519,15 +519,21 @@ class MeetController extends AbstractController
             $genreAdherent = $meet->getAdherentWoman();
         }
 
-        $agence = $adherent->getAgence()->getLinkPicture();
+        $agenceId = $adherent->getAgence()->getId();
+        $agencePicture= $adherent->getAgence()->getLinkPicture();
 
-        $image = $request->getSchemeAndHttpHost() . '/uploads/agence/agence' . $adherent->getAgence()->getId() . '/picture/'. $agence;
+//        $image = $request->getSchemeAndHttpHost() . '/uploads/agence/agence' . $adherent->getAgence()->getId() . '/picture/'. $agence;
+
+        $image = $this->getParameter('agence_directory') . 'agence' . $agenceId . '/picture/'. $agencePicture;
+        $type = pathinfo($image, PATHINFO_EXTENSION);
+        $data = file_get_contents($image);
+        $imageBase64 = 'data:/image' . $type . ';base64,' . base64_encode($data);
 
         $html .= $this->renderView('file/pdfView.html.twig', [
             'adherent' => $adherent,
             'meetAdherent' => $genreAdherent,
             'date' => $date,
-            'image' => $image,
+            'image' => $imageBase64,
             'idMeet' => $meet->getId()
         ]);
 

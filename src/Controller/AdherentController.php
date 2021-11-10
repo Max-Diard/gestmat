@@ -442,11 +442,16 @@ class AdherentController extends AbstractController
 
         $agence = $adherent->getAgence();
 
-        $image = $request->getSchemeAndHttpHost() . '/uploads/agence/agence' . $agence->getId() . '/picture/'. $agence->getLinkPicture();
+//        $image = $request->getSchemeAndHttpHost() . '/uploads/agence/agence' . $agence->getId() . '/picture/'. $agence->getLinkPicture();
+
+        $image = $this->getParameter('agence_directory') . 'agence' . $agence->getId() . '/picture/'. $agence->getLinkPicture();
+        $type = pathinfo($image, PATHINFO_EXTENSION);
+        $data = file_get_contents($image);
+        $imageBase64 = 'data:/image' . $type . ';base64,' . base64_encode($data);
 
         $html = $this->renderView('file/pdfTestimony.html.twig', [
             'adherent' => $adherent,
-            'image' => $image
+            'image' => $imageBase64
         ]);
 
         $dompdf->loadHtml($html);
