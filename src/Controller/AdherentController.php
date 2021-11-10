@@ -10,6 +10,7 @@ use App\Entity\Search;
 use App\Form\AdherentType;
 use App\Form\MeetType;
 use App\Form\SearchType;
+use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Dompdf\Dompdf;
 use Dompdf\Options;
@@ -19,6 +20,7 @@ use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\Form\FormError;
@@ -509,6 +511,62 @@ class AdherentController extends AbstractController
         $response->headers->set('Content-Disposition', $disposition);
 
         return $response;
+
+    }
+
+    #[
+        Route('/adherent/pdf/test/{id}', name: 'adherent_export'),
+        IsGranted('ROLE_USER')
+    ]
+    public function adherenttest(Adherent $adherent, Request $request, MailerInterface $mailer, SluggerInterface $slugger): Response
+    {
+        $pdf = new Options();
+        $pdf->set('defaultFont', 'Arial');
+        $pdf->set('isRemoteEnabled', true);
+
+        $dompdf = new Dompdf($pdf);
+
+        $agence = $adherent->getAgence();
+
+        $image = $request->getSchemeAndHttpHost() . '/uploads/agence/agence' . $agence->getId() . '/picture/'. $agence->getLinkPicture();
+        $image2 = $request->getHttpHost() . '/uploads/agence/agence' . $agence->getId() . '/picture/'. $agence->getLinkPicture();
+        $image3 = $this->getParameter('agence_directory') . 'agence' . $agence->getId() .' /picture/'. $agence->getLinkPicture();
+        $image4 = $request->get('SYMFONY_PROJECT_DEFAULT_ROUTE_URL'). '/uploads/agence/agence' . $agence->getId() .' /picture/'. $agence->getLinkPicture();
+        $image5 = "http://127.0.0.1:8000/uploads/agence/agence23/picture/7f48f4a8af4007223ba83d8d441be4e2.jpg";
+
+        $html = $this->renderView('file/pdfTest.html.twig', [
+            'image1' => $image,
+            'image2' => $image2,
+            'image3' => $image3,
+            'image4' => $image4,
+            'image5' => $image5
+        ]);
+
+        $dompdf->loadHtml($html);
+
+        // (Optional) Setup the paper size and orientation 'portrait' or 'portrait'
+        $dompdf->setPaper('A4', 'portrait');
+
+        // Render the HTML as PDF
+        $dompdf->render();
+
+        $slug = $slugger->slug("temoignage-" . strtolower($adherent->getLastname()) . '-' . strtolower($adherent->getFirstname()));
+
+        $output = $dompdf->output();
+
+        if(!is_dir($this->getParameter('testimony_directory'))){
+            if (!mkdir($concurrentDirectory = $this->getParameter('testimony_directory')) && !is_dir($concurrentDirectory)) {
+                throw new \RuntimeException(sprintf('Directory "%s" was not created', $concurrentDirectory));
+            }
+        }
+
+        $location = $this->getParameter('testimony_directory') . $slug . '.pdf';
+
+        file_put_contents($location , $output);
+
+        // Output the generated PDF to Browser (force download)
+
+        return new BinaryFileResponse(($this->getParameter('testimony_directory') . $slug . '.pdf'));
 
     }
 
