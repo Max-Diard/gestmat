@@ -332,7 +332,7 @@ class Adherent implements Serializable
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $search_instruction;
+    private $search_instruction = '';
 
     /**
      * @ORM\ManyToOne(targetEntity=AdherentOption::class, inversedBy="owner")
