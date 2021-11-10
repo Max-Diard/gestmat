@@ -515,7 +515,7 @@ class AdherentController extends AbstractController
     }
 
     #[
-        Route('/adherent/pdf/test/{id}', name: 'adherent_export'),
+        Route('/adherent/pdf/test/{id}', name: 'test_pdf'),
         IsGranted('ROLE_USER')
     ]
     public function adherenttest(Adherent $adherent, Request $request, MailerInterface $mailer, SluggerInterface $slugger): Response
@@ -530,14 +530,17 @@ class AdherentController extends AbstractController
 
         $image = $request->getSchemeAndHttpHost() . '/uploads/agence/agence' . $agence->getId() . '/picture/'. $agence->getLinkPicture();
         $image2 = $request->getHttpHost() . '/uploads/agence/agence' . $agence->getId() . '/picture/'. $agence->getLinkPicture();
-        $image3 = $this->getParameter('agence_directory') . 'agence' . $agence->getId() .' /picture/'. $agence->getLinkPicture();
-        $image4 = $request->get('SYMFONY_PROJECT_DEFAULT_ROUTE_URL'). '/uploads/agence/agence' . $agence->getId() .' /picture/'. $agence->getLinkPicture();
+        $image3 = $this->getParameter('agence_directory') . 'agence' . $agence->getId() . '/picture/'. $agence->getLinkPicture();
+        $type = pathinfo($image3, PATHINFO_EXTENSION);
+        $data = file_get_contents($image3);
+        $base64 = 'data:/image' . $type . ';base64,' . base64_encode($data);
+        $image4 = getcwd(). '/uploads/agence/agence' . $agence->getId() .' /picture/'. $agence->getLinkPicture();
         $image5 = "http://127.0.0.1:8000/uploads/agence/agence23/picture/7f48f4a8af4007223ba83d8d441be4e2.jpg";
 
         $html = $this->renderView('file/pdfTest.html.twig', [
             'image1' => $image,
             'image2' => $image2,
-            'image3' => $image3,
+            'image3' => $base64,
             'image4' => $image4,
             'image5' => $image5
         ]);
