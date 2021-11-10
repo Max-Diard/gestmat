@@ -5,8 +5,12 @@
         <div class="fic-adherent">
             {% if adherentProfile is defined %}
                 {% if adherentProfile.linkInformation != '' %}
-                    <embed src='{{ asset('uploads/adherent/adherent'~ adherentProfile.id ~'/information/'~ adherentProfile.linkInformation) }}'/>
-                    <a class="link-sm" href="{{ asset('uploads/adherent/adherent'~ adherentProfile.id ~'/information/'~ adherentProfile.linkInformation) }}" target="_blank">
+                    {% if '.pdf' in adherentProfile.linkInformation %}
+                        <embed src='{{ asset('uploads/adherent/adherent'~ adherentProfile.id ~'/information/'~ adherentProfile.linkInformation) }}'/>
+                    {% else %}
+                        <img src="{{ asset('uploads/adherent/adherent'~ adherentProfile.id ~'/information/'~ adherentProfile.linkInformation) }}" alt="Image">
+                    {% endif %}
+                        <a class="link-sm" href="{{ asset('uploads/adherent/adherent'~ adherentProfile.id ~'/information/'~ adherentProfile.linkInformation) }}" target="_blank">
                         Voir le fichier
                     </a>
                 {% endif %}
@@ -20,8 +24,12 @@
         <div class="fic-adherent">
             {% if trueAgence is defined %}
                 {% if adherentProfile.linkContract != '' %}
-                    <embed src='{{ asset('uploads/adherent/adherent'~ adherentProfile.id ~'/contract/'~ adherentProfile.linkContract) }}'/>
-                    <a class="link-sm" href="{{ asset('uploads/adherent/adherent'~ adherentProfile.id ~'/contract/'~ adherentProfile.linkContract) }}" target="_blank">
+                    {% if '.pdf' in adherentProfile.linkContract  %}
+                        <embed src='{{ asset('uploads/adherent/adherent'~ adherentProfile.id ~'/contract/'~ adherentProfile.linkContract) }}'/>
+                    {% else %}
+                        <img src="{{ asset('uploads/adherent/adherent'~ adherentProfile.id ~'/contract/'~ adherentProfile.linkContract) }}" alt="Image">
+                    {% endif %}
+                        <a class="link-sm" href="{{ asset('uploads/adherent/adherent'~ adherentProfile.id ~'/contract/'~ adherentProfile.linkContract) }}" target="_blank">
                         Voir le fichier
                     </a>
                 {% endif %}
@@ -35,7 +43,7 @@
         <div class="fic-adherent">
             {% if trueAgence is defined %}
                 {% if adherentProfile.linkPicture != '' %}
-                    <embed src='{{ asset('uploads/adherent/adherent'~ adherentProfile.id ~'/picture/'~ adherentProfile.linkPicture) }}'/>
+                    <img src='{{ asset('uploads/adherent/adherent'~ adherentProfile.id ~'/picture/'~ adherentProfile.linkPicture) }}'/>
                     <a class="link-sm" href="{{ asset('uploads/adherent/adherent'~ adherentProfile.id ~'/picture/'~ adherentProfile.linkPicture) }}" target="_blank">
                         Voir le fichier
                     </a>
@@ -50,7 +58,7 @@
         <div class="fic-adherent">
             {% if trueAgence is defined %}
                 {% if adherentProfile.linkPictureAnnouncement != '' %}
-                    <embed src='{{ asset('uploads/adherent/adherent'~ adherentProfile.id ~'/announcement/'~ adherentProfile.linkPictureAnnouncement) }}'/>
+                    <img src='{{ asset('uploads/adherent/adherent'~ adherentProfile.id ~'/announcement/'~ adherentProfile.linkPictureAnnouncement) }}'/>
                     <a class="link-sm" href="{{ asset('uploads/adherent/adherent'~ adherentProfile.id ~'/announcement/'~ adherentProfile.linkPictureAnnouncement) }}" target="_blank">
                         Voir le fichier
                     </a>
