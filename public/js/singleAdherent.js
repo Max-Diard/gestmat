@@ -119,7 +119,10 @@ window.addEventListener("DOMContentLoaded", (event) => {
                 }).then((result) => {
                     if (result.isConfirmed) {
                         removeMeet(elem.getAttribute('data-id'))
-                        location.reload()
+                        launchingLoader(true)
+                        setInterval(() => {
+                            location.reload()
+                        }, 500)
                     } else if (result.isDenied) {
                         Swal.fire("La rencontre n'a pas été supprimée !", '', 'info')
                     }
