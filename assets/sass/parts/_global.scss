@@ -372,6 +372,8 @@ input{
         width: 100%;
         z-index: 100;
         .modal-info-meet{
+            min-width: 86rem;
+            min-height: 45rem;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
