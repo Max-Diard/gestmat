@@ -34,6 +34,7 @@ class AdherentType extends AbstractType
                 'required' => true,
                 'invalid_message' => 'La valeur pour le "Prénom" n\'est pas valide',
                 'attr' => [
+                    'placeholder' => 'John',
                     'name_input' => 'Prénom'
                 ]
             ])
@@ -42,6 +43,7 @@ class AdherentType extends AbstractType
                 'required' => true,
                 'invalid_message' => 'La valeur pour le "Nom" n\'est pas valide',
                 'attr' => [
+                    'placeholder' => 'Doe',
                     'name_input' => 'Nom'
                 ]
             ])
@@ -72,6 +74,7 @@ class AdherentType extends AbstractType
                 'required' => true,
                 'invalid_message' => 'La valeur pour le "Numéro de téléphone portable" n\'est pas valide',
                 'attr' => [
+                    'placeholder' => 'Exemple : 0808080808',
                     'type' => 'number',
                     'class' => 'phone_form',
                     'name_input' => 'Général : N° tél. portable'
@@ -82,6 +85,7 @@ class AdherentType extends AbstractType
                 'required' => false,
                 'invalid_message' => 'La valeur pour le "Numéro de téléphone fixe" n\'est pas valide',
                 'attr' => [
+                    'placeholder' => 'Exemple : 0808080808',
                     'type' => 'number',
                     'class' => 'phone_form'
                 ]
@@ -91,6 +95,7 @@ class AdherentType extends AbstractType
                 'required' => false,
                 'invalid_message' => 'La valeur pour le "Numéro de téléphone de travail" n\'est pas valide',
                 'attr' => [
+                    'placeholder' => 'Exemple : 0808080808',
                     'type' => 'number',
                     'class' => 'phone_form',
                 ]
@@ -104,6 +109,7 @@ class AdherentType extends AbstractType
                 'invalid_message' => 'La valeur pour la "Profession" n\'est pas valide',
                 'required' => true,
                 'attr' => [
+                    'placeholder' => 'Profession',
                     'name_input' => 'Général : Profession'
                 ]
             ])
@@ -112,6 +118,7 @@ class AdherentType extends AbstractType
                 'invalid_message' => 'La valeur pour la "Taille" n\'est pas valide',
                 'required' => true,
                 'attr'=> [
+                    'placeholder' => 'Exemple : 1.70',
                     'name_input' => 'Général : Taille'
                 ]
             ])
@@ -120,6 +127,7 @@ class AdherentType extends AbstractType
                 'invalid_message' => 'La valeur pour le "Poids" n\'est pas valide',
                 'required' => false,
                 'attr' => [
+                    'placeholder' => 'Exemple : 75',
                     'name_input' => 'Général : Poids'
                 ]
             ])
@@ -188,6 +196,7 @@ class AdherentType extends AbstractType
                 'invalid_message' => 'La valeur pour "L\'email" n\'est pas valide',
                 'required' => false,
                 'attr' => [
+                    'placeholder' => 'exemple@exemple.fr',
                     'name_input' => 'Général : Email'
                 ]
             ])
@@ -222,18 +231,23 @@ class AdherentType extends AbstractType
                 'invalid_message' => 'La valeur pour "L\'adresse" n\'est pas valide',
                 'required' => true,
                 'attr' => [
+                    'placeholder' => 'Adresse',
                     'name_input' => 'Général : Adresse'
                 ]
             ])
             ->add('address_street2', TextType::class, [
                 'label' => 'Adresse 2',
-                'required' => false
+                'required' => false,
+                'attr' => [
+                    'placeholder' => 'Adresse',
+                ]
             ])
             ->add('address_zip_postal', NumberType::class ,[
                 'label' => 'Code postal',
                 'invalid_message' => 'La valeur pour le "Code postal" n\'est pas valide',
                 'required' => true,
                 'attr' => [
+                    'placeholder' => 'Exemple : 00000',
                     'name_input' => 'Général : Code Postal'
                 ]
             ])
@@ -242,6 +256,7 @@ class AdherentType extends AbstractType
                 'invalid_message' => 'La valeur pour la "Ville" n\'est pas valide',
                 'required' => true,
                 'attr' => [
+                    'placeholder' => 'Ville',
                     'name_input' => 'Général : Ville'
                 ]
             ])
@@ -250,6 +265,7 @@ class AdherentType extends AbstractType
                 'invalid_message' => 'La valeur pour "Fille" n\'est pas valide',
                 'required' => true,
                 'attr' => [
+                    'placeholder' => 'Exemple : 0',
                     'min' => '0',
                     'max' => '20',
                     'name_input' => 'Général : Fille'
@@ -260,6 +276,7 @@ class AdherentType extends AbstractType
                 'invalid_message' => 'La valeur pour "Garçon" n\'est pas valide',
                 'required' => true,
                 'attr' => [
+                    'placeholder' => 'Exemple : 0',
                     'min' => '0',
                     'max' => '20',
                     'name_input' => 'Général : Garçon'
@@ -270,6 +287,7 @@ class AdherentType extends AbstractType
                 'invalid_message' => 'La valeur pour "Fille à charge" n\'est pas valide',
                 'required' => true,
                 'attr' => [
+                    'placeholder' => 'Exemple : 0',
                     'min' => '0',
                     'max' => '20',
                     'name_input' => 'Général : Fille à charge'
@@ -280,6 +298,7 @@ class AdherentType extends AbstractType
                 'invalid_message' => 'La valeur pour "Garçon à charge" n\'est pas valide',
                 'required' => true,
                 'attr' => [
+                    'placeholder' => 'Exemple : 0',
                     'min' => '0',
                     'max' => '20',
                     'name_input' => 'Général : Garçon à charge'
@@ -290,6 +309,7 @@ class AdherentType extends AbstractType
                 'invalid_message' => 'La valeur pour la "Recherche de l\'âge minimum" n\'est pas valide',
                 'required' => true,
                 'attr' => [
+                    'placeholder' => 'Exemple : 0',
                     'min' => '0',
                     'max' => '100',
                     'name_input' => 'Recherche : Âge minimum'
@@ -300,6 +320,7 @@ class AdherentType extends AbstractType
                 'invalid_message' => 'La valeur pour la "Recherche de l\'âge maximum" n\'est pas valide',
                 'required' => true,
                 'attr' => [
+                    'placeholder' => 'Exemple : 0',
                     'min' => '0',
                     'max' => '100',
                     'name_input' => 'Recherche : Âge maximum'
@@ -331,18 +352,25 @@ class AdherentType extends AbstractType
                 'required' => false,
                 'invalid_message' => 'La valeur pour la "Recherche du Niveau d\'étude" n\'est pas valide',
                 'attr' => [
+                    'placeholder' => 'Niveau d\'étude',
                     'name_input' => 'Recherche : Niveau d\'étude'
                 ]
             ])
             ->add('search_profession', TextType::class, [
                 'label' => 'Profession',
                 'invalid_message' => 'La valeur pour la "Recherche de la Profession" n\'est pas valide',
-                'required' => false
+                'required' => false,
+                'attr' => [
+                    'placeholder' => 'Profession',
+                ]
             ])
             ->add('search_region', TextType::class, [
                 'label' => 'Région',
                 'invalid_message' => 'La valeur pour la "Recherche de la Région" n\'est pas valide',
-                'required' => false
+                'required' => false,
+                'attr' => [
+                    'placeholder' => 'Exemple : Centre'
+                ]
             ])
             ->add('search_more', TextareaType::class, [
                 'label' => 'Autre',
@@ -360,6 +388,7 @@ class AdherentType extends AbstractType
                 'invalid_message' => 'La valeur pour la "Recherche du nombre d\'enfants acceptés" n\'est pas valide',
                 'required' => true,
                 'attr' => [
+                    'placeholder' => 'Exemple : 0',
                     'min' => '0',
                     'max' => '20',
                     'name_input' => 'Recherche : Nombre d\'enfants acceptés'
@@ -388,6 +417,7 @@ class AdherentType extends AbstractType
                 'required' => false,
                 'invalid_message' => 'La valeur pour le "Niveau d\'étude" n\'est pas valide',
                 'attr' => [
+                    'placeholder' => 'Niveau d\'étude',
                     'name_input' => 'Général : Niveau d\'étude'
                 ]
             ])
@@ -475,6 +505,7 @@ class AdherentType extends AbstractType
                 'invalid_message' => 'La valeur pour "Le montant TTC" n\'est pas valide',
                 'required' => true,
                 'attr' => [
+                    'placeholder' => 'Exemple : 0000',
                     'name_input' => 'Contrat : Montant TTC',
                     'class' => 'amount_form'
                 ]

@@ -31,7 +31,7 @@ class AdherentController extends AbstractController
         Route('/adherent', name: 'adherent_all'),
         IsGranted('ROLE_USER')
     ]
-    public function index(Request $request): Response
+    public function index(Request $request,): Response
     {
         $agences = $this->getUser()->getAgence();
 
@@ -197,6 +197,10 @@ class AdherentController extends AbstractController
             if($form->isSubmitted()){
                 // On vérifie s'il n'y a pas de virgule
                 $size = $form->get('size')->getData();
+                $size = (float)$size;
+                if($size > 3){
+                    $form->get('size')->addError(new FormError('La valeur pour la "Taille" n\'est pas valide'));
+                }
 
                 if(str_contains($size, ',')) {
                     $size = str_replace(',','.', $size);
@@ -331,6 +335,11 @@ class AdherentController extends AbstractController
             if($form->isSubmitted()){
                 // On vérifie s'il n'y a pas de virgule
                 $size = $form->get('size')->getData();
+                $size = (float)$size;
+
+                if($size > 3){
+                    $form->get('size')->addError(new FormError('La valeur pour la "Taille" n\'est pas valide'));
+                }
 
                 if(str_contains($size, ',')) {
                     $size = str_replace(',','.', $size);
@@ -339,6 +348,7 @@ class AdherentController extends AbstractController
                 if($form->get('announcement_presentation')->getData() === ''){
                     $form->get('announcement_presentation')->addError(new FormError('Merci de bien vouloir remplir la présentation de l\'adhérent !'));
                 }
+
             }
 
             if($form->isSubmitted() && $form->isValid()){

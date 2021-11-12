@@ -118,6 +118,9 @@ $(document).ready( function () {
                             resultVal.push(s)
                         }
                     })
+                    if(resultVal.length === 0){
+                        resultVal.push('Aucune donnée correspondante trouvée')
+                    }
                     columnDate.search(resultVal.join('|'), true, false, true).draw()
                 });
 
@@ -215,6 +218,9 @@ $(document).ready( function () {
                             resultVal.push(s)
                         }
                     })
+                    if(resultVal.length === 0){
+                        resultVal.push('Aucune donnée correspondante trouvée')
+                    }
                     columnDate.search(resultVal.join('|'), true, false, true).draw()
                 });
 

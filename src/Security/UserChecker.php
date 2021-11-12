@@ -17,9 +17,10 @@ class UserChecker implements UserCheckerInterface
 //            return;
 //        }
 
-        if(in_array('ROLE_ADMIN', $user->getRoles(), true)){
+        if(in_array('ROLE_ADMIN', $user->getRoles(), true) || in_array('ROLE_TECH', $user->getRoles(), true)){
             return;
         }
+
 
         if(count($user->getAgence()) === 0) {
             throw new CustomUserMessageAccountStatusException('Vous n\'avez pas encore d\'agence associée à votre compte, merci de contacter l\'administrateur !');

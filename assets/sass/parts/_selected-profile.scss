@@ -1,7 +1,6 @@
 #selected-profile{
     h1{
         text-align: center;
-        
     }
     .links{
         display: flex;
@@ -23,6 +22,10 @@
             margin: 0;
             margin-right: .5rem;
         }
+        ::placeholder{
+            color: $color__grey_dark;
+            font-weight: normal;
+        }
         select, input{
             font-weight: bold;
             color: $color__purple;
@@ -31,6 +34,7 @@
             padding-top: 0.3rem;
         }
     }
+
     section{
         &.header-adherent{
             align-items: flex-start;
