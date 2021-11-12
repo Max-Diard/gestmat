@@ -160,12 +160,12 @@ class ApiController extends AbstractController
         }
 
         if($data['returnAt_woman']){
-            $date = DateImmutable::createFromFormat('Y-m-d', $data['returnAt_woman']);
+            $date = DateTimeImmutable::createFromFormat('Y-m-d', $data['returnAt_woman']);
             $meet[0]->setReturnAtWoman($date);
         }
 
         if($data['returnAt_man']){
-            $date = DateImmutable::createFromFormat('Y-m-d', $data['returnAt_man']);
+            $date = DateTimeImmutable::createFromFormat('Y-m-d', $data['returnAt_man']);
             $meet[0]->setReturnAtMan($date);
         }
 
