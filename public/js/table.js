@@ -43,7 +43,7 @@ $(document).ready( function () {
         info: false,
         "order": [[ 2, "asc" ]],
         "scrollX": false,
-        "scrollY": "373px",
+        "scrollY": "340px",
         "scrollCollapse": true,
         "language": {
             "emptyTable": "Pas encore de données dans ce tableau",
@@ -143,7 +143,7 @@ $(document).ready( function () {
         info: false,
         "order": [[ 2, "asc" ]],
         "scrollX":        false,
-        "scrollY":        "373px",
+        "scrollY":        "340px",
         "scrollCollapse": true,
         "language": {
             "emptyTable": "Pas encore de données dans ce tableau",
