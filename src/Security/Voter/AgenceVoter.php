@@ -37,14 +37,14 @@ class AgenceVoter extends Voter
             return false;
         }
 
-        // // //On vérifie si l'utilisateur est admin 
+        // // //On vérifie si l'utilisateur est admin
         if ($this->security->isGranted('ROLE_ADMIN')){
             return true;
         }
-        
+
         // On vérifie si l'agence à un user
         if(null === $agence->getUsers()) return false;
-        
+
         // ... (check conditions and return true to grant permission) ...
         switch ($attribute) {
             case self::AGENCE_EDIT:
@@ -63,7 +63,7 @@ class AgenceVoter extends Voter
     private function canEDIT( User $user, Agence $agence){
         //L'utilisateur de l'agence peut la modifier
         return $user === $agence->getUsers();
-        
+
     }
 
     private function canDELETE( User $user, Agence $agence){

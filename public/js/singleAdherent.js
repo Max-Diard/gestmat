@@ -99,7 +99,6 @@ window.addEventListener("DOMContentLoaded", (event) => {
         [].forEach.call(meetMoreButton, function (elem) {
             elem.addEventListener('click', function (ev) {
                 ev.preventDefault()
-                console.log(elem)
                 informationMeet(elem.getAttribute('data-id'))
             })
         })
@@ -120,7 +119,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
                 }).then((result) => {
                     if (result.isConfirmed) {
                         removeMeet(elem.getAttribute('data-id'))
-
+                        location.reload()
                     } else if (result.isDenied) {
                         Swal.fire("La rencontre n'a pas été supprimée !", '', 'info')
                     }

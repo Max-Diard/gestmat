@@ -172,7 +172,7 @@ class AdherentController extends AbstractController
             }
 
             // On récupére les rencontres de l'adhérent
-            $meets = $this->entityManager->getRepository(Meet::class)->findBy([$genre => $adherent->getId()]);
+            $meets = $this->entityManager->getRepository(Meet::class)->findBy([$genre => $adherent->getId()], ['id' => 'desc']);
 
             if(empty($meets)){
                 if($adherent->getStatusMeet()->getName() !== 'En attente'){
@@ -425,9 +425,9 @@ class AdherentController extends AbstractController
         if(count($this->getUser()->getAgence()) > 0) {
 
             if($adherent->getGenre()->getName() == 'Féminin'){
-                $meets = $this->entityManager->getRepository(Meet::class)->findBy(['adherent_woman' => $adherent->getId()]);
+                $meets = $this->entityManager->getRepository(Meet::class)->findBy(['adherent_woman' => $adherent->getId()], ['id' => 'desc']);
             } else {
-                $meets = $this->entityManager->getRepository(Meet::class)->findBy(['adherent_man' => $adherent->getId()]);
+                $meets = $this->entityManager->getRepository(Meet::class)->findBy(['adherent_man' => $adherent->getId()], ['id' => 'desc']);
             }
 
             $options = $this->entityManager->getRepository(AdherentOption::class)->findBy(['type' => 'status_meet']);
