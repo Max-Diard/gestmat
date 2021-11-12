@@ -12,7 +12,7 @@
     .all-table{
         margin-bottom: 3rem;
         > div{
-            // width: 48%;
+             width: calc(50% - 4rem);
             @include rwd(2508){
                 width: 35%;
             }
