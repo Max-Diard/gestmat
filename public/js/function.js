@@ -429,7 +429,10 @@ function informationMeet(id){
 
                 if (recup.returnAt_woman != null){
                     const returnAtWoman = new Date(recup.returnAt_woman)
-                    womanDateReturn.value = returnAtWoman.toISOString().split('T')[0];
+                    console.log(returnAtWoman);
+                    // womanDateReturn.value = returnAtWoman.toISOString().split('T')[0];
+                    womanDateReturn.value = returnAtWoman.getFullYear() + '-' + parseInt(returnAtWoman.getMonth() + 1) + '-' + returnAtWoman.getDate();
+
                 }else {
                     womanDateReturn.value = ''
                 }
@@ -458,7 +461,9 @@ function informationMeet(id){
 
                 if (recup.returnAt_man != null){
                     const returnAtMan = new Date(recup.returnAt_man)
-                    manDateReturn.value = returnAtMan.toISOString().split('T')[0];
+                    // manDateReturn.value = returnAtMan.toISOString().split('T')[0];
+                    manDateReturn.value = returnAtMan.getFullYear() + '-' + parseInt(returnAtMan.getMonth() + 1) + '-' + returnAtMan.getDate();
+
                 }else {
                     manDateReturn.value = '';
                 }
