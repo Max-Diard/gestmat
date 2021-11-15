@@ -181,8 +181,6 @@ $(document).ready( function () {
 
             // Fin de contrat
             var columnDate = this.api().column(4);
-            console.log(columnDate.context)
-
 
             var selectDate = $('<select class="filter"><option value="">Contrat</option></select>')
                 .appendTo('#selectTriggerFilterMan')
@@ -481,7 +479,6 @@ function changeFilterInput(columnDate, val){
         dateEng = dateEng[1] + '/' + dateEng[0] + '/' + dateEng[2];
 
         let dEnd = new Date(dateEng)
-
         if(val === '0'){
             if(dEnd < date){
                 resultVal.push(s.textContent)

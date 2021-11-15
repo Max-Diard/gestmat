@@ -97,7 +97,7 @@ class AdherentController extends AbstractController
                     }
                 }
             }
-
+//        dd($womenAdherent);
 
         } else {
             $womenAdherent = '';
