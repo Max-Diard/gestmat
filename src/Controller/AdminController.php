@@ -295,6 +295,24 @@ class AdminController extends AbstractController
         ]);
     }
 
+    //Page pour modifier un utilisateur
+    #[
+        Route('admin/user/{id}/modified', name: 'admin_modified_user'),
+        IsGranted("ROLE_ADMIN")
+    ]
+    public function modifiedUser(User $user, Request $request): Response
+    {
+        $form = $this->createForm(UserType::class, $user);
+
+        $form->get('roles')->setData($user->getRoles());
+
+        $form->handleRequest($request);
+
+        return $this->render('admin/user/modifiedUser.html.twig',[
+            'form' => $form->createView()
+        ]);
+    }
+
     //Page pour demander si l'on est sur que l'on veux supprimer l'user sélectionné
     #[
         Route('admin/user/{id}/remove/ask', name: 'admin_user_ask_remove'),
