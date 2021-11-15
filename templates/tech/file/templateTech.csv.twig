@@ -1,0 +1,7 @@
+Numéro_Adhérent, Genre, Fin_De_Contrat, Prénom, Nom, Date_De_Naissance, Age, Annonce_Gratuite, Annonce_Publié, Code_Postal,
+{% for adherent in adherents %}
+{{ adherent.id }},{{ adherent.genre }},{{ adherent.contractEndingAt|date('d/m/Y') }},{{ adherent.firstname }},{{ adherent.lastname }},{{ adherent.birthdate|date('d/m/Y') }},{{ adherent.age }},"{{ adherent.announcementFree| striptags }}",{% if adherent.announcementPublish == 1 %}Oui{% else %}Non{% endif %},{{ adherent.addressZipPostal }}
+{% endfor %}
+
+
+

@@ -9,6 +9,10 @@ body {
     margin-right: 1rem;
 }
 
+table tr td {
+    background-image: none !important;
+}
+
 /* Pour le login */
 
 .section-register{
@@ -502,5 +506,7 @@ label{
 
 .tech-title{
     text-align: center;
-    margin-top: 5rem;
+    margin-bottom: 3rem;
 }
+
+

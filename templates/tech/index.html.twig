@@ -3,5 +3,10 @@
 {% block title %}Hello TechController!{% endblock %}
 
 {% block body %}
-    <h1 class="tech-title">Exporter les annonces :</h1>
+    <div class="container container-screen">
+        <h1 class="tech-title">Exporter les annonces :</h1>
+        <div class="link-button">
+            <a href="{{ path('tech_export') }}" class="btn btn-little btn-tech">Exporter les adhérents</a>
+        </div>
+    </div>
 {% endblock %}
