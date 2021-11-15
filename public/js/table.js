@@ -103,32 +103,16 @@ $(document).ready( function () {
                 .append('<option value="0">Terminé</option>')
                 .append('<option value="1" selected>En cours</option>')
                 .on('change', function () {
-                    var val = $(this).val();
-                    var date = new Date(Date.now())
-
-                    let resultVal = []
-                    columnDate.data().toArray().forEach(s => {
-                        var d = new Date(s)
-                        if (val == 0 && d < date) {
-                            resultVal.push(s)
-                        } else if (val != 0 && d > date) {
-                            resultVal.push(s)
-
-                        } else if (val == '') {
-                            resultVal.push(s)
-                        }
-                    })
-                    if(resultVal.length === 0){
-                        resultVal.push('Aucune donnée correspondante trouvée')
-                    }
-                    columnDate.search(resultVal.join('|'), true, false, true).draw()
+                    columnDate.search(changeFilterInput(columnDate, $(this).val()).join('|'), true, false, true).draw()
                 });
 
             // Remplir le tableu avec les dates 'en cours'
             let resultInProgress = [];
             var dateNow = new Date(Date.now())
             columnDate.data().toArray().forEach(s =>{
-                var d = new Date(s)
+                let dateEng = s.split('/');
+                dateEng = dateEng[1] + '/' + dateEng[0] + '/' + dateEng[2];
+                var d = new Date(dateEng)
                 if (d > dateNow) {
                     resultInProgress.push(s)
                 }
@@ -197,44 +181,34 @@ $(document).ready( function () {
 
             // Fin de contrat
             var columnDate = this.api().column(4);
+            console.log(columnDate.context)
+
 
             var selectDate = $('<select class="filter"><option value="">Contrat</option></select>')
                 .appendTo('#selectTriggerFilterMan')
                 .append('<option value="0">Terminé</option>')
                 .append('<option value="1" selected>En cours</option>')
                 .on('change', function() {
-                    var val = $(this).val();
-                    var date = new Date(Date.now())
-
-                    let resultVal = []
-                    columnDate.data().toArray().forEach(s =>{
-                        var d = new Date(s)
-                        if (val == 0 && d < date){
-                            resultVal.push(s)
-                        } else if (val != 0 && d > date) {
-                            resultVal.push(s)
-
-                        } else if (val == ''){
-                            resultVal.push(s)
-                        }
-                    })
-                    if(resultVal.length === 0){
-                        resultVal.push('Aucune donnée correspondante trouvée')
-                    }
-                    columnDate.search(resultVal.join('|'), true, false, true).draw()
+                    columnDate.search(changeFilterInput(columnDate, $(this).val()).join('|'), true, false, true).draw();
                 });
 
             // Remplir le tableu avec les dates 'en cours'
             let resultInProgress = [];
+            // let dateStarted = []
+            // columnDate.nodes().toArray().forEach(a => {
+            //     dateStarted.push(a.getAttribute("data-contract-started"))
+            // })
             var dateNow = new Date(Date.now())
-            columnDate.data().toArray().forEach(s =>{
-                var d = new Date(s)
+            columnDate.data().toArray().forEach((s,i) =>{
+                let dateEng = s.split('/');
+                dateEng = dateEng[1] + '/' + dateEng[0] + '/' + dateEng[2];
+
+                var d = new Date(dateEng)
                 if (d > dateNow) {
                     resultInProgress.push(s)
                 }
             })
             columnDate.search(resultInProgress.join('|'), true, false, true).draw();
-
         },
 
     });
@@ -496,3 +470,33 @@ $(document).ready( function () {
         },
     });
 } );
+
+
+function changeFilterInput(columnDate, val){
+    let date = new Date(Date.now())
+
+    let resultVal = []
+    columnDate.nodes().toArray().forEach(s => {
+        let dateEng = s.textContent.split('/');
+        dateEng = dateEng[1] + '/' + dateEng[0] + '/' + dateEng[2];
+
+        let dEnd = new Date(dateEng)
+
+        if(val === '0'){
+            if(dEnd < date){
+                resultVal.push(s.textContent)
+            }
+        } else if (val === '1'){
+            if(dEnd > date){
+                resultVal.push(s.textContent)
+            }
+        } else if(val === '') {
+            resultVal.push(s.textContent)
+        }
+
+    })
+    if(resultVal.length === 0){
+        resultVal.push('Aucune donnée correspondante trouvée')
+    }
+    return resultVal;
+}
