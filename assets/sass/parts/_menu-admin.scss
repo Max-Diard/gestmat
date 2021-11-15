@@ -159,7 +159,7 @@
             display: inline-block;
             text-align: end;
         }
-        input{
+        input, select{
             border: none;
             padding: .5rem;
             background-color: $color__grey;
@@ -200,7 +200,7 @@
             div + div{
                 margin-top: 1rem;
             }
-            div:nth-child(6), div:nth-child(9){
+            div:nth-child(7), div:nth-child(9){
                 text-align: center;
                 margin-top: 3rem;
                 button{
