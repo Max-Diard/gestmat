@@ -50,7 +50,11 @@ class AgenceAuthenticator extends AbstractLoginFormAuthenticator
             return new RedirectResponse($targetPath);
         }
 
-        return new RedirectResponse($this->urlGenerator->generate('adherent_all'));
+        if(in_array('ROLE_TECH', $token->getRoleNames(), true)){
+            return new RedirectResponse($this->urlGenerator->generate('tech'));
+        } else {
+            return new RedirectResponse($this->urlGenerator->generate('adherent_all'));
+        }
     }
 
     protected function getLoginUrl(Request $request): string

@@ -21,7 +21,6 @@ class UserChecker implements UserCheckerInterface
             return;
         }
 
-
         if(count($user->getAgence()) === 0) {
             throw new CustomUserMessageAccountStatusException('Vous n\'avez pas encore d\'agence associée à votre compte, merci de contacter l\'administrateur !');
         } else {
