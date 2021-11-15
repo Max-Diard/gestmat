@@ -79,10 +79,24 @@
                     {{ form_label(formAdherent.firstname) }}
                     {{ form_widget(formAdherent.firstname) }}
                 </div>
-                   <div class="col col-adherent-agence">
+                {% if trueAgence is defined %}
+                    {% if trueAgence == true %}
+                        <div class="col col-adherent-agence">
+                            {{ form_label(formAdherent.agence) }}
+                            {{ form_widget(formAdherent.agence) }}
+                        </div>
+                    {% else %}
+                        <div class="col col-adherent-agence">
+                            {{ form_label(formAdherent.agence) }}
+                            {{ adherentProfile.agence }}
+                        </div>
+                    {% endif %}
+                {% else %}
+                <div class="col col-adherent-agence">
                     {{ form_label(formAdherent.agence) }}
                     {{ form_widget(formAdherent.agence) }}
                 </div>
+                {% endif %}
                 <div class="col col-adherent-last-meet">
                     <label for="">Dernière Rencontre</label>
                     {% if meets is defined %}
