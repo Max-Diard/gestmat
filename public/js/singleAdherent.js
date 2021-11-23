@@ -6,12 +6,12 @@ window.addEventListener("DOMContentLoaded", (event) => {
     if (buttonTab) {
         [].forEach.call(buttonTab, function (elem) {
             elem.addEventListener('click', function (ev) {
-                let tab = elem.getAttribute('data-tab');
+                let dataTab = elem.getAttribute('data-tab');
                 let allTab = document.querySelectorAll('.tab');
                 [].forEach.call(allTab, function (singleTab) {
                     singleTab.classList.add('no-tab');
                 })
-                document.querySelector('.' + tab).classList.remove('no-tab');
+                document.querySelector('.' + dataTab).classList.remove('no-tab');
             })
         })
     }
