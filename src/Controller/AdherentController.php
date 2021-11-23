@@ -196,12 +196,13 @@ class AdherentController extends AbstractController
             if($form->isSubmitted()){
                 // On vérifie s'il n'y a pas de virgule
                 $size = $form->get('size')->getData();
-                $size = (float)$size;
-                if($size > 3){
+                $sizeFloat = (float)$size;
+                if($sizeFloat > 3){
                     $form->get('size')->addError(new FormError('La valeur pour la "Taille" n\'est pas valide'));
                 }
 
                 if(str_contains($size, ',')) {
+                    dd($size);
                     $size = str_replace(',','.', $size);
                 }
                 // On vérifie si le champ de la présentation de l'adhérent est remplie
@@ -212,7 +213,6 @@ class AdherentController extends AbstractController
 
             // Envoi du formulaire
             if($form->isSubmitted() && $form->isValid()){
-
                 $adherent = $form->getData();
 
                 $adherent->setSize($size);
@@ -339,9 +339,9 @@ class AdherentController extends AbstractController
                     $size = str_replace([',', 'm'],'.', $size);
                 }
 
-                $size = (float)$size;
+                $sizeFloat = (float)$size;
 
-                if($size > 3){
+                if($sizeFloat > 3 || $sizeFloat < 1){
                     $form->get('size')->addError(new FormError('La valeur pour la "Taille" n\'est pas valide'));
                 }
 

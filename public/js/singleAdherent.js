@@ -43,7 +43,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
         })
     }
 
-// Pour créer une erreur si un champ required est pas remplie
+// Pour créer une erreur si un champ required n'est pas rempli
     const buttonSendForm = document.querySelector('#adherent_submit')
 
     if(buttonSendForm){

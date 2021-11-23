@@ -60,5 +60,7 @@
                 <a href="{{ path('adherent_testimony', {id: adherentProfile.id}) }}" target="_blank">Demande de témoignage</a>
             </div>
         </div>
+    {% else %}
+        <p class="nomeet">Merci d'enregistrer l'adhérent pour commencer à créer des rencontres.</p>
     {% endif %}
 </div>

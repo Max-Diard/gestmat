@@ -1,4 +1,4 @@
-const routeUrl = document.querySelector('header').getAttribute('data-url');
+const rootUrl = document.querySelector('header').getAttribute('data-url');
 
 // Pour créer le bouton de rencontre
 let loadingMen = false
