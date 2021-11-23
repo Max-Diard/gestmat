@@ -114,7 +114,7 @@ $(document).ready( function () {
                 dateEng = dateEng[1] + '/' + dateEng[0] + '/' + dateEng[2];
                 var d = new Date(dateEng)
                 if (d > dateNow) {
-                    resultInProgress.push(s)
+                    resultInProgress.push(s) // fdfsgf
                 }
             })
             columnDate.search(resultInProgress.join('|'), true, false, true).draw();
