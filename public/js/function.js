@@ -13,7 +13,7 @@ function apiMeet(id, elem){
     launchingLoader(true)
 
     const request = new XMLHttpRequest();
-    request.open("GET", routeUrl + "api/adherent/" + id, true);
+    request.open("GET", rootUrl + "api/adherent/" + encodeURIComponent(id), true);
     request.addEventListener('readystatechange', function(){
         if (request.readyState === XMLHttpRequest.DONE) {
             if (request.status === 200) {
@@ -408,7 +408,7 @@ function informationMeet(id){
     launchingLoader(true)
 
     const request = new XMLHttpRequest();
-    request.open("GET", routeUrl + "api/meet/" + id, true);
+    request.open("GET", rootUrl + "api/meet/" + encodeURIComponent(id), true);
     request.addEventListener('readystatechange', function(){
         if (request.readyState === XMLHttpRequest.DONE) {
             if (request.status === 200) {
@@ -521,7 +521,7 @@ function updateMeet(
     commentsMan,
 ){
     const request = new XMLHttpRequest();
-    request.open('POST', routeUrl + 'api/update_meet/', true)
+    request.open('POST', rootUrl + 'api/update_meet/', true)
     request.setRequestHeader("content-type", "application/json; charset=utf-8")
     request.send(JSON.stringify({
         'id': id,
@@ -539,7 +539,7 @@ function updateMeet(
 // Permet de créer une rencontre en Api
 function newMeet(woman, man, date){
     const request = new XMLHttpRequest();
-    request.open('POST', routeUrl + 'api/new_meet/', true)
+    request.open('POST', rootUrl + 'api/new_meet/', true)
     request.setRequestHeader("content-type", "application/json; charset=utf-8")
     request.send(JSON.stringify({
         woman: woman,
@@ -551,7 +551,7 @@ function newMeet(woman, man, date){
 // Remove rencontre en api
 function removeMeet(id){
     const request = new XMLHttpRequest();
-    request.open('DELETE', routeUrl + 'api/meet/delete/' + id, true)
+    request.open('DELETE', rootUrl + 'api/meet/delete/' + encodeURIComponent(id), true)
     request.setRequestHeader("content-type", "application/json; charset=utf-8")
     request.send(JSON.stringify({
         'id': id
