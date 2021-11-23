@@ -97,7 +97,6 @@ class AdherentController extends AbstractController
                     }
                 }
             }
-//        dd($womenAdherent);
 
         } else {
             $womenAdherent = '';
@@ -335,20 +334,21 @@ class AdherentController extends AbstractController
             if($form->isSubmitted()){
                 // On vérifie s'il n'y a pas de virgule
                 $size = $form->get('size')->getData();
+
+                if(str_contains($size, ',') || str_contains($size, 'm')){
+                    $size = str_replace([',', 'm'],'.', $size);
+                }
+
                 $sizeFloat = (float)$size;
 
                 if($sizeFloat > 3 || $sizeFloat < 1){
                     $form->get('size')->addError(new FormError('La valeur pour la "Taille" n\'est pas valide'));
                 }
 
-                if(str_contains($size, ',')) {
-                    $size = str_replace(',','.', $size);
-                }
                 // On vérifie si le champ de la présentation de l'adhérent est remplie
                 if($form->get('announcement_presentation')->getData() === ''){
                     $form->get('announcement_presentation')->addError(new FormError('Merci de bien vouloir remplir la présentation de l\'adhérent !'));
                 }
-
             }
 
             if($form->isSubmitted() && $form->isValid()){
@@ -401,7 +401,7 @@ class AdherentController extends AbstractController
 
                 $this->addFlash(
                     'successNewAdherent',
-                    'Félicitations, vous avez créer un nouvel adhérent !'
+                    'Félicitations, vous avez créé un nouvel adhérent !'
                 );
                 return $this->redirectToRoute('adherent_single', ['id' => $adherent->getId()]);
             }
